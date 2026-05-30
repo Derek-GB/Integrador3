@@ -109,7 +109,7 @@ func on_dice_rolled(n: int) -> void:
 	# CASILLA 7 — CARTA DE ACCIÓN
 	# =========================================================
 	if active_token.current_index in [7,16,32,39,48,58,64,68,76]:
-		await activar_casilla_7(active_token)
+		await mostrar_carta_roja(active_token)
 		return
 
 	# =========================================================
@@ -164,8 +164,8 @@ func activar_casilla_5() -> void:
 # =========================================================
 # CASILLA 7 — CARTA DE ACCIÓN
 # =========================================================
-func activar_casilla_7(active_token) -> void:
-	print("GameManager: jugador cayó en casilla 7")
+func mostrar_carta_roja(active_token) -> void:
+	print("GameManager: jugador cayó en carta de accion!")
 	minijuego_activo = true
 	last_action_type = ""
 
