@@ -108,7 +108,7 @@ func on_dice_rolled(n: int) -> void:
 	# =========================================================
 	# CASILLA 7 — CARTA DE ACCIÓN
 	# =========================================================
-	if active_token.current_index == 7:
+	if active_token.current_index in [7,16,32,39,48,58,64,68,76]:
 		await activar_casilla_7(active_token)
 		return
 

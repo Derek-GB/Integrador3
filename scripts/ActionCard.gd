@@ -7,19 +7,292 @@ signal action_completed
 
 var cards = [
 	{
-		"text": "Se avecina un evento y el plan de seguridad escolar no contempló el uso de la escuela como albergue.",
+		"text": "Junto a tus amigos y amigas han organizado un comité ambiental para recuperar y proteger la naturaleza. ¡Excelente forma de prevenir futuros desastres!",
+		"action": "¡Avanza 3 casillas!",
+		"type": "advance",
+		"value": 3
+	},
+	{
+		"text": "En un desastre, la niñez será la primera en recibir socorro y protección. Cuéntales a tus amigos y amigas sus derechos.",
+		"action": "¡Avanza 3 casillas!",
+		"type": "advance",
+		"value": 3
+	},
+	{
+		"text": "La niñez tiene derecho a ser evacuada con su familia, nunca sola.",
+		"action": "¡Avanza 1 casilla!",
+		"type": "advance",
+		"value": 1
+	},
+	{
+		"text": "En tu escuela respetan los derechos de las personas con discapacidad: han instalado alarmas para alertar tanto a las personas ciegas como a las sordas.",
+		"action": "¡Tira otra vez!",
+		"type": "spin_again",
+		"value": 0
+	},
+	{
+		"text": "Tu escuela, en coordinación con la comunidad, ha elaborado un plan para funcionar como escuela albergue en situaciones de desastre.",
+		"action": "¡Avanza 1 casilla!",
+		"type": "advance",
+		"value": 1
+	},
+	{
+		"text": "¡Excelente medida de prevención! Las pizarras, muebles, libreros y mobiliario educativo han sido asegurados a las paredes.",
+		"action": "¡Avanza 2 casillas!",
+		"type": "advance",
+		"value": 2
+	},
+	{
+		"text": "¡Muy bien! Al evacuar lograste: 1. Atender las instrucciones. 2. Mantener la calma. 3. No gritar, correr o empujar.",
+		"action": "¡Avanza 1 casilla!",
+		"type": "advance",
+		"value": 1
+	},
+	{
+		"text": "Participaste en la reducción de riesgos en tu escuela: reportaste un vidrio roto, recogiste la basura y alertaste que el agua estaba sucia.",
+		"action": "¡Tira otra vez!",
+		"type": "spin_again",
+		"value": 0
+	},
+	{
+		"text": "¡Participaste en el simulacro! El simulacro te permite ensayar lo que deberías hacer para poner tu vida a salvo frente a una amenaza.",
+		"action": "¡Avanza 1 casilla!",
+		"type": "advance",
+		"value": 1
+	},
+	{
+		"text": "¡Excelente medida de preparación! En familia, decidieron el punto de encuentro en caso de un desastre.",
+		"action": "¡Tira otra vez!",
+		"type": "spin_again",
+		"value": 0
+	},
+	{
+		"text": "¡Muy bien! Las rutas de evacuación escogidas tienen iluminación, son seguras y están libres de obstáculos.",
+		"action": "¡Avanza 1 casilla!",
+		"type": "advance",
+		"value": 1
+	},
+	{
+		"text": "En caso de que tu escuela sufra daños por un desastre, el plan de seguridad escolar indica que se usará otro lugar como escuela. Tu derecho a la educación no se suspende con el desastre.",
+		"action": "¡Avanza 2 casillas!",
+		"type": "advance",
+		"value": 2
+	},
+	{
+		"text": "Los techos del salón comunal, la escuela y el centro de salud han sido reforzados para soportar fuertes vientos.",
+		"action": "¡Tira otra vez!",
+		"type": "spin_again",
+		"value": 0
+	},
+	{
+		"text": "Tu escuela se matriculó en la reducción de los desastres: está ubicada en terreno seguro, educa a la niñez en prevención y actualiza el plan con simulacros. ¡Nota: 100!",
+		"action": "¡Avanza 3 casillas!",
+		"type": "advance",
+		"value": 3
+	},
+	{
+		"text": "Cooperas con el funcionamiento de tu escuela como albergue. Organizas juegos y te diviertes junto con la niñez albergada.",
+		"action": "¡Tira otra vez!",
+		"type": "spin_again",
+		"value": 0
+	},
+	{
+		"text": "Mientras tu familia participa en las actividades de reconstrucción, tú vas a la escuela. ¡En la escuela estarás seguro(a), protegido(a) y alimentado(a)!",
+		"action": "¡Avanza 1 casilla!",
+		"type": "advance",
+		"value": 1
+	},
+	{
+		"text": "¡Ahorra energía! Apaga las luces cuando no se utilizan, evita el desperdicio y aprovecha la luz solar. ¡Es gratis y saludable!",
+		"action": "¡Avanza 2 casillas!",
+		"type": "advance",
+		"value": 2
+	},
+	{
+		"text": "Sabías que 5 árboles absorben a lo largo de su vida aproximadamente 1 tonelada de CO₂. ¡Siembra un árbol!",
+		"action": "¡Avanza 3 casillas!",
+		"type": "advance",
+		"value": 3
+	},
+	{
+		"text": "Con tu familia participaste en la construcción de tu casa en un lugar seguro y respetando las normas y códigos de construcción.",
+		"action": "¡Tira otra vez!",
+		"type": "spin_again",
+		"value": 0
+	},
+	{
+		"text": "En tu comunidad se han tomado medidas preventivas y se ha confeccionado un mapa de riesgo comunal.",
+		"action": "¡Avanza 6 casillas!",
+		"type": "advance",
+		"value": 6
+	},
+	{
+		"text": "Junto a tu familia preparaste un plan familiar para desastres y podrán llevarse rápidamente lo que necesiten para unos días.",
+		"action": "¡Tira otra vez!",
+		"type": "spin_again",
+		"value": 0
+	},
+	{
+		"text": "En tu comunidad se ha establecido un sistema de alerta temprana. Con este sistema se puede avisar con tiempo sobre un fenómeno y disminuir daños y muertes.",
+		"action": "¡Avanza 7 casillas!",
+		"type": "advance",
+		"value": 7
+	},
+	{
+		"text": "En tu escuela se organizó una campaña para evitar deslizamientos: los alumnos sembraron 200 arbolitos en una zona de erosión, disminuyendo la vulnerabilidad de esa zona.",
+		"action": "¡Avanza 5 casillas!",
+		"type": "advance",
+		"value": 5
+	},
+	{
+		"text": "Las inundaciones se pueden evitar botando la basura en lugares adecuados, manteniendo limpios los caños y sembrando árboles para mantener el cauce de los ríos.",
+		"action": "¡Tira otra vez!",
+		"type": "spin_again",
+		"value": 0
+	},
+	{
+		"text": "Ayudaste en la limpieza del río y disminuiste el riesgo de inundación en tu comunidad.",
+		"action": "¡Avanza 6 casillas!",
+		"type": "advance",
+		"value": 6
+	},
+	{
+		"text": "Si percibes un sismo cuando estás en tu casa, ponte inmediatamente debajo de una mesa resistente o en el marco de una puerta y espera a que pase.",
+		"action": "¡Tira otra vez!",
+		"type": "spin_again",
+		"value": 0
+	},
+	{
+		"text": "¡Terremoto! Ponte zapatos durante y después del sismo para proteger tus pies de los vidrios y objetos caídos.",
+		"action": "¡Tira otra vez!",
+		"type": "spin_again",
+		"value": 0
+	},
+	{
+		"text": "En tu comunidad se organizó un ejercicio de simulacro para terremotos. ¡Ahora la comunidad está mejor preparada!",
+		"action": "¡Avanza 7 casillas!",
+		"type": "advance",
+		"value": 7
+	},
+	{
+		"text": "Fuiste a la biblioteca y aprendiste que para evitar inundaciones es clave mantener limpios los cauces de los ríos y no botar basura en ellos.",
+		"action": "¡Avanza 5 casillas!",
+		"type": "advance",
+		"value": 5
+	},
+	{
+		"text": "Los bomberos explicaron en tu escuela que nunca debes jugar con fósforos, ni al aire libre ni en casa, para no provocar un incendio peligroso.",
+		"action": "¡Avanza 3 casillas!",
+		"type": "advance",
+		"value": 3
+	},
+	{
+		"text": "Estás participando en la elaboración de un mapa de riesgos de tu comunidad. Aprendiste a identificar cuáles amenazas presentan mayor peligro.",
+		"action": "¡Tira otra vez!",
+		"type": "spin_again",
+		"value": 0
+	},
+	{
+		"text": "Para proteger tu casa de los incendios forestales te deshiciste de la basura y del material inflamable que rodea tu casa: pasto, hojas y ramas secas.",
+		"action": "¡Avanza 5 casillas!",
+		"type": "advance",
+		"value": 5
+	},
+	{
+		"text": "¡Felicitaciones! Estás participando en simulaciones y simulacros de inundaciones e incendios en tu escuela.",
+		"action": "¡Avanza 3 casillas!",
+		"type": "advance",
+		"value": 3
+	},
+	{
+		"text": "Se avecina un evento y el plan de seguridad escolar no contempló el uso de la escuela como albergue. Tu escuela debe estar mejor preparada.",
 		"action": "Pierdes 1 turno.",
-		"type": "skip_turn"
+		"type": "skip_turn",
+		"value": 1
 	},
 	{
-		"text": "Tu escuela aún no ha construido rampas de acceso, aumentando la vulnerabilidad de las personas con discapacidad y mayores.",
+		"text": "Tu escuela aún no ha construido rampas de acceso, aumentando la vulnerabilidad de las personas con discapacidad y personas mayores.",
 		"action": "Retrocede 1 casilla.",
-		"type": "go_back"
+		"type": "go_back",
+		"value": 1
 	},
 	{
-		"text": "La alcaldía ha decidido autorizar la reconstrucción de la escuela en una zona de inundación.",
-		"action": "Retrocede 1 casilla y alerta que la escuela estará en un lugar inseguro.",
-		"type": "go_back"
+		"text": "La alcaldía autorizó la reconstrucción de la escuela en una zona de inundación. ¡Alerta! La escuela estará en un lugar inseguro.",
+		"action": "Retrocede 1 casilla.",
+		"type": "go_back",
+		"value": 1
+	},
+	{
+		"text": "¡Te devolviste a buscar un objeto! Una vez iniciada la evacuación, no debes devolverte. Pusiste tu vida en peligro.",
+		"action": "Pierdes 1 turno.",
+		"type": "skip_turn",
+		"value": 1
+	},
+	{
+		"text": "¡Tiraste la basura al suelo! Contaminar el ambiente aumenta el riesgo de desastres como inundaciones.",
+		"action": "Pierdes 1 turno por contaminar.",
+		"type": "skip_turn",
+		"value": 1
+	},
+	{
+		"text": "¡Huracán! Estás en la calle y oyes una alarma de huracán. Dirígete inmediatamente al refugio más cercano.",
+		"action": "Ve a la casilla 33.",
+		"type": "go_to_space",
+		"value": 33
+	},
+	{
+		"text": "Durante y después de una inundación, bebiste agua sin hervir ni purificar. El agua contaminada puede causarte enfermedades graves.",
+		"action": "Pierdes 1 turno buscando agua potable.",
+		"type": "skip_turn",
+		"value": 1
+	},
+	{
+		"text": "¡Inundación! No se debe caminar en el agua de la inundación sin protección. Si debes hacerlo, usa zapatos y mide la profundidad con un palo.",
+		"action": "Pierdes 1 turno.",
+		"type": "skip_turn",
+		"value": 1
+	},
+	{
+		"text": "Hiciste una fogata sin la ayuda de tus padres o algún adulto. ¡Esto es muy peligroso y puede provocar un incendio!",
+		"action": "Pierdes 1 turno.",
+		"type": "skip_turn",
+		"value": 1
+	},
+	{
+		"text": "En tu comunidad se cortaron árboles del bosque y no sembraron nuevos. Esto causa daño al suelo y erosión en época lluviosa.",
+		"action": "Retrocede 3 casillas.",
+		"type": "go_back",
+		"value": 3
+	},
+	{
+		"text": "¡Deslizamiento! No intentes cruzar el área afectada. Aléjate del lugar ya que pueden seguir cayendo materiales sobre las zonas cercanas.",
+		"action": "¡Tira otra vez con cuidado!",
+		"type": "spin_again",
+		"value": 0
+	},
+	{
+		"text": "¡Terremoto! Aléjate de las ventanas y de cualquier objeto que te pueda caer encima.",
+		"action": "¡Tira otra vez!",
+		"type": "spin_again",
+		"value": 0
+	},
+	{
+		"text": "Las sustancias tiradas a los ríos y suelos contaminan fuentes de agua y pueden provocar problemas de salud. ¡Infórmalo en el periódico mural de tu escuela!",
+		"action": "Retrocede 3 casillas.",
+		"type": "go_back",
+		"value": 3
+	},
+	{
+		"text": "El Fenómeno de El Niño es un calentamiento de las aguas tropicales en el océano Pacífico ecuatorial que causa sequías e inundaciones en diferentes países. Quédate en el campamento de damnificados y ayuda a la recreación de los niños más pequeños.",
+		"action": "Pierdes 1 turno en el campamento.",
+		"type": "skip_turn",
+		"value": 1
+	},
+	{
+		"text": "Tres formas responsables de usar el agua: cerrar la llave mientras te cepillas, ducharte en el menor tiempo posible y reparar grifos que gotean. Sin embargo, tu comunidad derrocha agua.",
+		"action": "Retrocede 2 casillas.",
+		"type": "go_back",
+		"value": 2
 	}
 ]
 
