@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dmiympugo4r4x"]
+
+[ext_resource type="Script" uid="uid://ccfum6mbyyp8i" path="res://scripts/ficha.gd" id="1_nkg04"]
+[ext_resource type="PackedScene" uid="uid://2jjifk5p75cj" path="res://models/chess_pawn.glb" id="2_gfo57"]
+
+[node name="Ficha" type="Node3D" unique_id=1007468202]
+script = ExtResource("1_nkg04")
+speed = 20.0
+
+[node name="MeshFicha" parent="." unique_id=1633422855 instance=ExtResource("2_gfo57")]
