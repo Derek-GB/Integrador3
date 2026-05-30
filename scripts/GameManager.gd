@@ -98,8 +98,8 @@ func on_dice_rolled(n: int) -> void:
 	# =========================================================
 	# CASILLA 5 — CARTA EDUCATIVA
 	# =========================================================
-	if active_token.current_index == 5:
-		await activar_casilla_5()
+	if active_token.current_index in [5, 11, 21, 34,45,54,61,66,72]:
+		await mostrar_carta_azul()
 		is_player_moving = false
 		_desbloquear_dado()
 		_next_turn()
@@ -147,15 +147,28 @@ func activar_casilla_3() -> void:
 	minijuego_activo = false
 
 # =========================================================
-# CASILLA 5 — CARTA EDUCATIVA
+# MOSTRAR CARTAS AZULES — CARTA EDUCATIVA
 # =========================================================
-func activar_casilla_5() -> void:
-	print("GameManager: jugador cayó en casilla 5")
+func mostrar_carta_azul() -> void:
+	print("GameManager: jugador cayó en una carta azul")
 	minijuego_activo = true
-
+	
+	var file = FileAccess.open("res://data/cartas_azules.json", FileAccess.READ)
+	var json_text = file.get_as_text()
+	file.close()
+	
+	var json = JSON.new()
+	json.parse(json_text)
+	var data = json.get_data()
+	
+	var tarjetas = data["tarjetas"]
+	
+	var pregunta = tarjetas[randi() % tarjetas.size()]
+	
 	var card = QUESTION_CARD.instantiate()
+	card.setup(pregunta) 
 	get_tree().current_scene.add_child(card)
-
+	
 	await card.tree_exited
 
 	print("GameManager: carta educativa cerrada")

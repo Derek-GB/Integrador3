@@ -1,26 +1,5 @@
 extends CanvasLayer
 
-var questions = [
-	{
-		"question": "¿Pierde la niñez sus derechos en medio de un desastre?",
-		"options": ["Sí", "No"],
-		"correct": 1,
-		"explanation": "La niñez nunca pierde sus derechos."
-	},
-	{
-		"question": "¿Cuál derecho suele verse más afectado?",
-		"options": ["Educación", "Alimentación", "Opinión", "Recreación"],
-		"correct": 0,
-		"explanation": "Las escuelas pueden dejar de funcionar."
-	},
-	{
-		"question": "¿En qué desastre la niñez pierde derechos?",
-		"options": ["Inundación", "Incendio", "Sequía", "En ninguno"],
-		"correct": 3,
-		"explanation": "Los derechos siempre deben respetarse."
-	}
-]
-
 var selected_question = {}
 var card_container: Control
 var front_side: Control
@@ -32,16 +11,21 @@ const CARD_H = 500.0
 
 func _ready():
 	randomize()
-	_pick_question()
 	_build_ui()
 	_animate_card()
 
 # =========================================================
 # UNA SOLA PREGUNTA AL AZAR
 # =========================================================
-func _pick_question():
-	var index = randi() % questions.size()
-	selected_question = questions[index]
+
+func setup(pregunta: Dictionary) -> void:
+	# Convertir formato JSON → formato interno de la carta
+	selected_question = {
+		"question": pregunta["pregunta"],
+		"options": pregunta["opciones"].map(func(o): return o["texto"]),
+		"correct": pregunta["respuestaCorrecta"] - 1,  # JSON usa 1-based, aquí 0-based
+		"explanation": pregunta["explicacion"]
+	}
 
 # =========================================================
 # UI
@@ -152,8 +136,9 @@ func _build_question():
 	for i in range(selected_question["options"].size()):
 		var btn = Button.new()
 		btn.text = selected_question["options"][i]
-		btn.custom_minimum_size = Vector2(310, 55)
+		btn.custom_minimum_size = Vector2(310, 65)
 		btn.add_theme_font_size_override("font_size", 18)
+		btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART 
 		btn.pressed.connect(_on_option_selected.bind(i))
 		vbox.add_child(btn)
 
