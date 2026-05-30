@@ -5,9 +5,10 @@ extends Node3D
 @onready var mapa = $Mapa
 @onready var ficha = $Mapa/Ficha
 @onready var camera: Camera3D = $Camera3D
-@onready var dado = $UI/Dado
+@onready var dado = $Dado
 @onready var dado_label: Label = $UI/DadoLabel
 @onready var btn_salir: Button = $UI/Salir
+@onready var btn_tirar: Button = $UI/BtnTirar
 @onready var btn_tirar_3: Button = $UI/Tirar_3
 @onready var btn_reiniciar: Button = $UI/Reiniciar
 
@@ -23,7 +24,11 @@ func _ready() -> void:
 	ficha.setup(wp)
 	GameManager.register_token(ficha)
 	print("Main: ficha registrada en GameManager")
+	dado.setup(camera)             # inyectar cámara al dado
+	dado.visible = false           # empieza invisible
+	dado.freeze = true             # empieza congelado
 	dado.dice_rolled.connect(_on_dice_rolled)
+	btn_tirar.pressed.connect(_on_btn_tirar)
 	print("Main: conectado dado a _on_dice_rolled")
 	ficha.reached_end.connect(_on_ficha_reached_end)
 	GameManager.turn_changed.connect(_on_turn_changed)
@@ -77,6 +82,12 @@ func _on_reiniciar() -> void:
 # =====================================================
 # DADO
 # =====================================================
+func _on_btn_tirar() -> void:
+	if game_over or dado.is_rolling or dado.is_locked:
+		return
+	btn_tirar.disabled = true
+	dado.roll()
+
 func _on_dice_rolled(n: int) -> void:
 	if game_over:
 		return
@@ -88,6 +99,7 @@ func _on_dice_rolled(n: int) -> void:
 	await GameManager.on_dice_rolled(n)
 	if not game_over:
 		dado.set_locked(false)
+		btn_tirar.disabled = false
 
 # =====================================================
 # CAMBIO DE TURNO

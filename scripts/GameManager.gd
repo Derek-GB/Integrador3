@@ -216,8 +216,8 @@ func mostrar_carta_roja(active_token) -> void:
 # =========================================================
 func _desbloquear_dado() -> void:
 	var scene = get_tree().current_scene
-	if scene.has_node("UI/Dado"):
-		scene.get_node("UI/Dado").set_locked(false)
+	if scene.has_node("Dado"):
+		scene.get_node("Dado").set_locked(false)
 		print("GameManager: dado desbloqueado")
 
 # =========================================================

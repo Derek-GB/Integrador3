@@ -1,80 +1,84 @@
-extends CanvasLayer
-
-@onready var dice_mesh: Node3D = $DiceContainer/SubViewportContainer/SubViewport/MeshDado
-@onready var btn = $DiceContainer/ClickArea
+extends RigidBody3D
 
 var is_rolling: bool = false
 var is_locked: bool = false
+var _result: int = 0
 
 const FACE_ROTATIONS: Dictionary = {
-	1: Vector3(0,    0,   0),
-	2: Vector3(0,   -90,  0),
-	3: Vector3(-90,  0,   0),
-	4: Vector3(90,   0,   0),
-	5: Vector3(0,    90,  0),
-	6: Vector3(180,  0,   0),
+	1: Vector3(-90,  0,   0),
+	2: Vector3(0,    0,  90),
+	3: Vector3(180,  0,   0),
+	4: Vector3(0,    0,   0),
+	5: Vector3(0,    0, -90),
+	6: Vector3(90,   0,   0),
 }
 
 signal dice_rolled(n: int)
 
+# Llamado desde main.gd para inyectar la cámara
+var _camera: Camera3D = null
 
-func _ready() -> void:
-	randomize()
-
-	btn.pressed.connect(_on_roll_pressed)
-
-	# Posición inicial: debería verse la cara 1
-	dice_mesh.rotation_degrees = FACE_ROTATIONS[1]
-
-	_update_button_state()
-
+func setup(camera: Camera3D) -> void:
+	_camera = camera
 
 func set_locked(value: bool) -> void:
 	is_locked = value
-	_update_button_state()
 
-
-func _update_button_state() -> void:
-	btn.disabled = is_rolling or is_locked
-
-
-func _on_roll_pressed() -> void:
+func roll() -> void:
 	if is_rolling or is_locked:
 		return
-
 	is_rolling = true
-	_update_button_state()
+	_result = randi() % 6 + 1
 
-	var result: int = randi() % 6 + 1
+	var spawn_pos := _get_spawn_position()
+	global_position = spawn_pos
 
-	await _animate_roll(result)
+	# Orientación de rombo: inclinado 45° en dos ejes
+	rotation_degrees = Vector3(45, 45, 45)
 
-	print("Dado emitido:", result)
-	dice_rolled.emit(result)
+	visible = true
+	freeze = false
 
+	# Entra desde el lado con velocidad horizontal + caída fuerte
+	linear_velocity = Vector3(randf_range(-4, 4), -12.0, randf_range(-4, 4))
+
+	# Giro pronunciado para que se vea rodando/girando al caer
+	angular_velocity = Vector3(
+		randf_range(-15, 15),
+		randf_range(-15, 15),
+		randf_range(-15, 15)
+	)
+
+	await _wait_for_stop()
+	await _snap_to_face(_result)
+	dice_rolled.emit(_result)
 	is_rolling = false
-	_update_button_state()
 
+func _get_spawn_position() -> Vector3:
+	if _camera == null:
+		return Vector3(0, 30, 0)
+	var cam_pos := _camera.global_position
+	var cam_right := _camera.global_transform.basis.x
+	# Entra desde la derecha, a media altura
+	return Vector3(
+		cam_pos.x + cam_right.x * 10,
+		cam_pos.y + 7,
+		cam_pos.z + cam_right.z * 10
+	)
 
-func _animate_roll(face: int) -> void:
+func _wait_for_stop() -> void:
+	# Espera mínimo 0.5s y luego hasta que pare
+	await get_tree().create_timer(0.5).timeout
+	var timeout := 3.0
+	var t := 0.0
+	while linear_velocity.length() > 0.5 and t < timeout:
+		await get_tree().process_frame
+		t += get_process_delta_time()
+
+func _snap_to_face(face: int) -> void:
+	freeze = true
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
 	var tween := create_tween()
-
-	tween.tween_property(
-		dice_mesh,
-		"rotation_degrees",
-		Vector3(
-			randf_range(360, 720),
-			randf_range(360, 720),
-			randf_range(360, 720)
-		),
-		0.6
-	).set_ease(Tween.EASE_IN)
-
-	tween.tween_property(
-		dice_mesh,
-		"rotation_degrees",
-		FACE_ROTATIONS[face],
-		0.4
-	).set_ease(Tween.EASE_OUT)
-
+	tween.tween_property(self, "rotation_degrees", FACE_ROTATIONS[face], 0.35).set_ease(Tween.EASE_OUT)
 	await tween.finished
