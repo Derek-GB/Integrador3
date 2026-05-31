@@ -3,7 +3,7 @@ extends CanvasLayer
 const CARD_W = 350.0
 const CARD_H = 500.0
 
-signal action_completed
+signal action_completed(type: String, value: int)
 
 var cards = [
 	{
@@ -467,5 +467,5 @@ func _flip_card():
 # ACEPTAR ACCIÓN
 # =========================================================
 func _on_accepted():
-	action_completed.emit(selected_card["type"])
+	action_completed.emit(selected_card["type"], selected_card["value"])
 	queue_free()

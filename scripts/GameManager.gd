@@ -185,26 +185,42 @@ func mostrar_carta_roja(active_token) -> void:
 	var card = ACTION_CARD.instantiate()
 	get_tree().current_scene.add_child(card)
 
-	card.action_completed.connect(func(type):
-		last_action_type = type
-		print("GameManager: acción guardada:", last_action_type)
+	var action_result = [last_action_type, 0]
+	card.action_completed.connect(func(type, value):
+		action_result[0] = type
+		action_result[1] = value
+		print("GameManager: acción guardada:", action_result[0], " valor:", action_result[1])
 	)
 
 	await card.tree_exited
 
-	print("GameManager: carta cerrada, acción:", last_action_type)
+	print("GameManager: carta cerrada, acción:", action_result[0], " valor:", action_result[1])
+	last_action_type = action_result[0]
+	var last_action_value: int = action_result[1]
 
-	if last_action_type == "skip_turn":
+	if last_action_type == "advance":
+		print("GameManager: avanzando", last_action_value, "casillas")
+		await active_token.move_steps(last_action_value)
+
+	elif last_action_type == "go_back":
+		print("GameManager: retrocediendo", last_action_value, "casillas")
+		await active_token.move_back(last_action_value)
+
+	elif last_action_type == "go_to_space":
+		print("GameManager: yendo a casilla", last_action_value)
+		var steps_needed = last_action_value - active_token.current_index
+		if steps_needed > 0:
+			await active_token.move_steps(steps_needed)
+		elif steps_needed < 0:
+			await active_token.move_back(-steps_needed)
+
+	elif last_action_type == "skip_turn":
 		skip_next_turn = true
 		if mensaje_label:
 			mensaje_label.visible = true
 			mensaje_label.text = "¡Pierdes el siguiente turno!"
 			await get_tree().create_timer(2.0).timeout
 			mensaje_label.visible = false
-
-	elif last_action_type == "go_back":
-		print("GameManager: retrocediendo ficha")
-		await active_token.move_back(1)
 
 	minijuego_activo = false
 	is_player_moving = false
