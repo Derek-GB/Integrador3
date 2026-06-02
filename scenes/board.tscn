@@ -271,20 +271,22 @@ transform = Transform3D(0.9999097, 0, 0.013438631, 0, 1, 0, -0.013438631, 0, 0.9
 
 [node name="Ficha" parent="." unique_id=1007468202 instance=ExtResource("3_fv4ni")]
 
-[node name="Sketchfab_Scene" parent="." unique_id=411601075 instance=ExtResource("4_dxjtj")]
+[node name="Node3D" type="Node3D" parent="." unique_id=896683098]
+
+[node name="Sketchfab_Scene" parent="Node3D" unique_id=411601075 instance=ExtResource("4_dxjtj")]
 transform = Transform3D(0.7964033, 0, -0.60476595, 0, 1, 0, 0.60476595, 0, 0.7964033, -95.14533, 2.0649128, -14.056426)
 
-[node name="Sketchfab_Scene3" parent="." unique_id=1377833020 instance=ExtResource("4_dxjtj")]
+[node name="Sketchfab_Scene3" parent="Node3D" unique_id=1377833020 instance=ExtResource("4_dxjtj")]
 transform = Transform3D(0.9991711, 0, -0.04070729, 0, 1, 0, 0.04070729, 0, 0.9991711, -91.0042, 2.0649128, -22.992569)
 
-[node name="Sketchfab_Scene6" parent="." unique_id=574939173 instance=ExtResource("4_dxjtj")]
+[node name="Sketchfab_Scene6" parent="Node3D" unique_id=574939173 instance=ExtResource("4_dxjtj")]
 transform = Transform3D(0.38397312, 0, 0.9233444, 0, 1, 0, -0.9233444, 0, 0.38397312, -42.504253, 1.0728173, 17.150421)
 
-[node name="Sketchfab_Scene2" parent="." unique_id=2097463693 instance=ExtResource("5_dun80")]
+[node name="Sketchfab_Scene2" parent="Node3D" unique_id=2097463693 instance=ExtResource("5_dun80")]
 transform = Transform3D(53.6381, 0, -12.163636, 0, 54.999996, 0, 12.163636, 0, 53.6381, -55.617397, 7.301838, -46.492832)
 
-[node name="Sketchfab_Scene4" parent="." unique_id=808554246 instance=ExtResource("6_c3r7o")]
+[node name="Sketchfab_Scene4" parent="Node3D" unique_id=808554246 instance=ExtResource("6_c3r7o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.23247, 0, 45.418)
 
-[node name="Sketchfab_Scene5" parent="." unique_id=1606105486 instance=ExtResource("7_wmvsh")]
+[node name="Sketchfab_Scene5" parent="Node3D" unique_id=1606105486 instance=ExtResource("7_wmvsh")]
 transform = Transform3D(0.57157314, 0, -0.8205511, 0, 1, 0, 0.8205511, 0, 0.57157314, -39.154564, 0, -24.961672)
