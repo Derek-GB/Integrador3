@@ -98,8 +98,8 @@ func _create_pieces() -> void:
 	var image: Image = map_texture.get_image()
 
 	var original_piece_size = Vector2(
-		map_texture.get_width() / cols,
-		map_texture.get_height() / rows
+		float(map_texture.get_width()) / float(cols),
+		float(map_texture.get_height()) / float(rows)
 	)
 
 	for row in rows:
@@ -178,7 +178,7 @@ func _apply_positions() -> void:
 		var pos_index: int = piece["current_pos"]
 
 		var col: int = pos_index % cols
-		var row: int = pos_index / cols
+		var row: int = floori(float(pos_index) / float(cols))
 
 		var target := Vector2(
 			start_x + col * (piece_size.x + piece_gap),

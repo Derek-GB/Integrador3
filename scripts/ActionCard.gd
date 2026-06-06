@@ -300,12 +300,15 @@ var selected_card = {}
 var card_container: Control
 var front_side: Control
 var back_panel: Control
+var cpu_mode: bool = false
 
 func _ready():
 	randomize()
 	_pick_card()
 	_build_ui()
 	_animate_card()
+	if cpu_mode:
+		_cpu_auto_play()
 
 # =========================================================
 # UNA SOLA CARTA AL AZAR
@@ -469,3 +472,12 @@ func _flip_card():
 func _on_accepted():
 	action_completed.emit(selected_card["type"], selected_card["value"])
 	queue_free()
+
+# =========================================================
+# MODO CPU — FLUJO AUTOMÁTICO
+# =========================================================
+func _cpu_auto_play() -> void:
+	await get_tree().create_timer(1.4).timeout
+	await _flip_card()
+	await get_tree().create_timer(1.5).timeout
+	_on_accepted()
