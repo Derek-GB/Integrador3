@@ -2,15 +2,113 @@
 
 [ext_resource type="Script" uid="uid://cy2jurhducyl" path="res://scripts/menu_principal.gd" id="1_haamj"]
 [ext_resource type="Texture2D" uid="uid://b0bs3decqfksu" path="res://images/marco_cafe.png" id="2_57jiv"]
+[ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="3_7wcm3"]
 [ext_resource type="Texture2D" uid="uid://bsh3xrpsd88lf" path="res://images/jugar.png" id="3_duatf"]
 [ext_resource type="Texture2D" uid="uid://vrsrhwyjg2fy" path="res://images/reglas.png" id="4_7wcm3"]
 [ext_resource type="Texture2D" uid="uid://cnigiqqhq6pje" path="res://images/creditos.png" id="5_aaw56"]
 [ext_resource type="Texture2D" uid="uid://btl615u50on44" path="res://images/salir.png" id="6_l3ot1"]
+[ext_resource type="Texture2D" uid="uid://dwcgo2gumd4qw" path="res://images/marco_cafe_v2.png" id="8_7wcm3"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1d3ww"]
 load_path = "res://.godot/imported/DiseñoRiesgo_interfaz.jpg-d86eb4b451b39f57f07db2b87bc5cb93.ctex"
 
-[node name="Control" type="Control" unique_id=310760619]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aaw56"]
+content_margin_right = 30.0
+bg_color = Color(0.3764706, 0.6901961, 0.3764706, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hhdk0"]
+content_margin_right = 30.0
+bg_color = Color(0.26823774, 0.5032663, 0.26823774, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_duatf"]
+content_margin_right = 30.0
+bg_color = Color(0.3764706, 0.6901961, 0.3764706, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l3ot1"]
+content_margin_right = 30.0
+bg_color = Color(0.06666667, 0.43137255, 0.92156863, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bopcq"]
+content_margin_right = 30.0
+bg_color = Color(0.036210824, 0.30936772, 0.67659986, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7wcm3"]
+content_margin_right = 30.0
+bg_color = Color(0.06666667, 0.43137255, 0.92156863, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vys0q"]
+content_margin_right = 30.0
+bg_color = Color(0.6666667, 0.1254902, 1, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y2h1g"]
+content_margin_right = 30.0
+bg_color = Color(0.48563913, 0.080214866, 0.735357, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ua4hy"]
+content_margin_right = 30.0
+bg_color = Color(0.6666667, 0.1254902, 1, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6jbn4"]
+content_margin_right = 30.0
+bg_color = Color(0.9411765, 0.1254902, 0.1254902, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tp6nb"]
+content_margin_right = 30.0
+bg_color = Color(0.6912892, 0.080214866, 0.080214866, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3yemn"]
+content_margin_right = 30.0
+bg_color = Color(0.9411765, 0.1254902, 0.1254902, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[node name="Menu" type="Control" unique_id=310760619]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,49 +124,100 @@ texture = SubResource("CompressedTexture2D_1d3ww")
 
 [node name="Menu_Botones" type="Control" parent="." unique_id=2049274251]
 anchors_preset = 0
-offset_left = 755.0
-offset_top = 578.0
-offset_right = 1062.0
+offset_left = 796.0
+offset_top = 563.0
+offset_right = 1124.0
 offset_bottom = 935.0
 
-[node name="MarcoCafe" type="Sprite2D" parent="Menu_Botones" unique_id=1840978982]
-position = Vector2(165.00006, 167.25002)
-scale = Vector2(0.34479162, 0.35324073)
+[node name="MarcoB" type="Sprite2D" parent="Menu_Botones" unique_id=1840978982]
+position = Vector2(172.00006, 174.75003)
+scale = Vector2(0.3520833, 0.36712965)
 texture = ExtResource("2_57jiv")
 
 [node name="Jugar" type="Button" parent="Menu_Botones" unique_id=473864336]
 layout_mode = 0
 offset_left = 46.0
-offset_top = 39.0
-offset_right = 245.0
-offset_bottom = 115.0
+offset_top = 22.0
+offset_right = 276.0
+offset_bottom = 92.0
+theme_override_fonts/font = ExtResource("3_7wcm3")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_aaw56")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hhdk0")
+theme_override_styles/hover = SubResource("StyleBoxFlat_duatf")
 text = "Jugar"
-icon = ExtResource("3_duatf")
+alignment = 2
+
+[node name="Jugar2" type="Sprite2D" parent="Menu_Botones/Jugar" unique_id=927220252]
+position = Vector2(60, 36)
+scale = Vector2(0.8, 0.786)
+texture = ExtResource("3_duatf")
 
 [node name="Reglas" type="Button" parent="Menu_Botones" unique_id=1145299079]
 layout_mode = 0
-offset_left = 47.0
-offset_top = 118.0
-offset_right = 246.0
-offset_bottom = 194.0
+offset_left = 46.0
+offset_top = 107.0
+offset_right = 276.0
+offset_bottom = 177.0
+theme_override_fonts/font = ExtResource("3_7wcm3")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_l3ot1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_bopcq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7wcm3")
 text = "Reglas"
-icon = ExtResource("4_7wcm3")
+alignment = 2
+
+[node name="Reglas2" type="Sprite2D" parent="Menu_Botones/Reglas" unique_id=588838778]
+position = Vector2(60, 36)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("4_7wcm3")
 
 [node name="Creditos" type="Button" parent="Menu_Botones" unique_id=362266432]
 layout_mode = 0
-offset_left = 49.0
-offset_top = 198.0
-offset_right = 247.0
-offset_bottom = 264.0
+offset_left = 46.0
+offset_top = 192.0
+offset_right = 276.0
+offset_bottom = 262.0
+theme_override_fonts/font = ExtResource("3_7wcm3")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_vys0q")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_y2h1g")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ua4hy")
 text = "Creditos"
-icon = ExtResource("5_aaw56")
+alignment = 2
+
+[node name="Creditos2" type="Sprite2D" parent="Menu_Botones/Creditos" unique_id=1169080606]
+position = Vector2(60, 36)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("5_aaw56")
 
 [node name="Salir" type="Button" parent="Menu_Botones" unique_id=1496089872]
 layout_mode = 0
-offset_left = 52.0
-offset_top = 268.0
-offset_right = 251.0
-offset_bottom = 344.0
-theme_override_colors/font_pressed_color = Color(0.023529412, 0.23529412, 1, 1)
+offset_left = 46.0
+offset_top = 277.0
+offset_right = 276.0
+offset_bottom = 347.0
+theme_override_fonts/font = ExtResource("3_7wcm3")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_6jbn4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tp6nb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3yemn")
 text = "Salir"
-icon = ExtResource("6_l3ot1")
+alignment = 2
+
+[node name="Salir2" type="Sprite2D" parent="Menu_Botones/Salir" unique_id=495574465]
+position = Vector2(60, 36)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("6_l3ot1")
+
+[node name="Seleccion_Juego" type="Control" parent="." unique_id=1490314884]
+anchors_preset = 0
+offset_left = 2000.0
+offset_top = 380.0
+offset_right = 2967.0
+offset_bottom = 961.0
+
+[node name="MarcoCafeV2" type="Sprite2D" parent="Seleccion_Juego" unique_id=1100509923]
+scale = Vector2(1.1343613, 0.57495064)
+texture = ExtResource("8_7wcm3")
+centered = false
