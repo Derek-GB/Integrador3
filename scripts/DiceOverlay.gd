@@ -5,6 +5,8 @@ signal overlay_done(n: int)
 @onready var dimmer: ColorRect = $CanvasLayer/Control/Dimmer
 @onready var dado_interno = $CanvasLayer/Control/ViewportContainer/DiceViewport/Dado
 
+var ultimo_resultado: int = 0
+
 func _ready() -> void:
 	visible = false
 	dimmer.color.a = 0.0
@@ -21,10 +23,12 @@ func mostrar(forced_result: int = -1) -> void:
 	await tw.finished
 
 	# Tirar el dado interno
-	if forced_result == -1:
-		await dado_interno.roll()
-	else:
-		await dado_interno.roll_cpu(forced_result)
+	await dado_interno.roll()   # siempre, CPU o humano
+	ultimo_resultado = dado_interno._result
+	#if forced_result == -1:
+		#await dado_interno.roll()
+	#else:
+		#await dado_interno.roll_cpu(forced_result)
 
 	var resultado: int = dado_interno._result
 

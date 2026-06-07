@@ -343,14 +343,13 @@ func _machine_turn() -> void:
 	if game_over:
 		return
 
-	var n := randi() % 6 + 1
 	dado_label.text = "La Maquina esta tirando el dado..."
-
-	await _dice_overlay_instance.mostrar(n)
+	await _dice_overlay_instance.mostrar()
 
 	if game_over:
 		return
 
+	var n: int = _dice_overlay_instance.ultimo_resultado
 	dice_sound.play()
 	dado_label.text = "La Maquina obtuvo un %d" % n
 	await get_tree().create_timer(0.6).timeout

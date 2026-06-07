@@ -31,57 +31,57 @@ func roll() -> void:
 		return
 	roll_started.emit()
 	is_rolling = true
-	_result = randi() % 6 + 1
 
-	var spawn_pos := _get_spawn_position()
-	global_position = spawn_pos
-
-	# Orientación de rombo: inclinado 45° en dos ejes
-	rotation_degrees = Vector3(45, 45, 45)
-
+	global_position = _get_spawn_position()
+	rotation_degrees = Vector3(
+		randf_range(0, 360),
+		randf_range(0, 360),
+		randf_range(0, 360)
+	)
 	visible = true
 	freeze = false
 
-	# Entra desde el lado con velocidad horizontal + caída fuerte
-	linear_velocity = Vector3(randf_range(-4, 4), -12.0, randf_range(-4, 4))
-
-	# Giro pronunciado para que se vea rodando/girando al caer
+	linear_velocity = Vector3(randf_range(-3, 3), -14.0, randf_range(-3, 3))
 	angular_velocity = Vector3(
-		randf_range(-15, 15),
-		randf_range(-15, 15),
-		randf_range(-15, 15)
+		randf_range(-20, 20),
+		randf_range(-20, 20),
+		randf_range(-20, 20)
 	)
 
 	await _wait_for_stop()
-	await _snap_to_face(_result)
+
+	_result = _get_face_up()
 	dice_rolled.emit(_result)
 	roll_finished.emit(_result)
 	is_rolling = false
 
 # Lanzamiento del CPU: misma animación física que roll() pero con resultado
 # predeterminado y sin emitir dice_rolled (el flujo se controla desde _machine_turn).
-func roll_cpu(forced_result: int) -> void:
+func roll_cpu() -> void:
 	if is_rolling:
 		return
 	roll_started.emit()
 	is_rolling = true
-	_result = forced_result
 
-	var spawn_pos := _get_spawn_position()
-	global_position = spawn_pos
-	rotation_degrees = Vector3(45, 45, 45)
+	global_position = _get_spawn_position()
+	rotation_degrees = Vector3(
+		randf_range(0, 360),
+		randf_range(0, 360),
+		randf_range(0, 360)
+	)
 	visible = true
 	freeze = false
 
-	linear_velocity = Vector3(randf_range(-4, 4), -12.0, randf_range(-4, 4))
+	linear_velocity = Vector3(randf_range(-3, 3), -14.0, randf_range(-3, 3))
 	angular_velocity = Vector3(
-		randf_range(-15, 15),
-		randf_range(-15, 15),
-		randf_range(-15, 15)
+		randf_range(-20, 20),
+		randf_range(-20, 20),
+		randf_range(-20, 20)
 	)
 
 	await _wait_for_stop()
-	await _snap_to_face(_result)
+
+	_result = _get_face_up()
 	roll_finished.emit(_result)
 	is_rolling = false
 
@@ -96,6 +96,26 @@ func _get_spawn_position() -> Vector3:
 		cam_pos.y + 7,
 		cam_pos.z + cam_right.z * 10
 	)
+
+func _get_face_up() -> int:
+	# Normales locales de cada cara (hacia afuera)
+	var face_normals: Dictionary = {
+		1: Vector3(0,   0,  1),  # era 3
+		2: Vector3(1,   0,  0),
+		3: Vector3(0,  -1,  0),  # era 1
+		4: Vector3(0,   1,  0),
+		5: Vector3(-1,  0,  0),
+		6: Vector3(0,   0, -1),
+	}
+	var best_face := 1
+	var best_dot := -INF
+	for face in face_normals:
+		var world_normal: Vector3 = global_transform.basis * face_normals[face]
+		var dot: float = world_normal.dot(Vector3.UP)
+		if dot > best_dot:
+			best_dot = dot
+			best_face = face
+	return best_face
 
 func _wait_for_stop() -> void:
 	# Espera mínimo 0.5s y luego hasta que pare
