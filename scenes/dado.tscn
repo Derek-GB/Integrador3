@@ -19,3 +19,5 @@ script = ExtResource("1_nntwd")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=-1293967295]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2888184e-05, 0.022460938, -0.017425537)
 shape = SubResource("BoxShape3D_uvwln")
+
+[node name="Dado_raiz" type="Node3D" parent="." unique_id=530266015]

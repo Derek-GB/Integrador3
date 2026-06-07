@@ -54,6 +54,31 @@ func roll() -> void:
 	dice_rolled.emit(_result)
 	is_rolling = false
 
+# Lanzamiento del CPU: misma animación física que roll() pero con resultado
+# predeterminado y sin emitir dice_rolled (el flujo se controla desde _machine_turn).
+func roll_cpu(forced_result: int) -> void:
+	if is_rolling:
+		return
+	is_rolling = true
+	_result = forced_result
+
+	var spawn_pos := _get_spawn_position()
+	global_position = spawn_pos
+	rotation_degrees = Vector3(45, 45, 45)
+	visible = true
+	freeze = false
+
+	linear_velocity = Vector3(randf_range(-4, 4), -12.0, randf_range(-4, 4))
+	angular_velocity = Vector3(
+		randf_range(-15, 15),
+		randf_range(-15, 15),
+		randf_range(-15, 15)
+	)
+
+	await _wait_for_stop()
+	await _snap_to_face(_result)
+	is_rolling = false
+
 func _get_spawn_position() -> Vector3:
 	if _camera == null:
 		return Vector3(0, 30, 0)
