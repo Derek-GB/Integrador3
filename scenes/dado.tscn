@@ -10,6 +10,7 @@ bounce = 0.4
 size = Vector3(19.892593, 19.892578, 19.976013)
 
 [node name="Dado" type="RigidBody3D" unique_id=1959150561]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_tbv0i")
 gravity_scale = 8.0
 script = ExtResource("1_nntwd")

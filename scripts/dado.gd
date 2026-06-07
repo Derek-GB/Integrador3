@@ -14,6 +14,8 @@ const FACE_ROTATIONS: Dictionary = {
 }
 
 signal dice_rolled(n: int)
+signal roll_started
+signal roll_finished(n: int)
 
 # Llamado desde main.gd para inyectar la cámara
 var _camera: Camera3D = null
@@ -27,6 +29,7 @@ func set_locked(value: bool) -> void:
 func roll() -> void:
 	if is_rolling or is_locked:
 		return
+	roll_started.emit()
 	is_rolling = true
 	_result = randi() % 6 + 1
 
@@ -52,6 +55,7 @@ func roll() -> void:
 	await _wait_for_stop()
 	await _snap_to_face(_result)
 	dice_rolled.emit(_result)
+	roll_finished.emit(_result)
 	is_rolling = false
 
 # Lanzamiento del CPU: misma animación física que roll() pero con resultado
@@ -59,6 +63,7 @@ func roll() -> void:
 func roll_cpu(forced_result: int) -> void:
 	if is_rolling:
 		return
+	roll_started.emit()
 	is_rolling = true
 	_result = forced_result
 
@@ -77,6 +82,7 @@ func roll_cpu(forced_result: int) -> void:
 
 	await _wait_for_stop()
 	await _snap_to_face(_result)
+	roll_finished.emit(_result)
 	is_rolling = false
 
 func _get_spawn_position() -> Vector3:

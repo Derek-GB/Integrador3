@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://cvf3wj05juuxd"]
+
+[ext_resource type="Script" uid="uid://cfgf7sftb8f2r" path="res://scripts/DiceOverlay.gd" id="1_tj3dp"]
+[ext_resource type="PackedScene" uid="uid://cf0lt2ras06so" path="res://scenes/dado.tscn" id="2_mrlse"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_12nja"]
+size = Vector3(40, 1, 40)
+
+[sub_resource type="Environment" id="Environment_mrlse"]
+background_mode = 1
+background_color = Color(0.38109186, 0.38109186, 0.4100209, 1)
+
+[node name="DiceOverlay" type="Node3D" unique_id=1766391247]
+visible = false
+script = ExtResource("1_tj3dp")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=100341413]
+layer = 10
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1878917784]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Dimmer" type="ColorRect" parent="CanvasLayer/Control" unique_id=1406363045]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+accessibility_name = "Dimmer"
+color = Color(0, 0, 0, 0)
+
+[node name="ViewportContainer" type="SubViewportContainer" parent="CanvasLayer/Control" unique_id=217488912]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+accessibility_name = "ViewportContainer"
+
+[node name="DiceViewport" type="SubViewport" parent="CanvasLayer/Control/ViewportContainer" unique_id=564460702]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport" unique_id=386446058]
+transform = Transform3D(0.93969256, -0.33682403, 0.059391182, 0, 0.17364821, 0.98480767, -0.3420201, -0.92541647, 0.16317594, 0, 0, 0)
+light_energy = 2.0
+shadow_enabled = true
+
+[node name="DiceCamera" type="Camera3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport" unique_id=1262027394]
+transform = Transform3D(1, 0, 0, 0, 0.64278764, 0.76604444, 0, -0.76604444, 0.64278764, 0, 22, 18)
+
+[node name="Dado" parent="CanvasLayer/Control/ViewportContainer/DiceViewport" unique_id=1959150561 instance=ExtResource("2_mrlse")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport" unique_id=972137070]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport/StaticBody3D" unique_id=1547337372]
+shape = SubResource("BoxShape3D_12nja")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport" unique_id=728816491]
+transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, -12.756904, 11.523024, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport/StaticBody3D2" unique_id=323266309]
+shape = SubResource("BoxShape3D_12nja")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport" unique_id=2107534398]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 11.502302, -11.971358)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport/StaticBody3D3" unique_id=281559514]
+shape = SubResource("BoxShape3D_12nja")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport" unique_id=2009107752]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 10.795082, 11.575336, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport/StaticBody3D4" unique_id=811540000]
+shape = SubResource("BoxShape3D_12nja")
+
+[node name="StaticBody3D5" type="StaticBody3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport" unique_id=388036603]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 11.792025, 8.990023)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport/StaticBody3D5" unique_id=885094900]
+shape = SubResource("BoxShape3D_12nja")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="CanvasLayer/Control/ViewportContainer/DiceViewport" unique_id=1368317864]
+environment = SubResource("Environment_mrlse")

@@ -11,7 +11,6 @@ extends Node3D
 @onready var camera: Camera3D                   = $Camera_rig/Camera3D
 @onready var marker_iso: Marker3D               = $Camera_rig/Marker_isometrica
 @onready var marker_tercera: Marker3D           = $Camera_rig/Marker_tercera
-@onready var dado                               = $Dado
 @onready var dado_label: Label                  = $UI/DadoLabel
 @onready var btn_salir: Button                  = $UI/Salir
 @onready var btn_tirar: Button                  = $UI/BtnTirar
@@ -21,6 +20,9 @@ extends Node3D
 @onready var btn_isometrica: Button             = $UI/Isometrica
 @onready var dice_sound: AudioStreamPlayer      = $UI/DiceSound
 @onready var move_sound: AudioStreamPlayer      = $UI/MoveSound
+
+const DICE_OVERLAY_SCENE = preload("res://scenes/DiceOverlay.tscn")
+var _dice_overlay_instance = null
 
 # =========================================================
 # ESTADO DEL JUEGO
@@ -52,10 +54,6 @@ func _ready() -> void:
 
 	camera.position = marker_iso.position
 	camera.rotation = marker_iso.rotation
-	dado.setup(camera)
-	dado.visible = false
-	dado.freeze  = true
-	dado.dice_rolled.connect(_on_dice_rolled)
 
 	btn_tirar.pressed.connect(_on_btn_tirar)
 	btn_tirar.disabled = true
@@ -66,26 +64,21 @@ func _ready() -> void:
 	btn_tercera.pressed.connect(cambiar_camara.bind(marker_tercera))
 	btn_isometrica.pressed.connect(cambiar_camara.bind(marker_iso))
 
-
+	_dice_overlay_instance = DICE_OVERLAY_SCENE.instantiate()
+	_dice_overlay_instance.visible = false
+	add_child(_dice_overlay_instance)
+	_dice_overlay_instance.overlay_done.connect(_on_dice_rolled)
+	
 	_crear_ui_extra()
 	_crear_panel_modo()
 
 func cambiar_camara(marker: Marker3D) -> void:
 	var tween := create_tween()
 
-	tween.set_parallel(true)
-
 	tween.tween_property(
 		camera,
-		"position",
-		marker.position,
-		0.6
-	)
-
-	tween.tween_property(
-		camera,
-		"rotation",
-		marker.rotation,
+		"transform",
+		marker.transform,
 		0.6
 	)
 
@@ -259,12 +252,8 @@ func _on_tirar_3() -> void:
 	if game_mode == 2 and GameManager.current_player == 1:
 		return
 	dice_sound.play()
-	await get_tree().create_timer(0.15).timeout
 	dado_label.text = "Tiraste un 3"
-	dado.set_locked(true)
 	await GameManager.on_dice_rolled(3)
-	if not game_over:
-		dado.set_locked(false)
 
 # =========================================================
 # REINICIAR
@@ -283,10 +272,10 @@ func _on_reiniciar() -> void:
 # DADO FISICO
 # =========================================================
 func _on_btn_tirar() -> void:
-	if game_over or dado.is_rolling or dado.is_locked:
+	if game_over or _dice_overlay_instance == null:
 		return
 	btn_tirar.disabled = true
-	dado.roll()
+	await _dice_overlay_instance.mostrar()
 
 func _on_dice_rolled(n: int) -> void:
 	if game_over:
@@ -294,10 +283,7 @@ func _on_dice_rolled(n: int) -> void:
 	dice_sound.play()
 	await get_tree().create_timer(0.15).timeout
 	dado_label.text = "Tiraste un %d" % n
-	dado.set_locked(true)
 	await GameManager.on_dice_rolled(n)
-	if not game_over:
-		dado.set_locked(false)
 
 # =========================================================
 # CAMBIO DE TURNO
@@ -306,7 +292,6 @@ func _on_turn_changed(player_index: int) -> void:
 	if game_over:
 		return
 	_actualizar_turno(player_index)
-	dado.set_locked(false)
 	btn_tirar.disabled = true
 
 	print("Main: turn_changed recibido =", player_index)
@@ -361,7 +346,7 @@ func _machine_turn() -> void:
 	var n := randi() % 6 + 1
 	dado_label.text = "La Maquina esta tirando el dado..."
 
-	await dado.roll_cpu(n)
+	await _dice_overlay_instance.mostrar(n)
 
 	if game_over:
 		return
@@ -373,10 +358,7 @@ func _machine_turn() -> void:
 	if game_over:
 		return
 
-	dado.set_locked(true)
 	await GameManager.on_dice_rolled(n)
-	if not game_over:
-		dado.set_locked(false)
 
 # =========================================================
 # META — FICHA 1
@@ -395,7 +377,6 @@ func _declarar_ganador(player_index: int) -> void:
 	if game_over:
 		return
 	game_over = true
-	dado.set_locked(true)
 	btn_tirar.disabled = true
 
 	var mensaje: String
@@ -440,3 +421,17 @@ func _actualizar_posicion() -> void:
 		posicion_label.text = "J1: casilla %d     J2: casilla %d" % [pos1, pos2]
 	else:
 		posicion_label.text = "Jugador: casilla %d     CPU: casilla %d" % [pos1, pos2]
+
+#func _on_dice_roll_started() -> void:
+	#_dice_overlay.visible = true
+	#var tween := create_tween().set_parallel(true)
+	#tween.tween_property(_dimmer, "color:a", 0.65, 0.3)
+	#tween.tween_property(_dice_viewport_rect, "modulate:a", 1.0, 0.3)
+#
+#func _on_dice_roll_finished(_n: int) -> void:
+	#var tween := create_tween().set_parallel(true)
+	#tween.tween_property(_dimmer, "color:a", 0.0, 0.4)
+	#tween.tween_property(_dice_viewport_rect, "modulate:a", 0.0, 0.4)
+	#await tween.finished
+	#_dice_overlay.visible = false
+	
