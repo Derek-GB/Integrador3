@@ -7,13 +7,18 @@ extends Node3D
 # =========================================================
 @onready var mapa                               = $Mapa
 @onready var ficha                              = $Mapa/Ficha
-@onready var camera: Camera3D                   = $Camera3D
+@onready var camera_rig: Node3D                 = $Camera_rig
+@onready var camera: Camera3D                   = $Camera_rig/Camera3D
+@onready var marker_iso: Marker3D               = $Camera_rig/Marker_isometrica
+@onready var marker_tercera: Marker3D           = $Camera_rig/Marker_tercera
 @onready var dado                               = $Dado
 @onready var dado_label: Label                  = $UI/DadoLabel
 @onready var btn_salir: Button                  = $UI/Salir
 @onready var btn_tirar: Button                  = $UI/BtnTirar
 @onready var btn_tirar_3: Button                = $UI/Tirar_3
 @onready var btn_reiniciar: Button              = $UI/Reiniciar
+@onready var btn_tercera: Button                = $UI/Tercera_persona
+@onready var btn_isometrica: Button             = $UI/Isometrica
 @onready var dice_sound: AudioStreamPlayer      = $UI/DiceSound
 @onready var move_sound: AudioStreamPlayer      = $UI/MoveSound
 
@@ -22,7 +27,6 @@ extends Node3D
 # =========================================================
 var game_over: bool = false
 var game_mode: int  = 1
-var camera_offset: Vector3 = Vector3.ZERO
 var _waypoints: Array[Vector3] = []
 
 # =========================================================
@@ -44,7 +48,10 @@ var _panel_modo: ColorRect = null
 func _ready() -> void:
 	_waypoints = mapa.get_waypoints()
 	print("Main: waypoints =", _waypoints.size())
+	camera.make_current()
 
+	camera.position = marker_iso.position
+	camera.rotation = marker_iso.rotation
 	dado.setup(camera)
 	dado.visible = false
 	dado.freeze  = true
@@ -56,11 +63,31 @@ func _ready() -> void:
 	btn_tirar_3.pressed.connect(_on_tirar_3)
 	btn_reiniciar.pressed.connect(_on_reiniciar)
 	GameManager.turn_changed.connect(_on_turn_changed)
+	btn_tercera.pressed.connect(cambiar_camara.bind(marker_tercera))
+	btn_isometrica.pressed.connect(cambiar_camara.bind(marker_iso))
 
-	camera_offset = camera.global_position - ficha.global_position
 
 	_crear_ui_extra()
 	_crear_panel_modo()
+
+func cambiar_camara(marker: Marker3D) -> void:
+	var tween := create_tween()
+
+	tween.set_parallel(true)
+
+	tween.tween_property(
+		camera,
+		"position",
+		marker.position,
+		0.6
+	)
+
+	tween.tween_property(
+		camera,
+		"rotation",
+		marker.rotation,
+		0.6
+	)
 
 # =========================================================
 # CREAR TurnoLabel Y PosicionLabel
@@ -172,7 +199,6 @@ func _iniciar_juego(mode: int) -> void:
 	else:
 		_agregar_etiqueta(ficha2, "J2")
 
-	camera_offset = camera.global_position - ficha.global_position
 	btn_tirar.disabled = false
 	dado_label.text = "Tira el dado"
 	_actualizar_turno(0)
@@ -196,16 +222,18 @@ func _agregar_etiqueta(f: Node3D, texto: String) -> void:
 # CAMARA SIGUE AL TOKEN ACTIVO
 # =========================================================
 func _process(delta: float) -> void:
-	if not camera:
+	if GameManager.tokens.is_empty():
 		return
+
 	var active: Node3D
-	if not GameManager.tokens.is_empty() and GameManager.current_player < GameManager.tokens.size():
+
+	if GameManager.current_player < GameManager.tokens.size():
 		active = GameManager.tokens[GameManager.current_player]
 	else:
 		active = ficha
-	var target := active.global_position + camera_offset
-	camera.global_position = camera.global_position.lerp(
-		target,
+
+	camera_rig.global_position = camera_rig.global_position.lerp(
+		active.global_position,
 		clamp(delta * camera_smooth_speed, 0.0, 1.0)
 	)
 
