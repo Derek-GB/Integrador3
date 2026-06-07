@@ -42,7 +42,6 @@ const FICHA_SCENE = preload("res://scenes/tablero/ficha.tscn")
 # =========================================================
 var turno_label: Label    = null
 var posicion_label: Label = null
-var _panel_modo: ColorRect = null
 
 # =========================================================
 # READY
@@ -70,7 +69,7 @@ func _ready() -> void:
 	_dice_overlay_instance.overlay_done.connect(_on_dice_rolled)
 	
 	_crear_ui_extra()
-	_crear_panel_modo()
+	_iniciar_juego()
 
 func cambiar_camara(marker: Marker3D) -> void:
 	var tween := create_tween()
@@ -105,67 +104,13 @@ func _crear_ui_extra() -> void:
 	$UI.add_child(posicion_label)
 
 # =========================================================
-# PANEL DE SELECCION DE MODO
-# =========================================================
-func _crear_panel_modo() -> void:
-	_panel_modo = ColorRect.new()
-	_panel_modo.name = "PanelModo"
-	_panel_modo.color = Color(0.07, 0.04, 0.02, 0.94)
-	_panel_modo.set_anchors_preset(Control.PRESET_FULL_RECT)
-	$UI.add_child(_panel_modo)
-
-	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_panel_modo.add_child(center)
-
-	var vbox := VBoxContainer.new()
-	vbox.custom_minimum_size = Vector2(500, 0)
-	vbox.add_theme_constant_override("separation", 28)
-	center.add_child(vbox)
-
-	var titulo := Label.new()
-	titulo.text = "RIESGOLANDIA"
-	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	titulo.add_theme_font_size_override("font_size", 52)
-	titulo.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2))
-	vbox.add_child(titulo)
-
-	var sub := Label.new()
-	sub.text = "Selecciona el modo de juego"
-	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	sub.add_theme_font_size_override("font_size", 20)
-	sub.add_theme_color_override("font_color", Color(0.88, 0.88, 0.88))
-	vbox.add_child(sub)
-
-	vbox.add_child(HSeparator.new())
-
-	var btn1 := Button.new()
-	btn1.text = "2 Jugadores"
-	btn1.custom_minimum_size = Vector2(500, 80)
-	btn1.add_theme_font_size_override("font_size", 26)
-	btn1.pressed.connect(_on_modo_seleccionado.bind(1))
-	vbox.add_child(btn1)
-
-	var btn2 := Button.new()
-	btn2.text = "Jugador vs Maquina"
-	btn2.custom_minimum_size = Vector2(500, 80)
-	btn2.add_theme_font_size_override("font_size", 26)
-	btn2.pressed.connect(_on_modo_seleccionado.bind(2))
-	vbox.add_child(btn2)
-
-# Llamado por los botones del panel con .bind()
-func _on_modo_seleccionado(mode: int) -> void:
-	if _panel_modo:
-		_panel_modo.queue_free()
-		_panel_modo = null
-	_iniciar_juego(mode)
-
-# =========================================================
 # INICIAR JUEGO
 # =========================================================
-func _iniciar_juego(mode: int) -> void:
-	game_mode = mode
-	GameManager.game_mode = mode
+func _iniciar_juego() -> void:
+	var mode = GameManager.game_mode
+	game_mode = GameManager.game_mode
+	GameManager.tokens.clear()
+	GameManager.current_player = 0
 
 	if mode == 1:
 		GameManager.player_names = ["Jugador 1", "Jugador 2"]
@@ -264,7 +209,6 @@ func _on_reiniciar() -> void:
 	GameManager.is_player_moving = false
 	GameManager.minijuego_activo = false
 	GameManager.skip_player_index = -1
-	GameManager.game_mode        = 0
 	GameManager.last_action_type = ""
 	get_tree().reload_current_scene()
 
@@ -340,24 +284,21 @@ func _apply_skip(player_index: int) -> void:
 # =========================================================
 func _machine_turn() -> void:
 	await get_tree().create_timer(1.2).timeout
+
 	if game_over:
 		return
 
 	dado_label.text = "La Maquina esta tirando el dado..."
+
 	await _dice_overlay_instance.mostrar()
 
 	if game_over:
 		return
 
 	var n: int = _dice_overlay_instance.ultimo_resultado
+
 	dice_sound.play()
 	dado_label.text = "La Maquina obtuvo un %d" % n
-	await get_tree().create_timer(0.6).timeout
-
-	if game_over:
-		return
-
-	await GameManager.on_dice_rolled(n)
 
 # =========================================================
 # META — FICHA 1
