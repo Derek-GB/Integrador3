@@ -19,6 +19,12 @@ var is_player_moving: bool = false
 var skip_next_turn: bool = false
 var last_action_type: String = ""
 
+# =========================================================
+# MODO DE JUEGO Y NOMBRES
+# =========================================================
+var game_mode: int = 1  # 1=dos_jugadores  2=vs_maquina
+var player_names: Array[String] = ["Jugador", "Jugador 2"]
+
 signal turn_changed(player_index: int)
 
 # =========================================================
@@ -69,8 +75,9 @@ func on_dice_rolled(n: int) -> void:
 		skip_next_turn = false
 		print("GameManager: turno perdido")
 		if mensaje_label:
+			var nombre := player_names[current_player] if current_player < player_names.size() else "Jugador"
 			mensaje_label.visible = true
-			mensaje_label.text = "¡Pierdes este turno!"
+			mensaje_label.text = "¡%s pierde este turno!" % nombre
 			await get_tree().create_timer(2.0).timeout
 			mensaje_label.visible = false
 		_desbloquear_dado()
@@ -166,7 +173,8 @@ func mostrar_carta_azul() -> void:
 	var pregunta = tarjetas[randi() % tarjetas.size()]
 	
 	var card = QUESTION_CARD.instantiate()
-	card.setup(pregunta) 
+	card.setup(pregunta)
+	card.cpu_mode = (game_mode == 2 and current_player == 1)
 	get_tree().current_scene.add_child(card)
 	
 	await card.tree_exited
@@ -183,6 +191,7 @@ func mostrar_carta_roja(active_token) -> void:
 	last_action_type = ""
 
 	var card = ACTION_CARD.instantiate()
+	card.cpu_mode = (game_mode == 2 and current_player == 1)
 	get_tree().current_scene.add_child(card)
 
 	var action_result = [last_action_type, 0]
@@ -217,8 +226,9 @@ func mostrar_carta_roja(active_token) -> void:
 	elif last_action_type == "skip_turn":
 		skip_next_turn = true
 		if mensaje_label:
+			var nombre := player_names[current_player] if current_player < player_names.size() else "Jugador"
 			mensaje_label.visible = true
-			mensaje_label.text = "¡Pierdes el siguiente turno!"
+			mensaje_label.text = "¡%s pierde el siguiente turno!" % nombre
 			await get_tree().create_timer(2.0).timeout
 			mensaje_label.visible = false
 

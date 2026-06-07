@@ -9,10 +9,6 @@
 [node name="Main" type="Node3D" unique_id=1016960782]
 script = ExtResource("1_0wfyh")
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1337209012]
-transform = Transform3D(1, 0, 0, 0, 0.34202015, 0.9396926, 0, -0.9396926, 0.34202015, -80.98273, 29.292511, 62.58436)
-current = true
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1145627839]
 transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 0, 0)
 
@@ -50,6 +46,20 @@ offset_right = 1879.0
 offset_bottom = 106.0
 text = "Salir"
 
+[node name="Tercera_persona" type="Button" parent="UI" unique_id=1250765168]
+offset_left = 1434.0
+offset_top = 134.0
+offset_right = 1640.0
+offset_bottom = 201.0
+text = "Tercera persona"
+
+[node name="Isometrica" type="Button" parent="UI" unique_id=821287163]
+offset_left = 1434.0
+offset_top = 49.0
+offset_right = 1640.0
+offset_bottom = 116.0
+text = "Isometrico"
+
 [node name="Tirar_3" type="Button" parent="UI" unique_id=182608097]
 offset_left = 1673.0
 offset_top = 130.0
@@ -72,3 +82,16 @@ stream = ExtResource("5_tefeu")
 
 [node name="Dado" parent="." unique_id=1394427015 instance=ExtResource("3_sugp2")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+
+[node name="Camera_rig" type="Node3D" parent="." unique_id=465502073]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.9073486e-06, 0)
+
+[node name="Marker_isometrica" type="Marker3D" parent="Camera_rig" unique_id=1032289693]
+transform = Transform3D(1, 0, 0, 0, 0.34202015, 0.9396926, 0, -0.9396926, 0.34202015, 0, 29.293, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Camera_rig" unique_id=1337209012]
+transform = Transform3D(1, 0, 0, 0, 0.73916113, 0.67352873, 0, -0.67352873, 0.73916113, 0, 10.277119, 8.542511)
+current = true
+
+[node name="Marker_tercera" type="Marker3D" parent="Camera_rig" unique_id=1782549252]
+transform = Transform3D(1, 0, 0, 0, 0.7396311, 0.6730125, 0, -0.6730125, 0.7396311, 0, 10.277119, 8.542511)

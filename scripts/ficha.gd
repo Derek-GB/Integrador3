@@ -5,6 +5,9 @@ var current_index: int = 0
 @export var speed: float = 8.0
 @export var jump_height: float = 1.2
 
+# Desplazamiento lateral para que dos fichas no se superpongan en el mismo waypoint
+@export var lane_offset: Vector3 = Vector3.ZERO
+
 signal reached_end
 signal stepped_on(index: int)
 
@@ -16,7 +19,7 @@ func setup(board_waypoints: Array[Vector3]) -> void:
 	current_index = 0
 	print("Ficha: setup - recibiendo waypoints:", waypoints.size())
 	if waypoints.size() > 0:
-		global_position = waypoints[0]
+		global_position = waypoints[0] + lane_offset
 	else:
 		push_warning("Ficha: no recibió waypoints")
 
@@ -31,16 +34,18 @@ func move_steps(steps: int) -> void:
 		return
 	print("Ficha: move_steps llamado con pasos =", steps, " current_index =", current_index)
 	for i in range(steps):
-		# =========================================================
-		# SI ES EL ÚLTIMO WAYPOINT, NO AVANZAR MÁS
-		# =========================================================
+		# Si ya está en la meta al inicio del paso, emitir y detener
 		if current_index >= waypoints.size() - 1:
-			print("Ficha: ya está en el último waypoint, no avanza más")
+			reached_end.emit()
 			return
 		current_index += 1
 		print("Ficha: moviendo a índice", current_index, " posición:", waypoints[current_index])
 		await _move_to(waypoints[current_index])
 		stepped_on.emit(current_index)
+		# Si acaba de llegar a la meta, emitir y detener
+		if current_index >= waypoints.size() - 1:
+			reached_end.emit()
+			return
 
 # =========================================================
 # MOVER PASOS HACIA ATRÁS
@@ -57,20 +62,22 @@ func move_back(steps: int) -> void:
 
 # =========================================================
 # MOVER A POSICIÓN CON SALTO
+# Aplica lane_offset al destino para mantener el carril
 # =========================================================
 func _move_to(target: Vector3) -> void:
+	var actual_target := target + lane_offset
 	if speed <= 0:
-		global_position = target
+		global_position = actual_target
 		return
 	var start: Vector3 = global_position
-	var distance: float = start.distance_to(target)
+	var distance: float = start.distance_to(actual_target)
 	var duration: float = max(0.09, distance / speed)
 	var elapsed: float = 0.0
 	while elapsed < duration:
 		await get_tree().process_frame
 		elapsed += get_process_delta_time()
 		var t: float = min(elapsed / duration, 1.0)
-		var horizontal: Vector3 = start.lerp(target, t)
+		var horizontal: Vector3 = start.lerp(actual_target, t)
 		var height: float = sin(t * PI) * jump_height
 		global_position = Vector3(horizontal.x, height, horizontal.z)
-	global_position = target
+	global_position = actual_target
