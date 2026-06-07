@@ -359,6 +359,6 @@ text = "[b]Modalidades de juego:[/b]
 - El orden de los turnos se decide de forma aleatoria por el sistema en el primer lanzamiento.
 
 [b] Interacciones en el Tablero[/b]
-[img=150]res://images/card_back.png[/img] Casillas de Preguntas: Al caer aquí, el sistema mostrará una pregunta en pantalla."
+[img=150]res://images/cards/card_back.png[/img] Casillas de Preguntas: Al caer aquí, el sistema mostrará una pregunta en pantalla."
 fit_content = true
 autowrap_mode = 2
