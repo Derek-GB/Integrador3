@@ -1,18 +1,17 @@
 [gd_scene format=3 uid="uid://nbfpyaylc4ys"]
 
 [ext_resource type="Script" uid="uid://cy2jurhducyl" path="res://scripts/UX/menu_principal.gd" id="1_haamj"]
-[ext_resource type="Texture2D" uid="uid://bs6ffbgydrbd3" path="res://images/UX/marco_cafe.png" id="2_57jiv"]
-[ext_resource type="Texture2D" uid="uid://b6bcdexvh3xsv" path="res://images/UX/Fondo_v2.png" id="2_l3ot1"]
+[ext_resource type="Texture2D" uid="uid://wbo0wljxo27v" path="res://images/UX/marco_cafe.png" id="2_57jiv"]
+[ext_resource type="Texture2D" uid="uid://djt6g0q68qexl" path="res://images/UX/Fondo_v2.png" id="2_l3ot1"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="3_7wcm3"]
-[ext_resource type="Texture2D" uid="uid://bsh3xrpsd88lf" path="res://images/icons/jugar.png" id="3_duatf"]
-[ext_resource type="Texture2D" uid="uid://vrsrhwyjg2fy" path="res://images/icons/reglas.png" id="4_7wcm3"]
-[ext_resource type="Texture2D" uid="uid://cnigiqqhq6pje" path="res://images/icons/creditos.png" id="5_aaw56"]
-[ext_resource type="Texture2D" uid="uid://btl615u50on44" path="res://images/icons/salir.png" id="6_l3ot1"]
-[ext_resource type="Texture2D" uid="uid://dvs6hk6nd5n60" path="res://images/UX/marco_cafe_v4.png" id="8_l3ot1"]
+[ext_resource type="Texture2D" uid="uid://n2ch3oyfvlvd" path="res://images/icons/jugar.png" id="3_duatf"]
+[ext_resource type="Texture2D" uid="uid://gtpd4xwkeqw3" path="res://images/icons/reglas.png" id="4_7wcm3"]
+[ext_resource type="Texture2D" uid="uid://bkt77v2f3i1e0" path="res://images/icons/creditos.png" id="5_aaw56"]
+[ext_resource type="Texture2D" uid="uid://b35spoxiib4db" path="res://images/icons/salir.png" id="6_l3ot1"]
+[ext_resource type="Texture2D" uid="uid://2s3ykceawwdk" path="res://images/UX/marco_cafe_v4.png" id="8_l3ot1"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="9_aaw56"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1d3ww"]
-load_path = "res://.godot/imported/DiseñoRiesgo_interfaz.jpg-d86eb4b451b39f57f07db2b87bc5cb93.ctex"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aaw56"]
 content_margin_right = 30.0
@@ -275,7 +274,7 @@ theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_yvk8j")
 text = "Selecciona el modo de juego"
 
-[node name="Button" type="Button" parent="Seleccion_Juego" unique_id=1656783485]
+[node name="1vs1" type="Button" parent="Seleccion_Juego" unique_id=1656783485]
 layout_mode = 0
 offset_left = 136.4485
 offset_top = 137.38315
@@ -285,7 +284,7 @@ theme_override_fonts/font = ExtResource("3_7wcm3")
 theme_override_font_sizes/font_size = 30
 text = "1 vs 1"
 
-[node name="Button2" type="Button" parent="Seleccion_Juego" unique_id=136978898]
+[node name="1vsbot" type="Button" parent="Seleccion_Juego" unique_id=136978898]
 layout_mode = 0
 offset_left = 436.44852
 offset_top = 139.38315

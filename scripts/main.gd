@@ -186,7 +186,7 @@ func _on_ficha_stepped(_index: int) -> void:
 # BOTON SALIR
 # =========================================================
 func _on_salir() -> void:
-	get_tree().quit()
+	get_tree().change_scene_to_file("res://scenes/UX/menuPrincipal.tscn")
 
 # =========================================================
 # BOTON TIRAR 3 (DEBUG)

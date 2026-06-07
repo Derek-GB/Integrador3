@@ -5,6 +5,8 @@ extends Control
 @onready var boton_salir_menu = $Menu_Botones/Salir
 @onready var menu_botones: Control = $Menu_Botones
 @onready var seleccion_juego: Control = $Seleccion_Juego
+@onready var boton_1vs1 = $"Seleccion_Juego/1vs1"
+@onready var boton_1vsbot = $"Seleccion_Juego/1vsbot"
 @onready var boton_cerrar_seleccion = $Seleccion_Juego/Cerrar_Seleccion
 @onready var reglas_juego: Control = $Reglas_Juego
 @onready var boton_cerrar_reglas = $Reglas_Juego/Cerrar_Reglas
@@ -38,6 +40,23 @@ func _ready() -> void:
 			_mover_panel(menu_botones, "position:x", 178.0, 0.6)
 			_mover_panel(reglas_juego, "position:x", 3026.0, 0.6)
 	)
+	
+	boton_1vs1.pressed.connect(
+		func():
+			GameManager.game_mode = 1 #1 para jugador vs jugador y 2 para jugador vs cpu
+			get_tree().change_scene_to_file(
+				"res://scenes/Main.tscn"
+			)
+	)
+	
+	boton_1vsbot.pressed.connect(
+		func():
+			GameManager.game_mode = 2 #1 para jugador vs jugador y 2 para jugador vs cpu
+			get_tree().change_scene_to_file(
+				"res://scenes/Main.tscn"
+			)
+	)
+	
 
 func salir() -> void:
 	get_tree().quit()
