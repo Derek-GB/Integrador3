@@ -21,7 +21,7 @@ extends Node3D
 @onready var dice_sound: AudioStreamPlayer      = $UI/DiceSound
 @onready var move_sound: AudioStreamPlayer      = $UI/MoveSound
 
-const DICE_OVERLAY_SCENE = preload("res://scenes/DiceOverlay.tscn")
+const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
 var _dice_overlay_instance = null
 
 # =========================================================
@@ -35,7 +35,7 @@ var _waypoints: Array[Vector3] = []
 # SEGUNDA FICHA
 # =========================================================
 var ficha2 = null
-const FICHA_SCENE = preload("res://scenes/ficha.tscn")
+const FICHA_SCENE = preload("res://scenes/tablero/ficha.tscn")
 
 # =========================================================
 # UI DINAMICA

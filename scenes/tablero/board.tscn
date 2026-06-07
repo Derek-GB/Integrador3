@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://c456hb1ulbl35"]
 
-[ext_resource type="Texture2D" uid="uid://cyvq4r36nbyal" path="res://images/tablero.png" id="2_fv4ni"]
-[ext_resource type="Script" uid="uid://djhlhmcom7vcl" path="res://scripts/board.gd" id="2_nglv8"]
-[ext_resource type="PackedScene" uid="uid://dmiympugo4r4x" path="res://scenes/ficha.tscn" id="3_fv4ni"]
-[ext_resource type="PackedScene" uid="uid://gflrffuti0lg" path="res://models/psx_japanese_house.glb" id="4_dxjtj"]
-[ext_resource type="PackedScene" uid="uid://b8nrexdwgbreu" path="res://models/vulcao_em_erupcao_-_erupting_volcano.glb" id="5_dun80"]
-[ext_resource type="PackedScene" uid="uid://bw1vxu300h0wf" path="res://models/hospital_building.glb" id="6_c3r7o"]
-[ext_resource type="PackedScene" uid="uid://bw5mar7xmxyne" path="res://models/psx_abandoned_house.glb" id="7_wmvsh"]
-[ext_resource type="PackedScene" uid="uid://cjbro3jynhtl3" path="res://models/arbol_descarga.glb" id="8_n230i"]
-[ext_resource type="PackedScene" uid="uid://m5lddyu7m3wk" path="res://models/log_tronco.glb" id="9_ar2e0"]
+[ext_resource type="Texture2D" uid="uid://cyvq4r36nbyal" path="res://images/tablero/tablero.png" id="2_fv4ni"]
+[ext_resource type="Script" uid="uid://djhlhmcom7vcl" path="res://scripts/tablero/board.gd" id="2_nglv8"]
+[ext_resource type="PackedScene" uid="uid://dmiympugo4r4x" path="res://scenes/tablero/ficha.tscn" id="3_fv4ni"]
+[ext_resource type="PackedScene" uid="uid://gflrffuti0lg" path="res://models/prueba/psx_japanese_house.glb" id="4_dxjtj"]
+[ext_resource type="PackedScene" uid="uid://b8nrexdwgbreu" path="res://models/prueba/vulcao_em_erupcao_-_erupting_volcano.glb" id="5_dun80"]
+[ext_resource type="PackedScene" uid="uid://bw1vxu300h0wf" path="res://models/prueba/hospital_building.glb" id="6_c3r7o"]
+[ext_resource type="PackedScene" uid="uid://bw5mar7xmxyne" path="res://models/prueba/psx_abandoned_house.glb" id="7_wmvsh"]
+[ext_resource type="PackedScene" uid="uid://cjbro3jynhtl3" path="res://models/prueba/arbol_descarga.glb" id="8_n230i"]
+[ext_resource type="PackedScene" uid="uid://m5lddyu7m3wk" path="res://models/prueba/log_tronco.glb" id="9_ar2e0"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_nglv8"]
 

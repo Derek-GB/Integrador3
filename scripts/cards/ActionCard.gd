@@ -356,7 +356,7 @@ func _build_ui():
 	front_side.add_theme_stylebox_override("panel", front_style)
 
 	var img = TextureRect.new()
-	img.texture = load("res://images/card_action.png")
+	img.texture = load("res://images/cards/card_action.png")
 	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	img.size = Vector2(CARD_W, CARD_H)
 	img.position = Vector2(0, 0)

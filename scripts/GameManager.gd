@@ -3,9 +3,9 @@ extends Node
 # =========================================================
 # MINIJUEGOS
 # =========================================================
-const MAP_PUZZLE = preload("res://scenes/MapPuzzle.tscn")
+const MAP_PUZZLE = preload("res://scenes/minijuegos/MapPuzzle.tscn")
 const QUESTION_CARD = preload("res://Scenes/QuestionCard.tscn")
-const ACTION_CARD = preload("res://scenes/ActionCard.tscn")
+const ACTION_CARD = preload("res://scenes/cards/ActionCard.tscn")
 
 var minijuego_activo: bool = false
 var mensaje_label: Label

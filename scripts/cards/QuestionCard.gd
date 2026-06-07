@@ -77,7 +77,7 @@ func _build_ui():
 
 	# Imagen centrada dentro del fondo
 	var img = TextureRect.new()
-	img.texture = load("res://images/card_back.png")
+	img.texture = load("res://images/cards/card_back.png")
 	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	img.size = Vector2(CARD_W, CARD_H)
 	img.position = Vector2(0, 0)
