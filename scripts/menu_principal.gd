@@ -6,6 +6,8 @@ extends Control
 @onready var menu_botones: Control = $Menu_Botones
 @onready var seleccion_juego: Control = $Seleccion_Juego
 @onready var boton_cerrar_seleccion = $Seleccion_Juego/Cerrar_Seleccion
+@onready var reglas_juego: Control = $Reglas_Juego
+@onready var boton_cerrar_reglas = $Reglas_Juego/Cerrar_Reglas
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -23,6 +25,18 @@ func _ready() -> void:
 		func(): 
 			_mover_panel(menu_botones, "position:x", 178.0, 0.6)
 			_mover_panel(seleccion_juego, "position:x", 2000.0, 0.6)
+	)
+	
+	boton_reglas_menu.pressed.connect(
+		func(): 
+			_mover_panel(menu_botones, "position:x", 150.0, 0.6)
+			_mover_panel(reglas_juego, "position:x", 910.0, 0.6)
+	)
+	
+	boton_cerrar_reglas.pressed.connect(
+		func(): 
+			_mover_panel(menu_botones, "position:x", 178.0, 0.6)
+			_mover_panel(reglas_juego, "position:x", 3026.0, 0.6)
 	)
 
 func salir() -> void:
