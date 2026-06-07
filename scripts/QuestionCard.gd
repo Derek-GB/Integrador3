@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+signal answer_result(correct: bool)
+
 var selected_question = {}
 var card_container: Control
 var front_side: Control
@@ -202,8 +204,10 @@ func _flip_card():
 # RESPUESTA
 # =========================================================
 func _on_option_selected(option_index: int) -> void:
+	var is_correct: bool = (option_index == int(selected_question["correct"]))
+	print("QuestionCard: respuesta correcta =", is_correct)
 	var popup = AcceptDialog.new()
-	if option_index == selected_question["correct"]:
+	if is_correct:
 		popup.title = "¡Correcto! ✅"
 	else:
 		popup.title = "Incorrecto ❌"
@@ -213,6 +217,8 @@ func _on_option_selected(option_index: int) -> void:
 
 	await popup.confirmed
 
+	print("QuestionCard: emitiendo answer_result =", is_correct)
+	answer_result.emit(is_correct)
 	queue_free()
 
 # =========================================================
@@ -249,6 +255,8 @@ func _cpu_auto_play() -> void:
 
 	# Paso 6: esperar y cerrar
 	await get_tree().create_timer(2.2).timeout
+	print("QuestionCard: emitiendo answer_result =", is_correct)
+	answer_result.emit(is_correct)
 	queue_free()
 
 # =========================================================

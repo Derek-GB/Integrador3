@@ -274,7 +274,7 @@ func _on_reiniciar() -> void:
 	GameManager.current_player   = 0
 	GameManager.is_player_moving = false
 	GameManager.minijuego_activo = false
-	GameManager.skip_next_turn   = false
+	GameManager.skip_player_index = -1
 	GameManager.game_mode        = 0
 	GameManager.last_action_type = ""
 	get_tree().reload_current_scene()
@@ -307,13 +307,48 @@ func _on_turn_changed(player_index: int) -> void:
 		return
 	_actualizar_turno(player_index)
 	dado.set_locked(false)
+	btn_tirar.disabled = true
+
+	print("Main: turn_changed recibido =", player_index)
+
+	# Turno penalizado: saltar sin habilitar botón ni iniciar CPU
+	if GameManager.skip_player_index == player_index:
+		GameManager.skip_player_index = -1
+		_apply_skip(player_index)
+		return
+
+	var puede_tirar_humano: bool = (game_mode == 1) or (game_mode == 2 and player_index == 0)
+	print("Main: habilitar botón =", puede_tirar_humano)
+
 	if game_mode == 2 and player_index == 1:
 		dado_label.text = "Turno de la Maquina..."
-		btn_tirar.disabled = true
+		print("Main: ejecutando turno CPU")
 		_machine_turn()
 	else:
 		btn_tirar.disabled = false
 		dado_label.text = "Tira el dado"
+
+func _apply_skip(player_index: int) -> void:
+	var nombre: String
+	if game_mode == 1:
+		nombre = "Jugador %d" % (player_index + 1)
+	elif player_index == 0:
+		nombre = "el Jugador"
+	else:
+		nombre = "la Maquina"
+
+	dado_label.text = "%s pierde este turno" % nombre
+	if GameManager.mensaje_label:
+		GameManager.mensaje_label.visible = true
+		GameManager.mensaje_label.text = "¡%s pierde este turno!" % nombre
+
+	await get_tree().create_timer(2.0).timeout
+
+	if GameManager.mensaje_label:
+		GameManager.mensaje_label.visible = false
+
+	if not game_over:
+		GameManager._next_turn()
 
 # =========================================================
 # IA — TURNO AUTOMATICO
