@@ -11,6 +11,8 @@ extends Control
 @onready var reglas_juego: Control = $Reglas_Juego
 @onready var boton_cerrar_reglas = $Reglas_Juego/Cerrar_Reglas
 
+const MAIN = preload("res://scenes/main.tscn")
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	boton_salir_menu.pressed.connect (
@@ -44,16 +46,16 @@ func _ready() -> void:
 	boton_1vs1.pressed.connect(
 		func():
 			GameManager.game_mode = 1 #1 para jugador vs jugador y 2 para jugador vs cpu
-			get_tree().change_scene_to_file(
-				"res://scenes/Main.tscn"
+			get_tree().change_scene_to_packed(
+				MAIN
 			)
 	)
 	
 	boton_1vsbot.pressed.connect(
 		func():
 			GameManager.game_mode = 2 #1 para jugador vs jugador y 2 para jugador vs cpu
-			get_tree().change_scene_to_file(
-				"res://scenes/Main.tscn"
+			get_tree().change_scene_to_packed(
+				MAIN
 			)
 	)
 	

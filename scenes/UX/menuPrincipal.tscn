@@ -1,14 +1,15 @@
 [gd_scene format=3 uid="uid://nbfpyaylc4ys"]
 
 [ext_resource type="Script" uid="uid://cy2jurhducyl" path="res://scripts/UX/menu_principal.gd" id="1_haamj"]
-[ext_resource type="Texture2D" uid="uid://wbo0wljxo27v" path="res://images/UX/marco_cafe.png" id="2_57jiv"]
-[ext_resource type="Texture2D" uid="uid://djt6g0q68qexl" path="res://images/UX/Fondo_v2.png" id="2_l3ot1"]
+[ext_resource type="Texture2D" uid="uid://bs6ffbgydrbd3" path="res://images/UX/marco_cafe.png" id="2_57jiv"]
+[ext_resource type="Texture2D" uid="uid://b6bcdexvh3xsv" path="res://images/UX/Fondo_v2.png" id="2_l3ot1"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="3_7wcm3"]
-[ext_resource type="Texture2D" uid="uid://n2ch3oyfvlvd" path="res://images/icons/jugar.png" id="3_duatf"]
-[ext_resource type="Texture2D" uid="uid://gtpd4xwkeqw3" path="res://images/icons/reglas.png" id="4_7wcm3"]
-[ext_resource type="Texture2D" uid="uid://bkt77v2f3i1e0" path="res://images/icons/creditos.png" id="5_aaw56"]
-[ext_resource type="Texture2D" uid="uid://b35spoxiib4db" path="res://images/icons/salir.png" id="6_l3ot1"]
-[ext_resource type="Texture2D" uid="uid://2s3ykceawwdk" path="res://images/UX/marco_cafe_v4.png" id="8_l3ot1"]
+[ext_resource type="Texture2D" uid="uid://bsh3xrpsd88lf" path="res://images/icons/jugar.png" id="3_duatf"]
+[ext_resource type="Texture2D" uid="uid://vrsrhwyjg2fy" path="res://images/icons/reglas.png" id="4_7wcm3"]
+[ext_resource type="Texture2D" uid="uid://cnigiqqhq6pje" path="res://images/icons/creditos.png" id="5_aaw56"]
+[ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="5_w6yr1"]
+[ext_resource type="Texture2D" uid="uid://btl615u50on44" path="res://images/icons/salir.png" id="6_l3ot1"]
+[ext_resource type="Texture2D" uid="uid://dvs6hk6nd5n60" path="res://images/UX/marco_cafe_v4.png" id="8_l3ot1"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="9_aaw56"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1d3ww"]
@@ -37,6 +38,10 @@ corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vglpm"]
+shader = ExtResource("5_w6yr1")
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l3ot1"]
 content_margin_right = 30.0
 bg_color = Color(0.06666667, 0.43137255, 0.92156863, 1)
@@ -60,6 +65,10 @@ corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ko1qs"]
+shader = ExtResource("5_w6yr1")
+shader_parameter/tint_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vys0q"]
 content_margin_right = 30.0
@@ -85,6 +94,10 @@ corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kjqqx"]
+shader = ExtResource("5_w6yr1")
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6jbn4"]
 content_margin_right = 30.0
 bg_color = Color(0.9411765, 0.1254902, 0.1254902, 1)
@@ -108,6 +121,10 @@ corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ac2fr"]
+shader = ExtResource("5_w6yr1")
+shader_parameter/tint_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aaw56"]
 
@@ -172,6 +189,7 @@ text = "Jugar"
 alignment = 2
 
 [node name="Jugar2" type="Sprite2D" parent="Menu_Botones/Jugar" unique_id=927220252]
+material = SubResource("ShaderMaterial_vglpm")
 position = Vector2(60, 36)
 scale = Vector2(0.8, 0.786)
 texture = ExtResource("3_duatf")
@@ -191,6 +209,7 @@ text = "Reglas"
 alignment = 2
 
 [node name="Reglas2" type="Sprite2D" parent="Menu_Botones/Reglas" unique_id=588838778]
+material = SubResource("ShaderMaterial_ko1qs")
 position = Vector2(60, 36)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("4_7wcm3")
@@ -210,6 +229,7 @@ text = "Creditos"
 alignment = 2
 
 [node name="Creditos2" type="Sprite2D" parent="Menu_Botones/Creditos" unique_id=1169080606]
+material = SubResource("ShaderMaterial_kjqqx")
 position = Vector2(60, 36)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("5_aaw56")
@@ -229,6 +249,7 @@ text = "Salir"
 alignment = 2
 
 [node name="Salir2" type="Sprite2D" parent="Menu_Botones/Salir" unique_id=495574465]
+material = SubResource("ShaderMaterial_ac2fr")
 position = Vector2(60, 36)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("6_l3ot1")
