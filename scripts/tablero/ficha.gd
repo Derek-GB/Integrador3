@@ -28,7 +28,7 @@ func setup(board_waypoints: Array[Vector3], board_rotations: Array[float] = [], 
 			start_offset = waypoint_bases[0] * lane_offset
 		global_position = waypoints[0] + start_offset
 		if waypoint_rotations.size() > 0:
-			rotation_degrees.y = waypoint_rotations[0]
+			rotation.y = deg_to_rad(waypoint_rotations[0])
 	else:
 		push_warning("Ficha: no recibió waypoints")
 
@@ -78,13 +78,13 @@ func _move_to(target: Vector3) -> void:
 	if current_index < waypoint_bases.size():
 		offset = waypoint_bases[current_index] * lane_offset
 	var actual_target := target + offset
-	var start_rotation_y: float = rotation_degrees.y
-	var target_rotation_y: float = 0.0
+	var start_rotation_y: float = rotation.y
+	var target_rotation_y: float = start_rotation_y
 	if current_index < waypoint_rotations.size():
-		target_rotation_y = waypoint_rotations[current_index]
+		target_rotation_y = deg_to_rad(waypoint_rotations[current_index])
 	if speed <= 0:
 		global_position = actual_target
-		rotation_degrees.y = target_rotation_y
+		rotation.y = target_rotation_y
 		return
 	var start: Vector3 = global_position
 	var distance: float = start.distance_to(actual_target)
@@ -97,6 +97,7 @@ func _move_to(target: Vector3) -> void:
 		var horizontal: Vector3 = start.lerp(actual_target, t)
 		var height: float = sin(t * PI) * jump_height
 		global_position = Vector3(horizontal.x, height, horizontal.z)
-		rotation_degrees.y = lerp(start_rotation_y, target_rotation_y, t)
+		var angle: float = lerp_angle(start_rotation_y, target_rotation_y, t)
+		rotation.y = angle
 	global_position = actual_target
-	rotation_degrees.y = target_rotation_y
+	rotation.y = target_rotation_y

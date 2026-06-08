@@ -76,14 +76,15 @@ func _ready() -> void:
 	_iniciar_juego()
 
 func cambiar_camara(marker: Marker3D) -> void:
-	var tween := create_tween()
+	var active: Node3D
+	if GameManager.current_player < GameManager.tokens.size():
+		active = GameManager.tokens[GameManager.current_player]
+	else:
+		active = ficha
 
-	tween.tween_property(
-		camera,
-		"transform",
-		marker.transform,
-		0.6
-	)
+	var tween: Tween = create_tween().set_parallel(true)
+	tween.tween_property(camera, "transform", marker.transform, 0.6)
+	tween.tween_property(camera_rig, "rotation:y", deg_to_rad(active.rotation_degrees.y), 0.6)
 
 # =========================================================
 # CREAR TurnoLabel Y PosicionLabel
@@ -174,10 +175,23 @@ func _process(delta: float) -> void:
 	else:
 		active = ficha
 
+	var follow_weight: float = clamp(delta * camera_smooth_speed, 0.0, 1.0)
 	camera_rig.global_position = camera_rig.global_position.lerp(
 		active.global_position,
-		clamp(delta * camera_smooth_speed, 0.0, 1.0)
+		follow_weight
 	)
+
+	var target_yaw: float = deg_to_rad(active.rotation_degrees.y)
+	camera_rig.rotation.y = lerp_angle(
+		camera_rig.rotation.y,
+		target_yaw,
+		follow_weight
+	)
+
+	# Asegura que el giro use siempre el camino angular más corto.
+	camera_rig.rotation.y = fmod(camera_rig.rotation.y + TAU, TAU)
+	if camera_rig.rotation.y < 0.0:
+		camera_rig.rotation.y += TAU
 
 # =========================================================
 # SONIDO Y POSICION AL PISAR CASILLA

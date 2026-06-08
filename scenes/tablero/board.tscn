@@ -35,10 +35,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -92.86284, 0, 58.298172)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -97.601425, 0, 50.44056)
 
 [node name="C3" type="Marker3D" parent="Camino" unique_id=1398346934]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -97.534775, 0, 43.02904)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -97.534775, 0, 43.02904)
 
 [node name="C4" type="Marker3D" parent="Camino" unique_id=801708149]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -91.3203, 0, 38.058617)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -91.3203, 0, 38.058617)
 
 [node name="C5" type="Marker3D" parent="Camino" unique_id=1579187335]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -91.29869, 0, 31.36525)
