@@ -1,6 +1,7 @@
 extends Node3D
 
 @export var camera_smooth_speed: float = 5.0
+@export var turn_camera_delay: float = 0.7
 
 # =========================================================
 # NODOS DE LA ESCENA (existentes)
@@ -32,6 +33,8 @@ var game_mode: int  = 1
 var _waypoints: Array[Vector3] = []
 var _waypoint_rotations: Array[float] = []
 var _waypoint_bases: Array[Basis] = []
+var _camera_delay_timer: float = 0.0
+var _camera_delay_active: bool = false
 
 # =========================================================
 # SEGUNDA FICHA
@@ -168,6 +171,13 @@ func _process(delta: float) -> void:
 	if GameManager.tokens.is_empty():
 		return
 
+	if _camera_delay_active:
+		_camera_delay_timer -= delta
+		if _camera_delay_timer <= 0.0:
+			_camera_delay_active = false
+		else:
+			return
+
 	var active: Node3D
 
 	if GameManager.current_player < GameManager.tokens.size():
@@ -253,6 +263,8 @@ func _on_dice_rolled(n: int) -> void:
 func _on_turn_changed(player_index: int) -> void:
 	if game_over:
 		return
+	_camera_delay_timer = turn_camera_delay
+	_camera_delay_active = true
 	_actualizar_turno(player_index)
 	btn_tirar.disabled = true
 

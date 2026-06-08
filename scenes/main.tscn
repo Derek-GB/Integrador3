@@ -7,6 +7,7 @@
 
 [node name="Main" type="Node3D" unique_id=1016960782]
 script = ExtResource("1_0wfyh")
+turn_camera_delay = 0.5
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1145627839]
 transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 0, 0)
