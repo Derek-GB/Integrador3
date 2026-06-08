@@ -30,6 +30,8 @@ var _dice_overlay_instance = null
 var game_over: bool = false
 var game_mode: int  = 1
 var _waypoints: Array[Vector3] = []
+var _waypoint_rotations: Array[float] = []
+var _waypoint_bases: Array[Basis] = []
 
 # =========================================================
 # SEGUNDA FICHA
@@ -48,7 +50,9 @@ var posicion_label: Label = null
 # =========================================================
 func _ready() -> void:
 	_waypoints = mapa.get_waypoints()
-	print("Main: waypoints =", _waypoints.size())
+	_waypoint_rotations = mapa.get_waypoint_rotations()
+	_waypoint_bases = mapa.get_waypoint_bases()
+	print("Main: waypoints =", _waypoints.size(), "rotaciones =", _waypoint_rotations.size(), "bases =", _waypoint_bases.size())
 	camera.make_current()
 
 	camera.position = marker_iso.position
@@ -117,7 +121,7 @@ func _iniciar_juego() -> void:
 	else:
 		GameManager.player_names = ["Jugador", "Maquina"]
 
-	ficha.setup(_waypoints)
+	ficha.setup(_waypoints, _waypoint_rotations, _waypoint_bases)
 	GameManager.register_token(ficha)
 	ficha.reached_end.connect(_on_ficha1_reached_end)
 	ficha.stepped_on.connect(_on_ficha_stepped)
@@ -126,7 +130,7 @@ func _iniciar_juego() -> void:
 	ficha2.name = "Ficha2"
 	ficha2.lane_offset = Vector3(3.5, 0.0, 0.0)
 	mapa.add_child(ficha2)
-	ficha2.setup(_waypoints)
+	ficha2.setup(_waypoints, _waypoint_rotations, _waypoint_bases)
 	GameManager.register_token(ficha2)
 	ficha2.reached_end.connect(_on_ficha2_reached_end)
 	ficha2.stepped_on.connect(_on_ficha_stepped)

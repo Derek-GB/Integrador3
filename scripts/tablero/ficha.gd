@@ -1,6 +1,8 @@
 extends Node3D
 
 var waypoints: Array[Vector3] = []
+var waypoint_rotations: Array[float] = []
+var waypoint_bases: Array[Basis] = []
 var current_index: int = 0
 @export var speed: float = 8.0
 @export var jump_height: float = 1.2
@@ -14,12 +16,19 @@ signal stepped_on(index: int)
 # =========================================================
 # SETUP
 # =========================================================
-func setup(board_waypoints: Array[Vector3]) -> void:
+func setup(board_waypoints: Array[Vector3], board_rotations: Array[float] = [], board_bases: Array[Basis] = []) -> void:
 	waypoints = board_waypoints
+	waypoint_rotations = board_rotations
+	waypoint_bases = board_bases
 	current_index = 0
-	print("Ficha: setup - recibiendo waypoints:", waypoints.size())
+	print("Ficha: setup - recibiendo waypoints:", waypoints.size(), " rotaciones:", waypoint_rotations.size())
 	if waypoints.size() > 0:
-		global_position = waypoints[0] + lane_offset
+		var start_offset: Vector3 = lane_offset
+		if waypoint_bases.size() > 0:
+			start_offset = waypoint_bases[0] * lane_offset
+		global_position = waypoints[0] + start_offset
+		if waypoint_rotations.size() > 0:
+			rotation_degrees.y = waypoint_rotations[0]
 	else:
 		push_warning("Ficha: no recibió waypoints")
 
@@ -65,9 +74,17 @@ func move_back(steps: int) -> void:
 # Aplica lane_offset al destino para mantener el carril
 # =========================================================
 func _move_to(target: Vector3) -> void:
-	var actual_target := target + lane_offset
+	var offset := lane_offset
+	if current_index < waypoint_bases.size():
+		offset = waypoint_bases[current_index] * lane_offset
+	var actual_target := target + offset
+	var start_rotation_y: float = rotation_degrees.y
+	var target_rotation_y: float = 0.0
+	if current_index < waypoint_rotations.size():
+		target_rotation_y = waypoint_rotations[current_index]
 	if speed <= 0:
 		global_position = actual_target
+		rotation_degrees.y = target_rotation_y
 		return
 	var start: Vector3 = global_position
 	var distance: float = start.distance_to(actual_target)
@@ -80,4 +97,6 @@ func _move_to(target: Vector3) -> void:
 		var horizontal: Vector3 = start.lerp(actual_target, t)
 		var height: float = sin(t * PI) * jump_height
 		global_position = Vector3(horizontal.x, height, horizontal.z)
+		rotation_degrees.y = lerp(start_rotation_y, target_rotation_y, t)
 	global_position = actual_target
+	rotation_degrees.y = target_rotation_y

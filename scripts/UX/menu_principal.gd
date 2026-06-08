@@ -59,6 +59,9 @@ func _ready() -> void:
 			)
 	)
 	
+	for i in $Menu_Botones.get_children():
+		if i is Button:
+			conectar_hover(i)
 
 func salir() -> void:
 	get_tree().quit()
@@ -66,6 +69,16 @@ func salir() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+func conectar_hover(boton: Control):
+	boton.mouse_entered.connect(resize_up.bind(boton))
+	boton.mouse_exited.connect(resize_down.bind(boton))
+
+func resize_up(boton: Control) -> void:
+	boton.scale = Vector2(1.05, 1.05)
+
+func resize_down(boton: Control) -> void:
+	boton.scale = Vector2.ONE
 
 func _mover_panel(obj: Object,propiedad: NodePath, x : float, duracion: float) -> void:
 	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
