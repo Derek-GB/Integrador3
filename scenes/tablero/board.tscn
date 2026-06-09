@@ -1,15 +1,15 @@
 [gd_scene format=3 uid="uid://c456hb1ulbl35"]
 
-[ext_resource type="Texture2D" uid="uid://cyvq4r36nbyal" path="res://images/tablero/tablero.png" id="2_fv4ni"]
+[ext_resource type="Texture2D" uid="uid://cbovfr563j70s" path="res://images/tablero/tablero.png" id="2_fv4ni"]
 [ext_resource type="PackedScene" uid="uid://cr7r426gyvv6u" path="res://models/mapa/MapaV1.glb" id="2_i5r7m"]
 [ext_resource type="Script" uid="uid://djhlhmcom7vcl" path="res://scripts/tablero/board.gd" id="2_nglv8"]
 [ext_resource type="PackedScene" uid="uid://dmiympugo4r4x" path="res://scenes/tablero/ficha.tscn" id="3_fv4ni"]
-[ext_resource type="PackedScene" uid="uid://gflrffuti0lg" path="res://models/prueba/psx_japanese_house.glb" id="4_dxjtj"]
-[ext_resource type="PackedScene" uid="uid://b8nrexdwgbreu" path="res://models/prueba/vulcao_em_erupcao_-_erupting_volcano.glb" id="5_dun80"]
-[ext_resource type="PackedScene" uid="uid://bw1vxu300h0wf" path="res://models/prueba/hospital_building.glb" id="6_c3r7o"]
-[ext_resource type="PackedScene" uid="uid://bw5mar7xmxyne" path="res://models/prueba/psx_abandoned_house.glb" id="7_wmvsh"]
-[ext_resource type="PackedScene" uid="uid://cjbro3jynhtl3" path="res://models/prueba/arbol_descarga.glb" id="8_n230i"]
-[ext_resource type="PackedScene" uid="uid://m5lddyu7m3wk" path="res://models/prueba/log_tronco.glb" id="9_ar2e0"]
+[ext_resource type="PackedScene" uid="uid://beca4ty5dkgeb" path="res://models/prueba/psx_japanese_house.glb" id="4_dxjtj"]
+[ext_resource type="PackedScene" uid="uid://b08kqot15o5rr" path="res://models/prueba/vulcao_em_erupcao_-_erupting_volcano.glb" id="5_dun80"]
+[ext_resource type="PackedScene" uid="uid://clumheyjyfchp" path="res://models/prueba/hospital_building.glb" id="6_c3r7o"]
+[ext_resource type="PackedScene" uid="uid://bp00u878ey1rg" path="res://models/prueba/psx_abandoned_house.glb" id="7_wmvsh"]
+[ext_resource type="PackedScene" uid="uid://dsunawttoggv2" path="res://models/prueba/arbol_descarga.glb" id="8_n230i"]
+[ext_resource type="PackedScene" uid="uid://2eioil56hv16" path="res://models/prueba/log_tronco.glb" id="9_ar2e0"]
 
 [node name="Board" type="Node3D" unique_id=1363300375 node_paths=PackedStringArray("path_node")]
 script = ExtResource("2_nglv8")

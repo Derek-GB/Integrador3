@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://cp3quq835nmee"]
 
 [ext_resource type="Script" uid="uid://721euuos45tc" path="res://scripts/main.gd" id="1_0wfyh"]
-[ext_resource type="PackedScene" uid="uid://c456hb1ulbl35" path="res://scenes/tablero/board.tscn" id="1_o5qli"]
-[ext_resource type="AudioStream" uid="uid://bsyxkw1e4vplj" path="res://sounds/tablero/Dice.wav" id="4_tbgi4"]
-[ext_resource type="AudioStream" uid="uid://co30q1vo6o2pu" path="res://sounds/tablero/Jump.wav" id="5_tefeu"]
+[ext_resource type="PackedScene" uid="uid://c456hb1ulbl35" path="res://scenes/tablero/board.tscn" id="2_jyhfs"]
+[ext_resource type="AudioStream" uid="uid://d37wmmj31um0y" path="res://sounds/tablero/Dice.wav" id="4_tbgi4"]
+[ext_resource type="AudioStream" uid="uid://dpg33yommhml6" path="res://sounds/tablero/Jump.wav" id="5_tefeu"]
 
 [node name="Main" type="Node3D" unique_id=1016960782]
 script = ExtResource("1_0wfyh")
@@ -12,7 +12,7 @@ turn_camera_delay = 0.5
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1145627839]
 transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 0, 0)
 
-[node name="Mapa" parent="." unique_id=1363300375 instance=ExtResource("1_o5qli")]
+[node name="Mapa" parent="." unique_id=1363300375 instance=ExtResource("2_jyhfs")]
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1134567890]
 
