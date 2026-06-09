@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://b35spoxiib4db" path="res://images/icons/salir.png" id="6_l3ot1"]
 [ext_resource type="Texture2D" uid="uid://2s3ykceawwdk" path="res://images/UX/marco_cafe_v4.png" id="8_l3ot1"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="9_aaw56"]
+[ext_resource type="Texture2D" uid="uid://dyvkfyv1lw5n0" path="res://images/UX/marco_cafe_y_azul.png" id="11_w6yr1"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1d3ww"]
 
@@ -302,7 +303,15 @@ offset_right = 3840.0
 offset_bottom = 896.0
 scale = Vector2(1.07, 1.07)
 
+[node name="MarcoCafeYAzul" type="Sprite2D" parent="Reglas_Juego" unique_id=2110974216]
+position = Vector2(0, -4.3257065)
+scale = Vector2(0.8491218, 0.8455105)
+texture = ExtResource("11_w6yr1")
+centered = false
+offset = Vector2(0, -28)
+
 [node name="MarcoCafeV4" type="Sprite2D" parent="Reglas_Juego" unique_id=1216596254]
+visible = false
 position = Vector2(0, -25)
 scale = Vector2(0.8496092, 0.8401977)
 texture = ExtResource("8_l3ot1")
@@ -337,10 +346,10 @@ text = "Reglas del Juego"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Reglas_Juego" unique_id=2074101733]
 layout_mode = 0
-offset_left = 38.317757
+offset_left = 57.943733
 offset_top = 126.1682
 offset_right = 769.1588
-offset_bottom = 454.20557
+offset_bottom = 442.0561
 horizontal_scroll_mode = 0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Reglas_Juego/ScrollContainer" unique_id=1285225429]
