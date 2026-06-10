@@ -76,6 +76,9 @@ func on_dice_rolled(n: int) -> void:
 
 	print("GameManager: movimiento completado, casilla:", active_token.current_index)
 
+	if await check_special_tile(active_token):
+		return
+
 	# =========================================================
 	# CASILLA 3 — PUZZLE
 	# =========================================================
@@ -145,6 +148,41 @@ func activar_casilla_3() -> void:
 
 	minijuego_activo = false
 
+func _get_blue_indices() -> Array[int]:
+	return [5, 11, 21, 34, 45, 54, 61, 66, 72]
+
+func _get_red_indices() -> Array[int]:
+	return [7, 16, 32, 39, 48, 58, 64, 68, 76]
+
+func check_special_tile(active_token: Node) -> bool:
+	if active_token.current_index == 3:
+		await activar_casilla_3()
+		is_player_moving = false
+		_desbloquear_dado()
+		_next_turn()
+		return true
+
+	if active_token.current_index in _get_blue_indices():
+		var acerto: bool = await mostrar_carta_azul()
+		if acerto:
+			print("GameManager: respuesta correcta, mismo jugador tira otra vez")
+			is_player_moving = false
+			_desbloquear_dado()
+			turn_changed.emit(current_player)
+		else:
+			print("GameManager: respuesta incorrecta, pierde proximo turno")
+			skip_player_index = current_player
+			is_player_moving = false
+			_desbloquear_dado()
+			_next_turn()
+		return true
+
+	if active_token.current_index in _get_red_indices():
+		await mostrar_carta_roja(active_token)
+		return true
+
+	return false
+
 # =========================================================
 # MOSTRAR CARTAS AZULES — CARTA EDUCATIVA
 # =========================================================
@@ -211,10 +249,14 @@ func mostrar_carta_roja(active_token) -> void:
 	if last_action_type == "advance":
 		print("GameManager: avanzando", last_action_value, "casillas")
 		await active_token.move_steps(last_action_value)
+		if await check_special_tile(active_token):
+			return
 
 	elif last_action_type == "go_back":
 		print("GameManager: retrocediendo", last_action_value, "casillas")
 		await active_token.move_back(last_action_value)
+		if await check_special_tile(active_token):
+			return
 
 	elif last_action_type == "go_to_space":
 		print("GameManager: yendo a casilla", last_action_value)
@@ -223,6 +265,8 @@ func mostrar_carta_roja(active_token) -> void:
 			await active_token.move_steps(steps_needed)
 		elif steps_needed < 0:
 			await active_token.move_back(-steps_needed)
+		if await check_special_tile(active_token):
+			return
 
 	elif last_action_type == "skip_turn":
 		skip_player_index = current_player
