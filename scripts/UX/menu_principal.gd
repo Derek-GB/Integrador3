@@ -11,34 +11,39 @@ extends Control
 @onready var reglas_juego: Control = $Reglas_Juego
 @onready var boton_cerrar_reglas = $Reglas_Juego/Cerrar_Reglas
 
+const POS_CENTRO = 910.0
+const POS_FUERA_DER = 2000.0
+const BOTONES_HOME = 178.0
+const BOTONES_LATERAL = 150.0
+const DURACION = 1.3
+
+var menu_activo: Control = null
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	
 	boton_salir_menu.pressed.connect (
 		salir
 	)
 	
 	boton_jugar_menu.pressed.connect(
 		func(): 
-			_mover_panel(menu_botones, "position:x", 150.0, 0.6)
-			_mover_panel(seleccion_juego, "position:x", 910.0, 0.6)
+			abrir_menu(seleccion_juego)
 	)
 	
 	boton_cerrar_seleccion.pressed.connect(
 		func(): 
-			_mover_panel(menu_botones, "position:x", 178.0, 0.6)
-			_mover_panel(seleccion_juego, "position:x", 2000.0, 0.6)
+			cerrar_todo()
 	)
 	
 	boton_reglas_menu.pressed.connect(
 		func(): 
-			_mover_panel(menu_botones, "position:x", 150.0, 0.6)
-			_mover_panel(reglas_juego, "position:x", 910.0, 0.6)
+			abrir_menu(reglas_juego)
 	)
 	
 	boton_cerrar_reglas.pressed.connect(
 		func(): 
-			_mover_panel(menu_botones, "position:x", 178.0, 0.6)
-			_mover_panel(reglas_juego, "position:x", 3026.0, 0.6)
+			cerrar_todo()
 	)
 	
 	boton_1vs1.pressed.connect(
@@ -65,6 +70,19 @@ func salir() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func _mover_panel(obj: Object,propiedad: NodePath, x : float, duracion: float) -> void:
+	
+func abrir_menu(nuevo_menu: Control) -> void:
 	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	tween.tween_property(obj, propiedad, x, duracion)
+	tween.tween_property(menu_botones, "position:x", BOTONES_LATERAL, DURACION)
+	if menu_activo and menu_activo != nuevo_menu:
+		tween.tween_property(menu_activo, "position:x", POS_FUERA_DER, DURACION)
+	nuevo_menu.position.x = POS_FUERA_DER
+	tween.tween_property(nuevo_menu, "position:x", POS_CENTRO, DURACION)
+	menu_activo = nuevo_menu
+
+func cerrar_todo() -> void:
+	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(menu_botones, "position:x", BOTONES_HOME, DURACION)
+	if menu_activo:
+		tween.tween_property(menu_activo, "position:x", POS_FUERA_DER, DURACION)
+		menu_activo = null

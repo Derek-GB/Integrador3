@@ -64,7 +64,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vys0q"]
 content_margin_right = 30.0
-bg_color = Color(0.6666667, 0.1254902, 1, 1)
+bg_color = Color(0.81960785, 0.4117647, 0.09803922, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -72,7 +72,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y2h1g"]
 content_margin_right = 30.0
-bg_color = Color(0.48563913, 0.080214866, 0.735357, 1)
+bg_color = Color(0.81960785, 0.4117647, 0.09803922, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -80,7 +80,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ua4hy"]
 content_margin_right = 30.0
-bg_color = Color(0.6666667, 0.1254902, 1, 1)
+bg_color = Color(0.81960785, 0.4117647, 0.09803922, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -110,20 +110,18 @@ corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aaw56"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l3ot1"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vys0q"]
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yvk8j"]
-content_margin_left = 80.0
-content_margin_top = 20.0
 bg_color = Color(0.8784314, 0.5019608, 0.2509804, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aaw56"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l3ot1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vys0q"]
 
 [node name="Menu" type="Control" unique_id=310760619]
 layout_mode = 3
@@ -248,32 +246,18 @@ scale = Vector2(0.8496092, 0.8401977)
 texture = ExtResource("8_l3ot1")
 centered = false
 
-[node name="Cerrar_Seleccion" type="Button" parent="Seleccion_Juego" unique_id=1797250219]
-layout_mode = 0
-offset_left = 719.62604
-offset_top = -13.084105
-offset_right = 799.62604
-offset_bottom = 66.91589
-theme_override_colors/font_color = Color(0.9411765, 0.1254902, 0.1254902, 1)
-theme_override_colors/font_pressed_color = Color(0.5058824, 0.047058824, 0.047058824, 1)
-theme_override_colors/font_hover_color = Color(0.6912892, 0.080214866, 0.080214866, 1)
-theme_override_fonts/font = ExtResource("9_aaw56")
-theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxEmpty_aaw56")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_l3ot1")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_vys0q")
-text = "X"
-
 [node name="Label" type="Label" parent="Seleccion_Juego" unique_id=300458998]
 layout_mode = 0
-offset_left = 112.0
-offset_top = 17.0
-offset_right = 712.0
-offset_bottom = 97.0
+offset_left = 28.037
+offset_top = 1.869
+offset_right = 790.037
+offset_bottom = 98.869
 theme_override_fonts/font = ExtResource("9_aaw56")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_yvk8j")
 text = "Selecciona el modo de juego"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="1vs1" type="Button" parent="Seleccion_Juego" unique_id=1656783485]
 layout_mode = 0
@@ -294,6 +278,22 @@ offset_bottom = 439.38315
 theme_override_fonts/font = ExtResource("3_7wcm3")
 theme_override_font_sizes/font_size = 30
 text = "1 vs bot"
+
+[node name="Cerrar_Seleccion" type="Button" parent="Seleccion_Juego" unique_id=1797250219]
+layout_mode = 0
+offset_left = 719.6261
+offset_top = -13.084106
+offset_right = 799.6261
+offset_bottom = 66.91589
+theme_override_colors/font_color = Color(0.9411765, 0.1254902, 0.1254902, 1)
+theme_override_colors/font_pressed_color = Color(0.5058824, 0.047058824, 0.047058824, 1)
+theme_override_colors/font_hover_color = Color(0.6912892, 0.080214866, 0.080214866, 1)
+theme_override_fonts/font = ExtResource("9_aaw56")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxEmpty_aaw56")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_l3ot1")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_vys0q")
+text = "X"
 
 [node name="Reglas_Juego" type="Control" parent="." unique_id=1236868803]
 anchors_preset = 0
@@ -317,32 +317,18 @@ scale = Vector2(0.8496092, 0.8401977)
 texture = ExtResource("8_l3ot1")
 centered = false
 
-[node name="Cerrar_Reglas" type="Button" parent="Reglas_Juego" unique_id=1741357162]
-layout_mode = 0
-offset_left = 719.62604
-offset_top = -13.084105
-offset_right = 799.62604
-offset_bottom = 66.91589
-theme_override_colors/font_color = Color(0.9411765, 0.1254902, 0.1254902, 1)
-theme_override_colors/font_pressed_color = Color(0.5058824, 0.047058824, 0.047058824, 1)
-theme_override_colors/font_hover_color = Color(0.6912892, 0.080214866, 0.080214866, 1)
-theme_override_fonts/font = ExtResource("9_aaw56")
-theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxEmpty_aaw56")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_l3ot1")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_vys0q")
-text = "X"
-
 [node name="Label" type="Label" parent="Reglas_Juego" unique_id=1734032015]
 layout_mode = 0
-offset_left = 112.0
-offset_top = 17.0
-offset_right = 712.0
-offset_bottom = 97.0
+offset_left = 28.0374
+offset_top = 1.8691063
+offset_right = 790.0374
+offset_bottom = 98.86911
 theme_override_fonts/font = ExtResource("9_aaw56")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_yvk8j")
 text = "Reglas del Juego"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Reglas_Juego" unique_id=2074101733]
 layout_mode = 0
@@ -371,3 +357,19 @@ text = "[b]Modalidades de juego:[/b]
 [img=150]res://images/cards/card_back.png[/img] Casillas de Preguntas: Al caer aquí, el sistema mostrará una pregunta en pantalla."
 fit_content = true
 autowrap_mode = 2
+
+[node name="Cerrar_Reglas" type="Button" parent="Reglas_Juego" unique_id=1741357162]
+layout_mode = 0
+offset_left = 719.626
+offset_top = -13.084137
+offset_right = 799.626
+offset_bottom = 66.91586
+theme_override_colors/font_color = Color(0.9411765, 0.1254902, 0.1254902, 1)
+theme_override_colors/font_pressed_color = Color(0.5058824, 0.047058824, 0.047058824, 1)
+theme_override_colors/font_hover_color = Color(0.6912892, 0.080214866, 0.080214866, 1)
+theme_override_fonts/font = ExtResource("9_aaw56")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxEmpty_aaw56")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_l3ot1")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_vys0q")
+text = "X"
