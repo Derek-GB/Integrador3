@@ -20,6 +20,15 @@ extends Node3D
 @onready var btn_isometrica: Button             = $UI/Isometrica
 @onready var dice_sound: AudioStreamPlayer      = $UI/DiceSound
 @onready var move_sound: AudioStreamPlayer      = $UI/MoveSound
+@onready var avanzar_casilla: AudioStreamPlayer = $AvanzarCasillas
+@onready var juego_perdido: AudioStreamPlayer   = $JuegoPerdido
+@onready var lobby1: AudioStreamPlayer          = $Lobby1
+@onready var lobby2: AudioStreamPlayer          = $Lobby2
+@onready var musica_victoria: AudioStreamPlayer = $MusicaVictoria
+@onready var retroceder_casillas: AudioStreamPlayer = $Retrocedercasillas
+@onready var saltar: AudioStreamPlayer          = $Saltar
+@onready var tablero: AudioStreamPlayer         = $Tablero
+@onready var tiempo: AudioStreamPlayer          = $Tiempo
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
 var _dice_overlay_instance = null
@@ -67,13 +76,14 @@ func _ready() -> void:
 	_dice_overlay_instance.visible = false
 	add_child(_dice_overlay_instance)
 	_dice_overlay_instance.overlay_done.connect(_on_dice_rolled)
-	
+
 	_crear_ui_extra()
 	_iniciar_juego()
+	lobby2.play()        # ← música de fondo inicia aquí
+	tablero.play()       # ← sonido ambiente del tablero
 
 func cambiar_camara(marker: Marker3D) -> void:
 	var tween := create_tween()
-
 	tween.tween_property(
 		camera,
 		"transform",
@@ -181,6 +191,15 @@ func _process(delta: float) -> void:
 func _on_ficha_stepped(_index: int) -> void:
 	move_sound.play()
 	_actualizar_posicion()
+
+	# Sonido según la acción de carta roja
+	var tipo = GameManager.last_action_type
+	if tipo == "advance":
+		avanzar_casilla.play()    # ← carta roja: avanzar casillas
+	elif tipo == "go_back":
+		retroceder_casillas.play() # ← carta roja: retroceder casillas
+	elif tipo == "go_to_space":
+		saltar.play()              # ← carta roja: ir a casilla específica
 
 # =========================================================
 # BOTON SALIR
@@ -317,14 +336,19 @@ func _declarar_ganador(player_index: int) -> void:
 	if game_over:
 		return
 	game_over = true
+	lobby2.stop()         # ← para la música de fondo
+	tablero.stop()        # ← para el sonido ambiente
 	btn_tirar.disabled = true
 
 	var mensaje: String
 	if game_mode == 1:
+		musica_victoria.play()                              # ← ambos jugadores humanos: victoria
 		mensaje = "Gano el Jugador %d!" % (player_index + 1)
 	elif player_index == 0:
+		musica_victoria.play()                              # ← jugador humano gana vs CPU
 		mensaje = "Gano el Jugador!"
 	else:
+		juego_perdido.play()                                # ← CPU gana, jugador pierde
 		mensaje = "Gano la Maquina!"
 
 	dado_label.text = mensaje
@@ -374,4 +398,3 @@ func _actualizar_posicion() -> void:
 	#tween.tween_property(_dice_viewport_rect, "modulate:a", 0.0, 0.4)
 	#await tween.finished
 	#_dice_overlay.visible = false
-	
