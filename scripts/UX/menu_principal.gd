@@ -10,67 +10,63 @@ extends Control
 @onready var boton_cerrar_seleccion = $Seleccion_Juego/Cerrar_Seleccion
 @onready var reglas_juego: Control = $Reglas_Juego
 @onready var boton_cerrar_reglas = $Reglas_Juego/Cerrar_Reglas
-
+@onready var lobby1 = $lobby1
 const POS_CENTRO = 910.0
 const POS_FUERA_DER = 2000.0
 const BOTONES_HOME = 178.0
 const BOTONES_LATERAL = 150.0
 const DURACION = 1.3
-
 var menu_activo: Control = null
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
+	lobby1.play()
+
 	boton_salir_menu.pressed.connect (
 		salir
 	)
-	
+
 	boton_jugar_menu.pressed.connect(
 		func(): 
 			abrir_menu(seleccion_juego)
 	)
-	
+
 	boton_cerrar_seleccion.pressed.connect(
 		func(): 
 			cerrar_todo()
 	)
-	
+
 	boton_reglas_menu.pressed.connect(
 		func(): 
 			abrir_menu(reglas_juego)
 	)
-	
+
 	boton_cerrar_reglas.pressed.connect(
 		func(): 
 			cerrar_todo()
 	)
-	
+
 	boton_1vs1.pressed.connect(
 		func():
 			GameManager.game_mode = 1 #1 para jugador vs jugador y 2 para jugador vs cpu
 			get_tree().change_scene_to_file(
-				"res://scenes/Main.tscn"
+                "res://scenes/Main.tscn"
 			)
 	)
-	
+
 	boton_1vsbot.pressed.connect(
 		func():
 			GameManager.game_mode = 2 #1 para jugador vs jugador y 2 para jugador vs cpu
 			get_tree().change_scene_to_file(
-				"res://scenes/Main.tscn"
+                "res://scenes/Main.tscn"
 			)
 	)
-	
 
 func salir() -> void:
 	get_tree().quit()
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
-	
 func abrir_menu(nuevo_menu: Control) -> void:
 	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property(menu_botones, "position:x", BOTONES_LATERAL, DURACION)
@@ -79,7 +75,6 @@ func abrir_menu(nuevo_menu: Control) -> void:
 	nuevo_menu.position.x = POS_FUERA_DER
 	tween.tween_property(nuevo_menu, "position:x", POS_CENTRO, DURACION)
 	menu_activo = nuevo_menu
-
 func cerrar_todo() -> void:
 	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property(menu_botones, "position:x", BOTONES_HOME, DURACION)
