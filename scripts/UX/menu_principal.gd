@@ -62,6 +62,7 @@ func _ready() -> void:
 	for i in $Menu_Botones.get_children():
 		if i is Button:
 			conectar_hover(i)
+			i.pivot_offset = i.position
 
 func salir() -> void:
 	get_tree().quit()
