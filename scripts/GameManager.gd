@@ -26,6 +26,7 @@ var game_mode: int = 1  # 1=dos_jugadores  2=vs_maquina
 var player_names: Array[String] = ["Jugador", "Jugador 2"]
 
 signal turn_changed(player_index: int)
+signal play_sound(sound_name: String)
 
 # =========================================================
 # READY
@@ -247,12 +248,14 @@ func mostrar_carta_roja(active_token) -> void:
 	var last_action_value: int = action_result[1]
 
 	if last_action_type == "advance":
+		play_sound.emit("avanzar")
 		print("GameManager: avanzando", last_action_value, "casillas")
 		await active_token.move_steps(last_action_value)
 		if await check_special_tile(active_token):
 			return
 
 	elif last_action_type == "go_back":
+		play_sound.emit("retroceder")
 		print("GameManager: retrocediendo", last_action_value, "casillas")
 		await active_token.move_back(last_action_value)
 		if await check_special_tile(active_token):

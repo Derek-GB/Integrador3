@@ -79,6 +79,8 @@ func _ready() -> void:
 	btn_tercera.pressed.connect(cambiar_camara.bind(marker_tercera))
 	btn_isometrica.pressed.connect(cambiar_camara.bind(marker_iso))
 
+	GameManager.play_sound.connect(_on_play_sound)
+
 	_dice_overlay_instance = DICE_OVERLAY_SCENE.instantiate()
 	_dice_overlay_instance.visible = false
 	add_child(_dice_overlay_instance)
@@ -218,7 +220,8 @@ func _process(delta: float) -> void:
 # SONIDO Y POSICION AL PISAR CASILLA
 # =========================================================
 func _on_ficha_stepped(_index: int) -> void:
-	move_sound.play()
+	#move_sound.play()
+	saltar.play()
 	_actualizar_posicion()
 
 	# Sonido según la acción de carta roja
@@ -267,12 +270,14 @@ func _on_btn_tirar() -> void:
 	if game_over or _dice_overlay_instance == null:
 		return
 	btn_tirar.disabled = true
+	get_tree().create_timer(0.5).timeout.connect(dice_sound.play, CONNECT_ONE_SHOT)
 	await _dice_overlay_instance.mostrar()
 
 func _on_dice_rolled(n: int) -> void:
 	if game_over:
 		return
-	dice_sound.play()
+	#dice_sound.play()
+	get_tree().create_timer(0.3).timeout.connect(avanzar_casilla.play, CONNECT_ONE_SHOT)
 	await get_tree().create_timer(0.15).timeout
 	dado_label.text = "Tiraste un %d" % n
 	await GameManager.on_dice_rolled(n)
@@ -307,6 +312,12 @@ func _on_turn_changed(player_index: int) -> void:
 		btn_tirar.disabled = false
 		dado_label.text = "Tira el dado"
 
+func _on_play_sound(sound_name: String) -> void:
+	if sound_name == "avanzar":
+		avanzar_casilla.play()
+	elif sound_name == "retroceder":
+		retroceder_casillas.play()
+
 func _apply_skip(player_index: int) -> void:
 	var nombre: String
 	if game_mode == 1:
@@ -340,6 +351,7 @@ func _machine_turn() -> void:
 
 	dado_label.text = "La Maquina esta tirando el dado..."
 
+	get_tree().create_timer(0.5).timeout.connect(dice_sound.play, CONNECT_ONE_SHOT)
 	await _dice_overlay_instance.mostrar()
 
 	if game_over:
@@ -347,7 +359,6 @@ func _machine_turn() -> void:
 
 	var n: int = _dice_overlay_instance.ultimo_resultado
 
-	dice_sound.play()
 	dado_label.text = "La Maquina obtuvo un %d" % n
 
 # =========================================================
