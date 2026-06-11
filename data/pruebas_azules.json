@@ -1,0 +1,41 @@
+{
+  "meta": {
+	"nombre": "Mazo de Preguntas — Tarjetas Azules",
+	"descripcion": "48 tarjetas de preguntas sobre gestión del riesgo de desastres, derechos de la niñez y medio ambiente. Todas las preguntas son de opción múltiple.",
+	"version": "2.0",
+	"total": 48,
+	"temas": [
+	  "SUMINISTROS",
+	  "GENERAL",
+	  "DERECHOS_NIÑEZ",
+	  "ESCUELA_SEGURA",
+	  "EVACUACION",
+	  "TERREMOTO",
+	  "MAREMOTO",
+	  "VOLCAN",
+	  "INUNDACION",
+	  "HURACAN",
+	  "DESLIZAMIENTO",
+	  "INCENDIO",
+	  "MEDIO_AMBIENTE",
+      "DISCAPACIDAD"
+	],
+	"tipos": ["MULTIPLE", "SI_NO"]
+  },
+  "tarjetas": [
+	{
+	  "id": "P005",
+	  "pregunta": "¿Por qué NUNCA debes refugiarte debajo de un árbol cuando hay una tormenta eléctrica?",
+	  "tipo": "MULTIPLE",
+	  "opciones": [
+		{ "valor": 1, "texto": "Porque los árboles atraen los rayos al actuar como pararrayos naturales" },
+		{ "valor": 2, "texto": "Porque las ramas pueden mojarte con la lluvia" },
+		{ "valor": 3, "texto": "Porque los árboles atraen insectos en época de tormenta" }
+	  ],
+	  "respuestaCorrecta": 1,
+	  "explicacion": "Los árboles son conductores naturales del rayo. Debes buscar refugio en un edificio sólido o un vehículo cerrado.",
+	  "tema": "GENERAL",
+	  "imagen": "res://images/cards/blue/card_05.png"
+	}
+  ]
+}

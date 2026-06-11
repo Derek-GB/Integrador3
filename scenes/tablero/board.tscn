@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c456hb1ulbl35"]
 
-[ext_resource type="Texture2D" uid="uid://cyvq4r36nbyal" path="res://images/tablero/tablero.png" id="2_fv4ni"]
+[ext_resource type="Texture2D" uid="uid://cbovfr563j70s" path="res://images/tablero/tablero.png" id="2_fv4ni"]
 [ext_resource type="PackedScene" uid="uid://cr7r426gyvv6u" path="res://models/mapa/MapaV1.glb" id="2_i5r7m"]
 [ext_resource type="Script" uid="uid://djhlhmcom7vcl" path="res://scripts/tablero/board.gd" id="2_nglv8"]
 [ext_resource type="PackedScene" uid="uid://dmiympugo4r4x" path="res://scenes/tablero/ficha.tscn" id="3_fv4ni"]

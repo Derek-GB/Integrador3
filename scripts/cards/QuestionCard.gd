@@ -27,13 +27,14 @@ func _ready():
 # UNA SOLA PREGUNTA AL AZAR
 # =========================================================
 
-func setup(pregunta: Dictionary) -> void:
+func setup(pregunta: Dictionary, background_image: String = "") -> void:
 	# Convertir formato JSON → formato interno de la carta
 	selected_question = {
 		"question": pregunta["pregunta"],
 		"options": pregunta["opciones"].map(func(o): return o["texto"]),
 		"correct": pregunta["respuestaCorrecta"] - 1,  # JSON usa 1-based, aquí 0-based
-		"explanation": pregunta["explicacion"]
+		"explanation": pregunta["explicacion"],
+		"background": background_image  # ← Nueva propiedad
 	}
 
 # =========================================================
@@ -77,7 +78,7 @@ func _build_ui():
 
 	# Imagen centrada dentro del fondo
 	var img = TextureRect.new()
-	img.texture = load("res://images/cards/card_back.png")
+	img.texture = load("res://images/cards/blue/card_back.png")
 	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	img.size = Vector2(CARD_W, CARD_H)
 	img.position = Vector2(0, 0)
@@ -85,7 +86,9 @@ func _build_ui():
 
 	_front_info = Label.new()
 	_front_info.text = "Presiona para girar"
-	_front_info.position = Vector2(60, 460)
+	_front_info.position = Vector2(0, 460)
+	_front_info.size = Vector2(CARD_W, 40)  # ← Ancho completo
+	_front_info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER  # ← Centrado horizontal
 	_front_info.add_theme_font_size_override("font_size", 18)
 	_front_info.add_theme_color_override("font_color", Color.YELLOW)
 	front_side.add_child(_front_info)
@@ -118,6 +121,22 @@ func _build_ui():
 	back_style.border_width_bottom = 4
 	back_style.border_color = Color("#7A4E1D")
 	back_panel.add_theme_stylebox_override("panel", back_style)
+	
+	# =========================================================
+	# IMAGEN DE FONDO CON LA PREGUNTA
+	# =========================================================
+	var back_bg_image = TextureRect.new()
+	if selected_question.has("background") and selected_question["background"] != "":
+		print("Cargando imagen: ", selected_question["background"])
+		back_bg_image.texture = load(selected_question["background"])
+	else:
+		print("Usando imagen por defecto")
+		back_bg_image.texture = load("res://images/cards/blue/default_question.png")
+	
+	back_bg_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	back_bg_image.size = Vector2(CARD_W, CARD_H)
+	back_bg_image.position = Vector2(0, 0)
+	back_panel.add_child(back_bg_image)
 
 	_build_question()
 
@@ -144,28 +163,20 @@ func _build_ui():
 # =========================================================
 func _build_question():
 	var vbox = VBoxContainer.new()
-	vbox.position = Vector2(20, 20)
-	vbox.size = Vector2(310, 460)
+	vbox.position = Vector2(20, 280)  # ← Posicionado en la parte inferior
+	vbox.size = Vector2(310, 200)
+	vbox.add_theme_constant_override("separation", 10)
 	back_panel.add_child(vbox)
 
-	var question = Label.new()
-	question.text = selected_question["question"]
-	question.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	question.custom_minimum_size = Vector2(310, 80)
-	question.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	question.add_theme_font_size_override("font_size", 20)
-	question.add_theme_color_override("font_color", Color("#3B1F00"))
-	vbox.add_child(question)
 
-	var sep = HSeparator.new()
-	vbox.add_child(sep)
+
 
 	_option_buttons.clear()
 	for i in range(selected_question["options"].size()):
 		var btn = Button.new()
 		btn.text = selected_question["options"][i]
-		btn.custom_minimum_size = Vector2(310, 65)
-		btn.add_theme_font_size_override("font_size", 18)
+		btn.custom_minimum_size = Vector2(310, 55)  # ← Botones más pequeños
+		btn.add_theme_font_size_override("font_size", 16)
 		btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		btn.pressed.connect(_on_option_selected.bind(i))
 		vbox.add_child(btn)

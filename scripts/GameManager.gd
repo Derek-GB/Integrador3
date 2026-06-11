@@ -191,7 +191,7 @@ func mostrar_carta_azul() -> bool:
 	print("GameManager: jugador cayó en una carta azul")
 	minijuego_activo = true
 
-	var file = FileAccess.open("res://data/cartas_azules.json", FileAccess.READ)
+	var file = FileAccess.open("res://data/pruebas_azules.json", FileAccess.READ)
 	var json_text = file.get_as_text()
 	file.close()
 
@@ -204,13 +204,16 @@ func mostrar_carta_azul() -> bool:
 	var pregunta = tarjetas[randi() % tarjetas.size()]
 
 	var card = QUESTION_CARD.instantiate()
-	card.setup(pregunta)
+	
+	# Extraer la imagen de fondo (si existe)
+	var imagen_fondo = ""
+	if pregunta.has("imagen"):
+		imagen_fondo = pregunta["imagen"]
+	
+	card.setup(pregunta, imagen_fondo)  # ← Ahora pasa la imagen
 	card.cpu_mode = (game_mode == 2 and current_player == 1)
 	get_tree().current_scene.add_child(card)
 
-	# GDScript 4 captura primitivos (bool) por valor en lambdas.
-	# Usamos Array como contenedor por referencia para que el callback
-	# pueda modificar el resultado que leeremos después del await.
 	print("GameManager: esperando resultado de carta azul")
 	var result: Array = [false]
 	card.answer_result.connect(func(correct: bool): result[0] = correct)
