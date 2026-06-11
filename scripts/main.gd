@@ -30,8 +30,10 @@ extends Node3D
 @onready var saltar: AudioStreamPlayer          = $Saltar
 @onready var tablero: AudioStreamPlayer         = $Tablero
 @onready var tiempo: AudioStreamPlayer          = $Tiempo
+@onready var menu_pausa = $UI/MenuPausa
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
+const STOP_MENU = preload("res://scenes/UX/MenuPausa.tscn")
 var _dice_overlay_instance = null
 
 # =========================================================
@@ -237,7 +239,8 @@ func _on_ficha_stepped(_index: int) -> void:
 # BOTON SALIR
 # =========================================================
 func _on_salir() -> void:
-	get_tree().change_scene_to_file("res://scenes/UX/menuPrincipal.tscn")
+	menu_pausa.abrir_ventana()
+	#get_tree().change_scene_to_packed(STOP_MENU)
 
 # =========================================================
 # BOTON TIRAR 3 (DEBUG)
