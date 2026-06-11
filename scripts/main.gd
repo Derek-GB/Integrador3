@@ -30,10 +30,10 @@ extends Node3D
 @onready var move_sound: AudioStreamPlayer         = $Saltar
 @onready var board_sound: AudioStreamPlayer        = $Tablero
 @onready var time_over_sound: AudioStreamPlayer    = $Tiempo
-@onready var menu_pause                            = $UI/MenuPausa
+@onready var pause_menu                            = $UI/PauseMenu
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
-const STOP_MENU = preload("res://scenes/UX/MenuPausa.tscn")
+const STOP_MENU = preload("res://scenes/UX/PauseMenu.tscn")
 
 # =========================================================
 # ESTADO DEL JUEGO
@@ -241,7 +241,7 @@ func _on_ficha_stepped(_index: int) -> void:
 # BOTON SALIR
 # =========================================================
 func _on_pause() -> void:
-	menu_pause.abrir_ventana()
+	pause_menu.open_window()
 	#get_tree().change_scene_to_packed(STOP_MENU)
 
 # =========================================================

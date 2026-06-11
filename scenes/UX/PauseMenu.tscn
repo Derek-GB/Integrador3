@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://dro1ls1tysuj2"]
 
-[ext_resource type="Texture2D" uid="uid://2s3ykceawwdk" path="res://images/UX/marco_cafe_v4.png" id="1_1drmv"]
-[ext_resource type="Script" uid="uid://bynetwflhyeic" path="res://scripts/UX/menu_pausa.gd" id="1_v1pge"]
-[ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="2_53o1x"]
-[ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="3_v1pge"]
-[ext_resource type="Texture2D" uid="uid://n2ch3oyfvlvd" path="res://images/icons/jugar.png" id="4_dyeyh"]
-[ext_resource type="Texture2D" uid="uid://b35spoxiib4db" path="res://images/icons/salir.png" id="5_llqvu"]
+[ext_resource type="Script" uid="uid://bynetwflhyeic" path="res://scripts/UX/PauseMenu.gd" id="1_g25gx"]
+[ext_resource type="Texture2D" uid="uid://2s3ykceawwdk" path="res://images/UX/BrownFrameV4.png" id="2_tul1g"]
+[ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="3_sf0id"]
+[ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="4_ohn6c"]
+[ext_resource type="Texture2D" uid="uid://n2ch3oyfvlvd" path="res://images/icons/play.png" id="5_uosg4"]
+[ext_resource type="Texture2D" uid="uid://b35spoxiib4db" path="res://images/icons/exit.png" id="6_wghg2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_amxo1"]
 content_margin_right = 20.0
@@ -32,7 +32,7 @@ corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ytt1i"]
-shader = ExtResource("3_v1pge")
+shader = ExtResource("4_ohn6c")
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o1bij"]
@@ -60,36 +60,36 @@ corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_od67c"]
-shader = ExtResource("3_v1pge")
+shader = ExtResource("4_ohn6c")
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 
-[node name="MenuPausa" type="Control" unique_id=578483314]
+[node name="PauseMenu" type="Control" unique_id=578483314]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_v1pge")
+script = ExtResource("1_g25gx")
 
 [node name="Panel" type="Panel" parent="." unique_id=330724309]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="MarcoCafeV4" type="Sprite2D" parent="Panel" unique_id=426476745]
+[node name="BrownFrameV4" type="Sprite2D" parent="Panel" unique_id=426476745]
 position = Vector2(792, 448)
 scale = Vector2(0.41406253, 0.345342)
-texture = ExtResource("1_1drmv")
+texture = ExtResource("2_tul1g")
 offset = Vector2(512, 277.4244)
 
-[node name="Jugar" type="Button" parent="Panel" unique_id=1140279762]
+[node name="Play" type="Button" parent="Panel" unique_id=1140279762]
 layout_mode = 0
 offset_left = 872.0
 offset_top = 464.0
 offset_right = 1102.0
 offset_bottom = 534.0
-theme_override_fonts/font = ExtResource("2_53o1x")
+theme_override_fonts/font = ExtResource("3_sf0id")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_amxo1")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_a3vsi")
@@ -97,19 +97,19 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_s65lu")
 text = "Continuar"
 alignment = 2
 
-[node name="Jugar2" type="Sprite2D" parent="Panel/Jugar" unique_id=1480587337]
+[node name="PlayI" type="Sprite2D" parent="Panel/Play" unique_id=1480587337]
 material = SubResource("ShaderMaterial_ytt1i")
 position = Vector2(43, 36)
 scale = Vector2(0.8, 0.786)
-texture = ExtResource("4_dyeyh")
+texture = ExtResource("5_uosg4")
 
-[node name="Salir" type="Button" parent="Panel" unique_id=2012731666]
+[node name="Exit" type="Button" parent="Panel" unique_id=2012731666]
 layout_mode = 0
 offset_left = 872.0
 offset_top = 560.0
 offset_right = 1102.0
 offset_bottom = 630.0
-theme_override_fonts/font = ExtResource("2_53o1x")
+theme_override_fonts/font = ExtResource("3_sf0id")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_o1bij")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_0gdly")
@@ -117,8 +117,8 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_fqop1")
 text = "Menu"
 alignment = 2
 
-[node name="Salir2" type="Sprite2D" parent="Panel/Salir" unique_id=1535229971]
+[node name="ExitI" type="Sprite2D" parent="Panel/Exit" unique_id=1535229971]
 material = SubResource("ShaderMaterial_od67c")
 position = Vector2(43, 36)
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("5_llqvu")
+texture = ExtResource("6_wghg2")
