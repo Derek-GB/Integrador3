@@ -191,7 +191,7 @@ func show_blue_card() -> bool:
 	print("GameManager: jugador cayó en una carta azul")
 	minigame_active = true
 
-	var file = FileAccess.open("res://data/pruebas_azules.json", FileAccess.READ)
+	var file = FileAccess.open("res://data/cartas_azules.json", FileAccess.READ)
 	var json_text = file.get_as_text()
 	file.close()
 

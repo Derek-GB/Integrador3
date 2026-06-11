@@ -163,9 +163,9 @@ func _build_ui():
 # =========================================================
 func _build_question():
 	var vbox = VBoxContainer.new()
-	vbox.position = Vector2(20, 280)  # ← Posicionado en la parte inferior
-	vbox.size = Vector2(310, 200)
-	vbox.add_theme_constant_override("separation", 10)
+	vbox.position = Vector2(30, 290)  
+	vbox.size = Vector2(290, 190)  
+	vbox.add_theme_constant_override("separation", 8)
 	back_panel.add_child(vbox)
 
 
@@ -175,8 +175,8 @@ func _build_question():
 	for i in range(selected_question["options"].size()):
 		var btn = Button.new()
 		btn.text = selected_question["options"][i]
-		btn.custom_minimum_size = Vector2(310, 55)  # ← Botones más pequeños
-		btn.add_theme_font_size_override("font_size", 16)
+		btn.custom_minimum_size = Vector2(290, 48)
+		btn.add_theme_font_size_override("font_size", 15)
 		btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		btn.pressed.connect(_on_option_selected.bind(i))
 		vbox.add_child(btn)
