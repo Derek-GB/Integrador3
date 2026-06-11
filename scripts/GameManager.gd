@@ -7,8 +7,8 @@ const MAP_PUZZLE = preload("res://scenes/minijuegos/MapPuzzle.tscn")
 const QUESTION_CARD = preload("res://Scenes/QuestionCard.tscn")
 const ACTION_CARD = preload("res://scenes/cards/ActionCard.tscn")
 
-var minijuego_activo: bool = false
-var mensaje_label: Label
+var minigame_active: bool = false
+var message_label: Label
 
 # =========================================================
 # VARIABLES
@@ -35,8 +35,8 @@ func _ready() -> void:
 	await get_tree().process_frame
 	var scene = get_tree().current_scene
 	if scene.has_node("UI/MensajeLabel"):
-		mensaje_label = scene.get_node("UI/MensajeLabel")
-		mensaje_label.visible = false
+		message_label = scene.get_node("UI/MensajeLabel")
+		message_label.visible = false
 
 # =========================================================
 # REGISTRAR TOKENS
@@ -51,7 +51,7 @@ func register_token(token: Node) -> void:
 # CUANDO EL DADO TERMINA
 # =========================================================
 func on_dice_rolled(n: int) -> void:
-	if minijuego_activo:
+	if minigame_active:
 		print("GameManager: minijuego activo")
 		return
 
@@ -84,9 +84,9 @@ func on_dice_rolled(n: int) -> void:
 	# CASILLA 3 — PUZZLE
 	# =========================================================
 	if active_token.current_index == 3:
-		await activar_casilla_3()
+		await activate_minigame()
 		is_player_moving = false
-		_desbloquear_dado()
+		_unlock_dice()
 		_next_turn()
 		return
 
@@ -94,17 +94,17 @@ func on_dice_rolled(n: int) -> void:
 	# CASILLA 5 — CARTA EDUCATIVA
 	# =========================================================
 	if active_token.current_index in [5, 11, 21, 34, 45, 54, 61, 66, 72]:
-		var acerto: bool = await mostrar_carta_azul()
-		if acerto:
+		var hit: bool = await show_blue_card()
+		if hit:
 			print("GameManager: respuesta correcta, mismo jugador tira otra vez")
 			is_player_moving = false
-			_desbloquear_dado()
+			_unlock_dice()
 			turn_changed.emit(current_player)
 		else:
 			print("GameManager: respuesta incorrecta, pierde proximo turno")
 			skip_player_index = current_player
 			is_player_moving = false
-			_desbloquear_dado()
+			_unlock_dice()
 			_next_turn()
 		return
 
@@ -112,26 +112,26 @@ func on_dice_rolled(n: int) -> void:
 	# CASILLA 7 — CARTA DE ACCIÓN
 	# =========================================================
 	if active_token.current_index in [7,16,32,39,48,58,64,68,76]:
-		await mostrar_carta_roja(active_token)
+		await show_red_card(active_token)
 		return
 
 	# =========================================================
 	# CASILLA NORMAL
 	# =========================================================
 	is_player_moving = false
-	_desbloquear_dado()
+	_unlock_dice()
 	_next_turn()
 
 # =========================================================
 # CASILLA 3 — PUZZLE
 # =========================================================
-func activar_casilla_3() -> void:
+func activate_minigame() -> void:
 	print("GameManager: jugador cayó en casilla 3")
-	minijuego_activo = true
+	minigame_active = true
 
-	if mensaje_label:
-		mensaje_label.visible = true
-		mensaje_label.text = "¡Debes restaurar el mapa!"
+	if message_label:
+		message_label.visible = true
+		message_label.text = "¡Debes restaurar el mapa!"
 
 	var puzzle = MAP_PUZZLE.instantiate()
 	get_tree().current_scene.add_child(puzzle)
@@ -142,12 +142,12 @@ func activar_casilla_3() -> void:
 	print("GameManager: puzzle completado")
 	puzzle.queue_free()
 
-	if mensaje_label:
-		mensaje_label.text = "¡Mapa restaurado!"
+	if message_label:
+		message_label.text = "¡Mapa restaurado!"
 		await get_tree().create_timer(2.0).timeout
-		mensaje_label.visible = false
+		message_label.visible = false
 
-	minijuego_activo = false
+	minigame_active = false
 
 func _get_blue_indices() -> Array[int]:
 	return [5, 11, 21, 34, 45, 54, 61, 66, 72]
@@ -157,29 +157,29 @@ func _get_red_indices() -> Array[int]:
 
 func check_special_tile(active_token: Node) -> bool:
 	if active_token.current_index == 3:
-		await activar_casilla_3()
+		await activate_minigame()
 		is_player_moving = false
-		_desbloquear_dado()
+		_unlock_dice()
 		_next_turn()
 		return true
 
 	if active_token.current_index in _get_blue_indices():
-		var acerto: bool = await mostrar_carta_azul()
-		if acerto:
+		var hit: bool = await show_blue_card()
+		if hit:
 			print("GameManager: respuesta correcta, mismo jugador tira otra vez")
 			is_player_moving = false
-			_desbloquear_dado()
+			_unlock_dice()
 			turn_changed.emit(current_player)
 		else:
 			print("GameManager: respuesta incorrecta, pierde proximo turno")
 			skip_player_index = current_player
 			is_player_moving = false
-			_desbloquear_dado()
+			_unlock_dice()
 			_next_turn()
 		return true
 
 	if active_token.current_index in _get_red_indices():
-		await mostrar_carta_roja(active_token)
+		await show_red_card(active_token)
 		return true
 
 	return false
@@ -187,9 +187,9 @@ func check_special_tile(active_token: Node) -> bool:
 # =========================================================
 # MOSTRAR CARTAS AZULES — CARTA EDUCATIVA
 # =========================================================
-func mostrar_carta_azul() -> bool:
+func show_blue_card() -> bool:
 	print("GameManager: jugador cayó en una carta azul")
-	minijuego_activo = true
+	minigame_active = true
 
 	var file = FileAccess.open("res://data/pruebas_azules.json", FileAccess.READ)
 	var json_text = file.get_as_text()
@@ -199,18 +199,18 @@ func mostrar_carta_azul() -> bool:
 	json.parse(json_text)
 	var data = json.get_data()
 
-	var tarjetas = data["tarjetas"]
+	var cards = data["cards"]
 
-	var pregunta = tarjetas[randi() % tarjetas.size()]
+	var question = cards[randi() % cards.size()]
 
 	var card = QUESTION_CARD.instantiate()
 	
 	# Extraer la imagen de fondo (si existe)
-	var imagen_fondo = ""
-	if pregunta.has("imagen"):
-		imagen_fondo = pregunta["imagen"]
+	var image_background = ""
+	if question.has("imagen"):
+		image_background = question["imagen"]
 	
-	card.setup(pregunta, imagen_fondo)  # ← Ahora pasa la imagen
+	card.setup(question, image_background)  # ← Ahora pasa la imagen
 	card.cpu_mode = (game_mode == 2 and current_player == 1)
 	get_tree().current_scene.add_child(card)
 
@@ -222,15 +222,15 @@ func mostrar_carta_azul() -> bool:
 
 	print("GameManager: carta educativa cerrada")
 	print("GameManager: resultado recibido carta azul =", result[0])
-	minijuego_activo = false
+	minigame_active = false
 	return result[0]
 
 # =========================================================
 # CASILLA 7 — CARTA DE ACCIÓN
 # =========================================================
-func mostrar_carta_roja(active_token) -> void:
+func show_red_card(active_token) -> void:
 	print("GameManager: jugador cayó en carta de accion!")
-	minijuego_activo = true
+	minigame_active = true
 	last_action_type = ""
 
 	var card = ACTION_CARD.instantiate()
@@ -276,23 +276,23 @@ func mostrar_carta_roja(active_token) -> void:
 
 	elif last_action_type == "skip_turn":
 		skip_player_index = current_player
-		if mensaje_label:
+		if message_label:
 			var nombre := player_names[current_player] if current_player < player_names.size() else "Jugador"
-			mensaje_label.visible = true
-			mensaje_label.text = "¡%s pierde el siguiente turno!" % nombre
+			message_label.visible = true
+			message_label.text = "¡%s pierde el siguiente turno!" % nombre
 			await get_tree().create_timer(2.0).timeout
-			mensaje_label.visible = false
+			message_label.visible = false
 
 	elif last_action_type == "spin_again":
-		minijuego_activo = false
+		minigame_active = false
 		is_player_moving = false
-		_desbloquear_dado()
+		_unlock_dice()
 		turn_changed.emit(current_player)
 		return
 
-	minijuego_activo = false
+	minigame_active = false
 	is_player_moving = false
-	_desbloquear_dado()
+	_unlock_dice()
 	_next_turn()
 
 # =========================================================
@@ -301,7 +301,7 @@ func mostrar_carta_roja(active_token) -> void:
 func is_cpu_turn() -> bool:
 	return game_mode == 2 and current_player == 1
 
-func _desbloquear_dado() -> void:
+func _unlock_dice() -> void:
 	print("GameManager: current_player antes de desbloquear =", current_player)
 	print("GameManager: es turno CPU =", is_cpu_turn())
 	var scene = get_tree().current_scene

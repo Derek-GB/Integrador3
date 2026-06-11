@@ -263,7 +263,7 @@ func _on_restart() -> void:
 	GameManager.tokens.clear()
 	GameManager.current_player   = 0
 	GameManager.is_player_moving = false
-	GameManager.minijuego_activo = false
+	GameManager.minigame_active = false
 	GameManager.skip_player_index = -1
 	GameManager.last_action_type = ""
 	get_tree().reload_current_scene()
