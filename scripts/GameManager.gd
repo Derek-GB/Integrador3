@@ -199,7 +199,7 @@ func show_blue_card() -> bool:
 	json.parse(json_text)
 	var data = json.get_data()
 
-	var cards = data["cards"]
+	var cards = data["tarjetas"]
 
 	var question = cards[randi() % cards.size()]
 
