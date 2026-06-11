@@ -8,3 +8,6 @@ tmp/
 .mono/
 # Android build folder
 /android/
+
+# User-specific files
+imports/
