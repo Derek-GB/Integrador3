@@ -244,7 +244,7 @@ func _on_throw_3() -> void:
 		return
 	dice_sound.play()
 	dice_label.text = "Tiraste un 3"
-	await GameManager.on_dice_rolled(7)
+	await GameManager.on_dice_rolled(3)
 
 # =========================================================
 # REINICIAR
