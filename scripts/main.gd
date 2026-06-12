@@ -224,18 +224,8 @@ func _process(delta: float) -> void:
 # SONIDO Y POSICION AL PISAR CASILLA
 # =========================================================
 func _on_ficha_stepped(_index: int) -> void:
-	#move_sound_old.play()
 	move_sound.play()
 	_update_position_label()
-
-	# Sonido según la acción de carta roja
-	var type = GameManager.last_action_type
-	if type == "advance":
-		move_forward_sound.play()    # ← carta roja: avanzar casillas
-	elif type == "go_back":
-		move_back_sound.play() # ← carta roja: retroceder casillas
-	elif type == "go_to_space":
-		move_sound.play()              # ← carta roja: ir a casilla específica
 
 # =========================================================
 # BOTON SALIR
@@ -254,7 +244,7 @@ func _on_throw_3() -> void:
 		return
 	dice_sound.play()
 	dice_label.text = "Tiraste un 3"
-	await GameManager.on_dice_rolled(3)
+	await GameManager.on_dice_rolled(7)
 
 # =========================================================
 # REINICIAR
@@ -281,8 +271,6 @@ func _on_btn_throw() -> void:
 func _on_dice_rolled(n: int) -> void:
 	if game_over:
 		return
-	#dice_sound.play()
-	get_tree().create_timer(0.3).timeout.connect(move_forward_sound.play, CONNECT_ONE_SHOT)
 	await get_tree().create_timer(0.15).timeout
 	dice_label.text = "Tiraste un %d" % n
 	await GameManager.on_dice_rolled(n)
