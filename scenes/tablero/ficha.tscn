@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bjo1lwjx73uge"]
+
+[ext_resource type="Script" path="res://scripts/tablero/ficha.gd" id="1_lejmu"]
+[ext_resource type="PackedScene" uid="uid://2jjifk5p75cj" path="res://models/ficha/chess_pawn.glb" id="2_wlddh"]
+[ext_resource type="PackedScene" uid="uid://cqbb76fxunpv0" path="res://models/ficha/PandaFinalSinColorBase.glb" id="3_wlddh"]
+
+[node name="Ficha" type="Node3D" unique_id=1007468202]
+script = ExtResource("1_lejmu")
+speed = 20.0
+
+[node name="MeshFicha" parent="." unique_id=1633422855 instance=ExtResource("2_wlddh")]
+visible = false
+
+[node name="PandaFinalSinColorBase" parent="." unique_id=1889450614 instance=ExtResource("3_wlddh")]
+transform = Transform3D(-4, 0, 3.496911e-07, 0, 4, 0, -3.496911e-07, 0, -4, 0, 0, 0)

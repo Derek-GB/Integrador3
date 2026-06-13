@@ -7,7 +7,7 @@ extends Node3D
 # NODOS DE LA ESCENA (existentes)
 # =========================================================
 @onready var map                                   = $Map
-@onready var piece                                 = $Mapa/Token
+@onready var piece                                 = $Map/Token
 @onready var camera_rig: Node3D                    = $Camera_rig
 @onready var camera: Camera3D                      = $Camera_rig/Camera3D
 @onready var marker_iso: Marker3D                  = $Camera_rig/Marker_Iso
@@ -51,7 +51,7 @@ var _dice_overlay_instance: Node = null
 # SEGUNDA FICHA
 # =========================================================
 var piece2 = null
-const PIECE_SCENE = preload("res://scenes/tablero/ficha.tscn")
+const PIECE_SCENE = preload("res://scenes/tablero/Token.tscn")
 
 # =========================================================
 # UI DINAMICA
