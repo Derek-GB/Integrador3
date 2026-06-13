@@ -6,12 +6,12 @@ extends Node3D
 # =========================================================
 # NODOS DE LA ESCENA (existentes)
 # =========================================================
-@onready var map                                   = $Mapa
-@onready var piece                                 = $Mapa/Ficha
+@onready var map                                   = $Map
+@onready var piece                                 = $Mapa/Token
 @onready var camera_rig: Node3D                    = $Camera_rig
 @onready var camera: Camera3D                      = $Camera_rig/Camera3D
-@onready var marker_iso: Marker3D                  = $Camera_rig/Marker_isometrica
-@onready var marker_third: Marker3D                = $Camera_rig/Marker_tercera
+@onready var marker_iso: Marker3D                  = $Camera_rig/Marker_Iso
+@onready var marker_third: Marker3D                = $Camera_rig/Marker_Third
 @onready var dice_label: Label                     = $UI/DiceLabel
 @onready var btn_pause: Button                     = $UI/Pause
 @onready var btn_throw: Button                     = $UI/BtnThrow
@@ -21,15 +21,15 @@ extends Node3D
 @onready var btn_iso: Button                       = $UI/Iso
 @onready var dice_sound: AudioStreamPlayer         = $UI/DiceSound
 @onready var move_sound_old: AudioStreamPlayer     = $UI/MoveSound
-@onready var move_forward_sound: AudioStreamPlayer = $AvanzarCasillas
-@onready var game_over_sound: AudioStreamPlayer    = $JuegoPerdido
+@onready var move_forward_sound: AudioStreamPlayer = $MoveForward
+@onready var game_over_sound: AudioStreamPlayer    = $GameOver
 @onready var lobby1: AudioStreamPlayer             = $Lobby1
 @onready var lobby2: AudioStreamPlayer             = $Lobby2
-@onready var victory_sound: AudioStreamPlayer      = $MusicaVictoria
-@onready var move_back_sound: AudioStreamPlayer    = $Retrocedercasillas
-@onready var move_sound: AudioStreamPlayer         = $Saltar
-@onready var board_sound: AudioStreamPlayer        = $Tablero
-@onready var time_over_sound: AudioStreamPlayer    = $Tiempo
+@onready var victory_sound: AudioStreamPlayer      = $Victory
+@onready var move_back_sound: AudioStreamPlayer    = $MoveBack
+@onready var move_sound: AudioStreamPlayer         = $Move
+@onready var board_sound: AudioStreamPlayer        = $Board
+@onready var time_over_sound: AudioStreamPlayer    = $TimeOver
 @onready var pause_menu                            = $UI/PauseMenu
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")

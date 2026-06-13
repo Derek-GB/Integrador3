@@ -22,7 +22,7 @@ turn_camera_delay = 0.3
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1145627839]
 transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 0, 0)
 
-[node name="Mapa" parent="." unique_id=1363300375 instance=ExtResource("2_jyhfs")]
+[node name="Map" parent="." unique_id=1363300375 instance=ExtResource("2_jyhfs")]
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1134567890]
 
@@ -97,20 +97,20 @@ offset_right = 2440.0
 [node name="Camera_rig" type="Node3D" parent="." unique_id=465502073]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.9073486e-06, 0)
 
-[node name="Marker_isometrica" type="Marker3D" parent="Camera_rig" unique_id=1032289693]
+[node name="Marker_Iso" type="Marker3D" parent="Camera_rig" unique_id=1032289693]
 transform = Transform3D(1, 0, 0, 0, 0.34202015, 0.9396926, 0, -0.9396926, 0.34202015, 0, 29.293, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Camera_rig" unique_id=1337209012]
 transform = Transform3D(1, 0, 0, 0, 0.73916113, 0.67352873, 0, -0.67352873, 0.73916113, 0, 10.277119, 8.542511)
 current = true
 
-[node name="Marker_tercera" type="Marker3D" parent="Camera_rig" unique_id=1782549252]
+[node name="Marker_Third" type="Marker3D" parent="Camera_rig" unique_id=1782549252]
 transform = Transform3D(1, 0, 0, 0, 0.7396311, 0.6730125, 0, -0.6730125, 0.7396311, 0, 10.277119, 8.542511)
 
-[node name="AvanzarCasillas" type="AudioStreamPlayer" parent="." unique_id=864916536]
+[node name="MoveForward" type="AudioStreamPlayer" parent="." unique_id=864916536]
 stream = ExtResource("5_85g3d")
 
-[node name="JuegoPerdido" type="AudioStreamPlayer" parent="." unique_id=1179341805]
+[node name="GameOver" type="AudioStreamPlayer" parent="." unique_id=1179341805]
 stream = ExtResource("6_trceg")
 
 [node name="Lobby1" type="AudioStreamPlayer" parent="." unique_id=199158367]
@@ -119,17 +119,17 @@ stream = ExtResource("6_ya4ey")
 [node name="Lobby2" type="AudioStreamPlayer" parent="." unique_id=1500968507]
 stream = ExtResource("7_eb6dy")
 
-[node name="MusicaVictoria" type="AudioStreamPlayer" parent="." unique_id=1503915021]
+[node name="Victory" type="AudioStreamPlayer" parent="." unique_id=1503915021]
 stream = ExtResource("9_a8y0u")
 
-[node name="Retrocedercasillas" type="AudioStreamPlayer" parent="." unique_id=1031250401]
+[node name="MoveBack" type="AudioStreamPlayer" parent="." unique_id=1031250401]
 stream = ExtResource("6_choun")
 
-[node name="Saltar" type="AudioStreamPlayer" parent="." unique_id=1965576230]
+[node name="Move" type="AudioStreamPlayer" parent="." unique_id=1965576230]
 stream = ExtResource("7_ya4ey")
 
-[node name="Tablero" type="AudioStreamPlayer" parent="." unique_id=176450706]
+[node name="Board" type="AudioStreamPlayer" parent="." unique_id=176450706]
 stream = ExtResource("8_eb6dy")
 
-[node name="Tiempo" type="AudioStreamPlayer" parent="." unique_id=1310196978]
+[node name="TimeOver" type="AudioStreamPlayer" parent="." unique_id=1310196978]
 stream = ExtResource("9_trceg")

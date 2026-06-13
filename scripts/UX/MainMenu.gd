@@ -1,6 +1,6 @@
 extends Control
 
-const MAIN = preload("res://scenes/main.tscn")
+const MAIN = preload("res://scenes/Main.tscn")
 const POS_CENTER = 910.0
 const POS_OUTSIDE_RIGHT = 2000.0
 const HOME_BUTTONS = 178.0
