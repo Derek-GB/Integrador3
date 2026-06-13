@@ -26,14 +26,14 @@ transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, 
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1134567890]
 
-[node name="BtnTirar" type="Button" parent="UI" unique_id=1394427016]
+[node name="BtnThrow" type="Button" parent="UI" unique_id=1394427016]
 offset_left = 1673.0
 offset_top = 920.0
 offset_right = 1879.0
 offset_bottom = 987.0
 text = "Tirar Dado"
 
-[node name="DadoLabel" type="Label" parent="UI" unique_id=594631970]
+[node name="DiceLabel" type="Label" parent="UI" unique_id=594631970]
 offset_left = 10.0
 offset_top = 108.0
 offset_right = 11.0
@@ -42,42 +42,42 @@ text = "
 
 "
 
-[node name="MensajeLabel" type="Label" parent="UI" unique_id=2021150658]
+[node name="MessageLabel" type="Label" parent="UI" unique_id=2021150658]
 offset_left = 1681.0
 offset_top = 826.0
 offset_right = 1834.0
 offset_bottom = 877.0
 theme_override_font_sizes/font_size = 17
 
-[node name="Salir" type="Button" parent="UI" unique_id=394568099]
+[node name="Pause" type="Button" parent="UI" unique_id=394568099]
 offset_left = 1673.0
 offset_top = 39.0
 offset_right = 1879.0
 offset_bottom = 106.0
 text = "Salir"
 
-[node name="Tercera_persona" type="Button" parent="UI" unique_id=1250765168]
+[node name="Third_person" type="Button" parent="UI" unique_id=1250765168]
 offset_left = 1434.0
 offset_top = 134.0
 offset_right = 1640.0
 offset_bottom = 201.0
 text = "Tercera persona"
 
-[node name="Isometrica" type="Button" parent="UI" unique_id=821287163]
+[node name="Iso" type="Button" parent="UI" unique_id=821287163]
 offset_left = 1434.0
 offset_top = 49.0
 offset_right = 1640.0
 offset_bottom = 116.0
 text = "Isometrico"
 
-[node name="Tirar_3" type="Button" parent="UI" unique_id=182608097]
+[node name="Throw_3" type="Button" parent="UI" unique_id=182608097]
 offset_left = 1673.0
 offset_top = 130.0
 offset_right = 1879.0
 offset_bottom = 197.0
 text = "Tirar 3"
 
-[node name="Reiniciar" type="Button" parent="UI" unique_id=1238330896]
+[node name="Restart" type="Button" parent="UI" unique_id=1238330896]
 offset_left = 1673.0
 offset_top = 232.0
 offset_right = 1879.0

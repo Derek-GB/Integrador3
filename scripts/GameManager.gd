@@ -34,8 +34,8 @@ signal play_sound(sound_name: String)
 func _ready() -> void:
 	await get_tree().process_frame
 	var scene = get_tree().current_scene
-	if scene.has_node("UI/MensajeLabel"):
-		message_label = scene.get_node("UI/MensajeLabel")
+	if scene.has_node("UI/MessageLabel"):
+		message_label = scene.get_node("UI/MessageLabel")
 		message_label.visible = false
 
 # =========================================================

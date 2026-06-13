@@ -12,13 +12,13 @@ extends Node3D
 @onready var camera: Camera3D                      = $Camera_rig/Camera3D
 @onready var marker_iso: Marker3D                  = $Camera_rig/Marker_isometrica
 @onready var marker_third: Marker3D                = $Camera_rig/Marker_tercera
-@onready var dice_label: Label                     = $UI/DadoLabel
-@onready var btn_pause: Button                     = $UI/Salir
-@onready var btn_throw: Button                     = $UI/BtnTirar
-@onready var btn_throw_3: Button                   = $UI/Tirar_3
-@onready var btn_restart: Button                   = $UI/Reiniciar
-@onready var btn_third: Button                     = $UI/Tercera_persona
-@onready var btn_iso: Button                       = $UI/Isometrica
+@onready var dice_label: Label                     = $UI/DiceLabel
+@onready var btn_pause: Button                     = $UI/Pause
+@onready var btn_throw: Button                     = $UI/BtnThrow
+@onready var btn_throw_3: Button                   = $UI/Throw_3
+@onready var btn_restart: Button                   = $UI/Restart
+@onready var btn_third: Button                     = $UI/Third_person
+@onready var btn_iso: Button                       = $UI/Iso
 @onready var dice_sound: AudioStreamPlayer         = $UI/DiceSound
 @onready var move_sound_old: AudioStreamPlayer     = $UI/MoveSound
 @onready var move_forward_sound: AudioStreamPlayer = $AvanzarCasillas
@@ -275,7 +275,7 @@ func _on_btn_throw() -> void:
 		return
 	btn_throw.disabled = true
 	get_tree().create_timer(0.5).timeout.connect(dice_sound.play, CONNECT_ONE_SHOT)
-	await _dice_overlay_instance.mostrar()
+	await _dice_overlay_instance._show()
 
 func _on_dice_rolled(n: int) -> void:
 	if game_over:
@@ -355,7 +355,7 @@ func _machine_turn() -> void:
 	dice_label.text = "La Maquina esta tirando el dado..."
 
 	get_tree().create_timer(0.5).timeout.connect(dice_sound.play, CONNECT_ONE_SHOT)
-	await _dice_overlay_instance.mostrar()
+	await _dice_overlay_instance._show()
 
 	if game_over:
 		return
