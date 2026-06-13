@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cf0lt2ras06so"]
 
-[ext_resource type="Script" uid="uid://4tpok4v4tp0w" path="res://scripts/tablero/dado.gd" id="1_eslgl"]
-[ext_resource type="PackedScene" uid="uid://binnmhdqouwrr" path="res://models/mapa/dice.glb" id="2_t780p"]
+[ext_resource type="Script" uid="uid://4tpok4v4tp0w" path="res://scripts/tablero/Dice.gd" id="1_o0ie7"]
+[ext_resource type="PackedScene" uid="uid://colp878rx3p7u" path="res://models/mapa/dice.glb" id="2_uh75w"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_tbv0i"]
 bounce = 0.4
@@ -9,16 +9,16 @@ bounce = 0.4
 [sub_resource type="BoxShape3D" id="BoxShape3D_uvwln"]
 size = Vector3(19.892593, 19.892578, 19.976013)
 
-[node name="Dado" type="RigidBody3D" unique_id=1959150561]
+[node name="Dice" type="RigidBody3D" unique_id=1959150561]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_tbv0i")
 gravity_scale = 8.0
-script = ExtResource("1_eslgl")
+script = ExtResource("1_o0ie7")
 
-[node name="MeshDado" parent="." unique_id=2119051948 instance=ExtResource("2_t780p")]
+[node name="MeshDice" parent="." unique_id=2119051948 instance=ExtResource("2_uh75w")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=-1293967295]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2888184e-05, 0.022460938, -0.017425537)
 shape = SubResource("BoxShape3D_uvwln")
 
-[node name="Dado_raiz" type="Node3D" parent="." unique_id=530266015]
+[node name="DiceSquare" type="Node3D" parent="." unique_id=530266015]
