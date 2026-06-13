@@ -322,18 +322,18 @@ func _on_play_sound(sound_name: String) -> void:
 		move_back_sound.play()
 
 func _apply_skip(player_index: int) -> void:
-	var name: String
+	var _name: String
 	if game_mode == 1:
-		name = "Jugador %d" % (player_index + 1)
+		_name = "Jugador %d" % (player_index + 1)
 	elif player_index == 0:
-		name = "el Jugador"
+		_name = "el Jugador"
 	else:
-		name = "la Maquina"
+		_name = "la Maquina"
 
-	dice_label.text = "%s pierde este turno" % name
+	dice_label.text = "%s pierde este turno" % _name
 	if GameManager.message_label:
 		GameManager.message_label.visible = true
-		GameManager.message_label.text = "¡%s pierde este turno!" % name
+		GameManager.message_label.text = "¡%s pierde este turno!" % _name
 
 	await get_tree().create_timer(2.0).timeout
 
@@ -411,14 +411,14 @@ func _declare_winner(player_index: int) -> void:
 func _update_turn_label(player_index: int) -> void:
 	if turn_label == null:
 		return
-	var name: String
+	var _name: String
 	if game_mode == 1:
-		name = "Turno del Jugador %d" % (player_index + 1)
+		_name = "Turno del Jugador %d" % (player_index + 1)
 	elif player_index == 0:
-		name = "Turno del Jugador"
+		_name = "Turno del Jugador"
 	else:
-		name = "Turno de la Maquina"
-	turn_label.text = name
+		_name = "Turno de la Maquina"
+	turn_label.text = _name
 	turn_label.add_theme_color_override("font_color", Color(1.0, 0.95, 0.4))
 
 func _update_position_label() -> void:
