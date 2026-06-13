@@ -51,7 +51,7 @@ var _dice_overlay_instance: Node = null
 # SEGUNDA FICHA
 # =========================================================
 var piece2 = null
-const PIECE_SCENE = preload("res://scenes/tablero/Token.tscn")
+const PIECE_SCENE = preload("res://scenes/board/Token.tscn")
 
 # =========================================================
 # UI DINAMICA

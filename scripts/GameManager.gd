@@ -3,8 +3,8 @@ extends Node
 # =========================================================
 # MINIJUEGOS
 # =========================================================
-const MAP_PUZZLE = preload("res://scenes/minijuegos/MapPuzzle.tscn")
-const QUESTION_CARD = preload("res://Scenes/QuestionCard.tscn")
+const MAP_PUZZLE = preload("res://scenes/minigames/MapPuzzle.tscn")
+const QUESTION_CARD = preload("res://Scenes/cards/QuestionCard.tscn")
 const ACTION_CARD = preload("res://scenes/cards/ActionCard.tscn")
 
 var minigame_active: bool = false

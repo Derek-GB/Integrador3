@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://c456hb1ulbl35"]
 
-[ext_resource type="Script" uid="uid://djhlhmcom7vcl" path="res://scripts/tablero/Board.gd" id="1_vttcb"]
-[ext_resource type="PackedScene" uid="uid://cr7r426gyvv6u" path="res://models/mapa/MapaV1.glb" id="2_3uvf2"]
-[ext_resource type="Texture2D" uid="uid://cbovfr563j70s" path="res://images/tablero/tablero.png" id="3_iaf1m"]
-[ext_resource type="PackedScene" uid="uid://dmiympugo4r4x" path="res://scenes/tablero/Token.tscn" id="4_chwsj"]
+[ext_resource type="Script" uid="uid://djhlhmcom7vcl" path="res://scripts/board/board.gd" id="1_vttcb"]
+[ext_resource type="PackedScene" uid="uid://cr7r426gyvv6u" path="res://models/map/MapV1.glb" id="2_3uvf2"]
+[ext_resource type="Texture2D" uid="uid://cyvq4r36nbyal" path="res://images/board/tablero.png" id="3_iaf1m"]
+[ext_resource type="PackedScene" uid="uid://dmiympugo4r4x" path="res://scenes/board/Token.tscn" id="4_chwsj"]
 
 [node name="Board" type="Node3D" unique_id=1363300375 node_paths=PackedStringArray("path_node")]
 script = ExtResource("1_vttcb")

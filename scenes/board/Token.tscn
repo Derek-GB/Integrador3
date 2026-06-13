@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dmiympugo4r4x"]
 
-[ext_resource type="Script" uid="uid://ccfum6mbyyp8i" path="res://scripts/tablero/Token.gd" id="1_qn8xl"]
-[ext_resource type="PackedScene" uid="uid://y6p17g0rjl82" path="res://models/ficha/chess_pawn.glb" id="2_cqx4u"]
-[ext_resource type="PackedScene" uid="uid://d7f4pv3o6ld8" path="res://models/ficha/PandaFinalSinColorBase.glb" id="3_mv6h4"]
+[ext_resource type="Script" uid="uid://ccfum6mbyyp8i" path="res://scripts/board/Token.gd" id="1_qn8xl"]
+[ext_resource type="PackedScene" uid="uid://2jjifk5p75cj" path="res://models/piece/chess_pawn.glb" id="2_cqx4u"]
+[ext_resource type="PackedScene" uid="uid://cqbb76fxunpv0" path="res://models/piece/PandaFinalSinColorBase.glb" id="3_mv6h4"]
 
 [node name="Token" type="Node3D" unique_id=1007468202]
 script = ExtResource("1_qn8xl")
