@@ -12,6 +12,7 @@ var current_menu: Control = null
 @onready var button_menu: Control = $ButtonMenu
 @onready var game_selection: Control = $GameSelection
 @onready var game_rules: Control = $GameRules
+@onready var settings_panel: Control = $SoundControlPanel
 
 @onready var btn_play_menu: Button = $ButtonMenu/Play
 @onready var btn_rule_menu: Button = $ButtonMenu/Rules
@@ -21,6 +22,7 @@ var current_menu: Control = null
 @onready var btn_1vsbot: Button = $"GameSelection/1VsBot"
 @onready var btn_close_selection: Button = $GameSelection/CloseSelection
 @onready var btn_close_rules: Button = $GameRules/CloseRules
+@onready var btn_settings: Button = $Settings
 
 @onready var lobby1: AudioStreamPlayer = $Lobby1
 
@@ -62,6 +64,11 @@ func _ready() -> void:
 		func():
 			GameManager.game_mode = 2
 			get_tree().change_scene_to_packed(MAIN)
+	)
+	
+	btn_settings.pressed.connect(
+		func(): 
+			open_menu(settings_panel)
 	)
 
 	for i in $ButtonMenu.get_children():

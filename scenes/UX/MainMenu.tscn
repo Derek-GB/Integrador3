@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://t7hdo20ul1h1" path="res://images/icons/exit.png" id="9_n3d7r"]
 [ext_resource type="Texture2D" uid="uid://bpg8d5f1pv2kj" path="res://images/UX/BrownFrameV4.png" id="10_602j6"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="11_iqafl"]
+[ext_resource type="PackedScene" uid="uid://ccpydjb6bax7m" path="res://scenes/UX/SoundControlPanel.tscn" id="13_f03nn"]
 [ext_resource type="Texture2D" uid="uid://bt67dgq0c0ljj" path="res://images/UX/Brown&BlueFrame.png" id="12_w3n5j"]
 [ext_resource type="AudioStream" uid="uid://bet0cu5q65l54" path="res://sounds/UX/Lobby1.mp3" id="13_f03nn"]
 
@@ -152,6 +153,16 @@ script = ExtResource("1_mjre4")
 [node name="Background" type="Sprite2D" parent="." unique_id=820550797]
 texture = ExtResource("2_f03nn")
 centered = false
+
+[node name="Settings" type="Button" parent="." unique_id=1587719187]
+layout_mode = 0
+offset_left = 1704.0
+offset_top = 968.0
+offset_right = 1898.0
+offset_bottom = 1060.0
+theme_override_fonts/font = ExtResource("4_31ns2")
+theme_override_font_sizes/font_size = 30
+text = "Ajustes"
 
 [node name="ButtonMenu" type="Control" parent="." unique_id=2049274251]
 anchors_preset = 0
@@ -390,4 +401,11 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_vys0q")
 text = "X"
 
 [node name="Lobby1" type="AudioStreamPlayer" parent="." unique_id=2052798457]
-stream = ExtResource("13_f03nn")
+stream = SubResource("AudioStreamMP3_w6yr1")
+
+[node name="SoundControlPanel" parent="." unique_id=1992510102 instance=ExtResource("13_f03nn")]
+layout_mode = 1
+offset_left = 4560.0
+offset_top = 748.0
+offset_right = 3088.0
+offset_bottom = -140.0

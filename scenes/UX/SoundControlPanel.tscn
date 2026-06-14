@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://ccpydjb6bax7m"]
+
+[ext_resource type="Script" uid="uid://des1nsajhfa3e" path="res://scripts/UX/SoundControl.gd" id="1_acgtu"]
+[ext_resource type="Texture2D" uid="uid://2s3ykceawwdk" path="res://images/UX/BrownFrameV4.png" id="2_p0q5l"]
+[ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="3_0h00j"]
+[ext_resource type="FontFile" uid="uid://ejplvwbekxuj" path="res://fonts/Montserrat-Regular.ttf" id="3_07utn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0h00j"]
+bg_color = Color(0.87058824, 0.50980395, 0.25882354, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[node name="SoundControlPanel" type="Control" unique_id=1992510102]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 704.0
+offset_top = 384.0
+offset_right = -768.0
+offset_bottom = -504.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_acgtu")
+
+[node name="BrownFrameV4" type="Sprite2D" parent="." unique_id=1366553349]
+position = Vector2(0, -0.3804189)
+scale = Vector2(0.46875, 0.33428395)
+texture = ExtResource("2_p0q5l")
+offset = Vector2(512, 272)
+
+[node name="Label" type="Label" parent="." unique_id=1108997326]
+layout_mode = 0
+offset_left = 137.5
+offset_top = 16.0
+offset_right = 312.5
+offset_bottom = 40.0
+theme_override_fonts/font = ExtResource("3_0h00j")
+theme_override_styles/normal = SubResource("StyleBoxFlat_0h00j")
+text = "Control de volumen"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=956299266]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 80.0
+offset_right = 199.0
+offset_bottom = 104.0
+theme_override_fonts/font = ExtResource("3_07utn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_0h00j")
+text = "Musica"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="." unique_id=253619626]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 136.0
+offset_right = 199.0
+offset_bottom = 160.0
+theme_override_fonts/font = ExtResource("3_07utn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_0h00j")
+text = "Efectos de sonido"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Music" type="HSlider" parent="." unique_id=1779127673]
+layout_mode = 0
+offset_left = 216.0
+offset_top = 72.0
+offset_right = 424.0
+offset_bottom = 112.0
+max_value = 1.0
+step = 0.02
+value = 1.0
+
+[node name="SFX" type="HSlider" parent="." unique_id=1604948542]
+layout_mode = 0
+offset_left = 216.0
+offset_top = 128.0
+offset_right = 424.0
+offset_bottom = 168.0
+max_value = 1.0
+step = 0.02
+value = 1.0
