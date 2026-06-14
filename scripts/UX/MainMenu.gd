@@ -7,6 +7,8 @@ const HOME_BUTTONS = 178.0
 const SIDE_BUTTONS = 150.0
 const DURATION = 1.3
 
+@export var lobby1: AudioStream
+
 var current_menu: Control = null
 
 @onready var button_menu: Control = $ButtonMenu
@@ -24,11 +26,9 @@ var current_menu: Control = null
 @onready var btn_close_rules: Button = $GameRules/CloseRules
 @onready var btn_settings: Button = $Settings
 
-@onready var lobby1: AudioStreamPlayer = $Lobby1
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	lobby1.play()
+	AudioManager.play_music(lobby1)
 
 	btn_exit_menu.pressed.connect (
 		exit_game
