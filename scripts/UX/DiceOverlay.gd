@@ -12,8 +12,8 @@ func _ready() -> void:
 	dimmer.color.a = 0.0
 	$CanvasLayer/Control/ViewportContainer.visible = false
 
-func mostrar(forced_result: int = -1) -> void:
-	print("DiceOverlay: mostrar() llamado, forced=", forced_result)
+func _show(forced_result: int = -1) -> void:
+	print("DiceOverlay: _show() llamado, forced=", forced_result)
 	print(get_stack())
 	$CanvasLayer/Control/ViewportContainer.visible = true
 	visible = true

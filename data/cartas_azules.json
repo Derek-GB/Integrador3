@@ -34,7 +34,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "Los suministros de emergencia deben revisarse al menos una vez al mes para asegurarse de que estén en buen estado y no vencidos.",
-	  "tema": "SUMINISTROS"
+	  "tema": "SUMINISTROS",
+	  "imagen": "res://images/cards/blue/card_26.png"
 	},
 	{
 	  "id": "P002",
@@ -47,7 +48,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "Las frutas frescas se descomponen con rapidez. En emergencias se prefieren alimentos no perecederos como enlatados.",
-	  "tema": "SUMINISTROS"
+	  "tema": "SUMINISTROS",
+	  "imagen": "res://images/cards/blue/card_39.png"
 	},
 	{
 	  "id": "P003",
@@ -60,7 +62,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Un kit de emergencia básico debe incluir agua, alimentos no perecederos, linterna, botiquín, zapatos, ropa y documentos importantes.",
-	  "tema": "SUMINISTROS"
+	  "tema": "SUMINISTROS",
+	  "imagen": "res://images/cards/blue/card_12.png"
 	},
 	{
 	  "id": "P004",
@@ -73,20 +76,22 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "Los árboles actúan como pararrayos naturales. Ponerse debajo de uno durante una tormenta eléctrica pone tu vida en peligro.",
-	  "tema": "GENERAL"
+	  "tema": "GENERAL",
+	  "imagen": "res://images/cards/blue/card_27.png"
 	},
 	{
 	  "id": "P005",
 	  "pregunta": "¿Por qué NUNCA debes refugiarte debajo de un árbol cuando hay una tormenta eléctrica?",
 	  "tipo": "MULTIPLE",
 	  "opciones": [
-		{ "valor": 1, "texto": "Porque los árboles atraen los rayos al actuar como pararrayos naturales, poniendo tu vida en peligro" },
+		{ "valor": 1, "texto": "Porque los árboles atraen los rayos al actuar como pararrayos naturales" },
 		{ "valor": 2, "texto": "Porque las ramas pueden mojarte con la lluvia" },
 		{ "valor": 3, "texto": "Porque los árboles atraen insectos en época de tormenta" }
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Los árboles son conductores naturales del rayo. Debes buscar refugio en un edificio sólido o un vehículo cerrado.",
-	  "tema": "GENERAL"
+	  "tema": "GENERAL",
+	  "imagen": "res://images/cards/blue/card_01.png"
 	},
 	{
 	  "id": "P006",
@@ -98,7 +103,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "La niñez NUNCA pierde sus derechos, aún en una situación de desastre. Las autoridades tienen el deber de hacerlos cumplir siempre.",
-	  "tema": "DERECHOS_NIÑEZ"
+	  "tema": "DERECHOS_NIÑEZ",
+	  "imagen": "res://images/cards/blue/card_28.png"
 	},
 	{
 	  "id": "P007",
@@ -112,7 +118,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "En un desastre el derecho a ser alimentado suele atenderse primero. Todos los demás derechos también deben garantizarse.",
-	  "tema": "DERECHOS_NIÑEZ"
+	  "tema": "DERECHOS_NIÑEZ",
+	  "imagen": "res://images/cards/blue/card_29.png"
 	},
 	{
 	  "id": "P008",
@@ -121,12 +128,12 @@
 	  "opciones": [
 		{ "valor": 1, "texto": "Terremoto" },
 		{ "valor": 2, "texto": "Incendio" },
-		{ "valor": 3, "texto": "Sequía" },
 		{ "valor": 4, "texto": "En ningún desastre" }
 	  ],
 	  "respuestaCorrecta": 4,
 	  "explicacion": "La niñez NUNCA pierde sus derechos. Las autoridades tienen el deber de respetar y hacer cumplir los derechos siempre, incluso en desastres.",
-	  "tema": "DERECHOS_NIÑEZ"
+	  "tema": "DERECHOS_NIÑEZ",
+	  "imagen": "res://images/cards/blue/card_30.png"
 	},
 	{
 	  "id": "P009",
@@ -138,7 +145,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Las puertas que abren hacia afuera permiten una evacuación más rápida y segura en caso de emergencia.",
-	  "tema": "ESCUELA_SEGURA"
+	  "tema": "ESCUELA_SEGURA",
+	  "imagen": "res://images/cards/blue/card_31.png"
 	},
 	{
 	  "id": "P010",
@@ -151,7 +159,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Deben señalizarse: la zona de seguridad, las rutas de evacuación y las salidas de emergencia para garantizar una evacuación ordenada.",
-	  "tema": "EVACUACION"
+	  "tema": "EVACUACION",
+	  "imagen": "res://images/cards/blue/card_38.png"
 	},
 	{
 	  "id": "P011",
@@ -164,7 +173,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "En un albergue se deben respetar las reglas, mantener el aseo y cooperar con todos. Ser descortés no es aceptable.",
-	  "tema": "EVACUACION"
+	  "tema": "EVACUACION",
+	  "imagen": "res://images/cards/blue/card_40.png"
 	},
 	{
 	  "id": "P012",
@@ -177,7 +187,8 @@
 	  ],
 	  "respuestaCorrecta": 3,
 	  "explicacion": "Una escuela construida en terreno seguro, lejos de zonas de riesgo, protege a los estudiantes en caso de desastre.",
-	  "tema": "ESCUELA_SEGURA"
+	  "tema": "ESCUELA_SEGURA",
+	  "imagen": "res://images/cards/blue/card_41.png"
 	},
 	{
 	  "id": "P013",
@@ -190,7 +201,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Las instalaciones eléctricas en mal estado son un riesgo grave de incendio y electrocución en la escuela.",
-	  "tema": "ESCUELA_SEGURA"
+	  "tema": "ESCUELA_SEGURA",
+	  "imagen": "res://images/cards/blue/card_42.png"
 	},
 	{
 	  "id": "P014",
@@ -203,7 +215,8 @@
 	  ],
 	  "respuestaCorrecta": 3,
 	  "explicacion": "El plan de seguridad escolar debe elaborarse con la participación de toda la comunidad educativa: estudiantes, docentes, dirección y familias.",
-	  "tema": "ESCUELA_SEGURA"
+	  "tema": "ESCUELA_SEGURA",
+	  "imagen": "res://images/cards/blue/card_43.png"
 	},
 	{
 	  "id": "P015",
@@ -216,7 +229,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "El plan de seguridad escolar debe actualizarse al menos una vez al año para adaptarse a nuevas amenazas y condiciones.",
-	  "tema": "ESCUELA_SEGURA"
+	  "tema": "ESCUELA_SEGURA",
+	  "imagen": "res://images/cards/blue/card_33.png"
 	},
 	{
 	  "id": "P016",
@@ -229,7 +243,8 @@
 	  ],
 	  "respuestaCorrecta": 3,
 	  "explicacion": "Un desastre es el evento (natural o humano) que causa daños significativos a personas, bienes y el ambiente de una comunidad.",
-	  "tema": "GENERAL"
+	  "tema": "GENERAL",
+	  "imagen": "res://images/cards/blue/card_44.png"
 	},
 	{
 	  "id": "P017",
@@ -242,7 +257,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "El sismómetro detecta y registra las ondas sísmicas, permitiendo medir la magnitud y localizar el epicentro de un terremoto.",
-	  "tema": "TERREMOTO"
+	  "tema": "TERREMOTO",
+	  "imagen": "res://images/cards/blue/card_11.png"
 	},
 	{
 	  "id": "P018",
@@ -255,20 +271,22 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "Los terremotos son fenómenos naturales, pero una construcción deficiente y vivir en zonas de riesgo aumentan significativamente los daños.",
-	  "tema": "TERREMOTO"
+	  "tema": "TERREMOTO",
+	  "imagen": "res://images/cards/blue/card_03.png"
 	},
 	{
 	  "id": "P019",
 	  "pregunta": "¿Por qué algunas casas se caen durante un terremoto mientras que otras permanecen de pie?",
 	  "tipo": "MULTIPLE",
 	  "opciones": [
-		{ "valor": 1, "texto": "Las que caen estaban mal construidas o en lugares peligrosos; las que quedan en pie siguen normas antisísmicas" },
+		{ "valor": 1, "texto": "Las que caen estaban mal construidas o en lugares peligrosos" },
 		{ "valor": 2, "texto": "Depende del color de la pintura y el tamaño de la casa" },
 		{ "valor": 3, "texto": "Todas las casas se caen siempre durante un terremoto fuerte" }
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Seguir los códigos de construcción antisísmica y elegir terrenos seguros es fundamental para resistir un terremoto.",
-	  "tema": "TERREMOTO"
+	  "tema": "TERREMOTO",
+	  "imagen": "res://images/cards/blue/card_02.png"
 	},
 	{
 	  "id": "P020",
@@ -281,7 +299,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "El maremoto o tsunami es una serie de olas gigantes provocadas por un terremoto submarino o erupción volcánica bajo el mar.",
-	  "tema": "MAREMOTO"
+	  "tema": "MAREMOTO",
+	  "imagen": "res://images/cards/blue/card_05.png"
 	},
 	{
 	  "id": "P021",
@@ -294,7 +313,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Ante un tsunami, lo más importante es alejarse de la costa inmediatamente y dirigirse a zonas altas.",
-	  "tema": "MAREMOTO"
+	  "tema": "MAREMOTO",
+	  "imagen": "res://images/cards/blue/card_08.png"
 	},
 	{
 	  "id": "P022",
@@ -302,12 +322,13 @@
 	  "tipo": "MULTIPLE",
 	  "opciones": [
 		{ "valor": 1, "texto": "Porque el ruido del volcán molesta y no deja dormir" },
-		{ "valor": 2, "texto": "Porque durante una erupción, la lava, gases y ceniza son nocivos y ponen en peligro la vida" },
+		{ "valor": 2, "texto": "Porque durante una erupción, la lava, gases y ceniza son nocivos" },
 		{ "valor": 3, "texto": "Porque los terrenos cerca de volcanes son muy caros" }
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "Los volcanes pueden expulsar lava, piedras, ceniza y gases tóxicos que representan un grave peligro para quienes viven cerca.",
-	  "tema": "VOLCAN"
+	  "tema": "VOLCAN",
+	  "imagen": "res://images/cards/blue/card_09.png"
 	},
 	{
 	  "id": "P023",
@@ -320,7 +341,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Una erupción volcánica libera material del interior de la Tierra como lava, ceniza, gases y rocas a gran velocidad.",
-	  "tema": "VOLCAN"
+	  "tema": "VOLCAN",
+	  "imagen": "res://images/cards/blue/card_15.png"
 	},
 	{
 	  "id": "P024",
@@ -333,7 +355,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "La ceniza volcánica puede afectar la salud, contaminar el agua y dañar cultivos. Es importante usar mascarillas durante una erupción.",
-	  "tema": "VOLCAN"
+	  "tema": "VOLCAN",
+	  "imagen": "res://images/cards/blue/card_20.png"
 	},
 	{
 	  "id": "P025",
@@ -341,12 +364,13 @@
 	  "tipo": "MULTIPLE",
 	  "opciones": [
 		{ "valor": 1, "texto": "Porque el ruido del río no deja descansar" },
-		{ "valor": 2, "texto": "Porque cuando el caudal sube, el río se sale de su cauce y las inundaciones afectan las casas cercanas" },
+		{ "valor": 2, "texto": "Porque los ríos pueden desbordarse e inundar viviendas" },
 		{ "valor": 3, "texto": "Porque los terrenos a la orilla del río son muy húmedos para construir" }
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "Las zonas ribereñas son vulnerables a inundaciones. Los planes de ordenamiento territorial buscan proteger a las comunidades de este riesgo.",
-	  "tema": "INUNDACION"
+	  "tema": "INUNDACION",
+	  "imagen": "res://images/cards/blue/card_10.png"
 	},
 	{
 	  "id": "P026",
@@ -359,7 +383,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "La basura en los ríos bloquea el cauce, aumenta el riesgo de inundación y contamina el agua que muchas personas usan.",
-	  "tema": "INUNDACION"
+	  "tema": "INUNDACION",
+	  "imagen": "res://images/cards/blue/card_16.png"
 	},
 	{
 	  "id": "P027",
@@ -372,7 +397,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "Vivir en zonas de alta amenaza (orillas de ríos o faldas de volcanes) sin medidas de protección aumenta enormemente la vulnerabilidad ante desastres.",
-	  "tema": "INUNDACION"
+	  "tema": "INUNDACION",
+	  "imagen": "res://images/cards/blue/card_13.png"
 	},
 	{
 	  "id": "P028",
@@ -385,7 +411,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Un huracán es una tormenta tropical muy intensa con vientos que se originan en el mar y pueden causar grandes daños al tocar tierra.",
-	  "tema": "HURACAN"
+	  "tema": "HURACAN",
+	  "imagen": "res://images/cards/blue/card_17.png"
 	},
 	{
 	  "id": "P029",
@@ -398,20 +425,23 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "La temporada de huracanes en el Atlántico va del 1 de junio al 30 de noviembre. Durante este período hay mayor probabilidad de formación de huracanes.",
-	  "tema": "HURACAN"
+	  "tema": "HURACAN",
+	  "imagen": "res://images/cards/blue/card_18.png"
 	},
 	{
+		
 	  "id": "P030",
-	  "pregunta": "¿Cuál es la regla de seguridad correcta ante un tornado?",
+	  "pregunta": "¿Cuáles son al menos dos reglas de seguridad que debes seguir durante un tornado?",
 	  "tipo": "MULTIPLE",
 	  "opciones": [
-		{ "valor": 1, "texto": "Refugiarse en sótanos, alejarse de las ventanas y en campo abierto tirarse en una zanja o acequia" },
+		{ "valor": 1, "texto": "Refugiarse en sótanos, alejarse de las ventanas" },
 		{ "valor": 2, "texto": "Salir corriendo lo más rápido posible sin importar la dirección" },
 		{ "valor": 3, "texto": "Permanecer dentro del vehículo con las ventanas cerradas" }
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Durante un tornado es fundamental buscar refugio en un lugar sólido subterráneo, alejarse de ventanas y no permanecer en vehículos o áreas abiertas.",
-	  "tema": "HURACAN"
+	  "tema": "HURACAN",
+	  "imagen": "res://images/cards/blue/card_19.png"
 	},
 	{
 	  "id": "P031",
@@ -424,7 +454,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Un tornado es una columna de aire en rápida rotación con forma de embudo que puede causar destrucción en una franja estrecha de terreno.",
-	  "tema": "HURACAN"
+	  "tema": "HURACAN",
+	  "imagen": "res://images/cards/blue/card_14.png"
 	},
 	{
 	  "id": "P032",
@@ -437,7 +468,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Los deslizamientos ocurren cuando la tierra, rocas o lodo se desplazan por una pendiente, frecuentemente causados por lluvias intensas o deforestación.",
-	  "tema": "DESLIZAMIENTO"
+	  "tema": "DESLIZAMIENTO",
+	  "imagen": "res://images/cards/blue/card_24.png"
 	},
 	{
 	  "id": "P033",
@@ -445,38 +477,41 @@
 	  "tipo": "MULTIPLE",
 	  "opciones": [
 		{ "valor": 1, "texto": "Solo para que el paisaje se vea más bonito" },
-		{ "valor": 2, "texto": "Para proteger la naturaleza, evitar deslizamientos, la erosión de la tierra y otros efectos negativos" },
+		{ "valor": 2, "texto": "Para proteger la naturaleza, evitar deslizamientos, la erosión de la tierra" },
 		{ "valor": 3, "texto": "Porque la ley lo exige, pero no tiene impacto real" }
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "Las raíces de los árboles fijan el suelo y absorben el agua de lluvia, reduciendo el riesgo de deslizamientos y erosión.",
-	  "tema": "DESLIZAMIENTO"
+	  "tema": "DESLIZAMIENTO",
+	  "imagen": "res://images/cards/blue/card_25.png"
 	},
 	{
 	  "id": "P034",
 	  "pregunta": "¿Qué es la erosión?",
 	  "tipo": "MULTIPLE",
 	  "opciones": [
-		{ "valor": 1, "texto": "El desgaste continuo de la tierra por las lluvias fuertes, los vientos y la mala utilización de los suelos" },
-		{ "valor": 2, "texto": "El enriquecimiento del suelo gracias a los nutrientes de la lluvia" },
-		{ "valor": 3, "texto": "El movimiento rápido de tierra durante un terremoto" }
+		{ "valor": 1, "texto": "Desgaste del suelo por viento y agua" },
+		{ "valor": 2, "texto": "Crecimiento acelerado de las plantas" },
+		{ "valor": 3, "texto": "Acumulacion de basura en las ciudades" }
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "La erosión debilita el terreno, aumenta el riesgo de deslizamientos y reduce la productividad agrícola.",
-	  "tema": "DESLIZAMIENTO"
+	  "tema": "DESLIZAMIENTO",
+	  "imagen": "res://images/cards/blue/card_23.png"
 	},
 	{
 	  "id": "P035",
-	  "pregunta": "¿Cuáles son causas que ocasionan la erosión del suelo?",
+	  "pregunta": "¿Cuáles dos causas que ocasionan la erosión del suelo?",
 	  "tipo": "MULTIPLE",
 	  "opciones": [
-		{ "valor": 1, "texto": "La reforestación, el riego controlado y la rotación de cultivos" },
-		{ "valor": 2, "texto": "La deforestación, el mal manejo agrícola y mantener el ganado en un mismo lugar" },
+		{ "valor": 1, "texto": "La reforestación y la rotación de cultivos" },
+		{ "valor": 2, "texto": "La deforestación y mantener el ganado en un mismo lugar" },
 		{ "valor": 3, "texto": "Construir viviendas en zonas planas y sembrar árboles frutales" }
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "La deforestación y el mal manejo del suelo aceleran la erosión, haciendo que el terreno sea más vulnerable a deslizamientos e inundaciones.",
-	  "tema": "DESLIZAMIENTO"
+	  "tema": "DESLIZAMIENTO",
+	  "imagen": "res://images/cards/blue/card_22.png"
 	},
 	{
 	  "id": "P036",
@@ -484,12 +519,13 @@
 	  "tipo": "MULTIPLE",
 	  "opciones": [
 		{ "valor": 1, "texto": "Porque está prohibido por ley y podrías recibir una multa" },
-		{ "valor": 2, "texto": "Porque puede causar un incendio forestal que destruya plantas, animales y ponga en peligro vidas humanas" },
+		{ "valor": 2, "texto": "Porque puede causar un incendio forestal que destruya plantas, animales" },
 		{ "valor": 3, "texto": "Porque los fósforos se apagan rápido con el viento del bosque" }
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "Un pequeño descuido puede iniciar un incendio que se extienda por miles de hectáreas, destruyendo ecosistemas enteros.",
-	  "tema": "INCENDIO"
+	  "tema": "INCENDIO",
+	  "imagen": "res://images/cards/blue/card_07.png"
 	},
 	{
 	  "id": "P037",
@@ -502,7 +538,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "Los incendios forestales pueden ser de origen natural (rayos) o humano (descuidos o quemas no controladas). La prevención es responsabilidad de todos.",
-	  "tema": "INCENDIO"
+	  "tema": "INCENDIO",
+	  "imagen": "res://images/cards/blue/card_21.png"
 	},
 	{
 	  "id": "P038",
@@ -515,7 +552,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Para combatir incendios se usan hidrantes, extintores y mangueras. El combustible alimenta el fuego, nunca se usa para apagarlo.",
-	  "tema": "INCENDIO"
+	  "tema": "INCENDIO",
+	  "imagen": "res://images/cards/blue/card_35.png"
 	},
 	{
 	  "id": "P039",
@@ -528,7 +566,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "El triángulo del fuego está formado por oxígeno, calor y combustible. Eliminar cualquiera de los tres apaga el fuego.",
-	  "tema": "INCENDIO"
+	  "tema": "INCENDIO",
+	  "imagen": "res://images/cards/blue/card_06.png"
 	},
 	{
 	  "id": "P040",
@@ -541,7 +580,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "La técnica 'parar, tirarse y rodar' sofoca las llamas al eliminar el oxígeno. Nunca corras si tu ropa está en llamas.",
-	  "tema": "INCENDIO"
+	  "tema": "INCENDIO",
+	  "imagen": "res://images/cards/blue/card_48.png"
 	},
 	{
 	  "id": "P041",
@@ -549,12 +589,13 @@
 	  "tipo": "MULTIPLE",
 	  "opciones": [
 		{ "valor": 1, "texto": "La lluvia solo causa inundaciones y daños, no tiene beneficios" },
-		{ "valor": 2, "texto": "Riega las cosechas, asegura la sobrevivencia de la flora y la fauna, y evita las sequías" },
+		{ "valor": 2, "texto": "Riega las cosechas, asegura la sobrevivencia de la flora y la fauna" },
 		{ "valor": 3, "texto": "La lluvia solo sirve para llenar los ríos y lavar las calles" }
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "La lluvia es esencial para la vida. El problema surge cuando cae en exceso, especialmente en zonas vulnerables sin vegetación.",
-	  "tema": "MEDIO_AMBIENTE"
+	  "tema": "MEDIO_AMBIENTE",
+	  "imagen": "res://images/cards/blue/card_32.png"
 	},
 	{
 	  "id": "P042",
@@ -567,7 +608,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "El calentamiento global es el aumento de la temperatura promedio de la Tierra, causado principalmente por la emisión de gases de efecto invernadero.",
-	  "tema": "MEDIO_AMBIENTE"
+	  "tema": "MEDIO_AMBIENTE",
+	  "imagen": "res://images/cards/blue/card_46.png"
 	},
 	{
 	  "id": "P043",
@@ -580,7 +622,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "Cada acción cuenta: ahorrar energía, reutilizar y sembrar árboles son formas concretas de reducir tu huella de carbono.",
-	  "tema": "MEDIO_AMBIENTE"
+	  "tema": "MEDIO_AMBIENTE",
+	  "imagen": "res://images/cards/blue/card_47.png"
 	},
 	{
 	  "id": "P044",
@@ -588,25 +631,27 @@
 	  "tipo": "MULTIPLE",
 	  "opciones": [
 		{ "valor": 1, "texto": "No incluirlas en los planes de evacuación para no complicar el proceso" },
-		{ "valor": 2, "texto": "Construir rampas, puertas anchas, instalar alarmas visuales y sonoras, y tomar en cuenta su opinión" },
-		{ "valor": 3, "texto": "Evacuar a las personas con discapacidad siempre al final para no entorpecer la salida de los demás" }
+		{ "valor": 2, "texto": "Construir rampas, puertas anchas, instalar alarmas visuales y sonoras" },
+		{ "valor": 3, "texto": "Evacuar a las personas con discapacidad siempre al final" }
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "La inclusión en la gestión de riesgos significa asegurarse de que todas las personas, incluyendo las que tienen discapacidad, estén protegidas.",
-	  "tema": "DISCAPACIDAD"
+	  "tema": "DISCAPACIDAD",
+	  "imagen": "res://images/cards/blue/card_37.png"
 	},
 	{
 	  "id": "P045",
 	  "pregunta": "Se ha emitido una alerta por derrame de sustancias tóxicas. ¿Cómo debes actuar?",
 	  "tipo": "MULTIPLE",
 	  "opciones": [
-		{ "valor": 1, "texto": "Si no se indica lo contrario, quedarte en casa, cerrar puertas y ventanas, y seguir las instrucciones de las autoridades" },
+		{ "valor": 1, "texto": "Si no se indica lo contrario, quedarte en casa, cerrar puertas y ventanas" },
 		{ "valor": 2, "texto": "Salir corriendo a la calle inmediatamente para alejarte del lugar" },
 		{ "valor": 3, "texto": "Abrir todas las ventanas para ventilar el ambiente" }
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "En un derrame tóxico la clave es mantener la calma, refugiarse en el interior, cerrar aberturas y seguir las instrucciones de las autoridades.",
-	  "tema": "GENERAL"
+	  "tema": "GENERAL",
+	  "imagen": "res://images/cards/blue/card_45.png"
 	},
 	{
 	  "id": "P046",
@@ -619,7 +664,8 @@
 	  ],
 	  "respuestaCorrecta": 1,
 	  "explicacion": "En ausencia de electricidad, campanas, silbatos y tambores pueden servir como señales de alerta comunitaria ante un desastre.",
-	  "tema": "GENERAL"
+	  "tema": "GENERAL",
+	  "imagen": "res://images/cards/blue/card_34.png"
 	},
 	{
 	  "id": "P047",
@@ -631,7 +677,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "Siempre debes pedir ayuda a las autoridades. Tener un plan familiar de reunificación antes del desastre es clave para estos casos.",
-	  "tema": "EVACUACION"
+	  "tema": "EVACUACION",
+	  "imagen": "res://images/cards/blue/card_36.png"
 	},
 	{
 	  "id": "P048",
@@ -644,7 +691,8 @@
 	  ],
 	  "respuestaCorrecta": 2,
 	  "explicacion": "Una plaga puede destruir cosechas enteras y provocar escasez de alimentos, afectando la seguridad alimentaria de una comunidad.",
-	  "tema": "GENERAL"
+	  "tema": "GENERAL",
+	  "imagen": "res://images/cards/blue/card_04.png"
 	}
   ]
 }

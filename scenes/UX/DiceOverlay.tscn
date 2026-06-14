@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cvf3wj05juuxd"]
 
 [ext_resource type="Script" uid="uid://cfgf7sftb8f2r" path="res://scripts/UX/DiceOverlay.gd" id="1_0j10e"]
-[ext_resource type="PackedScene" uid="uid://cf0lt2ras06so" path="res://scenes/tablero/dado.tscn" id="2_lr3sx"]
+[ext_resource type="PackedScene" uid="uid://cf0lt2ras06so" path="res://scenes/board/Dice.tscn" id="2_lr3sx"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_12nja"]
 size = Vector3(40, 1, 40)
