@@ -14,10 +14,10 @@ var current_menu: Control = null
 @onready var game_rules: Control = $GameRules
 @onready var settings_panel: Control = $SoundControlPanel
 
-@onready var btn_play_menu: Button = $ButtonMenu/Play
-@onready var btn_rule_menu: Button = $ButtonMenu/Rules
-@onready var btn_credits_menu: Button = $ButtonMenu/Credits
-@onready var btn_exit_menu: Button = $ButtonMenu/Exit
+@onready var btn_play_menu: Button = $ButtonMenu/Panel/Play
+@onready var btn_rule_menu: Button = $ButtonMenu/Panel/Rules
+@onready var btn_credits_menu: Button = $ButtonMenu/Panel/Credits
+@onready var btn_exit_menu: Button = $ButtonMenu/Panel/Exit
 @onready var btn_1vs1: Button = $"GameSelection/1Vs1"
 @onready var btn_1vsbot: Button = $"GameSelection/1VsBot"
 @onready var btn_close_selection: Button = $GameSelection/CloseSelection

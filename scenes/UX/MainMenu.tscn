@@ -1,19 +1,31 @@
 [gd_scene format=3 uid="uid://nbfpyaylc4ys"]
 
 [ext_resource type="Script" uid="uid://cy2jurhducyl" path="res://scripts/UX/MainMenu.gd" id="1_mjre4"]
-[ext_resource type="Texture2D" uid="uid://cfrrlinsu7lek" path="res://images/UX/BackgroundV2.png" id="2_f03nn"]
-[ext_resource type="Texture2D" uid="uid://bbsboe8paq2l5" path="res://images/UX/BrownFrame.png" id="3_hm7mn"]
+[ext_resource type="Texture2D" uid="uid://djt6g0q68qexl" path="res://images/UX/BackgroundV2.png" id="2_f03nn"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="4_31ns2"]
+[ext_resource type="Texture2D" uid="uid://bot5g16d1p8dy" path="res://images/UX/leaf.png" id="4_hm7mn"]
 [ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="5_6c0a5"]
-[ext_resource type="Texture2D" uid="uid://cwtgr2qcx62ff" path="res://images/icons/play.png" id="6_xey2k"]
-[ext_resource type="Texture2D" uid="uid://dhirwartt5oun" path="res://images/icons/rules.png" id="7_boqd0"]
-[ext_resource type="Texture2D" uid="uid://8whemworluu6" path="res://images/icons/credits.png" id="8_q63e5"]
-[ext_resource type="Texture2D" uid="uid://t7hdo20ul1h1" path="res://images/icons/exit.png" id="9_n3d7r"]
-[ext_resource type="Texture2D" uid="uid://bpg8d5f1pv2kj" path="res://images/UX/BrownFrameV4.png" id="10_602j6"]
+[ext_resource type="Texture2D" uid="uid://n2ch3oyfvlvd" path="res://images/icons/play.png" id="6_xey2k"]
+[ext_resource type="Texture2D" uid="uid://gtpd4xwkeqw3" path="res://images/icons/rules.png" id="7_boqd0"]
+[ext_resource type="Texture2D" uid="uid://bkt77v2f3i1e0" path="res://images/icons/credits.png" id="8_q63e5"]
+[ext_resource type="Texture2D" uid="uid://b35spoxiib4db" path="res://images/icons/exit.png" id="9_n3d7r"]
+[ext_resource type="Texture2D" uid="uid://2s3ykceawwdk" path="res://images/UX/BrownFrameV4.png" id="10_602j6"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="11_iqafl"]
+[ext_resource type="Texture2D" uid="uid://dyvkfyv1lw5n0" path="res://images/UX/Brown&BlueFrame.png" id="12_w3n5j"]
 [ext_resource type="PackedScene" uid="uid://ccpydjb6bax7m" path="res://scenes/UX/SoundControlPanel.tscn" id="13_f03nn"]
-[ext_resource type="Texture2D" uid="uid://bt67dgq0c0ljj" path="res://images/UX/Brown&BlueFrame.png" id="12_w3n5j"]
-[ext_resource type="AudioStream" uid="uid://bet0cu5q65l54" path="res://sounds/UX/Lobby1.mp3" id="14_f03nn"]
+[ext_resource type="AudioStream" uid="uid://bqfuym27wm7bw" path="res://sounds/UX/Lobby1.mp3" id="14_f03nn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_31ns2"]
+bg_color = Color(0.8784314, 0.6901961, 0.5019608, 1)
+border_width_left = 12
+border_width_top = 5
+border_width_right = 12
+border_width_bottom = 5
+border_color = Color(0.7529412, 0.42745098, 0.20784314, 0.9529412)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aaw56"]
 content_margin_right = 30.0
@@ -127,6 +139,18 @@ corner_radius_bottom_left = 25
 shader = ExtResource("5_6c0a5")
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hm7mn"]
+bg_color = Color(0.8784314, 0.6901961, 0.5019608, 1)
+border_width_left = 24
+border_width_top = 10
+border_width_right = 24
+border_width_bottom = 10
+border_color = Color(0.80086577, 0.46240848, 0.23660505, 0.9529412)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yvk8j"]
 bg_color = Color(0.8784314, 0.5019608, 0.2509804, 1)
 corner_radius_top_left = 25
@@ -139,6 +163,25 @@ corner_radius_bottom_left = 25
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l3ot1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vys0q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6c0a5"]
+bg_color = Color(0.8784314, 0.6901961, 0.5019608, 1)
+border_width_left = 24
+border_width_top = 10
+border_width_right = 24
+border_width_bottom = 10
+border_color = Color(0.7529412, 0.42745098, 0.20784314, 0.9529412)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xey2k"]
+bg_color = Color(0.06666667, 0.43137255, 0.92156863, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
 
 [node name="Menu" type="Control" unique_id=310760619]
 layout_mode = 3
@@ -173,17 +216,29 @@ offset_bottom = 786.0
 scale = Vector2(1.4, 1.4)
 pivot_offset = Vector2(15.857101, 4.142853)
 
-[node name="BrownFrame" type="Sprite2D" parent="ButtonMenu" unique_id=1840978982]
-position = Vector2(172.00006, 174.75003)
-scale = Vector2(0.3520833, 0.36712965)
-texture = ExtResource("3_hm7mn")
-
-[node name="Play" type="Button" parent="ButtonMenu" unique_id=473864336]
+[node name="Panel" type="Panel" parent="ButtonMenu" unique_id=794401309]
 layout_mode = 0
-offset_left = 46.0
-offset_top = 22.0
+offset_right = 328.0
+offset_bottom = 372.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_31ns2")
+
+[node name="Leaf" type="Sprite2D" parent="ButtonMenu/Panel" unique_id=409105258]
+position = Vector2(329.8563, -0.4014759)
+scale = Vector2(0.10754465, 0.07751336)
+texture = ExtResource("4_hm7mn")
+
+[node name="Leaf2" type="Sprite2D" parent="ButtonMenu/Panel" unique_id=1597304637]
+position = Vector2(332.16562, 30.13446)
+rotation = 0.96259755
+scale = Vector2(0.105184995, 0.067643315)
+texture = ExtResource("4_hm7mn")
+
+[node name="Play" type="Button" parent="ButtonMenu/Panel" unique_id=473864336]
+layout_mode = 0
+offset_left = 45.999992
+offset_top = 21.99997
 offset_right = 276.0
-offset_bottom = 92.0
+offset_bottom = 91.99997
 theme_override_fonts/font = ExtResource("4_31ns2")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_aaw56")
@@ -192,15 +247,15 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_duatf")
 text = "Jugar"
 alignment = 2
 
-[node name="PlayI" type="Sprite2D" parent="ButtonMenu/Play" unique_id=927220252]
+[node name="PlayI" type="Sprite2D" parent="ButtonMenu/Panel/Play" unique_id=927220252]
 material = SubResource("ShaderMaterial_vglpm")
 position = Vector2(60, 36)
 scale = Vector2(0.8, 0.786)
 texture = ExtResource("6_xey2k")
 
-[node name="Rules" type="Button" parent="ButtonMenu" unique_id=1145299079]
+[node name="Rules" type="Button" parent="ButtonMenu/Panel" unique_id=1145299079]
 layout_mode = 0
-offset_left = 46.0
+offset_left = 45.999992
 offset_top = 107.0
 offset_right = 276.0
 offset_bottom = 177.0
@@ -212,18 +267,18 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_7wcm3")
 text = "Reglas"
 alignment = 2
 
-[node name="RulesI" type="Sprite2D" parent="ButtonMenu/Rules" unique_id=588838778]
+[node name="RulesI" type="Sprite2D" parent="ButtonMenu/Panel/Rules" unique_id=588838778]
 material = SubResource("ShaderMaterial_ko1qs")
 position = Vector2(60, 36)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("7_boqd0")
 
-[node name="Credits" type="Button" parent="ButtonMenu" unique_id=362266432]
+[node name="Credits" type="Button" parent="ButtonMenu/Panel" unique_id=362266432]
 layout_mode = 0
-offset_left = 46.0
-offset_top = 192.0
+offset_left = 45.999992
+offset_top = 191.99994
 offset_right = 276.0
-offset_bottom = 262.0
+offset_bottom = 261.99994
 theme_override_fonts/font = ExtResource("4_31ns2")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_vys0q")
@@ -232,18 +287,18 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_ua4hy")
 text = "Creditos"
 alignment = 2
 
-[node name="CreditsI" type="Sprite2D" parent="ButtonMenu/Credits" unique_id=1169080606]
+[node name="CreditsI" type="Sprite2D" parent="ButtonMenu/Panel/Credits" unique_id=1169080606]
 material = SubResource("ShaderMaterial_kjqqx")
 position = Vector2(60, 36)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("8_q63e5")
 
-[node name="Exit" type="Button" parent="ButtonMenu" unique_id=1496089872]
+[node name="Exit" type="Button" parent="ButtonMenu/Panel" unique_id=1496089872]
 layout_mode = 0
-offset_left = 46.0
-offset_top = 277.0
+offset_left = 45.999992
+offset_top = 276.99997
 offset_right = 276.0
-offset_bottom = 347.0
+offset_bottom = 346.99997
 theme_override_fonts/font = ExtResource("4_31ns2")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_6jbn4")
@@ -252,7 +307,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_3yemn")
 text = "Salir"
 alignment = 2
 
-[node name="ExitI" type="Sprite2D" parent="ButtonMenu/Exit" unique_id=495574465]
+[node name="ExitI" type="Sprite2D" parent="ButtonMenu/Panel/Exit" unique_id=495574465]
 material = SubResource("ShaderMaterial_ac2fr")
 position = Vector2(60, 36)
 scale = Vector2(0.8, 0.8)
@@ -266,7 +321,14 @@ offset_right = 2814.0
 offset_bottom = 896.0
 scale = Vector2(1.07, 1.07)
 
+[node name="Panel" type="Panel" parent="GameSelection" unique_id=715351284]
+layout_mode = 0
+offset_right = 814.0
+offset_bottom = 482.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hm7mn")
+
 [node name="BrownFrameV4" type="Sprite2D" parent="GameSelection" unique_id=408304355]
+visible = false
 position = Vector2(0, -25)
 scale = Vector2(0.8496092, 0.8401977)
 texture = ExtResource("10_602j6")
@@ -329,7 +391,22 @@ offset_right = 3840.0
 offset_bottom = 896.0
 scale = Vector2(1.07, 1.07)
 
+[node name="Panel" type="Panel" parent="GameRules" unique_id=1360861382]
+layout_mode = 0
+offset_right = 814.0
+offset_bottom = 482.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_6c0a5")
+
+[node name="Panel" type="Panel" parent="GameRules/Panel" unique_id=1081757921]
+layout_mode = 0
+offset_left = 42.990654
+offset_top = 121.4953
+offset_right = 775.70087
+offset_bottom = 457.94388
+theme_override_styles/panel = SubResource("StyleBoxFlat_xey2k")
+
 [node name="Brown&BlueFrame" type="Sprite2D" parent="GameRules" unique_id=2110974216]
+visible = false
 position = Vector2(0, -4.3257065)
 scale = Vector2(0.8491218, 0.8455105)
 texture = ExtResource("12_w3n5j")
@@ -405,7 +482,8 @@ stream = ExtResource("14_f03nn")
 
 [node name="SoundControlPanel" parent="." unique_id=1992510102 instance=ExtResource("13_f03nn")]
 layout_mode = 1
-offset_left = 4560.0
-offset_top = 748.0
-offset_right = 3088.0
-offset_bottom = -140.0
+offset_left = 4040.0
+offset_top = 480.0
+offset_right = 2568.0
+offset_bottom = -408.0
+scale = Vector2(2, 2)

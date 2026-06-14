@@ -1,12 +1,24 @@
 [gd_scene format=3 uid="uid://dro1ls1tysuj2"]
 
 [ext_resource type="Script" uid="uid://bynetwflhyeic" path="res://scripts/UX/PauseMenu.gd" id="1_g25gx"]
-[ext_resource type="Texture2D" uid="uid://2s3ykceawwdk" path="res://images/UX/BrownFrameV4.png" id="2_tul1g"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="3_sf0id"]
 [ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="4_ohn6c"]
 [ext_resource type="Texture2D" uid="uid://n2ch3oyfvlvd" path="res://images/icons/play.png" id="5_uosg4"]
+[ext_resource type="Texture2D" uid="uid://bot5g16d1p8dy" path="res://images/UX/leaf.png" id="6_tul1g"]
 [ext_resource type="Texture2D" uid="uid://b35spoxiib4db" path="res://images/icons/exit.png" id="6_wghg2"]
 [ext_resource type="PackedScene" uid="uid://ccpydjb6bax7m" path="res://scenes/UX/SoundControlPanel.tscn" id="7_tul1g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sf0id"]
+bg_color = Color(0.8784314, 0.6901961, 0.5019608, 1)
+border_width_left = 12
+border_width_top = 5
+border_width_right = 12
+border_width_bottom = 5
+border_color = Color(0.7529412, 0.42745098, 0.20784314, 0.9529412)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_amxo1"]
 content_margin_right = 20.0
@@ -78,18 +90,20 @@ layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="BrownFrameV4" type="Sprite2D" parent="Panel" unique_id=426476745]
-position = Vector2(792, 448)
-scale = Vector2(0.41406253, 0.345342)
-texture = ExtResource("2_tul1g")
-offset = Vector2(512, 277.4244)
-
-[node name="Play" type="Button" parent="Panel" unique_id=1140279762]
+[node name="Panel" type="Panel" parent="Panel" unique_id=1316540670]
 layout_mode = 0
-offset_left = 872.0
-offset_top = 464.0
-offset_right = 1102.0
-offset_bottom = 534.0
+offset_left = 792.0
+offset_top = 344.0
+offset_right = 1192.0
+offset_bottom = 544.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_sf0id")
+
+[node name="Play" type="Button" parent="Panel/Panel" unique_id=1140279762]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 16.0
+offset_right = 310.0
+offset_bottom = 86.0
 theme_override_fonts/font = ExtResource("3_sf0id")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_amxo1")
@@ -98,18 +112,18 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_s65lu")
 text = "Continuar"
 alignment = 2
 
-[node name="PlayI" type="Sprite2D" parent="Panel/Play" unique_id=1480587337]
+[node name="PlayI" type="Sprite2D" parent="Panel/Panel/Play" unique_id=1480587337]
 material = SubResource("ShaderMaterial_ytt1i")
 position = Vector2(43, 36)
 scale = Vector2(0.8, 0.786)
 texture = ExtResource("5_uosg4")
 
-[node name="Exit" type="Button" parent="Panel" unique_id=2012731666]
+[node name="Exit" type="Button" parent="Panel/Panel" unique_id=2012731666]
 layout_mode = 0
-offset_left = 872.0
-offset_top = 560.0
-offset_right = 1102.0
-offset_bottom = 630.0
+offset_left = 80.0
+offset_top = 112.0
+offset_right = 310.0
+offset_bottom = 182.0
 theme_override_fonts/font = ExtResource("3_sf0id")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_o1bij")
@@ -118,15 +132,26 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_fqop1")
 text = "Menu"
 alignment = 2
 
-[node name="ExitI" type="Sprite2D" parent="Panel/Exit" unique_id=1535229971]
+[node name="ExitI" type="Sprite2D" parent="Panel/Panel/Exit" unique_id=1535229971]
 material = SubResource("ShaderMaterial_od67c")
 position = Vector2(43, 36)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("6_wghg2")
 
+[node name="Leaf" type="Sprite2D" parent="Panel/Panel" unique_id=621621588]
+position = Vector2(396, 6)
+scale = Vector2(0.078125, 0.05468756)
+texture = ExtResource("6_tul1g")
+
+[node name="Leaf2" type="Sprite2D" parent="Panel/Panel" unique_id=1019233336]
+position = Vector2(399, 29.999939)
+rotation = 0.96259755
+scale = Vector2(0.078125, 0.05468756)
+texture = ExtResource("6_tul1g")
+
 [node name="SoundControlPanel" parent="." unique_id=1992510102 instance=ExtResource("7_tul1g")]
 layout_mode = 1
 offset_left = 768.0
-offset_top = 656.0
+offset_top = 552.0
 offset_right = -704.0
-offset_bottom = -232.0
+offset_bottom = -336.0
