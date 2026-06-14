@@ -13,7 +13,7 @@
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="11_iqafl"]
 [ext_resource type="PackedScene" uid="uid://ccpydjb6bax7m" path="res://scenes/UX/SoundControlPanel.tscn" id="13_f03nn"]
 [ext_resource type="Texture2D" uid="uid://bt67dgq0c0ljj" path="res://images/UX/Brown&BlueFrame.png" id="12_w3n5j"]
-[ext_resource type="AudioStream" uid="uid://bet0cu5q65l54" path="res://sounds/UX/Lobby1.mp3" id="13_f03nn"]
+[ext_resource type="AudioStream" uid="uid://bet0cu5q65l54" path="res://sounds/UX/Lobby1.mp3" id="14_f03nn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aaw56"]
 content_margin_right = 30.0
@@ -401,7 +401,7 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_vys0q")
 text = "X"
 
 [node name="Lobby1" type="AudioStreamPlayer" parent="." unique_id=2052798457]
-stream = SubResource("AudioStreamMP3_w6yr1")
+stream = ExtResource("14_f03nn")
 
 [node name="SoundControlPanel" parent="." unique_id=1992510102 instance=ExtResource("13_f03nn")]
 layout_mode = 1
