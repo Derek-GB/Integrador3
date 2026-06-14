@@ -8,20 +8,36 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+
 func _on_button_10_pressed() -> void:
 	var minigame_data = get_node("/root/MinigameData")
-	minigame_data.title = "¡Ordena el botiquín!"
-	minigame_data.description = "Ayuda a organizar correctamente los implementos médicos dentro del botiquín."
-	minigame_data.instructions = "Selecciona cada implemento médico y arrástralo hacia su espacio correcto dentro del botiquín antes de que se acabe el tiempo."
-	minigame_data.video_path = "res://minigames/minigame_kit/assets/kit_Instruction.ogv"
-	minigame_data.minigame_scene = "res://minigames/minigame_kit/MedicalKitMinigame.tscn"
+	minigame_data.title        = "¡Desmonta la casa!"
+	minigame_data.description  = "Un volcán está por hacer erupción, ¡desmontá la casa antes de que sea tarde!"
+	minigame_data.instructions = "Tocá todos los tornillos para desmontar cada pieza de la casa."
+	minigame_data.video_path   = "res://minigames/minigame_house/assets/House_Instruction.ogv"
+	minigame_data.minigame_scene = "res://minigames/minigame_house/HouseMinigame.tscn"
 	minigame_data.controls = [
-		{ "action": "Arrastrar implemento", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+		{ "action": "Tocar tornillo", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
 	]
 	var minigame_scene = load("res://minigames/ui_global/MinigameIntro.tscn")
-	var minigame:Control = minigame_scene.instantiate()
+	var minigame: Control = minigame_scene.instantiate()
 	get_tree().current_scene.add_child(minigame)
-	#get_tree().change_scene_to_file("res://minigames/ui_global/MinigameIntro.tscn")
+	Events.minigame_intro_started.emit()
+#func _on_button_10_pressed() -> void:
+	#var minigame_data = get_node("/root/MinigameData")
+	#minigame_data.title = "¡Ordena el botiquín!"
+	#minigame_data.description = "Ayuda a organizar correctamente los implementos médicos dentro del botiquín."
+	#minigame_data.instructions = "Selecciona cada implemento médico y arrástralo hacia su espacio correcto dentro del botiquín antes de que se acabe el tiempo."
+	#minigame_data.video_path = "res://minigames/minigame_kit/assets/kit_Instruction.ogv"
+	#minigame_data.minigame_scene = "res://minigames/minigame_kit/MedicalKitMinigame.tscn"
+	#minigame_data.controls = [
+		#{ "action": "Arrastrar implemento", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+	#]
+	#var minigame_scene = load("res://minigames/ui_global/MinigameIntro.tscn")
+	#var minigame:Control = minigame_scene.instantiate()
+	#get_tree().current_scene.add_child(minigame)
+	#Events.minigame_intro_started.emit()
+	##get_tree().change_scene_to_file("res://minigames/ui_global/MinigameIntro.tscn")
 
 func _on_button_4_pressed() -> void:
 	var minigame_data = get_node("/root/MinigameData")

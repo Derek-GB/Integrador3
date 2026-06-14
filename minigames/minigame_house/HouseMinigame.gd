@@ -239,4 +239,4 @@ func _lose():
 
 func _on_back_pressed():
 	audio_fondo.stop()
-	get_tree().change_scene_to_file("res://Main.tscn")
+	Events.minigame_finished.emit()

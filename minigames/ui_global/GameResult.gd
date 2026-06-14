@@ -31,8 +31,6 @@ const BACK_BUTTON_TEXT := "Volver al menú"
 # EXPORTED VARIABLES
 # =========================================================
 
-@export var menu_path := "res://MenuPrincipal.tscn"
-
 
 # =========================================================
 # PRIVATE VARIABLES
@@ -256,4 +254,4 @@ func _load_font():
 
 
 func _on_back_button_pressed():
-	get_tree().change_scene_to_file(menu_path)
+	Events.minigame_finished.emit()

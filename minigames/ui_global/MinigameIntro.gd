@@ -77,11 +77,14 @@ func _build_scene():
 	video.volume_db = -80.0
 	panel_video.add_child(video)
 	if minigame_data.video_path != "":
+		print("El path de video es " + minigame_data.video_path)
 		var stream = VideoStreamTheora.new()
 		stream.file = minigame_data.video_path
 		video.stream = stream
 		video.play()
 		video.finished.connect(func(): video.play())
+	else:
+		print("video_path está vacío")
 	# ── VBox lado derecho ──────────────────────────────────
 	var vbox_right = VBoxContainer.new()
 	vbox_right.custom_minimum_size = Vector2(screen.x * 0.36, 0)
@@ -117,8 +120,10 @@ func _build_scene():
 	grid.add_theme_constant_override("v_separation", 8)
 	vbox_controles.add_child(grid)
 	for control in minigame_data.controls:
+		var tex = load(control["icon"])
+		print("Cargando ícono:", control["icon"], " resultado:", tex)
 		var icon = TextureRect.new()
-		icon.texture = load(control["icon"])
+		icon.texture = tex
 		icon.custom_minimum_size = Vector2(50, 50)
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -214,4 +219,6 @@ func _on_start():
 	var audio = get_node_or_null("AudioInstrucciones")
 	if audio:
 		audio.stop()
-	get_tree().change_scene_to_file(minigame_data.minigame_scene)
+	#get_tree().change_scene_to_file(minigame_data.minigame_scene)
+	Events.minigame_confirmed.emit()  # ← en vez de change_scene_to_file
+	queue_free()

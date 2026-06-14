@@ -32,7 +32,7 @@ extends Node3D
 @onready var btn_third: Button                     = $UI/Third_person
 @onready var btn_iso: Button                       = $UI/Iso
 @onready var pause_menu                            = $UI/PauseMenu
-@onready var minigame_view: CanvasLayer            = $MinigameView
+@onready var btn_minigame: Button                  = $UI/Test_MG
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
 const STOP_MENU = preload("res://scenes/UX/PauseMenu.tscn")
@@ -83,13 +83,18 @@ func _ready() -> void:
 	btn_third.pressed.connect(switch_camera.bind(marker_third))
 	btn_iso.pressed.connect(switch_camera.bind(marker_iso))
 
+	btn_minigame.pressed.connect(_on_minigame_test)
 	Events.play_sound.connect(_on_play_sound)
-
+	Events.minigame_intro_started.connect(_on_minigame_intro_started)
+	Events.minigame_confirmed.connect(_on_minigame_confirmed)
+	Events.minigame_finished.connect(_on_minigame_finished)
+	
 	_dice_overlay_instance = DICE_OVERLAY_SCENE.instantiate()
 	_dice_overlay_instance.visible = false
 	add_child(_dice_overlay_instance)
 	_dice_overlay_instance.overlay_done.connect(_on_dice_rolled)
 
+	pause_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	#AudioManager.play_music(lobby2)        # ← música de fondo inicia aquí
 	AudioManager.play_music(board_sound)       # ← sonido ambiente del board_sound
 
@@ -242,9 +247,12 @@ func _on_ficha_stepped(_index: int) -> void:
 # BOTON SALIR
 # =========================================================
 func _on_pause() -> void:
-	MainMenuMinigamePrueba._on_button_10_pressed()
-	#pause_menu.open_window()
+	#get_tree().paused = not get_tree().paused
+	pause_menu.open_window()
 	#get_tree().change_scene_to_packed(STOP_MENU)
+
+func _on_minigame_test() -> void:
+	MainMenuMinigamePrueba._on_button_10_pressed()
 
 # =========================================================
 # BOTON TIRAR 3 (DEBUG)
@@ -323,6 +331,30 @@ func _on_play_sound(sound_name: String) -> void:
 		AudioManager.play_sfx(move_forward_sound)
 	elif sound_name == "retroceder":
 		AudioManager.play_sfx(move_back_sound)
+
+func _on_minigame_intro_started() -> void:
+	$UI.visible = false
+	AudioManager.stop_music()
+
+func _on_minigame_confirmed() -> void:
+	var path = get_node("/root/MinigameData").minigame_scene
+	print("Cargando minijuego:", path)        # ← verificá que la ruta sea correcta
+	var mg_scene = load(path)
+	if mg_scene == null:
+		print("ERROR: no se pudo cargar la escena en:", path)
+		return
+	var mg: Node = mg_scene.instantiate()
+	mg.name = "ActiveMinigame"
+	add_child(mg)
+	if mg.has_signal("minigame_finished"):
+		mg.minigame_finished.connect(func(): Events.minigame_finished.emit(), CONNECT_ONE_SHOT)
+
+func _on_minigame_finished() -> void:
+	var mg = get_node_or_null("ActiveMinigame")
+	if mg:
+		mg.queue_free()
+	$UI.visible = true
+	AudioManager.play_music(board_sound)
 
 func _apply_skip(player_index: int) -> void:
 	var _name: String
