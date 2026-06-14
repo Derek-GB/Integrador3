@@ -5,3 +5,5 @@ extends Node
 signal turn_changed(player_index: int)
 ##Aviso de sonido a reproducir
 signal play_sound(sound_name: String)
+
+signal set_minigame(minigame:int)

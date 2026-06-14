@@ -18,7 +18,10 @@ func _on_button_10_pressed() -> void:
 	minigame_data.controls = [
 		{ "action": "Arrastrar implemento", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
 	]
-	get_tree().change_scene_to_file("res://minigames/ui_global/MinigameIntro.tscn")
+	var minigame_scene = load("res://minigames/ui_global/MinigameIntro.tscn")
+	var minigame:Control = minigame_scene.instantiate()
+	get_tree().current_scene.add_child(minigame)
+	#get_tree().change_scene_to_file("res://minigames/ui_global/MinigameIntro.tscn")
 
 func _on_button_4_pressed() -> void:
 	var minigame_data = get_node("/root/MinigameData")

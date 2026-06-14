@@ -32,6 +32,7 @@ extends Node3D
 @onready var btn_third: Button                     = $UI/Third_person
 @onready var btn_iso: Button                       = $UI/Iso
 @onready var pause_menu                            = $UI/PauseMenu
+@onready var minigame_view: CanvasLayer            = $MinigameView
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
 const STOP_MENU = preload("res://scenes/UX/PauseMenu.tscn")
@@ -106,7 +107,7 @@ func switch_camera(marker: Marker3D) -> void:
 	var tween: Tween = create_tween().set_parallel(true)
 	tween.tween_property(camera, "transform", marker.transform, 0.6)
 	tween.tween_property(camera_rig, "rotation:y", deg_to_rad(active.rotation_degrees.y), 0.6)
-
+	
 # =========================================================
 # CREAR TurnoLabel Y PosicionLabel
 # =========================================================
@@ -241,7 +242,8 @@ func _on_ficha_stepped(_index: int) -> void:
 # BOTON SALIR
 # =========================================================
 func _on_pause() -> void:
-	pause_menu.open_window()
+	MainMenuMinigamePrueba._on_button_10_pressed()
+	#pause_menu.open_window()
 	#get_tree().change_scene_to_packed(STOP_MENU)
 
 # =========================================================
