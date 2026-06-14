@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://7f5jfxlqv1k1"]
+[gd_scene format=3 uid="uid://bjtx73jiqc4ks"]
 
-[ext_resource type="Script" uid="uid://721euuos45tc" path="res://scripts/main.gd" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://721euuos45tc" path="res://scripts/core/Main.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://c456hb1ulbl35" path="res://scenes/board/Board.tscn" id="2_jyhfs"]
 [ext_resource type="AudioStream" uid="uid://bsyxkw1e4vplj" path="res://sounds/board/Dice.wav" id="4_tbgi4"]
 [ext_resource type="AudioStream" uid="uid://duwdtcqv85d2w" path="res://sounds/board/MoveForward.wav" id="5_85g3d"]
@@ -86,9 +86,11 @@ text = "Reiniciar"
 
 [node name="DiceSound" type="AudioStreamPlayer" parent="UI" unique_id=882566094]
 stream = ExtResource("4_tbgi4")
+bus = &"SFX"
 
 [node name="MoveSound" type="AudioStreamPlayer" parent="UI" unique_id=895007495]
 stream = ExtResource("5_tefeu")
+bus = &"SFX"
 
 [node name="PauseMenu" parent="UI" unique_id=578483314 instance=ExtResource("5_choun")]
 offset_left = 2440.0
@@ -109,27 +111,36 @@ transform = Transform3D(1, 0, 0, 0, 0.7396311, 0.6730125, 0, -0.6730125, 0.73963
 
 [node name="MoveForward" type="AudioStreamPlayer" parent="." unique_id=864916536]
 stream = ExtResource("5_85g3d")
+bus = &"SFX"
 
 [node name="GameOver" type="AudioStreamPlayer" parent="." unique_id=1179341805]
 stream = ExtResource("6_trceg")
+bus = &"SFX"
 
 [node name="Lobby1" type="AudioStreamPlayer" parent="." unique_id=199158367]
 stream = ExtResource("6_ya4ey")
+bus = &"Music"
 
 [node name="Lobby2" type="AudioStreamPlayer" parent="." unique_id=1500968507]
 stream = ExtResource("7_eb6dy")
+bus = &"Music"
 
 [node name="Victory" type="AudioStreamPlayer" parent="." unique_id=1503915021]
 stream = ExtResource("9_a8y0u")
+bus = &"Music"
 
 [node name="MoveBack" type="AudioStreamPlayer" parent="." unique_id=1031250401]
 stream = ExtResource("6_choun")
+bus = &"SFX"
 
 [node name="Move" type="AudioStreamPlayer" parent="." unique_id=1965576230]
 stream = ExtResource("7_ya4ey")
+bus = &"SFX"
 
 [node name="Board" type="AudioStreamPlayer" parent="." unique_id=176450706]
 stream = ExtResource("8_eb6dy")
+bus = &"SFX"
 
 [node name="TimeOver" type="AudioStreamPlayer" parent="." unique_id=1310196978]
 stream = ExtResource("9_trceg")
+bus = &"SFX"
