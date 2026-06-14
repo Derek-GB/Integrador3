@@ -8,16 +8,17 @@ const MASTER_BUS = "Master"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
-	synchronize_slider(MASTER_BUS,btn_music_control)
+	synchronize_slider(MUSIC_BUS,btn_music_control)
+	synchronize_slider(SFX_BUS,btn_sfx_control)
 		
 	btn_music_control.value_changed.connect(
 		func (value):
-		AudioManager.change_volume(MASTER_BUS, value)
+		AudioManager.change_volume(MUSIC_BUS, value)
 	)
 	
 	btn_sfx_control.value_changed.connect(
 		func (value):
-			AudioManager.change_volume("SFX", value)
+			AudioManager.change_volume(SFX_BUS, value)
 	)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
