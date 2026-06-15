@@ -4,8 +4,8 @@ const MAIN_MENU = "res://scenes/UX/MainMenu.tscn"
 const HIDDEN_POSITION: Vector2 = Vector2(2000,0)
 const VISIBLE_POSITION: Vector2 = Vector2(0,0)
 
-@onready var btn_exit = $Panel/Exit
-@onready var btn_play = $Panel/Play
+@onready var btn_exit = $Panel/Panel/Exit
+@onready var btn_play = $Panel/Panel/Play
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
