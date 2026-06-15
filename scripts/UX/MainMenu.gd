@@ -20,8 +20,8 @@ var current_menu: Control = null
 @onready var btn_exit_menu: Button = $ButtonMenu/Panel/Exit
 @onready var btn_1vs1: Button = $"GameSelection/1Vs1"
 @onready var btn_1vsbot: Button = $"GameSelection/1VsBot"
-@onready var btn_close_selection: Button = $GameSelection/CloseSelection
-@onready var btn_close_rules: Button = $GameRules/CloseRules
+@onready var btn_close_selection: Button = $GameSelection/Label/CloseSelection
+@onready var btn_close_rules: Button = $GameRules/Label/CloseRules
 @onready var btn_settings: Button = $Settings
 
 @onready var lobby1: AudioStreamPlayer = $Lobby1

@@ -3,15 +3,13 @@
 [ext_resource type="Script" uid="uid://cy2jurhducyl" path="res://scripts/UX/MainMenu.gd" id="1_mjre4"]
 [ext_resource type="Texture2D" uid="uid://djt6g0q68qexl" path="res://images/UX/BackgroundV2.png" id="2_f03nn"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="4_31ns2"]
-[ext_resource type="Texture2D" uid="uid://bot5g16d1p8dy" path="res://images/UX/leaf.png" id="4_hm7mn"]
+[ext_resource type="Texture2D" uid="uid://c6p4rtxnhyn6j" path="res://images/UX/leaf.png" id="4_hm7mn"]
 [ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="5_6c0a5"]
 [ext_resource type="Texture2D" uid="uid://n2ch3oyfvlvd" path="res://images/icons/play.png" id="6_xey2k"]
 [ext_resource type="Texture2D" uid="uid://gtpd4xwkeqw3" path="res://images/icons/rules.png" id="7_boqd0"]
 [ext_resource type="Texture2D" uid="uid://bkt77v2f3i1e0" path="res://images/icons/credits.png" id="8_q63e5"]
 [ext_resource type="Texture2D" uid="uid://b35spoxiib4db" path="res://images/icons/exit.png" id="9_n3d7r"]
-[ext_resource type="Texture2D" uid="uid://2s3ykceawwdk" path="res://images/UX/BrownFrameV4.png" id="10_602j6"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="11_iqafl"]
-[ext_resource type="Texture2D" uid="uid://dyvkfyv1lw5n0" path="res://images/UX/Brown&BlueFrame.png" id="12_w3n5j"]
 [ext_resource type="PackedScene" uid="uid://ccpydjb6bax7m" path="res://scenes/UX/SoundControlPanel.tscn" id="13_f03nn"]
 [ext_resource type="AudioStream" uid="uid://bqfuym27wm7bw" path="res://sounds/UX/Lobby1.mp3" id="14_f03nn"]
 
@@ -145,14 +143,14 @@ border_width_left = 24
 border_width_top = 10
 border_width_right = 24
 border_width_bottom = 10
-border_color = Color(0.80086577, 0.46240848, 0.23660505, 0.9529412)
+border_color = Color(0.7529412, 0.42745098, 0.20784314, 0.9529412)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yvk8j"]
-bg_color = Color(0.8784314, 0.5019608, 0.2509804, 1)
+bg_color = Color(0.12156863, 0.61960787, 0.14509805, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -177,7 +175,7 @@ corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xey2k"]
-bg_color = Color(0.06666667, 0.43137255, 0.92156863, 1)
+bg_color = Color(0.81960785, 0.4117647, 0.09803922, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -223,12 +221,12 @@ offset_bottom = 372.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_31ns2")
 
 [node name="Leaf" type="Sprite2D" parent="ButtonMenu/Panel" unique_id=409105258]
-position = Vector2(329.8563, -0.4014759)
+position = Vector2(342, -0.4014759)
 scale = Vector2(0.10754465, 0.07751336)
 texture = ExtResource("4_hm7mn")
 
 [node name="Leaf2" type="Sprite2D" parent="ButtonMenu/Panel" unique_id=1597304637]
-position = Vector2(332.16562, 30.13446)
+position = Vector2(344, 30.134)
 rotation = 0.96259755
 scale = Vector2(0.105184995, 0.067643315)
 texture = ExtResource("4_hm7mn")
@@ -327,25 +325,45 @@ offset_right = 814.0
 offset_bottom = 482.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_hm7mn")
 
-[node name="BrownFrameV4" type="Sprite2D" parent="GameSelection" unique_id=408304355]
-visible = false
-position = Vector2(0, -25)
-scale = Vector2(0.8496092, 0.8401977)
-texture = ExtResource("10_602j6")
-centered = false
+[node name="Leaf3" type="Sprite2D" parent="GameSelection/Panel" unique_id=2100087361]
+position = Vector2(828.6319, 12.879265)
+scale = Vector2(0.14071262, 0.10141936)
+texture = ExtResource("4_hm7mn")
+
+[node name="Leaf4" type="Sprite2D" parent="GameSelection/Panel" unique_id=1522633805]
+position = Vector2(831.2491, 52.832306)
+rotation = 0.9625975
+scale = Vector2(0.13762522, 0.08850527)
+texture = ExtResource("4_hm7mn")
 
 [node name="Label" type="Label" parent="GameSelection" unique_id=300458998]
 layout_mode = 0
-offset_left = 28.037
-offset_top = 1.869
-offset_right = 790.037
-offset_bottom = 98.869
+offset_left = 29.906502
+offset_top = 31.775719
+offset_right = 785.04663
+offset_bottom = 91.5888
 theme_override_fonts/font = ExtResource("11_iqafl")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_yvk8j")
 text = "Selecciona el modo de juego"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="CloseSelection" type="Button" parent="GameSelection/Label" unique_id=1797250219]
+layout_mode = 0
+offset_left = 687.85034
+offset_top = -3.671646e-05
+offset_right = 732.7102
+offset_bottom = 61.99996
+theme_override_colors/font_color = Color(0.36369702, 0.18914226, 0.06838927, 0.9529412)
+theme_override_colors/font_pressed_color = Color(0.5052401, 0.26968017, 0.10740551, 0.9529412)
+theme_override_colors/font_hover_color = Color(0.3647059, 0.1882353, 0.06666667, 0.9529412)
+theme_override_fonts/font = ExtResource("11_iqafl")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxEmpty_aaw56")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_l3ot1")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_vys0q")
+text = "X"
 
 [node name="1Vs1" type="Button" parent="GameSelection" unique_id=1656783485]
 layout_mode = 0
@@ -367,27 +385,11 @@ theme_override_fonts/font = ExtResource("4_31ns2")
 theme_override_font_sizes/font_size = 30
 text = "1 vs bot"
 
-[node name="CloseSelection" type="Button" parent="GameSelection" unique_id=1797250219]
-layout_mode = 0
-offset_left = 719.6261
-offset_top = -13.084106
-offset_right = 799.6261
-offset_bottom = 66.91589
-theme_override_colors/font_color = Color(0.9411765, 0.1254902, 0.1254902, 1)
-theme_override_colors/font_pressed_color = Color(0.5058824, 0.047058824, 0.047058824, 1)
-theme_override_colors/font_hover_color = Color(0.6912892, 0.080214866, 0.080214866, 1)
-theme_override_fonts/font = ExtResource("11_iqafl")
-theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxEmpty_aaw56")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_l3ot1")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_vys0q")
-text = "X"
-
 [node name="GameRules" type="Control" parent="." unique_id=1236868803]
 anchors_preset = 0
-offset_left = 3026.0
-offset_top = 414.00003
-offset_right = 3840.0
+offset_left = 3024.0
+offset_top = 414.0
+offset_right = 3838.0
 offset_bottom = 896.0
 scale = Vector2(1.07, 1.07)
 
@@ -397,6 +399,17 @@ offset_right = 814.0
 offset_bottom = 482.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_6c0a5")
 
+[node name="Leaf5" type="Sprite2D" parent="GameRules/Panel" unique_id=14318305]
+position = Vector2(828.6319, 12.879244)
+scale = Vector2(0.14071262, 0.10141937)
+texture = ExtResource("4_hm7mn")
+
+[node name="Leaf6" type="Sprite2D" parent="GameRules/Panel" unique_id=1731818454]
+position = Vector2(831.249, 52.83228)
+rotation = 0.9625974
+scale = Vector2(0.13762522, 0.08850527)
+texture = ExtResource("4_hm7mn")
+
 [node name="Panel" type="Panel" parent="GameRules/Panel" unique_id=1081757921]
 layout_mode = 0
 offset_left = 42.990654
@@ -405,33 +418,34 @@ offset_right = 775.70087
 offset_bottom = 457.94388
 theme_override_styles/panel = SubResource("StyleBoxFlat_xey2k")
 
-[node name="Brown&BlueFrame" type="Sprite2D" parent="GameRules" unique_id=2110974216]
-visible = false
-position = Vector2(0, -4.3257065)
-scale = Vector2(0.8491218, 0.8455105)
-texture = ExtResource("12_w3n5j")
-centered = false
-offset = Vector2(0, -28)
-
-[node name="BrownFrameV4" type="Sprite2D" parent="GameRules" unique_id=1216596254]
-visible = false
-position = Vector2(0, -25)
-scale = Vector2(0.8496092, 0.8401977)
-texture = ExtResource("10_602j6")
-centered = false
-
 [node name="Label" type="Label" parent="GameRules" unique_id=1734032015]
 layout_mode = 0
-offset_left = 28.0374
-offset_top = 1.8691063
-offset_right = 790.0374
-offset_bottom = 98.86911
+offset_left = 29.906612
+offset_top = 31.775715
+offset_right = 785.04663
+offset_bottom = 91.8224
 theme_override_fonts/font = ExtResource("11_iqafl")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_yvk8j")
 text = "Reglas del Juego"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="CloseRules" type="Button" parent="GameRules/Label" unique_id=1741357162]
+layout_mode = 0
+offset_left = 687.85046
+offset_top = 1.1444092e-05
+offset_right = 732.7103
+offset_bottom = 62.00001
+theme_override_colors/font_color = Color(0.3647059, 0.1882353, 0.06666667, 0.9529412)
+theme_override_colors/font_pressed_color = Color(0.5052401, 0.26968017, 0.10740551, 0.9529412)
+theme_override_colors/font_hover_color = Color(0.3647059, 0.1882353, 0.06666667, 0.9529412)
+theme_override_fonts/font = ExtResource("11_iqafl")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxEmpty_aaw56")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_l3ot1")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_vys0q")
+text = "X"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="GameRules" unique_id=2074101733]
 layout_mode = 0
@@ -460,22 +474,6 @@ text = "[b]Modalidades de juego:[/b]
 [img=150]res://images/cards/card_back.png[/img] Casillas de Preguntas: Al caer aquí, el sistema mostrará una pregunta en pantalla."
 fit_content = true
 autowrap_mode = 2
-
-[node name="CloseRules" type="Button" parent="GameRules" unique_id=1741357162]
-layout_mode = 0
-offset_left = 719.626
-offset_top = -13.084137
-offset_right = 799.626
-offset_bottom = 66.91586
-theme_override_colors/font_color = Color(0.9411765, 0.1254902, 0.1254902, 1)
-theme_override_colors/font_pressed_color = Color(0.5058824, 0.047058824, 0.047058824, 1)
-theme_override_colors/font_hover_color = Color(0.6912892, 0.080214866, 0.080214866, 1)
-theme_override_fonts/font = ExtResource("11_iqafl")
-theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxEmpty_aaw56")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_l3ot1")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_vys0q")
-text = "X"
 
 [node name="Lobby1" type="AudioStreamPlayer" parent="." unique_id=2052798457]
 stream = ExtResource("14_f03nn")

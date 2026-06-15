@@ -4,7 +4,7 @@
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="3_sf0id"]
 [ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="4_ohn6c"]
 [ext_resource type="Texture2D" uid="uid://n2ch3oyfvlvd" path="res://images/icons/play.png" id="5_uosg4"]
-[ext_resource type="Texture2D" uid="uid://bot5g16d1p8dy" path="res://images/UX/leaf.png" id="6_tul1g"]
+[ext_resource type="Texture2D" uid="uid://c6p4rtxnhyn6j" path="res://images/UX/leaf.png" id="6_tul1g"]
 [ext_resource type="Texture2D" uid="uid://b35spoxiib4db" path="res://images/icons/exit.png" id="6_wghg2"]
 [ext_resource type="PackedScene" uid="uid://ccpydjb6bax7m" path="res://scenes/UX/SoundControlPanel.tscn" id="7_tul1g"]
 
@@ -139,12 +139,12 @@ scale = Vector2(0.8, 0.8)
 texture = ExtResource("6_wghg2")
 
 [node name="Leaf" type="Sprite2D" parent="Panel/Panel" unique_id=621621588]
-position = Vector2(396, 6)
+position = Vector2(407, 6)
 scale = Vector2(0.078125, 0.05468756)
 texture = ExtResource("6_tul1g")
 
 [node name="Leaf2" type="Sprite2D" parent="Panel/Panel" unique_id=1019233336]
-position = Vector2(399, 29.999939)
+position = Vector2(410, 28)
 rotation = 0.96259755
 scale = Vector2(0.078125, 0.05468756)
 texture = ExtResource("6_tul1g")
