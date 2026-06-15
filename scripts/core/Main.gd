@@ -14,63 +14,54 @@ extends Node3D
 @export var board_sound: AudioStream
 @export var time_over_sound: AudioStream
 
-
 # =========================================================
-# NODOS DE LA ESCENA (existentes)
+# NODOS DE LA ESCENA
 # =========================================================
-@onready var map                                   = $Map
-@onready var piece                                 = $Map/Token
-@onready var camera_rig: Node3D                    = $Camera_rig
-@onready var camera: Camera3D                      = $Camera_rig/Camera3D
-@onready var marker_iso: Marker3D                  = $Camera_rig/Marker_Iso
-@onready var marker_third: Marker3D                = $Camera_rig/Marker_Third
-@onready var dice_label: Label                     = $UI/DiceLabel
-@onready var btn_pause: Button                     = $UI/Pause
-@onready var btn_throw: Button                     = $UI/BtnThrow
-@onready var btn_throw_3: Button                   = $UI/Throw_3
-@onready var btn_restart: Button                   = $UI/Restart
-@onready var btn_third: Button                     = $UI/Third_person
-@onready var btn_iso: Button                       = $UI/Iso
-@onready var pause_menu                            = $UI/PauseMenu
-@onready var btn_minigame: Button                  = $UI/Test_MG
+@onready var map                = $Map
+@onready var piece              = $Map/Token
+@onready var camera_rig: Node3D = $Camera_rig
+@onready var camera: Camera3D   = $Camera_rig/Camera3D
+@onready var marker_iso: Marker3D   = $Camera_rig/Marker_Iso
+@onready var marker_third: Marker3D = $Camera_rig/Marker_Third
+@onready var dice_label: Label  = $UI/DiceLabel
+@onready var btn_pause: Button  = $UI/Pause
+@onready var btn_throw: Button  = $UI/BtnThrow
+@onready var btn_throw_3: Button = $UI/Throw_3
+@onready var btn_restart: Button = $UI/Restart
+@onready var btn_third: Button  = $UI/Third_person
+@onready var btn_iso: Button    = $UI/Iso
+@onready var pause_menu         = $UI/PauseMenu
+@onready var btn_minigame: Button = $UI/Test_MG
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
-const STOP_MENU = preload("res://scenes/UX/PauseMenu.tscn")
+const STOP_MENU          = preload("res://scenes/UX/PauseMenu.tscn")
+const PIECE_SCENE        = preload("res://scenes/board/Token.tscn")
 
 # =========================================================
-# ESTADO DEL JUEGO
+# VARIABLES
 # =========================================================
 var game_over: bool = false
 var game_mode: int  = 1
-var _waypoints: Array[Vector3] = []
+var _waypoints: Array[Vector3]        = []
 var _waypoint_rotations: Array[float] = []
-var _waypoint_bases: Array[Basis] = []
-var _camera_delay_timer: float = 0.0
-var _camera_delay_active: bool = false
+var _waypoint_bases: Array[Basis]     = []
+var _camera_delay_timer: float  = 0.0
+var _camera_delay_active: bool  = false
 var _dice_overlay_instance: Node = null
-
-# =========================================================
-# SEGUNDA FICHA
-# =========================================================
 var piece2 = null
-const PIECE_SCENE = preload("res://scenes/board/Token.tscn")
-
-# =========================================================
-# UI DINAMICA
-# =========================================================
-var turn_label: Label    = null
+var turn_label: Label     = null
 var position_label: Label = null
 
 # =========================================================
-# READY
+# CICLO DE VIDA
 # =========================================================
 func _ready() -> void:
-	_waypoints = map.get_waypoints()
+	_waypoints          = map.get_waypoints()
 	_waypoint_rotations = map.get_waypoint_rotations()
-	_waypoint_bases = map.get_waypoint_bases()
-	print("Main: waypoints =", _waypoints.size(), "rotaciones =", _waypoint_rotations.size(), "bases =", _waypoint_bases.size())
-	camera.make_current()
+	_waypoint_bases     = map.get_waypoint_bases()
+	print("Main: waypoints =", _waypoints.size(), " rotaciones =", _waypoint_rotations.size(), " bases =", _waypoint_bases.size())
 
+	camera.make_current()
 	camera.position = marker_iso.position
 	camera.rotation = marker_iso.rotation
 
@@ -79,42 +70,69 @@ func _ready() -> void:
 	btn_pause.pressed.connect(_on_pause)
 	btn_throw_3.pressed.connect(_on_throw_3)
 	btn_restart.pressed.connect(_on_restart)
-	Events.turn_changed.connect(_on_turn_changed)
 	btn_third.pressed.connect(switch_camera.bind(marker_third))
 	btn_iso.pressed.connect(switch_camera.bind(marker_iso))
-
 	btn_minigame.pressed.connect(_on_minigame_test)
+
+	Events.turn_changed.connect(_on_turn_changed)
 	Events.play_sound.connect(_on_play_sound)
+	Events.set_minigame.connect(_on_set_minigame)
 	Events.minigame_intro_started.connect(_on_minigame_intro_started)
 	Events.minigame_confirmed.connect(_on_minigame_confirmed)
 	Events.minigame_finished.connect(_on_minigame_finished)
-	
+
 	_dice_overlay_instance = DICE_OVERLAY_SCENE.instantiate()
 	_dice_overlay_instance.visible = false
 	add_child(_dice_overlay_instance)
 	_dice_overlay_instance.overlay_done.connect(_on_dice_rolled)
 
 	pause_menu.process_mode = Node.PROCESS_MODE_ALWAYS
-	#AudioManager.play_music(lobby2)        # ← música de fondo inicia aquí
-	AudioManager.play_music(board_sound)       # ← sonido ambiente del board_sound
+	AudioManager.play_music(board_sound)
 
 	_init_ui_extra()
 	_start_game()
-	
 
-func switch_camera(marker: Marker3D) -> void:
+func _process(delta: float) -> void:
+	if GameManager.tokens.is_empty():
+		return
+
+	if _camera_delay_active:
+		_camera_delay_timer -= delta
+		if _camera_delay_timer <= 0.0:
+			_camera_delay_active = false
+		else:
+			return
+
 	var active: Node3D
 	if GameManager.current_player < GameManager.tokens.size():
 		active = GameManager.tokens[GameManager.current_player]
 	else:
 		active = piece
 
+	var follow_weight: float = clamp(delta * camera_smooth_speed, 0.0, 1.0)
+	camera_rig.global_position = camera_rig.global_position.lerp(active.global_position, follow_weight)
+
+	var target_yaw: float = deg_to_rad(active.rotation_degrees.y)
+	camera_rig.rotation.y = lerp_angle(camera_rig.rotation.y, target_yaw, follow_weight)
+	camera_rig.rotation.y = fmod(camera_rig.rotation.y + TAU, TAU)
+	if camera_rig.rotation.y < 0.0:
+		camera_rig.rotation.y += TAU
+
+# =========================================================
+# MÉTODOS PÚBLICOS
+# =========================================================
+func switch_camera(marker: Marker3D) -> void:
+	var active: Node3D
+	if GameManager.current_player < GameManager.tokens.size():
+		active = GameManager.tokens[GameManager.current_player]
+	else:
+		active = piece
 	var tween: Tween = create_tween().set_parallel(true)
 	tween.tween_property(camera, "transform", marker.transform, 0.6)
 	tween.tween_property(camera_rig, "rotation:y", deg_to_rad(active.rotation_degrees.y), 0.6)
-	
+
 # =========================================================
-# CREAR TurnoLabel Y PosicionLabel
+# MÉTODOS PRIVADOS
 # =========================================================
 func _init_ui_extra() -> void:
 	turn_label = Label.new()
@@ -135,12 +153,9 @@ func _init_ui_extra() -> void:
 	position_label.add_theme_color_override("font_color", Color(0.9, 0.9, 0.9))
 	$UI.add_child(position_label)
 
-# =========================================================
-# INICIAR JUEGO
-# =========================================================
 func _start_game() -> void:
-	var mode = GameManager.game_mode
-	game_mode = GameManager.game_mode
+	var mode := GameManager.game_mode
+	game_mode = mode
 	GameManager.tokens.clear()
 	GameManager.current_player = 0
 
@@ -175,9 +190,6 @@ func _start_game() -> void:
 	_update_position_label()
 	print("Main: juego iniciado modo", mode)
 
-# =========================================================
-# ETIQUETA 3D ENCIMA DE LA FICHA
-# =========================================================
 func _add_tag(f: Node3D, texto: String) -> void:
 	var lbl := Label3D.new()
 	lbl.text = texto
@@ -188,75 +200,23 @@ func _add_tag(f: Node3D, texto: String) -> void:
 	lbl.no_depth_test = true
 	f.add_child(lbl)
 
-# =========================================================
-# CAMARA SIGUE AL TOKEN ACTIVO
-# =========================================================
-func _process(delta: float) -> void:
-	if GameManager.tokens.is_empty():
-		return
-
-	if _camera_delay_active:
-		_camera_delay_timer -= delta
-		if _camera_delay_timer <= 0.0:
-			_camera_delay_active = false
-		else:
-			return
-
-	var active: Node3D
-
-	if GameManager.current_player < GameManager.tokens.size():
-		active = GameManager.tokens[GameManager.current_player]
-	else:
-		active = piece
-
-	var follow_weight: float = clamp(delta * camera_smooth_speed, 0.0, 1.0)
-	camera_rig.global_position = camera_rig.global_position.lerp(
-		active.global_position,
-		follow_weight
-	)
-
-	var target_yaw: float = deg_to_rad(active.rotation_degrees.y)
-	camera_rig.rotation.y = lerp_angle(
-		camera_rig.rotation.y,
-		target_yaw,
-		follow_weight
-	)
-
-	# Asegura que el giro use siempre el camino angular más corto.
-	camera_rig.rotation.y = fmod(camera_rig.rotation.y + TAU, TAU)
-	if camera_rig.rotation.y < 0.0:
-		camera_rig.rotation.y += TAU
-
-# =========================================================
-# SONIDO Y POSICION AL PISAR CASILLA
-# =========================================================
 func _on_ficha_stepped(_index: int) -> void:
 	AudioManager.play_sfx(move_sound)
 	_update_position_label()
-	
-	# Sonido según la acción de carta roja
-	var type = GameManager.last_action_type
+	var type := GameManager.last_action_type
 	if type == "advance":
-		AudioManager.play_sfx(move_forward_sound)   # ← carta roja: avanzar casillas
+		AudioManager.play_sfx(move_forward_sound)
 	elif type == "go_back":
-		AudioManager.play_sfx(move_back_sound) # ← carta roja: retroceder casillas
+		AudioManager.play_sfx(move_back_sound)
 	elif type == "go_to_space":
-		AudioManager.play_sfx(move_sound)             # ← carta roja: ir a casilla específica
+		AudioManager.play_sfx(move_sound)
 
-# =========================================================
-# BOTON SALIR
-# =========================================================
 func _on_pause() -> void:
-	#get_tree().paused = not get_tree().paused
 	pause_menu.open_window()
-	#get_tree().change_scene_to_packed(STOP_MENU)
 
 func _on_minigame_test() -> void:
-	MainMenuMinigamePrueba._on_button_10_pressed()
+	Events.set_minigame.emit(15)
 
-# =========================================================
-# BOTON TIRAR 3 (DEBUG)
-# =========================================================
 func _on_throw_3() -> void:
 	if game_over:
 		return
@@ -266,21 +226,15 @@ func _on_throw_3() -> void:
 	dice_label.text = "Tiraste un 3"
 	await GameManager.on_dice_rolled(3)
 
-# =========================================================
-# REINICIAR
-# =========================================================
 func _on_restart() -> void:
 	GameManager.tokens.clear()
 	GameManager.current_player   = 0
 	GameManager.is_player_moving = false
-	GameManager.minigame_active = false
+	GameManager.minigame_active  = false
 	GameManager.skip_player_index = -1
 	GameManager.last_action_type = ""
 	get_tree().reload_current_scene()
 
-# =========================================================
-# DADO FISICO
-# =========================================================
 func _on_btn_throw() -> void:
 	if game_over or _dice_overlay_instance == null:
 		return
@@ -296,27 +250,19 @@ func _on_dice_rolled(n: int) -> void:
 	dice_label.text = "Tiraste un %d" % n
 	await GameManager.on_dice_rolled(n)
 
-# =========================================================
-# CAMBIO DE TURNO
-# =========================================================
 func _on_turn_changed(player_index: int) -> void:
 	if game_over:
 		return
-	_camera_delay_timer = turn_camera_delay
+	_camera_delay_timer  = turn_camera_delay
 	_camera_delay_active = true
 	_update_turn_label(player_index)
 	btn_throw.disabled = true
-
 	print("Main: turn_changed recibido =", player_index)
 
-	# Turno penalizado: move_sound sin habilitar botón ni iniciar CPU
 	if GameManager.skip_player_index == player_index:
 		GameManager.skip_player_index = -1
 		_apply_skip(player_index)
 		return
-
-	var can_throw_human: bool = (game_mode == 1) or (game_mode == 2 and player_index == 0)
-	print("Main: habilitar botón =", can_throw_human)
 
 	if game_mode == 2 and player_index == 1:
 		dice_label.text = "Turno de la Maquina..."
@@ -332,13 +278,30 @@ func _on_play_sound(sound_name: String) -> void:
 	elif sound_name == "retroceder":
 		AudioManager.play_sfx(move_back_sound)
 
+# Recibe el índice de casilla, llena MinigameData e instancia MinigameIntro
+func _on_set_minigame(tile_index: int) -> void:
+	if not GameManager.MINIGAMES.has(tile_index):
+		push_warning("Main: no hay minijuego definido para casilla %d" % tile_index)
+		return
+	var data: Dictionary = GameManager.MINIGAMES[tile_index]
+	var minigame_data := get_node("/root/MinigameData")
+	minigame_data.title          = data["title"]
+	minigame_data.description    = data["description"]
+	minigame_data.instructions   = data["instructions"]
+	minigame_data.video_path     = data["video_path"]
+	minigame_data.minigame_scene = data["minigame_scene"]
+	minigame_data.controls       = data["controls"]
+	var intro: Control = load("res://minigames/ui_global/MinigameIntro.tscn").instantiate()
+	add_child(intro)
+	Events.minigame_intro_started.emit()
+
 func _on_minigame_intro_started() -> void:
 	$UI.visible = false
 	AudioManager.stop_music()
 
 func _on_minigame_confirmed() -> void:
-	var path = get_node("/root/MinigameData").minigame_scene
-	print("Cargando minijuego:", path)        # ← verificá que la ruta sea correcta
+	var path: String = get_node("/root/MinigameData").minigame_scene
+	print("Cargando minijuego:", path)
 	var mg_scene = load(path)
 	if mg_scene == null:
 		print("ERROR: no se pudo cargar la escena en:", path)
@@ -350,7 +313,7 @@ func _on_minigame_confirmed() -> void:
 		mg.minigame_finished.connect(func(): Events.minigame_finished.emit(), CONNECT_ONE_SHOT)
 
 func _on_minigame_finished() -> void:
-	var mg = get_node_or_null("ActiveMinigame")
+	var mg := get_node_or_null("ActiveMinigame")
 	if mg:
 		mg.queue_free()
 	$UI.visible = true
@@ -368,7 +331,7 @@ func _apply_skip(player_index: int) -> void:
 	dice_label.text = "%s pierde este turno" % _name
 	if GameManager.message_label:
 		GameManager.message_label.visible = true
-		GameManager.message_label.text = "¡%s pierde este turno!" % _name
+		GameManager.message_label.text    = "¡%s pierde este turno!" % _name
 
 	await get_tree().create_timer(2.0).timeout
 
@@ -378,40 +341,24 @@ func _apply_skip(player_index: int) -> void:
 	if not game_over:
 		GameManager._next_turn()
 
-# =========================================================
-# IA — TURNO AUTOMATICO
-# =========================================================
 func _machine_turn() -> void:
 	await get_tree().create_timer(1.2).timeout
-
 	if game_over:
 		return
-
 	dice_label.text = "La Maquina esta tirando el dado..."
-
 	get_tree().create_timer(0.5).timeout.connect(AudioManager.play_sfx.bind(dice_sound), CONNECT_ONE_SHOT)
 	await _dice_overlay_instance._show()
-
 	if game_over:
 		return
-
 	var n: int = _dice_overlay_instance.ultimo_resultado
-
 	dice_label.text = "La Maquina obtuvo un %d" % n
 
-# =========================================================
-# META — FICHA 1
-# =========================================================
 func _on_ficha1_reached_end() -> void:
 	_declare_winner(0)
 
-# META — FICHA 2
 func _on_ficha2_reached_end() -> void:
 	_declare_winner(1)
 
-# =========================================================
-# DECLARAR GANADOR
-# =========================================================
 func _declare_winner(player_index: int) -> void:
 	if game_over:
 		return
@@ -421,13 +368,13 @@ func _declare_winner(player_index: int) -> void:
 
 	var message: String
 	if game_mode == 1:
-		AudioManager.play_sfx(victory_sound)                             # ← ambos jugadores humanos: victoria
+		AudioManager.play_sfx(victory_sound)
 		message = "Gano el Jugador %d!" % (player_index + 1)
 	elif player_index == 0:
-		AudioManager.play_sfx(victory_sound)                              # ← jugador humano gana vs CPU
+		AudioManager.play_sfx(victory_sound)
 		message = "Gano el Jugador!"
 	else:
-		AudioManager.play_sfx(game_over_sound)                                # ← CPU gana, jugador pierde
+		AudioManager.play_sfx(game_over_sound)
 		message = "Gano la Maquina!"
 
 	dice_label.text = message
@@ -439,9 +386,6 @@ func _declare_winner(player_index: int) -> void:
 		GameManager.message_label.text    = message
 	print("Main:", message)
 
-# =========================================================
-# HELPERS UI — sin match, solo if/elif
-# =========================================================
 func _update_turn_label(player_index: int) -> void:
 	if turn_label == null:
 		return
@@ -464,16 +408,3 @@ func _update_position_label() -> void:
 		position_label.text = "J1: casilla %d     J2: casilla %d" % [pos1, pos2]
 	else:
 		position_label.text = "Jugador: casilla %d     CPU: casilla %d" % [pos1, pos2]
-
-#func _on_dice_roll_started() -> void:
-	#_dice_overlay.visible = true
-	#var tween := create_tween().set_parallel(true)
-	#tween.tween_property(_dimmer, "color:a", 0.65, 0.3)
-	#tween.tween_property(_dice_viewport_rect, "modulate:a", 1.0, 0.3)
-#
-#func _on_dice_roll_finished(_n: int) -> void:
-	#var tween := create_tween().set_parallel(true)
-	#tween.tween_property(_dimmer, "color:a", 0.0, 0.4)
-	#tween.tween_property(_dice_viewport_rect, "modulate:a", 0.0, 0.4)
-	#await tween.finished
-	#_dice_overlay.visible = false
