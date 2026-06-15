@@ -4,7 +4,7 @@ extends Node
 # MINIJUEGOS
 # =========================================================
 const MAP_PUZZLE = preload("res://scenes/minigames/MapPuzzle.tscn")
-const QUESTION_CARD = preload("res://Scenes/cards/QuestionCard.tscn")
+const QUESTION_CARD = preload("res://scenes/cards/QuestionCard.tscn")
 const ACTION_CARD = preload("res://scenes/cards/ActionCard.tscn")
 
 var minigame_active: bool = false
@@ -24,9 +24,6 @@ var last_action_type: String = ""
 # =========================================================
 var game_mode: int = 1  # 1=dos_jugadores  2=vs_maquina
 var player_names: Array[String] = ["Jugador", "Jugador 2"]
-
-signal turn_changed(player_index: int)
-signal play_sound(sound_name: String)
 
 # =========================================================
 # READY
@@ -99,7 +96,7 @@ func on_dice_rolled(n: int) -> void:
 			print("GameManager: respuesta correcta, mismo jugador tira otra vez")
 			is_player_moving = false
 			_unlock_dice()
-			turn_changed.emit(current_player)
+			Events.turn_changed.emit(current_player)
 		else:
 			print("GameManager: respuesta incorrecta, pierde proximo turno")
 			skip_player_index = current_player
@@ -169,7 +166,7 @@ func check_special_tile(active_token: Node) -> bool:
 			print("GameManager: respuesta correcta, mismo jugador tira otra vez")
 			is_player_moving = false
 			_unlock_dice()
-			turn_changed.emit(current_player)
+			Events.turn_changed.emit(current_player)
 		else:
 			print("GameManager: respuesta incorrecta, pierde proximo turno")
 			skip_player_index = current_player
@@ -251,14 +248,14 @@ func show_red_card(active_token) -> void:
 	var last_action_value: int = action_result[1]
 
 	if last_action_type == "advance":
-		play_sound.emit("avanzar")
+		Events.play_sound.emit("avanzar")
 		print("GameManager: avanzando", last_action_value, "casillas")
 		await active_token.move_steps(last_action_value)
 		if await check_special_tile(active_token):
 			return
 
 	elif last_action_type == "go_back":
-		play_sound.emit("retroceder")
+		Events.play_sound.emit("retroceder")
 		print("GameManager: retrocediendo", last_action_value, "casillas")
 		await active_token.move_back(last_action_value)
 		if await check_special_tile(active_token):
@@ -287,7 +284,7 @@ func show_red_card(active_token) -> void:
 		minigame_active = false
 		is_player_moving = false
 		_unlock_dice()
-		turn_changed.emit(current_player)
+		Events.turn_changed.emit(current_player)
 		return
 
 	minigame_active = false
@@ -317,4 +314,4 @@ func _next_turn() -> void:
 		return
 	current_player = (current_player + 1) % tokens.size()
 	print("GameManager: siguiente turno -> jugador", current_player + 1)
-	turn_changed.emit(current_player)
+	Events.turn_changed.emit(current_player)

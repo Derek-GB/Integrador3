@@ -2,6 +2,18 @@ extends Node3D
 
 @export var camera_smooth_speed: float = 5.0
 @export var turn_camera_delay: float = 0.7
+@export var dice_sound: AudioStream
+@export var move_sound_old: AudioStream
+@export var move_forward_sound: AudioStream
+@export var game_over_sound: AudioStream
+@export var lobby1: AudioStream
+@export var lobby2: AudioStream
+@export var victory_sound: AudioStream
+@export var move_back_sound: AudioStream
+@export var move_sound: AudioStream
+@export var board_sound: AudioStream
+@export var time_over_sound: AudioStream
+
 
 # =========================================================
 # NODOS DE LA ESCENA (existentes)
@@ -19,18 +31,8 @@ extends Node3D
 @onready var btn_restart: Button                   = $UI/Restart
 @onready var btn_third: Button                     = $UI/Third_person
 @onready var btn_iso: Button                       = $UI/Iso
-@onready var dice_sound: AudioStreamPlayer         = $UI/DiceSound
-@onready var move_sound_old: AudioStreamPlayer     = $UI/MoveSound
-@onready var move_forward_sound: AudioStreamPlayer = $MoveForward
-@onready var game_over_sound: AudioStreamPlayer    = $GameOver
-@onready var lobby1: AudioStreamPlayer             = $Lobby1
-@onready var lobby2: AudioStreamPlayer             = $Lobby2
-@onready var victory_sound: AudioStreamPlayer      = $Victory
-@onready var move_back_sound: AudioStreamPlayer    = $MoveBack
-@onready var move_sound: AudioStreamPlayer         = $Move
-@onready var board_sound: AudioStreamPlayer        = $Board
-@onready var time_over_sound: AudioStreamPlayer    = $TimeOver
 @onready var pause_menu                            = $UI/PauseMenu
+@onready var btn_minigame: Button                  = $UI/Test_MG
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
 const STOP_MENU = preload("res://scenes/UX/PauseMenu.tscn")
@@ -77,19 +79,24 @@ func _ready() -> void:
 	btn_pause.pressed.connect(_on_pause)
 	btn_throw_3.pressed.connect(_on_throw_3)
 	btn_restart.pressed.connect(_on_restart)
-	GameManager.turn_changed.connect(_on_turn_changed)
+	Events.turn_changed.connect(_on_turn_changed)
 	btn_third.pressed.connect(switch_camera.bind(marker_third))
 	btn_iso.pressed.connect(switch_camera.bind(marker_iso))
 
-	GameManager.play_sound.connect(_on_play_sound)
-
+	btn_minigame.pressed.connect(_on_minigame_test)
+	Events.play_sound.connect(_on_play_sound)
+	Events.minigame_intro_started.connect(_on_minigame_intro_started)
+	Events.minigame_confirmed.connect(_on_minigame_confirmed)
+	Events.minigame_finished.connect(_on_minigame_finished)
+	
 	_dice_overlay_instance = DICE_OVERLAY_SCENE.instantiate()
 	_dice_overlay_instance.visible = false
 	add_child(_dice_overlay_instance)
 	_dice_overlay_instance.overlay_done.connect(_on_dice_rolled)
 
-	lobby2.play()        # ← música de fondo inicia aquí
-	board_sound.play()       # ← sonido ambiente del board_sound
+	pause_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+	#AudioManager.play_music(lobby2)        # ← música de fondo inicia aquí
+	AudioManager.play_music(board_sound)       # ← sonido ambiente del board_sound
 
 	_init_ui_extra()
 	_start_game()
@@ -105,7 +112,7 @@ func switch_camera(marker: Marker3D) -> void:
 	var tween: Tween = create_tween().set_parallel(true)
 	tween.tween_property(camera, "transform", marker.transform, 0.6)
 	tween.tween_property(camera_rig, "rotation:y", deg_to_rad(active.rotation_degrees.y), 0.6)
-
+	
 # =========================================================
 # CREAR TurnoLabel Y PosicionLabel
 # =========================================================
@@ -224,24 +231,28 @@ func _process(delta: float) -> void:
 # SONIDO Y POSICION AL PISAR CASILLA
 # =========================================================
 func _on_ficha_stepped(_index: int) -> void:
-	move_sound.play()
+	AudioManager.play_sfx(move_sound)
 	_update_position_label()
 	
 	# Sonido según la acción de carta roja
 	var type = GameManager.last_action_type
 	if type == "advance":
-		move_forward_sound.play()    # ← carta roja: avanzar casillas
+		AudioManager.play_sfx(move_forward_sound)   # ← carta roja: avanzar casillas
 	elif type == "go_back":
-		move_back_sound.play() # ← carta roja: retroceder casillas
+		AudioManager.play_sfx(move_back_sound) # ← carta roja: retroceder casillas
 	elif type == "go_to_space":
-		move_sound.play()              # ← carta roja: ir a casilla específica
+		AudioManager.play_sfx(move_sound)             # ← carta roja: ir a casilla específica
 
 # =========================================================
 # BOTON SALIR
 # =========================================================
 func _on_pause() -> void:
+	#get_tree().paused = not get_tree().paused
 	pause_menu.open_window()
 	#get_tree().change_scene_to_packed(STOP_MENU)
+
+func _on_minigame_test() -> void:
+	MainMenuMinigamePrueba._on_button_10_pressed()
 
 # =========================================================
 # BOTON TIRAR 3 (DEBUG)
@@ -251,7 +262,7 @@ func _on_throw_3() -> void:
 		return
 	if game_mode == 2 and GameManager.current_player == 1:
 		return
-	dice_sound.play()
+	AudioManager.play_sfx(dice_sound)
 	dice_label.text = "Tiraste un 3"
 	await GameManager.on_dice_rolled(3)
 
@@ -274,13 +285,13 @@ func _on_btn_throw() -> void:
 	if game_over or _dice_overlay_instance == null:
 		return
 	btn_throw.disabled = true
-	get_tree().create_timer(0.5).timeout.connect(dice_sound.play, CONNECT_ONE_SHOT)
+	get_tree().create_timer(0.5).timeout.connect(AudioManager.play_sfx.bind(dice_sound), CONNECT_ONE_SHOT)
 	await _dice_overlay_instance._show()
 
 func _on_dice_rolled(n: int) -> void:
 	if game_over:
 		return
-	get_tree().create_timer(0.3).timeout.connect(move_forward_sound.play, CONNECT_ONE_SHOT)
+	get_tree().create_timer(0.3).timeout.connect(AudioManager.play_sfx.bind(move_forward_sound), CONNECT_ONE_SHOT)
 	await get_tree().create_timer(0.15).timeout
 	dice_label.text = "Tiraste un %d" % n
 	await GameManager.on_dice_rolled(n)
@@ -317,9 +328,33 @@ func _on_turn_changed(player_index: int) -> void:
 
 func _on_play_sound(sound_name: String) -> void:
 	if sound_name == "avanzar":
-		move_forward_sound.play()
+		AudioManager.play_sfx(move_forward_sound)
 	elif sound_name == "retroceder":
-		move_back_sound.play()
+		AudioManager.play_sfx(move_back_sound)
+
+func _on_minigame_intro_started() -> void:
+	$UI.visible = false
+	AudioManager.stop_music()
+
+func _on_minigame_confirmed() -> void:
+	var path = get_node("/root/MinigameData").minigame_scene
+	print("Cargando minijuego:", path)        # ← verificá que la ruta sea correcta
+	var mg_scene = load(path)
+	if mg_scene == null:
+		print("ERROR: no se pudo cargar la escena en:", path)
+		return
+	var mg: Node = mg_scene.instantiate()
+	mg.name = "ActiveMinigame"
+	add_child(mg)
+	if mg.has_signal("minigame_finished"):
+		mg.minigame_finished.connect(func(): Events.minigame_finished.emit(), CONNECT_ONE_SHOT)
+
+func _on_minigame_finished() -> void:
+	var mg = get_node_or_null("ActiveMinigame")
+	if mg:
+		mg.queue_free()
+	$UI.visible = true
+	AudioManager.play_music(board_sound)
 
 func _apply_skip(player_index: int) -> void:
 	var _name: String
@@ -354,7 +389,7 @@ func _machine_turn() -> void:
 
 	dice_label.text = "La Maquina esta tirando el dado..."
 
-	get_tree().create_timer(0.5).timeout.connect(dice_sound.play, CONNECT_ONE_SHOT)
+	get_tree().create_timer(0.5).timeout.connect(AudioManager.play_sfx.bind(dice_sound), CONNECT_ONE_SHOT)
 	await _dice_overlay_instance._show()
 
 	if game_over:
@@ -381,19 +416,18 @@ func _declare_winner(player_index: int) -> void:
 	if game_over:
 		return
 	game_over = true
-	lobby2.stop()         # ← para la música de fondo
-	board_sound.stop()        # ← para el sonido ambiente
+	AudioManager.stop_music()
 	btn_throw.disabled = true
 
 	var message: String
 	if game_mode == 1:
-		victory_sound.play()                              # ← ambos jugadores humanos: victoria
+		AudioManager.play_sfx(victory_sound)                             # ← ambos jugadores humanos: victoria
 		message = "Gano el Jugador %d!" % (player_index + 1)
 	elif player_index == 0:
-		victory_sound.play()                              # ← jugador humano gana vs CPU
+		AudioManager.play_sfx(victory_sound)                              # ← jugador humano gana vs CPU
 		message = "Gano el Jugador!"
 	else:
-		game_over_sound.play()                                # ← CPU gana, jugador pierde
+		AudioManager.play_sfx(game_over_sound)                                # ← CPU gana, jugador pierde
 		message = "Gano la Maquina!"
 
 	dice_label.text = message

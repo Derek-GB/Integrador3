@@ -29,9 +29,9 @@ func open_window():
 	global_position = VISIBLE_POSITION
 	show()
 	set_process(true)
-	
 
 func close_window():
 	global_position = HIDDEN_POSITION
 	hide()
 	set_process(false)
+	get_tree().paused = false
