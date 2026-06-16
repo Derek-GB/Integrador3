@@ -1,15 +1,11 @@
 [gd_scene format=3 uid="uid://dmiympugo4r4x"]
 
 [ext_resource type="Script" uid="uid://ccfum6mbyyp8i" path="res://scripts/board/Token.gd" id="1_qn8xl"]
-[ext_resource type="PackedScene" uid="uid://2jjifk5p75cj" path="res://models/piece/chess_pawn.glb" id="2_cqx4u"]
-[ext_resource type="PackedScene" uid="uid://cqbb76fxunpv0" path="res://models/piece/PandaFinalSinColorBase.glb" id="3_mv6h4"]
+[ext_resource type="PackedScene" uid="uid://cbjwks2vwmasc" path="res://models/piece/PandaFinalConTexturas.glb" id="4_eiudn"]
 
 [node name="Token" type="Node3D" unique_id=1007468202]
 script = ExtResource("1_qn8xl")
 speed = 20.0
 
-[node name="MeshToken" parent="." unique_id=1633422855 instance=ExtResource("2_cqx4u")]
-visible = false
-
-[node name="PandaBaseColorWithoutFinalColor" parent="." unique_id=1889450614 instance=ExtResource("3_mv6h4")]
-transform = Transform3D(-4, 0, 3.496911e-07, 0, 4, 0, -3.496911e-07, 0, -4, 0, 0, 0)
+[node name="PandaFinalConTexturas" parent="." unique_id=1184983010 instance=ExtResource("4_eiudn")]
+transform = Transform3D(-4, 0, -3.496911e-07, 0, 4, 0, 3.496911e-07, 0, -4, 0, 0, 0)

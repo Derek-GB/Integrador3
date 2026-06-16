@@ -3,7 +3,6 @@ extends Node
 # =========================================================
 # CONSTANTES
 # =========================================================
-const MAP_PUZZLE    = preload("res://scenes/minigames/MapPuzzle.tscn")
 const QUESTION_CARD = preload("res://scenes/cards/QuestionCard.tscn")
 const ACTION_CARD   = preload("res://scenes/cards/ActionCard.tscn")
 

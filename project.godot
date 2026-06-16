@@ -23,6 +23,10 @@ AudioManager="*uid://ckwomrh6ox668"
 MinigameData="*uid://s4piojkgml42"
 MainMenuMinigamePrueba="*uid://c1pp0h7e3ccct"
 
+[debug]
+
+settings/stdout/print_gpu_profile=true
+
 [display]
 
 window/size/viewport_width=1920
@@ -42,4 +46,5 @@ anti_aliasing/quality/msaa_2d=1
 anti_aliasing/quality/msaa_3d=1
 scaling_3d/mode=1
 scaling_3d/fsr_sharpness=0.5
+occlusion_culling/use_occlusion_culling=true
 lights_and_shadows/positional_shadow/atlas_size=2048
