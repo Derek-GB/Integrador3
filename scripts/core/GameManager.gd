@@ -207,13 +207,13 @@ func show_red_card(active_token: Node) -> void:
 	print("GameManager: carta cerrada, acción:", last_action_type, " valor:", last_action_value)
 
 	if last_action_type == "advance":
-		Events.play_sound.emit("avanzar")
+		# Events.play_sound.emit("avanzar")
 		await active_token.move_steps(last_action_value)
 		if await check_special_tile(active_token):
 			return
 
 	elif last_action_type == "go_back":
-		Events.play_sound.emit("retroceder")
+		# Events.play_sound.emit("retroceder")
 		await active_token.move_back(last_action_value)
 		if await check_special_tile(active_token):
 			return

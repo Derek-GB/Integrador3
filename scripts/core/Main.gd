@@ -206,10 +206,13 @@ func _on_ficha_stepped(_index: int) -> void:
 	var type := GameManager.last_action_type
 	if type == "advance":
 		AudioManager.play_sfx(move_forward_sound)
+		GameManager.last_action_type = ""
 	elif type == "go_back":
 		AudioManager.play_sfx(move_back_sound)
+		GameManager.last_action_type = ""
 	elif type == "go_to_space":
 		AudioManager.play_sfx(move_sound)
+		GameManager.last_action_type = ""
 
 func _on_pause() -> void:
 	pause_menu.open_window()
@@ -245,7 +248,6 @@ func _on_btn_throw() -> void:
 func _on_dice_rolled(n: int) -> void:
 	if game_over:
 		return
-	get_tree().create_timer(0.3).timeout.connect(AudioManager.play_sfx.bind(move_forward_sound), CONNECT_ONE_SHOT)
 	await get_tree().create_timer(0.15).timeout
 	dice_label.text = "Tiraste un %d" % n
 	await GameManager.on_dice_rolled(n)

@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://djhlhmcom7vcl" path="res://scripts/board/Board.gd" id="1_vttcb"]
 [ext_resource type="PackedScene" uid="uid://cr7r426gyvv6u" path="res://models/map/MapV1.glb" id="2_3uvf2"]
-[ext_resource type="Texture2D" uid="uid://cyvq4r36nbyal" path="res://images/board/tablero.png" id="3_iaf1m"]
 [ext_resource type="PackedScene" uid="uid://dmiympugo4r4x" path="res://scenes/board/Token.tscn" id="4_chwsj"]
 
 [node name="Board" type="Node3D" unique_id=1363300375 node_paths=PackedStringArray("path_node")]
@@ -11,11 +10,6 @@ path_node = NodePath("Path")
 
 [node name="MapV1" parent="." unique_id=1449025873 instance=ExtResource("2_3uvf2")]
 transform = Transform3D(3.05, 0, 0, 0, 2.8, 0, 0, 0, 2.9, 0, -10.035645, 0)
-
-[node name="Map" type="Sprite3D" parent="." unique_id=1844330001]
-transform = Transform3D(1.634, 0, 0, 0, -6.556708e-08, 1, 0, -1.5, -4.371139e-08, 0, 0, 0)
-visible = false
-texture = ExtResource("3_iaf1m")
 
 [node name="Path" type="Node3D" parent="." unique_id=1921487203]
 
