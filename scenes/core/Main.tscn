@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://721euuos45tc" path="res://scripts/core/Main.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://c456hb1ulbl35" path="res://scenes/board/Board.tscn" id="2_jyhfs"]
-[ext_resource type="AudioStream" uid="uid://bsyxkw1e4vplj" path="res://sounds/board/Dice.wav" id="4_tbgi4"]
-[ext_resource type="AudioStream" uid="uid://duwdtcqv85d2w" path="res://sounds/board/MoveForward.wav" id="5_85g3d"]
+[ext_resource type="AudioStream" uid="uid://bb5f0y7wt7dg6" path="res://sounds/board/Dice.wav" id="4_tbgi4"]
+[ext_resource type="AudioStream" uid="uid://1i2bb5g378s" path="res://sounds/board/MoveForward.wav" id="5_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dro1ls1tysuj2" path="res://scenes/UX/PauseMenu.tscn" id="5_choun"]
 [ext_resource type="AudioStream" uid="uid://co30q1vo6o2pu" path="res://sounds/board/Jump.wav" id="5_tefeu"]
 [ext_resource type="AudioStream" uid="uid://bnqe4r08xc83q" path="res://sounds/board/MoveBack.wav" id="6_choun"]
