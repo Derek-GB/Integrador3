@@ -5,19 +5,20 @@
 [ext_resource type="AudioStream" uid="uid://chooex6lm8g42" path="res://sounds/board/Dice.wav" id="4_tbgi4"]
 [ext_resource type="AudioStream" uid="uid://c460uwsvt2nqq" path="res://sounds/board/MoveForward.wav" id="5_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dro1ls1tysuj2" path="res://scenes/UX/PauseMenu.tscn" id="5_choun"]
-[ext_resource type="AudioStream" uid="uid://wuqp5bkvg48g" path="res://sounds/board/Jump.wav" id="5_tefeu"]
-[ext_resource type="AudioStream" uid="uid://dtlso313ro5sk" path="res://sounds/board/MoveBack.wav" id="6_choun"]
-[ext_resource type="AudioStream" uid="uid://3mo1pafcjv0l" path="res://sounds/minigames/GameOver.mp3" id="6_trceg"]
-[ext_resource type="AudioStream" uid="uid://bqfuym27wm7bw" path="res://sounds/UX/Lobby1.mp3" id="6_ya4ey"]
-[ext_resource type="AudioStream" uid="uid://cfkc470bn0jn7" path="res://sounds/UX/Lobby2.mp3" id="7_eb6dy"]
-[ext_resource type="AudioStream" uid="uid://f3tfhx3rabsy" path="res://sounds/board/Move.wav" id="7_ya4ey"]
-[ext_resource type="AudioStream" uid="uid://dgj712u32888" path="res://sounds/board/Board.mp3" id="8_eb6dy"]
-[ext_resource type="AudioStream" uid="uid://bg0t27s44wqcc" path="res://sounds/minigames/Victory.mp3" id="9_a8y0u"]
-[ext_resource type="AudioStream" uid="uid://dnirek0estv62" path="res://sounds/minigames/TimeOver.mp3" id="9_trceg"]
+[ext_resource type="AudioStream" uid="uid://co30q1vo6o2pu" path="res://sounds/board/Jump.wav" id="5_tefeu"]
+[ext_resource type="AudioStream" uid="uid://bnqe4r08xc83q" path="res://sounds/board/MoveBack.wav" id="6_choun"]
+[ext_resource type="AudioStream" uid="uid://yflua6rj6pd0" path="res://sounds/minigames/GameOver.mp3" id="6_trceg"]
+[ext_resource type="AudioStream" uid="uid://bet0cu5q65l54" path="res://sounds/UX/Lobby1.mp3" id="6_ya4ey"]
+[ext_resource type="AudioStream" uid="uid://dh8wge5fmq7os" path="res://sounds/UX/Lobby2.mp3" id="7_eb6dy"]
+[ext_resource type="AudioStream" uid="uid://d1l8oj0p3llb4" path="res://sounds/board/Move.wav" id="7_ya4ey"]
+[ext_resource type="AudioStream" uid="uid://das1o814001dr" path="res://sounds/board/Board.mp3" id="8_eb6dy"]
+[ext_resource type="AudioStream" uid="uid://c8ducdr1t213p" path="res://sounds/minigames/Victory.mp3" id="9_a8y0u"]
+[ext_resource type="AudioStream" uid="uid://dxeggia8j7vcq" path="res://sounds/minigames/TimeOver.mp3" id="9_trceg"]
+[ext_resource type="Shader" uid="uid://bqedxetv7f6y0" path="res://data/procedural_clouds.gdshader" id="15_founp"]
 [ext_resource type="Texture2D" uid="uid://c5bp5dlfc4im1" path="res://images/icons/dice.png" id="14_founp"]
+[ext_resource type="Texture2D" uid="uid://d2v8sp1dbswtj" path="res://images/icons/pausa2.png" id="18_d7485"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="14_wpo1s"]
 [ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="15_ship8"]
-[ext_resource type="Texture2D" uid="uid://d2v8sp1dbswtj" path="res://images/icons/pausa2.png" id="18_d7485"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tupnw"]
 content_margin_right = 12.0
@@ -91,6 +92,37 @@ corner_radius_bottom_left = 25
 shader = ExtResource("15_ship8")
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_founp"]
+shader = ExtResource("15_founp")
+shader_parameter/sky_top_color = Color(0.5294118, 0.80784315, 0.92156863, 1)
+shader_parameter/sky_horizon_color = Color(0.7882353, 0.9098039, 0.9607843, 1)
+shader_parameter/inv_sky_curve = 6.727165018149752
+shader_parameter/sky_bottom_color = Color(0.45, 0.72, 0.9, 1)
+shader_parameter/bottom_horizon_color = Color(0.75, 0.88, 0.95, 1)
+shader_parameter/inv_bottom_curve = 30.0
+shader_parameter/sun_angle_max = 0.8660254
+shader_parameter/inv_sun_curve = 22.782017
+shader_parameter/exposure = 1.0
+
+[sub_resource type="Sky" id="Sky_founp"]
+sky_material = SubResource("ShaderMaterial_founp")
+
+[sub_resource type="Environment" id="Environment_tupnw"]
+background_mode = 2
+sky = SubResource("Sky_founp")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.6
+ambient_light_energy = 0.8
+tonemap_mode = 2
+tonemap_exposure = 0.95
+tonemap_white = 6.0
+ssao_radius = 1.2
+ssao_intensity = 0.8
+glow_intensity = 0.4
+glow_strength = 0.9
+glow_bloom = 0.1
+glow_hdr_threshold = 1.2
+
 [node name="Main" type="Node3D" unique_id=1016960782]
 script = ExtResource("1_0wfyh")
 turn_camera_delay = 0.3
@@ -107,7 +139,13 @@ board_sound = ExtResource("8_eb6dy")
 time_over_sound = ExtResource("9_trceg")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1145627839]
-transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 0, 0)
+light_energy = 0.85
+light_angular_distance = 0.5
+shadow_enabled = true
+shadow_blur = 2.0
+directional_shadow_mode = 0
+directional_shadow_max_distance = 40.0
 
 [node name="Map" parent="." unique_id=1363300375 instance=ExtResource("2_jyhfs")]
 
@@ -220,3 +258,6 @@ current = true
 
 [node name="Marker_Third" type="Marker3D" parent="Camera_rig" unique_id=1782549252]
 transform = Transform3D(1, 0, 0, 0, 0.7396311, 0.6730125, 0, -0.6730125, 0.7396311, 0, 10.277119, 8.542511)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=614183138]
+environment = SubResource("Environment_tupnw")
