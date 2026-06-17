@@ -30,7 +30,7 @@ const BACK_BUTTON_TEXT := "Volver al menú"
 # =========================================================
 # EXPORTED VARIABLES
 # =========================================================
-
+var _player_won: bool = false
 
 # =========================================================
 # PRIVATE VARIABLES
@@ -72,6 +72,8 @@ func _ready():
 # =========================================================
 
 func show_win():
+	_player_won = true
+	current_message = WIN_MESSAGE
 	current_message = WIN_MESSAGE
 	message_label.text = current_message
 	message_label.add_theme_color_override("font_color", COLOR_DARK_BLUE)
@@ -83,6 +85,8 @@ func show_win():
 
 
 func show_lose():
+	_player_won = false
+	current_message = LOSE_MESSAGE
 	current_message = LOSE_MESSAGE
 	message_label.text = current_message
 	message_label.add_theme_color_override("font_color", COLOR_DARK_BLUE)
@@ -254,4 +258,4 @@ func _load_font():
 
 
 func _on_back_button_pressed():
-	Events.minigame_finished.emit()
+	Events.minigame_finished.emit(_player_won)
