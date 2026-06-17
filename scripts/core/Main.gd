@@ -231,7 +231,7 @@ func _on_restart() -> void:
 	if mg:
 		mg.queue_free()
 	if GameManager.minigame_active:
-		Events.minigame_finished.emit(false)  # false = perdió por rendirse
+		Events.minigame_result.emit(false)  # false = perdió por rendirse
 	GameManager.tokens.clear()
 	GameManager.current_player    = 0
 	GameManager.is_player_moving  = false
