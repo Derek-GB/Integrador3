@@ -139,4 +139,4 @@ func _on_back_button_pressed():
 	if river_sound != null:
 		river_sound.stop()
 
-	get_tree().change_scene_to_file("res://MenuPrincipal.tscn")
+	Events.minigame_finished.emit()

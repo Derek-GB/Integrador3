@@ -241,4 +241,4 @@ func play_water_sound():
 
 
 func _on_back_pressed():
-	get_tree().change_scene_to_file("res://MenuPrincipal.tscn")
+	Events.minigame_finished.emit()

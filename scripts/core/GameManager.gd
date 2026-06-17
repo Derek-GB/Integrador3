@@ -6,6 +6,13 @@ extends Node
 const QUESTION_CARD = preload("res://scenes/cards/QuestionCard.tscn")
 const ACTION_CARD   = preload("res://scenes/cards/ActionCard.tscn")
 
+const MINIGAME_EFFECTS: Dictionary = {
+	3:  { "on_win": "spin_again",  "on_lose": "nothing"   },
+	9:  { "on_win": "advance",     "on_lose": "nothing",  "value": 5 },
+	13: { "on_win": "nothing",     "on_lose": "go_back",  "value": 4 },
+	15: { "on_win": "nothing",     "on_lose": "go_back",  "value": 1 },
+	19: { "on_win": "nothing",     "on_lose": "go_to_space", "value": 1 },
+}
 const MINIGAME_TILE_INDICES: Array[int] = [3, 9, 13, 15, 19]
 const BLUE_TILE_INDICES: Array[int]     = [5, 11, 21, 34, 45, 54, 61, 66, 72]
 const RED_TILE_INDICES: Array[int]      = [7, 16, 32, 39, 48, 58, 64, 68, 76]
@@ -258,9 +265,56 @@ func _launch_minigame_for_tile(tile_index: int) -> void:
 	print("GameManager: lanzando minijuego para casilla", tile_index)
 	minigame_active = true
 	Events.set_minigame.emit(tile_index)
-	await Events.minigame_finished
+
+	var won: bool = await Events.minigame_result
+
 	minigame_active = false
-	print("GameManager: minijuego casilla", tile_index, " finalizado")
+	print("GameManager: minijuego casilla", tile_index, " resultado:", won)
+
+	await _apply_minigame_effect(tile_index, won)
+
+func _apply_minigame_effect(tile_index: int, won: bool) -> void:
+	if not MINIGAME_EFFECTS.has(tile_index):
+		return
+
+	var effect: Dictionary = MINIGAME_EFFECTS[tile_index]
+	var action: String     = effect["on_win"] if won else effect["on_lose"]
+	var value: int         = effect.get("value", 0)
+	var active_token: Node = tokens[current_player]
+
+	print("GameManager: efecto minijuego =", action, " valor =", value)
+
+	if action == "spin_again":
+		is_player_moving = false
+		_unlock_dice()
+		Events.turn_changed.emit(current_player)
+		return
+
+	elif action == "advance":
+		Events.play_sound.emit("avanzar")
+		await active_token.move_steps(value)
+		if await check_special_tile(active_token):
+			return
+
+	elif action == "go_back":
+		Events.play_sound.emit("retroceder")
+		await active_token.move_back(value)
+		if await check_special_tile(active_token):
+			return
+
+	elif action == "go_to_space":
+		var steps_needed: int = value - active_token.current_index
+		if steps_needed > 0:
+			await active_token.move_steps(steps_needed)
+		elif steps_needed < 0:
+			await active_token.move_back(-steps_needed)
+		if await check_special_tile(active_token):
+			return
+
+	# "nothing" y cualquier otro caso: solo pasar turno
+	is_player_moving = false
+	_unlock_dice()
+	_next_turn()
 
 func _unlock_dice() -> void:
 	var scene := get_tree().current_scene
