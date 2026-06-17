@@ -266,7 +266,7 @@ func _launch_minigame_for_tile(tile_index: int) -> void:
 	minigame_active = true
 	Events.set_minigame.emit(tile_index)
 
-	var won: bool = await Events.minigame_finished
+	var won: bool = await Events.minigame_result
 
 	minigame_active = false
 	print("GameManager: minijuego casilla", tile_index, " resultado:", won)
