@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://l7yehtkd42qe"]
+
+[ext_resource type="Script" uid="uid://cpm5bc7dacgki" path="res://scripts/board/CardAnimation.gd" id="1_5rjt7"]
+[ext_resource type="Texture2D" uid="uid://bn65wr5j1q5ii" path="res://images/cards/red/card_action.png" id="2_0bh78"]
+
+[node name="CardAnimation" type="Node3D" unique_id=2051469136]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.147691, 0)
+script = ExtResource("1_5rjt7")
+
+[node name="FleetManager" type="Node3D" parent="." unique_id=139314290]
+
+[node name="Sprite3D" type="Sprite3D" parent="FleetManager" unique_id=1595011887]
+texture = ExtResource("2_0bh78")
