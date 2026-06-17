@@ -8,11 +8,13 @@ extends Node3D
 var waypoints: Array[Vector3] = []
 var waypoint_rotations: Array[float] = []
 var waypoint_bases: Array[Basis] = []
+var ordered_markers: Array[Node3D] = []
 
 @export var path_node: Node3D # Arrastra aquí el nodo "Camino" desde el Inspector
 
 func _ready() -> void:
 	_build_waypoints()
+	_build_ordered_markers()  # <-- agregar esto
 	Events.visible_pointer.connect(_set_pointer_visible)
 	print("Board: waypoints cargados =", waypoints.size())
 
@@ -47,14 +49,26 @@ func _add_pointer(pointer_scene: PackedScene, child: Node3D, color: String, c: i
 	print("Puntero ", color ," en casilla: ", c)
 
 func _set_pointer_visible(pointer: int, can_visible: bool):
-	print("Primero: ", path_node.get_child(pointer))
-	var pointer_card := path_node.get_child(pointer).get_child(0)
+	if pointer < 0 or pointer >= ordered_markers.size():
+		return
+	var marker := ordered_markers[pointer]
+	if marker.get_child_count() == 0:
+		return
+	var pointer_card := marker.get_child(0)
+	print("Primero: ", marker)
 	print("Segundo: ", pointer_card)
 	if pointer_card == null: return
 	print("Visibilidad inicial de ", pointer, ": ", pointer_card.visible, " / modo: ", pointer_card.process_mode)
 	if pointer_card.has_method("_set_visible"):
 		pointer_card._set_visible(can_visible)
 	print("Visibilidad despues de ", pointer, ": ", pointer_card.visible, " / modo: ", pointer_card.process_mode)
+
+func _build_ordered_markers() -> void:
+	ordered_markers.clear()
+	for child in path_node.get_children():
+		if child is Marker3D:
+			ordered_markers.append(child)
+	print("Board: markers ordenados =", ordered_markers.size())
 
 func get_waypoints() -> Array[Vector3]:
 	return waypoints
