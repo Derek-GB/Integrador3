@@ -9,4 +9,5 @@ signal play_sound(sound_name: String)
 signal set_minigame(minigame:int)
 signal minigame_intro_started    # cuando se abre el intro
 signal minigame_confirmed        # cuando el jugador presiona "¡Empezar!"
-signal minigame_finished(won: bool)        # cuando el minijuego termina
+signal minigame_finished      # cuando el minijuego terminav
+signal minigame_result(won: bool)         # para determinar resultado

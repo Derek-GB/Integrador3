@@ -258,4 +258,4 @@ func _load_font():
 
 
 func _on_back_button_pressed():
-	Events.minigame_finished.emit(_player_won)
+	Events.minigame_result.emit(_player_won)
