@@ -1,4 +1,5 @@
 extends Node3D
+class_name CardAnimation
 
 var tween: Tween
 @onready var fleet_manager: Node3D = $FleetManager
@@ -30,3 +31,10 @@ func begin_float_infinitely() -> void:
 	tween_float.tween_property(fleet_manager, "position:y", original_height - range_movement, float_time)\
 		.set_trans(Tween.TRANS_SINE)\
 		.set_ease(Tween.EASE_IN_OUT)
+
+func _set_visible(can_visible: bool):
+	if can_visible:
+		self.process_mode = Node.PROCESS_MODE_INHERIT
+	elif not can_visible:
+		self.process_mode = Node.PROCESS_MODE_DISABLED
+	self.visible = can_visible

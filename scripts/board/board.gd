@@ -13,6 +13,7 @@ var waypoint_bases: Array[Basis] = []
 
 func _ready() -> void:
 	_build_waypoints()
+	Events.visible_pointer.connect(_set_pointer_visible)
 	print("Board: waypoints cargados =", waypoints.size())
 
 func _build_waypoints() -> void:
@@ -44,6 +45,16 @@ func _add_pointer(pointer_scene: PackedScene, child: Node3D, color: String, c: i
 	if pointer_scene == null: return
 	child.add_child(pointer_scene.instantiate())
 	print("Puntero ", color ," en casilla: ", c)
+
+func _set_pointer_visible(pointer: int, can_visible: bool):
+	print("Primero: ", path_node.get_child(pointer))
+	var pointer_card := path_node.get_child(pointer).get_child(0)
+	print("Segundo: ", pointer_card)
+	if pointer_card == null: return
+	print("Visibilidad inicial de ", pointer, ": ", pointer_card.visible, " / modo: ", pointer_card.process_mode)
+	if pointer_card.has_method("_set_visible"):
+		pointer_card._set_visible(can_visible)
+	print("Visibilidad despues de ", pointer, ": ", pointer_card.visible, " / modo: ", pointer_card.process_mode)
 
 func get_waypoints() -> Array[Vector3]:
 	return waypoints

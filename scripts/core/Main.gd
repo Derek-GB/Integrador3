@@ -188,6 +188,8 @@ func _start_game() -> void:
 	dice_label.text = "Tira el dado"
 	_update_turn_label(0)
 	_update_position_label()
+	for i in range(1,7):
+		Events.visible_pointer.emit(i,true)
 	print("Main: juego iniciado modo", mode)
 
 func _add_tag(f: Node3D, texto: String) -> void:
@@ -213,6 +215,8 @@ func _on_ficha_stepped(_index: int) -> void:
 	elif type == "go_to_space":
 		AudioManager.play_sfx(move_sound)
 		GameManager.last_action_type = ""
+	Events.visible_pointer.emit(_index+6,true)
+	Events.visible_pointer.emit(_index-6,false)
 
 func _on_pause() -> void:
 	pause_menu.open_window()
@@ -237,6 +241,8 @@ func _on_restart() -> void:
 	GameManager.skip_player_index = -1
 	GameManager.last_action_type = ""
 	get_tree().reload_current_scene()
+	for i in range(1,7):
+		Events.visible_pointer.emit(i,true)
 
 func _on_btn_throw() -> void:
 	if game_over or _dice_overlay_instance == null:

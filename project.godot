@@ -23,10 +23,6 @@ AudioManager="*uid://ckwomrh6ox668"
 MinigameData="*uid://s4piojkgml42"
 MainMenuMinigamePrueba="*uid://c1pp0h7e3ccct"
 
-[debug]
-
-settings/stdout/print_gpu_profile=true
-
 [display]
 
 window/size/viewport_width=1920
