@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cewpoxwnlvbfp"]
+
+[ext_resource type="Script" uid="uid://ccfum6mbyyp8i" path="res://scripts/board/Token.gd" id="1_i0jj6"]
+[ext_resource type="PackedScene" uid="uid://dbace33qvavv1" path="res://models/piece/Changui_Final_ConTexturas.glb" id="2_i0jj6"]
+
+[node name="Token" type="Node3D" unique_id=1007468202]
+script = ExtResource("1_i0jj6")
+speed = 20.0
+
+[node name="Changui_Final_ConTexturas" parent="." unique_id=1115447094 instance=ExtResource("2_i0jj6")]
+transform = Transform3D(-3, 0, -2.6226832e-07, 0, 3, 0, 2.6226832e-07, 0, -3, 0, 0.31753147, 0)

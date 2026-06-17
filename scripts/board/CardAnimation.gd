@@ -3,7 +3,7 @@ class_name CardAnimation
 
 var tween: Tween
 @onready var fleet_manager: Node3D = $FleetManager
-
+var players_in_range: int = 0
 
 
 # Called when the node enters the scene tree for the first time.
@@ -35,7 +35,11 @@ func begin_float_infinitely() -> void:
 
 func _set_visible(can_visible: bool):
 	if can_visible:
+		players_in_range += 1
+	elif not can_visible and not players_in_range == 0:
+		players_in_range -= 1
+	if players_in_range > 0:
 		self.process_mode = Node.PROCESS_MODE_INHERIT
-	elif not can_visible:
+	elif players_in_range == 0:
 		self.process_mode = Node.PROCESS_MODE_DISABLED
-	self.visible = can_visible
+	self.visible = players_in_range > 0

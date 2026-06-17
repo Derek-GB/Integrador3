@@ -68,9 +68,6 @@ transform = Transform3D(-4.3711385e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, 
 [node name="C16" type="Marker3D" parent="Path" unique_id=658691187]
 transform = Transform3D(-0.9535804, 0, -0.30113858, 0, 1, 0, 0.30113858, 0, -0.9535804, -47.465813, 0, -23.405647)
 
-[node name="Marker3D" type="Marker3D" parent="Path/C16" unique_id=980320404]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3.0460129, 0)
-
 [node name="C17" type="Marker3D" parent="Path" unique_id=865459829]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -56.477955, 0, -15.594841)
 

@@ -35,7 +35,7 @@ extends Node3D
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
 const STOP_MENU          = preload("res://scenes/UX/PauseMenu.tscn")
-const PIECE_SCENE        = preload("res://scenes/board/Token.tscn")
+const PIECE_SCENE        = preload("res://scenes/board/Token2.tscn")
 
 # =========================================================
 # VARIABLES
