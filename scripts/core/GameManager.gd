@@ -8,9 +8,9 @@ const ACTION_CARD   = preload("res://scenes/cards/ActionCard.tscn")
 
 const MINIGAME_EFFECTS: Dictionary = {
 	3:  { "on_win": "spin_again",  "on_lose": "nothing"   },
-	9:  { "on_win": "advance",     "on_lose": "nothing",  "value": 6 },
-	13: { "on_win": "nothing",     "on_lose": "go_back",  "value": 3 },
-	15: { "on_win": "nothing",     "on_lose": "go_back",  "value": 2 },
+	9:  { "on_win": "advance",     "on_lose": "nothing",  "value": 5 },
+	13: { "on_win": "nothing",     "on_lose": "go_back",  "value": 4 },
+	15: { "on_win": "nothing",     "on_lose": "go_back",  "value": 1 },
 	19: { "on_win": "nothing",     "on_lose": "go_to_space", "value": 1 },
 }
 const MINIGAME_TILE_INDICES: Array[int] = [3, 9, 13, 15, 19]
