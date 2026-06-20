@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://b35spoxiib4db" path="res://images/icons/exit.png" id="9_n3d7r"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="11_iqafl"]
 [ext_resource type="PackedScene" uid="uid://ccpydjb6bax7m" path="res://scenes/UX/SoundControlPanel.tscn" id="13_f03nn"]
+[ext_resource type="Texture2D" uid="uid://717tr2lmen3o" path="res://images/UX/Panda.png" id="13_hm7mn"]
 [ext_resource type="AudioStream" uid="uid://bqfuym27wm7bw" path="res://sounds/UX/Lobby1.mp3" id="14_f03nn"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f03nn"]
@@ -171,6 +172,51 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vys0q"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boqd0"]
+content_margin_bottom = 215.0
+bg_color = Color(0.67058825, 0.6745098, 0.69803923, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q63e5"]
+content_margin_bottom = 215.0
+bg_color = Color(0.488577, 0.49151483, 0.509142, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n3d7r"]
+content_margin_bottom = 215.0
+bg_color = Color(0.67058825, 0.6745098, 0.69803923, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_602j6"]
+bg_color = Color(0.67058825, 0.6745098, 0.69803923, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqafl"]
+bg_color = Color(0.488577, 0.49151483, 0.509142, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w3n5j"]
+bg_color = Color(0.67058825, 0.6745098, 0.69803923, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 5
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6c0a5"]
 bg_color = Color(0.8784314, 0.6901961, 0.5019608, 1)
 border_width_left = 24
@@ -208,9 +254,9 @@ centered = false
 [node name="Settings" type="Button" parent="." unique_id=1587719187]
 layout_mode = 0
 offset_left = 1760.0
-offset_top = 968.0
+offset_top = 24.0
 offset_right = 1872.0
-offset_bottom = 1064.0
+offset_bottom = 120.0
 theme_override_fonts/font = ExtResource("4_31ns2")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxEmpty_f03nn")
@@ -384,13 +430,21 @@ text = "X"
 
 [node name="1Vs1" type="Button" parent="GameSelection" unique_id=1656783485]
 layout_mode = 0
-offset_left = 136.4485
-offset_top = 137.38315
-offset_right = 386.4485
-offset_bottom = 437.38315
+offset_left = 134.57935
+offset_top = 136.44856
+offset_right = 384.57935
+offset_bottom = 436.44855
 theme_override_fonts/font = ExtResource("4_31ns2")
 theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_boqd0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_q63e5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_n3d7r")
 text = "1 vs 1"
+
+[node name="Panda" type="Sprite2D" parent="GameSelection/1Vs1" unique_id=1796986131]
+position = Vector2(127.102875, 186.9159)
+scale = Vector2(0.7623377, 0.6205909)
+texture = ExtResource("13_hm7mn")
 
 [node name="1VsBot" type="Button" parent="GameSelection" unique_id=136978898]
 layout_mode = 0
@@ -400,6 +454,9 @@ offset_right = 686.4485
 offset_bottom = 439.38315
 theme_override_fonts/font = ExtResource("4_31ns2")
 theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_602j6")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_iqafl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_w3n5j")
 text = "1 vs bot"
 
 [node name="GameRules" type="Control" parent="." unique_id=1236868803]
@@ -444,7 +501,7 @@ offset_bottom = 91.8224
 theme_override_fonts/font = ExtResource("11_iqafl")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_yvk8j")
-text = "Reglas del Juego"
+text = "¡Reglas del Juego!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -481,14 +538,33 @@ theme_override_font_sizes/bold_italics_font_size = 30
 theme_override_font_sizes/italics_font_size = 30
 theme_override_font_sizes/mono_font_size = 30
 bbcode_enabled = true
-text = "[b]Modalidades de juego:[/b]
+text = "[center][b]Modos de juego:[/b][/center]
+• [b]1 vs. 1:[/b] Juega contra un amigo en la misma pantalla.
+• [b]1 vs. Bot:[/b] ¡Juega tú solo contra la computadora!
 
-- 1 vs 1: Dos jugadores compiten en línea o en el mismo dispositivo.
-- 1 vs Bot: Un jugador compite contra la Inteligencia Artificial del juego.
-- El orden de los turnos se decide de forma aleatoria por el sistema en el primer lanzamiento.
+[center][b]¿Cómo jugar?[/b][/center]
+[b]• 	El Inicio:[/b] Todos los jugadores empiezan automáticamente en la casilla de [color=green][b]INICIO[/b][/color].
+[b]• 	Los Turnos:[/b] La computadora elegirá al azar quién lanza primero.
+[b]• 	¡A mover la ficha![/b] En tu turno, presiona el botón para lanzar el dado virtual. Tu ficha se moverá sola contando las casillas que te salgan.
+[b]•	¿Cómo ganar?:[/b] Tienes que llegar a la casilla [color=yellow][b]META[/b][/color] con el número exacto. Si el dado te da más puntos de los que necesitas, tu ficha llegará a la meta y rebotará hacia atrás con los puntos que te sobren. ¡Calcula bien!
 
-[b] Interacciones en el Tablero[/b]
-[img=150]res://images/cards/card_back.png[/img] Casillas de Preguntas: Al caer aquí, el sistema mostrará una pregunta en pantalla."
+[center][b]Casillas Especiales[/b][/center]
+Cuando caigas en una casilla, la pantalla te mostrará automáticamente lo que debes hacer:
+
+[center] [img=150]res://images/UX/TexturaAzul.png[/img] [/center]
+[color=blue][b]Casillas de Preguntas:[/b][/color] Te saldrá una pregunta en la pantalla. 
+    • [b]Si aciertas:[/b] ¡Felicidades! Ganas un lanzamiento extra de inmediato.
+    • [b]Si fallas:[/b] Te equivocaste, así que pierdes tu siguiente turno.
+
+[center] [img=150]res://images/UX/TexturaRoja.png[/img] [/center]
+[color=red][b]Casillas de Sorpresas:[/b][/color] Aparecerá una tarjeta sorpresa en la pantalla. Léela con atención, porque el juego te hará avanzar, retroceder o aplicará un efecto sorpresa al instante.
+
+[center] [img=150]res://images/UX/TexturaNaranjaClaro.png[/img] [/center]
+[color=orange][b]Casillas de Minijuego:[/b][/color] ¡Hora de jugar! En la pantalla verás las instrucciones de un juego rápido. 
+    • Si ganas el minijuego, te llevas el premio que dice la pantalla. 
+    • Si pierdes o no lo terminas, no ganas nada. 
+
+¡Esfuérzate y Diviértete !"
 fit_content = true
 autowrap_mode = 2
 
