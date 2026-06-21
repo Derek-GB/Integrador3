@@ -12,23 +12,23 @@ signal puzzle_failed
 # GLOBAL UI SCENES
 # =========================================================
 
-const TIMER_UI_SCENE := preload("res://Minigames/ui_global/TimerUi.tscn")
-const LIVES_UI_SCENE := preload("res://Minigames/ui_global/LivesUi.tscn")
-const GAME_RESULT_SCENE := preload("res://Minigames/ui_global/GameResult.tscn")
+const TIMER_UI_SCENE := preload("res://minigames/ui_global/TimerUi.tscn")
+const LIVES_UI_SCENE := preload("res://minigames/ui_global/LivesUi.tscn")
+const GAME_RESULT_SCENE := preload("res://minigames/ui_global/GameResult.tscn")
 
 
 # =========================================================
 # MINIGAME SCENES
 # =========================================================
 
-const TREE_SAPLING_SCENE := preload("res://Minigames/minigame_hillside_barrier/TreeSapling.tscn")
-const PLANTING_SPOT_SCENE := preload("res://Minigames/minigame_hillside_barrier/PlantingSpot.tscn")
-const ROLLING_ROCK_SCENE := preload("res://Minigames/minigame_hillside_barrier/RollingRock.tscn")
+const TREE_SAPLING_SCENE := preload("res://minigames/minigame_hillside_barrier/TreeSapling.tscn")
+const PLANTING_SPOT_SCENE := preload("res://minigames/minigame_hillside_barrier/PlantingSpot.tscn")
+const ROLLING_ROCK_SCENE := preload("res://minigames/minigame_hillside_barrier/RollingRock.tscn")
 
-const BACKGROUND_SOUND := preload("res://Minigames/minigame_hillside_barrier/assets/sounds/Background.mp3")
-const MOVE1_SOUND := preload("res://Minigames/minigame_hillside_barrier/assets/sounds/move1.mp3")
-const MOVE2_SOUND := preload("res://Minigames/minigame_hillside_barrier/assets/sounds/move2.mp3")
-const ROCKS_SOUND := preload("res://Minigames/minigame_hillside_barrier/assets/sounds/rocks.mp3")
+const BACKGROUND_SOUND := preload("res://minigames/minigame_hillside_barrier/assets/sounds/Background.mp3")
+const MOVE1_SOUND := preload("res://minigames/minigame_hillside_barrier/assets/sounds/move1.mp3")
+const MOVE2_SOUND := preload("res://minigames/minigame_hillside_barrier/assets/sounds/move2.mp3")
+const ROCKS_SOUND := preload("res://minigames/minigame_hillside_barrier/assets/sounds/rocks.mp3")
 
 # =========================================================
 # CONSTANTS

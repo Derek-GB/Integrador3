@@ -5,7 +5,7 @@ extends Node2D
 @export var lifetime := 8.0
 @export var rotation_speed := 6.0
 
-const ASSETS_DIR := "res://Minigames/minigame_landslide/assets/"
+const ASSETS_DIR := "res://minigames/minigame_landslide/assets/"
 
 var direction := Vector2.DOWN
 var life_counter := 0.0

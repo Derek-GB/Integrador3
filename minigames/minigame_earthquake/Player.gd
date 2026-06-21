@@ -65,11 +65,11 @@ func _ready() -> void:
 
 
 func _load_textures() -> void:
-	_idle_texture   = load("res://Minigames/minigame_earthquake/assets/sprites/girl_idle.png")   as Texture2D
-	_hiding_texture = load("res://Minigames/minigame_earthquake/assets/sprites/girl_hiding.png") as Texture2D
-	_table_texture  = load("res://Minigames/minigame_earthquake/assets/sprites/table.png")       as Texture2D
+	_idle_texture   = load("res://minigames/minigame_earthquake/assets/sprites/girl_idle.png")   as Texture2D
+	_hiding_texture = load("res://minigames/minigame_earthquake/assets/sprites/girl_hiding.png") as Texture2D
+	_table_texture  = load("res://minigames/minigame_earthquake/assets/sprites/table.png")       as Texture2D
 	for i in range(1, 5):
-		var t = load("res://Minigames/minigame_earthquake/assets/sprites/girl_walk_%d.png" % i) as Texture2D
+		var t = load("res://minigames/minigame_earthquake/assets/sprites/girl_walk_%d.png" % i) as Texture2D
 		_walk_textures.append(t)
 	if _idle_texture   == null: push_error("No se pudo cargar girl_idle.png")
 	if _hiding_texture == null: push_error("No se pudo cargar girl_hiding.png")

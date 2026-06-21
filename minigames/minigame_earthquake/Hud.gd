@@ -40,7 +40,7 @@ func _ready() -> void:
 
 # ── Banner de terremoto ───────────────────────────────────────────────────────
 func _build_earthquake_banner() -> void:
-	var tex = load("res://Minigames/minigame_earthquake/assets/ui/earthquake_banner.png") as Texture2D
+	var tex = load("res://minigames/minigame_earthquake/assets/ui/earthquake_banner.png") as Texture2D
 	if tex:
 		var spr = Sprite2D.new()
 		spr.texture  = tex
@@ -88,7 +88,7 @@ func _build_progress_bar() -> void:
 	var bar_y = _sh - BAR_MARGIN_BOTTOM - BAR_H
 
 	# ── Icono INICIO (izquierda) ──
-	var icon_start_tex = load("res://Minigames/minigame_earthquake/assets/ui/start.png") as Texture2D
+	var icon_start_tex = load("res://minigames/minigame_earthquake/assets/ui/start.png") as Texture2D
 	if icon_start_tex:
 		var icon_start = TextureRect.new()
 		icon_start.texture      = icon_start_tex
@@ -109,7 +109,7 @@ func _build_progress_bar() -> void:
 		add_child(lbl_left)
 
 	# ── Icono META (derecha) ──
-	var icon_goal_tex = load("res://Minigames/minigame_earthquake/assets/ui/goal.png") as Texture2D
+	var icon_goal_tex = load("res://minigames/minigame_earthquake/assets/ui/goal.png") as Texture2D
 	if icon_goal_tex:
 		var icon_goal = TextureRect.new()
 		icon_goal.texture      = icon_goal_tex
@@ -218,7 +218,7 @@ func _build_hold_button() -> void:
 	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	# Icono push
-	var push_tex = load("res://Minigames/minigame_earthquake/assets/ui/push.png") as Texture2D
+	var push_tex = load("res://minigames/minigame_earthquake/assets/ui/push.png") as Texture2D
 	var icon_rect = TextureRect.new()
 	if push_tex:
 		icon_rect.texture = push_tex

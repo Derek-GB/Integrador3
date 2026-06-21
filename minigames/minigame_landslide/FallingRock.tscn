@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d0bh66wbv0oqg"]
 
-[ext_resource type="Script" uid="uid://duea2hq4h82j2" path="res://Minigames/minigame_landslide/falling_rock.gd" id="1_l258p"]
-[ext_resource type="Texture2D" uid="uid://cs30gvikuw1sn" path="res://Minigames/minigame_landslide/assets/05_falling_rock.png" id="2_q3msb"]
+[ext_resource type="Script" uid="uid://duea2hq4h82j2" path="res://minigames/minigame_landslide/falling_rock.gd" id="1_l258p"]
+[ext_resource type="Texture2D" uid="uid://cs30gvikuw1sn" path="res://minigames/minigame_landslide/assets/05_falling_rock.png" id="2_q3msb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qvbrt"]
 radius = 56.82429

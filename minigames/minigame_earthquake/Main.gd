@@ -130,7 +130,7 @@ func _ready() -> void:
 	_current_lives = max_lives
 
 	# --- LivesUi ---
-	var lives_scene = load("res://Minigames/ui_global/LivesUi.tscn")
+	var lives_scene = load("res://minigames/ui_global/LivesUi.tscn")
 	if lives_scene:
 		_lives_ui = lives_scene.instantiate()
 		add_child(_lives_ui)
@@ -140,7 +140,7 @@ func _ready() -> void:
 		push_error("Main.gd: No se encontró res://ui_global/LivesUi.tscn")
 
 	# --- GameResult ---
-	var result_scene = load("res://Minigames/ui_global/GameResult.tscn")
+	var result_scene = load("res://minigames/ui_global/GameResult.tscn")
 	if result_scene:
 		_game_result = result_scene.instantiate()
 		add_child(_game_result)

@@ -5,11 +5,11 @@ extends Node2D
 # CONSTANTS
 # =========================================================
 
-const BACKGROUND_PATH := "res://Minigames/minigame_fire/assets/background.png"
-const FIRE_BACKGROUND_SOUND_PATH := "res://Minigames/minigame_fire/assets/sound/fire.mp3"
+const BACKGROUND_PATH := "res://minigames/minigame_fire/assets/background.png"
+const FIRE_BACKGROUND_SOUND_PATH := "res://minigames/minigame_fire/assets/sound/fire.mp3"
 
-const TIMER_UI_SCENE_PATH := "res://Minigames/ui_global/TimerUI.tscn"
-const GAME_RESULT_SCENE_PATH := "res://Minigames/ui_global/GameResult.tscn"
+const TIMER_UI_SCENE_PATH := "res://minigames/ui_global/TimerUI.tscn"
+const GAME_RESULT_SCENE_PATH := "res://minigames/ui_global/GameResult.tscn"
 
 const TOTAL_TIME := 35.0
 

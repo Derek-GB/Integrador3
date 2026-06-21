@@ -49,7 +49,7 @@ func _build_sky() -> void:
 	fill.z_as_relative = false
 	add_child(fill)
 
-	var tex = load("res://Minigames/minigame_earthquake/assets/backgrounds/bg_sky.png") as Texture2D
+	var tex = load("res://minigames/minigame_earthquake/assets/backgrounds/bg_sky.png") as Texture2D
 	if tex:
 		var spr           = Sprite2D.new()
 		spr.centered      = false
@@ -66,7 +66,7 @@ func _build_sky() -> void:
 # ── CAMINO (estático) ─────────────────────────────────────────────────────────
 func _build_ground() -> void:
 	var ground_h = _sh - _horizon_y
-	var tex = load("res://Minigames/minigame_earthquake/assets/backgrounds/bg_ground.png") as Texture2D
+	var tex = load("res://minigames/minigame_earthquake/assets/backgrounds/bg_ground.png") as Texture2D
 
 	if tex:
 		var spr           = Sprite2D.new()
@@ -97,9 +97,9 @@ func _build_city() -> void:
 	add_child(_city_node)
 
 	# Intenta cargar bg_city.png primero, si no bg_buildings.png como fallback
-	var tex = load("res://Minigames/minigame_earthquake/assets/backgrounds/bg_city.png") as Texture2D
+	var tex = load("res://minigames/minigame_earthquake/assets/backgrounds/bg_city.png") as Texture2D
 	if tex == null:
-		tex = load("res://Minigames/minigame_earthquake/assets/backgrounds/bg_buildings.png") as Texture2D
+		tex = load("res://minigames/minigame_earthquake/assets/backgrounds/bg_buildings.png") as Texture2D
 
 	if tex:
 		var spr           = Sprite2D.new()
