@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://des1nsajhfa3e" path="res://scripts/UX/SoundControl.gd" id="1_acgtu"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="3_0h00j"]
 [ext_resource type="Texture2D" uid="uid://c6p4rtxnhyn6j" path="res://images/UX/leaf.png" id="3_p0q5l"]
+[ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="3_ts032"]
+[ext_resource type="Texture2D" uid="uid://detgsv1kwas67" path="res://images/icons/sound.png" id="4_mmoq0"]
+[ext_resource type="Texture2D" uid="uid://b61x7vx1csr5u" path="res://images/icons/sfx.png" id="5_bnmq6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_07utn"]
 bg_color = Color(0.8784314, 0.6901961, 0.5019608, 1)
@@ -29,6 +32,14 @@ corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8nw7i"]
+shader = ExtResource("3_ts032")
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_prxeh"]
+shader = ExtResource("3_ts032")
+shader_parameter/tint_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ts032"]
 bg_color = Color(0.4509804, 0.83137256, 0.4392157, 1)
@@ -91,9 +102,9 @@ vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="." unique_id=956299266]
 layout_mode = 0
-offset_left = 24.0
-offset_top = 80.0
-offset_right = 199.0
+offset_left = 32.0
+offset_top = 72.0
+offset_right = 200.0
 offset_bottom = 104.0
 theme_override_fonts/font = ExtResource("3_0h00j")
 theme_override_styles/normal = SubResource("StyleBoxFlat_0h00j")
@@ -101,24 +112,36 @@ text = "Musica"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Sound" type="Sprite2D" parent="Label2" unique_id=448740279]
+material = SubResource("ShaderMaterial_8nw7i")
+position = Vector2(20, 16)
+scale = Vector2(0.375, 0.375)
+texture = ExtResource("4_mmoq0")
+
 [node name="Label3" type="Label" parent="." unique_id=253619626]
 layout_mode = 0
-offset_left = 24.0
-offset_top = 136.0
-offset_right = 199.0
+offset_left = 32.0
+offset_top = 128.0
+offset_right = 200.0
 offset_bottom = 160.0
 theme_override_fonts/font = ExtResource("3_0h00j")
 theme_override_styles/normal = SubResource("StyleBoxFlat_0h00j")
-text = "Efectos de sonido"
+text = "Efectos"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Sfx" type="Sprite2D" parent="Label3" unique_id=2052142698]
+material = SubResource("ShaderMaterial_prxeh")
+position = Vector2(24, 16)
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("5_bnmq6")
 
 [node name="Music" type="HSlider" parent="." unique_id=1779127673]
 layout_mode = 0
 offset_left = 216.0
 offset_top = 72.0
 offset_right = 424.0
-offset_bottom = 112.0
+offset_bottom = 104.0
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_ts032")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_mmoq0")
 max_value = 1.0
@@ -130,7 +153,7 @@ layout_mode = 0
 offset_left = 216.0
 offset_top = 128.0
 offset_right = 424.0
-offset_bottom = 168.0
+offset_bottom = 160.0
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_bnmq6")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_8nw7i")
 max_value = 1.0
