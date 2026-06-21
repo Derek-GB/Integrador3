@@ -1,18 +1,14 @@
 extends Node3D
-
 var waypoints: Array[Vector3] = []
 var waypoint_rotations: Array[float] = []
 var waypoint_bases: Array[Basis] = []
 var current_index: int = 0
 @export var speed: float = 8.0
 @export var jump_height: float = 1.2
-
 # Desplazamiento lateral para que dos fichas no se superpongan en el mismo waypoint
 @export var lane_offset: Vector3 = Vector3.ZERO
-
 signal reached_end
 signal stepped_on(index: int)
-
 # =========================================================
 # SETUP
 # =========================================================
@@ -31,7 +27,6 @@ func setup(board_waypoints: Array[Vector3], board_rotations: Array[float] = [], 
 			rotation.y = deg_to_rad(waypoint_rotations[0])
 	else:
 		push_warning("Ficha: no recibió waypoints")
-
 # =========================================================
 # MOVER PASOS HACIA ADELANTE
 # =========================================================
@@ -55,7 +50,6 @@ func move_steps(steps: int) -> void:
 		if current_index >= waypoints.size() - 1:
 			reached_end.emit()
 			return
-
 # =========================================================
 # MOVER PASOS HACIA ATRÁS
 # =========================================================
@@ -68,7 +62,6 @@ func move_back(steps: int) -> void:
 		current_index -= 1
 		print("Ficha: retrocediendo a índice", current_index)
 		await _move_to(waypoints[current_index])
-
 # =========================================================
 # MOVER A POSICIÓN CON SALTO
 # Aplica lane_offset al destino para mantener el carril
@@ -95,8 +88,8 @@ func _move_to(target: Vector3) -> void:
 		elapsed += get_process_delta_time()
 		var t: float = min(elapsed / duration, 1.0)
 		var horizontal: Vector3 = start.lerp(actual_target, t)
-		var height: float = sin(t * PI) * jump_height
-		global_position = Vector3(horizontal.x, height, horizontal.z)
+		var arc: float = sin(t * PI) * jump_height
+		global_position = Vector3(horizontal.x, horizontal.y + arc, horizontal.z)
 		var angle: float = lerp_angle(start_rotation_y, target_rotation_y, t)
 		rotation.y = angle
 	global_position = actual_target

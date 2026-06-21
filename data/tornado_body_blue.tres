@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://de0e7icuqtk60"]
+
+[ext_resource type="Shader" uid="uid://b04hgk0mcfnu2" path="res://data/tornado_body.gdshader" id="1_2w1ic"]
+[ext_resource type="Texture2D" uid="uid://dhx42wq4lu4xs" path="res://data/noise_texture_2d.tres" id="2_f6pna"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_2w1ic")
+shader_parameter/noise_tex = ExtResource("2_f6pna")
+shader_parameter/scroll_speed = 1.5
+shader_parameter/twist_amount = 3.6470001732325
+shader_parameter/wobble_amount = 0.26800001273
+shader_parameter/base_color = Color(0.12604359, 0.26545185, 0.3378778, 1)
+shader_parameter/alpha_strength = 1.71600008151
+shader_parameter/rim_color = Color(0.6, 0.85, 1, 1)
+shader_parameter/rim_power = 3.0
+shader_parameter/rim_strength = 0.6
