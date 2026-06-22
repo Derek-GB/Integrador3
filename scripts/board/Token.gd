@@ -36,20 +36,31 @@ func move_steps(steps: int) -> void:
 		return
 	if steps <= 0:
 		return
-	print("Ficha: move_steps llamado con pasos =", steps, " current_index =", current_index)
-	for i in range(steps):
-		# Si ya está en la meta al inicio del paso, emitir y detener
-		if current_index >= waypoints.size() - 1:
+	var meta_index: int = waypoints.size() - 1
+	var target_index: int = current_index + steps
+	print("Ficha: move_steps llamado con pasos =", steps, " current_index =", current_index, " meta =", meta_index)
+	if target_index <= meta_index:
+		for i in range(steps):
+			current_index += 1
+			print("Ficha: moviendo a índice", current_index, " posición:", waypoints[current_index])
+			await _move_to(waypoints[current_index])
+			stepped_on.emit(current_index)
+		if current_index == meta_index:
 			reached_end.emit()
-			return
-		current_index += 1
-		print("Ficha: moviendo a índice", current_index, " posición:", waypoints[current_index])
-		await _move_to(waypoints[current_index])
-		stepped_on.emit(current_index)
-		# Si acaba de llegar a la meta, emitir y detener
-		if current_index >= waypoints.size() - 1:
-			reached_end.emit()
-			return
+	else:
+		var steps_to_meta: int = meta_index - current_index
+		var excess: int = target_index - meta_index
+		print("Ficha: rebote - pasos hasta meta =", steps_to_meta, " exceso =", excess)
+		for i in range(steps_to_meta):
+			current_index += 1
+			print("Ficha: moviendo a índice", current_index, " posición:", waypoints[current_index])
+			await _move_to(waypoints[current_index])
+			stepped_on.emit(current_index)
+		for i in range(excess):
+			current_index -= 1
+			print("Ficha: rebotando, índice", current_index)
+			await _move_to(waypoints[current_index])
+			stepped_on.emit(current_index)
 # =========================================================
 # MOVER PASOS HACIA ATRÁS
 # =========================================================
