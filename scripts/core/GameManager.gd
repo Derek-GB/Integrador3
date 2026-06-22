@@ -9,11 +9,22 @@ const ACTION_CARD   = preload("res://scenes/cards/ActionCard.tscn")
 const MINIGAME_EFFECTS: Dictionary = {
 	3:  { "on_win": "spin_again",  "on_lose": "nothing"   },
 	9:  { "on_win": "advance",     "on_lose": "nothing",  "value": 5 },
-	13: { "on_win": "nothing",     "on_lose": "go_back",  "value": 4 },
+	13: { "on_win": "advance",     "on_lose": "nothing",  "value": 4 },
 	15: { "on_win": "nothing",     "on_lose": "go_back",  "value": 1 },
-	19: { "on_win": "nothing",     "on_lose": "go_to_space", "value": 1 },
+	19: { "on_win": "nothing",     "on_lose": "go_back", "value": 1 },
+	23: { "on_win": "advance",     "on_lose": "nothing",  "value": 4 },
+	25: { "on_win": "go_to_space", "on_lose": "nothing",  "value": 30 },
+	29: { "on_win": "advance",     "on_lose": "nothing",  "value": 4 },
+	31: { "on_win": "advance",     "on_lose": "nothing",  "value": 5 },
+	35: { "on_win": "advance",     "on_lose": "nothing",  "value": 3 },
+	37: { "on_win": "nothing",     "on_lose": "go_back",  "value": 4 },
+	42: { "on_win": "advance",     "on_lose": "nothing",  "value": 1 },
+	44: { "on_win": "nothing",     "on_lose": "go_back",  "value": 1 },
+	47: { "on_win": "advance",     "on_lose": "nothing",  "value": 2 },
+	50: { "on_win": "advance",     "on_lose": "nothing",  "value": 2 },
+	53: { "on_win": "nothing",     "on_lose": "go_back",  "value": 1 },
 }
-const MINIGAME_TILE_INDICES: Array[int] = [3, 9, 13, 15, 19]
+const MINIGAME_TILE_INDICES: Array[int] = [3, 9, 13, 15, 19, 23, 25, 29, 31, 35, 37, 42, 44, 47, 50, 53]
 const BLUE_TILE_INDICES: Array[int]     = [5, 11, 21, 34, 45, 54, 61, 66, 72]
 const RED_TILE_INDICES: Array[int]      = [7, 16, 32, 39, 48, 58, 64, 68, 76]
 
@@ -45,8 +56,7 @@ const MINIGAMES: Dictionary = {
 		"video_path":     "res://minigames/minigame_storm/assets/Thunder_Instruction.ogv",
 		"minigame_scene": "res://minigames/minigame_storm/StormMinigame.tscn",
 		"controls": [
-			{ "action": "Moverse derecha",   "icon": "res://minigames/ui_global/assets/left-button.png"  },
-			{ "action": "Moverse izquierda", "icon": "res://minigames/ui_global/assets/right-button.png" },
+			{ "action": "Moverse derecha, moverse izquierda", "icon": "res://minigames/ui_global/assets/Left_Right.png" },
 		]
 	},
 	15: {
@@ -67,6 +77,118 @@ const MINIGAMES: Dictionary = {
 		"minigame_scene": "res://minigames/minigame_defo/mini_game.tscn",
 		"controls": [
 			{ "action": "Arrastrar semillas y regadera", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	23: {
+		"title":          "¡Rescata a tus amigos!",
+		"description":    "Ayuda a tus amigos a llegar a la zona segura durante la inundación.",
+		"instructions":   "Muévete por el laberinto, rescata a los dos amigos y llega a la zona segura antes de que se acabe el tiempo.",
+		"video_path":     "res://minigames/minigame_laberinto/assets/maze_Instructions.ogv",
+		"minigame_scene": "res://minigames/minigame_laberinto/maze_minigame.tscn",
+		"controls": [
+			{ "action": "Moverse arriba, abajo, izquierda y derecha", "icon": "res://minigames/ui_global/assets/Movement.png" },
+		]
+	},
+	25: {
+		"title":          "¡Protege la ladera!",
+		"description":    "Coloca arbolitos en puntos estratégicos para formar barreras naturales y detener las rocas antes de que provoquen un deslizamiento.",
+		"instructions":   "Observa la dirección en la que cae cada roca. Cuando aparezca el punto de siembra, arrastra un árbol desde la bandeja de selección y colócalo en el camino de la roca.",
+		"video_path":     "res://minigames/minigame_hillside_barrier/assets/instruction.ogv",
+		"minigame_scene": "res://minigames/minigame_hillside_barrier/HillsideBarrierMinigame.tscn",
+		"controls": [
+			{ "action": "Arrastrar y soltar árbol", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	29: {
+		"title":          "¡Llega a la zona segura!",
+		"description":    "TERREMOTO. Te metiste debajo de la mesa para protegerte.",
+		"instructions":   "Mantén presionado el botón rojo cuando ocurra un terremoto para ocultarte debajo de la mesa.",
+		"video_path":     "res://minigames/minigame_earthquake/assets/EarthquakeInstructions.ogv",
+		"minigame_scene": "res://minigames/minigame_earthquake/Main.tscn",
+		"controls": [
+			{ "action": "Mantén presionado el botón", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	31: {
+		"title":          "¡Ordena el botiquín!",
+		"description":    "Abre el botiquín y organiza correctamente todos los implementos médicos.",
+		"instructions":   "Primero selecciona los dos seguros para abrir el botiquín. Después arrastra cada implemento hacia su espacio correspondiente antes de que se acaben los 30 segundos.",
+		"video_path":     "res://minigames/minigame_kit/assets/kit_Instruction.ogv",
+		"minigame_scene": "res://minigames/minigame_kit/MedicalKitMinigame.tscn",
+		"controls": [
+			{ "action": "Abrir los seguros y arrastrar los implementos", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	35: {
+		"title":          "¡Identifica el río diferente!",
+		"description":    "Identificaste que el río está creciendo. Observa los ríos y encuentra cuál tiene una característica distinta.",
+		"instructions":   "Mira cuidadosamente cada grupo de ríos. Haz clic sobre el río diferente para avanzar de ronda. Ganas si completas las tres rondas antes de quedarte sin vidas o sin tiempo.",
+		"video_path":     "res://minigames/minigame_identify_river/assets/videoriver.ogv",
+		"minigame_scene": "res://minigames/minigame_identify_river/main.tscn",
+		"controls": [
+			{ "action": "Seleccionar río", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	37: {
+		"title":          "¡Limpia el río!",
+		"description":    "Las fábricas han contaminado el río de tu comunidad.",
+		"instructions":   "Mueve el cursor rápidamente sobre los desechos que aparecen en el agua para eliminarlos antes de que se acabe el tiempo.",
+		"video_path":     "res://minigames/minigame_river_clean/assets/video/RiverCleanInstructions.ogv",
+		"minigame_scene": "res://minigames/minigame_river_clean/RiverCleanMinigame.tscn",
+		"controls": [
+			{ "action": "Mover guante", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	42: {
+		"title":          "¡Construye la ruta segura!",
+		"description":    "Construye un camino seguro desde la escuela hasta la zona de reunión, evitando los obstáculos.",
+		"instructions":   "Arrastra las piezas de camino desde el panel derecho y colócalas en las casillas disponibles del mapa. Conecta la escuela con la zona segura antes de que termine el tiempo.",
+		"video_path":     "res://minigames/minigame_route/assets/Route_Instruction.ogv",
+		"minigame_scene": "res://minigames/minigame_route/SchoolRouteMinigame.tscn",
+		"controls": [
+			{ "action": "Arrastrar caminos", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+			{ "action": "Quitar caminos",    "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	44: {
+		"title":          "¡Revisa las fechas de vencimiento!",
+		"description":    "Olvidaste revisar la fecha de vencimiento de los suministros.",
+		"instructions":   "Observa la fecha actual y las fechas de vencimiento de cada producto. Los productos vigentes van a la refrigeradora, los vencidos al basurero.",
+		"video_path":     "res://minigames/minigame_expiration/assets/ExpirationInstruction.ogv",
+		"minigame_scene": "res://minigames/minigame_expiration/MainExpiration.tscn",
+		"controls": [
+			{ "action": "Arrastrar comida", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	47: {
+		"title":          "¡Alarma Inclusiva!",
+		"description":    "Tu escuela aún no cuenta con un sistema de alarma adecuado para personas con discapacidad auditiva.",
+		"instructions":   "Arrastra cada objeto a la categoría correcta. Identifica las luces intermitentes, dispositivos de vibración y señales visuales. Completa la clasificación antes de que se agote el tiempo.",
+		"video_path":     "res://minigames/minigame_inclusive_alarms/assets/video/InclusiveAlarmsInstructions.ogv",
+		"minigame_scene": "res://minigames/minigame_inclusive_alarms/inclusive_alarms_minigame.tscn",
+		"controls": [
+			{ "action": "Arrastrar objetos", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	50: {
+		"title":          "¡Apaga el incendio!",
+		"description":    "Alguien dejó un cigarrillo en el bosque y provocó un incendio.",
+		"instructions":   "Presiona los árboles que están en llamas para apagar el fuego. Tienes 2 segundos antes de que el árbol se queme. Si presionas un árbol sin fuego, perderás una vida.",
+		"video_path":     "res://minigames/minigame_fire/assets/Fire_Instruction.ogv",
+		"minigame_scene": "res://minigames/minigame_fire/MainFire.tscn",
+		"controls": [
+			{ "action": "Presionar árboles en llamas", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	53: {
+		"title":          "¡Alerta de deslizamiento!",
+		"description":    "Identificaste una amenaza de deslizamiento en la comunidad y debes actuar rápido.",
+		"instructions":   "Muévete con las flechitas para esquivar las rocas. Llega al teléfono, presiona E y marca 911. Después dirígete a la cabina segura antes de que se acabe el tiempo.",
+		"video_path":     "res://minigames/minigame_landslide/assets/MiniGame13.ogv",
+		"minigame_scene": "res://minigames/minigame_landslide/LandslideMinigame.tscn",
+		"controls": [
+			{ "action": "Mover personaje",           "icon": "res://minigames/ui_global/assets/ArrowKeys.png" },
+			{ "action": "Usar teléfono / marcar 911","icon": "res://minigames/ui_global/assets/KeyE.png"      },
 		]
 	},
 }
@@ -135,8 +257,6 @@ func check_special_tile(active_token: Node) -> bool:
 	if index in MINIGAME_TILE_INDICES:
 		await _launch_minigame_for_tile(index)
 		is_player_moving = false
-		_unlock_dice()
-		_next_turn()
 		return true
 
 	if index in BLUE_TILE_INDICES:

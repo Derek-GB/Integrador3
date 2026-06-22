@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ce2leo0ju6ooo"]
 
-[ext_resource type="Script" uid="uid://cu5lcv5u7x118" path="res://minigame_kit/DraggableItem.gd" id="1_1b3ch"]
-[ext_resource type="Texture2D" uid="uid://c5qj3gp0jw8y0" path="res://minigame_kit/assets/jeringa.png" id="2_1t6ae"]
+[ext_resource type="Script" uid="uid://cu5lcv5u7x118" path="res://minigames/minigame_kit/DraggableItem.gd" id="1_1b3ch"]
+[ext_resource type="Texture2D" uid="uid://c5qj3gp0jw8y0" path="res://minigames/minigame_kit/assets/jeringa.png" id="2_1t6ae"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_23dae"]
 size = Vector2(964, 586)
