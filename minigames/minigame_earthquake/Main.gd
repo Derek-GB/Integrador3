@@ -238,12 +238,14 @@ func _on_music_finished() -> void:
 # ---------------------------------------------------------------------------
 # Llamado por Hud._on_hold_down / _on_hold_up
 func on_hide_button_pressed() -> void:
+	print("---PRESIONADO---")
 	_button_held = true
 	# Si presiona fuera del terremoto → pierde vida
 	if _state == State.WALKING:
 		_lose_life()
 
 func on_hide_button_released() -> void:
+	print("---SOLTADO---")
 	_button_held = false
 
 

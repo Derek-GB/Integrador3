@@ -310,11 +310,13 @@ func _on_hold_down() -> void:
 	panel.position = base_pos + offset
 	vbox.position   = base_pos + offset
 
-	var main = get_node_or_null("/root/Main")
+	print("Botón de esconderse presionado")
+	var main = get_parent()
 	if main and main.has_method("on_hide_button_pressed"):
+		print("si entré")
 		main.on_hide_button_pressed()
 
-	var player = get_node_or_null("/root/Main/Player")
+	var player = get_parent().get_node_or_null("Player")
 	if player and player.has_method("on_hold_button_pressed"):
 		player.on_hold_button_pressed()
 
@@ -332,10 +334,10 @@ func _on_hold_up() -> void:
 	panel.position = base_pos
 	vbox.position   = base_pos
 
-	var main = get_node_or_null("/root/Main")
+	var main = get_parent()
 	if main and main.has_method("on_hide_button_released"):
 		main.on_hide_button_released()
 
-	var player = get_node_or_null("/root/Main/Player")
+	var player = get_parent().get_node_or_null("Player")
 	if player and player.has_method("on_hold_button_released"):
 		player.on_hold_button_released()
