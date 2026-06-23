@@ -244,6 +244,11 @@ func _on_option_selected(option_index: int) -> void:
 
 	popup.dialog_text = selected_question["explanation"]
 
+	var no_close_icon := PlaceholderTexture2D.new()
+	no_close_icon.size = Vector2.ZERO
+	popup.add_theme_icon_override("close", no_close_icon)
+	popup.add_theme_icon_override("close_pressed", no_close_icon)
+
 	add_child(popup)
 	popup.popup_centered()
 

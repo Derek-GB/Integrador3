@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c1502o12m01un"]
 
-[ext_resource type="Script" uid="uid://cng85o42oabdd" path="res://minigame_earthquake/Player.gd" id="1_t3qi7"]
+[ext_resource type="Script" uid="uid://cng85o42oabdd" path="res://minigames/minigame_earthquake/Player.gd" id="1_t3qi7"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t3qi7"]
 

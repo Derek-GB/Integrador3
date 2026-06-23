@@ -128,9 +128,9 @@
 	  "opciones": [
 		{ "valor": 1, "texto": "Terremoto" },
 		{ "valor": 2, "texto": "Incendio" },
-		{ "valor": 4, "texto": "En ningún desastre" }
+		{ "valor": 3, "texto": "En ningún desastre" }
 	  ],
-	  "respuestaCorrecta": 4,
+	  "respuestaCorrecta": 3,
 	  "explicacion": "La niñez NUNCA pierde sus derechos. Las autoridades tienen el deber de respetar y hacer cumplir los derechos siempre, incluso en desastres.",
 	  "tema": "DERECHOS_NIÑEZ",
 	  "imagen": "res://images/cards/blue/card_30.png"
