@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://doirl0qaq7g75"]
+
+[ext_resource type="Shader" uid="uid://bgnd8vdrqchg8" path="res://data/quad_mesh.gdshader" id="1_jjw3r"]
+[ext_resource type="Shader" uid="uid://dopffftcdc1fx" path="res://data/tornado_gpu.gdshader" id="2_m1wdk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j2lmh"]
+shader = ExtResource("1_jjw3r")
+shader_parameter/spiral_radius = 0.9
+shader_parameter/spiral_height = 5.0
+shader_parameter/rotation_speed = 0.5
+shader_parameter/lean_x = 0.6
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jjw3r"]
+noise_type = 3
+fractal_octaves = 4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_m1wdk"]
+noise = SubResource("FastNoiseLite_jjw3r")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f2jm8"]
+render_priority = 0
+shader = ExtResource("2_m1wdk")
+shader_parameter/cloud_tex = SubResource("NoiseTexture2D_m1wdk")
+shader_parameter/cloud_color = Color(0.78, 0.78, 0.82, 1)
+shader_parameter/rim_color = Color(0.6, 0.85, 1, 1)
+shader_parameter/rim_strength = 0.4
+
+[sub_resource type="QuadMesh" id="QuadMesh_c3x25"]
+material = SubResource("ShaderMaterial_f2jm8")
+size = Vector2(0.5, 0.9)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j2lmh"]
+shading_mode = 0
+albedo_color = Color(0.46135613, 0.46135613, 0.48452926, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_f2jm8"]
+material = SubResource("StandardMaterial3D_j2lmh")
+top_radius = 0.28
+bottom_radius = 0.04
+height = 5.0
+radial_segments = 10
+
+[node name="TornadoGPU" type="Node3D" unique_id=74494756]
+
+[node name="TornadoParticles" type="GPUParticles3D" parent="." unique_id=2056386703]
+amount = 150
+lifetime = 6.0
+local_coords = true
+process_material = SubResource("ShaderMaterial_j2lmh")
+draw_pass_1 = SubResource("QuadMesh_c3x25")
+
+[node name="TornadoCore" type="MeshInstance3D" parent="." unique_id=348350099]
+mesh = SubResource("CylinderMesh_f2jm8")
