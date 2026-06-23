@@ -10,10 +10,16 @@ var waypoint_rotations: Array[float] = []
 var waypoint_bases: Array[Basis] = []
 var ordered_markers: Array[Node3D] = []
 
+var alt_waypoints: Array[Vector3] = []
+var alt_rotations: Array[float] = []
+var alt_bases: Array[Basis] = []
+
 @export var path_node: Node3D # Arrastra aquí el nodo "Camino" desde el Inspector
+@export var alt_path_node: Node3D
 
 func _ready() -> void:
 	_build_waypoints()
+	_build_alt_waypoints()
 	_build_ordered_markers()  # <-- agregar esto
 	Events.visible_pointer.connect(_set_pointer_visible)
 	print("Board: waypoints cargados =", waypoints.size())
@@ -42,6 +48,22 @@ func _build_waypoints() -> void:
 			c += 1
 
 	print("Board: build complete, total waypoints =", waypoints.size())
+
+func _build_alt_waypoints() -> void:
+	alt_waypoints.clear()
+	alt_rotations.clear()
+	alt_bases.clear()
+
+	if alt_path_node == null:
+		print("Camino alterno vacio")
+		return
+
+	for child in alt_path_node.get_children():
+		if child is Marker3D:
+			alt_waypoints.append(child.global_position)
+			alt_rotations.append(child.rotation_degrees.y)
+			alt_bases.append(child.global_transform.basis)
+	print("AltPath Completo con: ", alt_waypoints.size())
 
 func _add_pointer(pointer_scene: PackedScene, child: Node3D, color: String, c: int) -> void:
 	if pointer_scene == null: return
@@ -78,3 +100,12 @@ func get_waypoint_rotations() -> Array[float]:
 
 func get_waypoint_bases() -> Array[Basis]:
 	return waypoint_bases
+
+func get_alt_waypoints() -> Array[Vector3]:
+	return alt_waypoints
+
+func get_alt_rotations() -> Array[float]:
+	return alt_rotations
+
+func get_alt_bases() -> Array[Basis]:
+	return alt_bases

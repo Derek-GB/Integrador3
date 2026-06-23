@@ -13,6 +13,8 @@ extends Node3D
 @export var move_sound: AudioStream
 @export var board_sound: AudioStream
 @export var time_over_sound: AudioStream
+# Separación lateral entre fichas cuando comparten casilla
+@export var lane_split_offset: float = 1.75
 
 # =========================================================
 # NODOS DE LA ESCENA
@@ -168,15 +170,22 @@ func _start_game() -> void:
 	GameManager.register_token(piece)
 	piece.reached_end.connect(_on_ficha1_reached_end)
 	piece.stepped_on.connect(_on_ficha_stepped)
+	piece.lane_side = -1.0
+	piece.lane_split_offset = lane_split_offset
 
 	piece2 = PIECE_SCENE.instantiate()
 	piece2.name = "Ficha2"
-	piece2.lane_offset = Vector3(3.5, 0.0, 0.0)
 	map.add_child(piece2)
 	piece2.setup(_waypoints, _waypoint_rotations, _waypoint_bases)
 	GameManager.register_token(piece2)
 	piece2.reached_end.connect(_on_ficha2_reached_end)
 	piece2.stepped_on.connect(_on_ficha_stepped)
+	piece2.lane_side = 1.0
+	piece2.lane_split_offset = lane_split_offset
+
+	# Ambas fichas arrancan en la misma casilla (Inicio), así que se separan
+	# de una vez, sin animación, antes de que el jugador vea el tablero.
+	_update_lane_offsets(false)
 
 	_add_tag(piece, "J1")
 	if mode == 2:
@@ -202,9 +211,25 @@ func _add_tag(f: Node3D, texto: String) -> void:
 	lbl.no_depth_test = true
 	f.add_child(lbl)
 
+# =========================================================
+# CARRIL LATERAL ENTRE FICHAS
+# Si ambas fichas están en la misma casilla, se separan
+# (J1 hacia -x, J2 hacia +x). Si no, ambas van por el centro.
+# =========================================================
+func _update_lane_offsets(animate: bool = true) -> void:
+	if piece == null or piece2 == null:
+		return
+	if piece.current_index == piece2.current_index:
+		piece.update_lane_offset(Vector3(-lane_split_offset, 0.0, 0.0), animate)
+		piece2.update_lane_offset(Vector3(lane_split_offset, 0.0, 0.0), animate)
+	else:
+		piece.update_lane_offset(Vector3.ZERO, animate)
+		piece2.update_lane_offset(Vector3.ZERO, animate)
+
 func _on_ficha_stepped(_index: int) -> void:
 	AudioManager.play_sfx(move_sound)
 	_update_position_label()
+	_update_lane_offsets()
 	var type := GameManager.last_action_type
 	if type == "advance":
 		AudioManager.play_sfx(move_forward_sound)
@@ -231,7 +256,7 @@ func _on_throw_3() -> void:
 		return
 	AudioManager.play_sfx(dice_sound)
 	dice_label.text = "Tiraste un 3"
-	await GameManager.on_dice_rolled(53)
+	await GameManager.on_dice_rolled(9)
 
 func _on_restart() -> void:
 	var mg := get_node_or_null("ActiveMinigame")

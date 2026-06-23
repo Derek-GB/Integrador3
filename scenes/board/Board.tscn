@@ -8,11 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://b7kej6vfr121t" path="res://models/map/Mapa.glb" id="4_vgpvj"]
 [ext_resource type="PackedScene" uid="uid://dp0m1dj31ud0u" path="res://scenes/board/Tornado.tscn" id="7_l0jo7"]
 
-[node name="Board" type="Node3D" unique_id=1363300375 node_paths=PackedStringArray("path_node")]
+[node name="Board" type="Node3D" unique_id=1363300375 node_paths=PackedStringArray("path_node", "alt_path_node")]
 script = ExtResource("1_vttcb")
 red_pointer_scene = ExtResource("2_wjfn2")
 blue_pointer_scene = ExtResource("3_v01b6")
 path_node = NodePath("Path")
+alt_path_node = NodePath("AltPath")
 
 [node name="MapDeff" parent="." unique_id=461457469 instance=ExtResource("4_vgpvj")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
