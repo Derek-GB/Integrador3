@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://oood05suxvb4"]
+
+[ext_resource type="Texture2D" uid="uid://donan2ihw66mh" path="res://images/texturas/TexturaPuente.png" id="1_msra0"]
+
+[resource]
+albedo_texture = ExtResource("1_msra0")
+uv1_scale = Vector3(20, 12.395, 20)

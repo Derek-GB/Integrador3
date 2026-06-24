@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://c456hb1ulbl35"]
 
 [ext_resource type="Script" uid="uid://djhlhmcom7vcl" path="res://scripts/board/board.gd" id="1_vttcb"]
-[ext_resource type="PackedScene" uid="uid://d2txbxynwq18f" path="res://models/map/MapV1.glb" id="2_3uvf2"]
 [ext_resource type="PackedScene" uid="uid://l7yehtkd42qe" path="res://scenes/board/CardAnimation.tscn" id="2_wjfn2"]
 [ext_resource type="PackedScene" uid="uid://i528un3jtxhd" path="res://scenes/board/CardAnimationBlue.tscn" id="3_v01b6"]
 [ext_resource type="PackedScene" uid="uid://dmiympugo4r4x" path="res://scenes/board/Token.tscn" id="4_chwsj"]
-[ext_resource type="PackedScene" uid="uid://b7kej6vfr121t" path="res://models/map/Mapa.glb" id="4_vgpvj"]
+[ext_resource type="PackedScene" uid="uid://b4sfxq4o4o5tg" path="res://scenes/board/map.tscn" id="4_l0jo7"]
+[ext_resource type="PackedScene" uid="uid://dhkgs1kh8pq2n" path="res://models/map/Mapa.glb" id="4_vgpvj"]
 [ext_resource type="PackedScene" uid="uid://dp0m1dj31ud0u" path="res://scenes/board/Tornado.tscn" id="7_l0jo7"]
 
 [node name="Board" type="Node3D" unique_id=1363300375 node_paths=PackedStringArray("path_node", "alt_path_node")]
@@ -15,11 +15,11 @@ blue_pointer_scene = ExtResource("3_v01b6")
 path_node = NodePath("Path")
 alt_path_node = NodePath("AltPath")
 
-[node name="MapDeff" parent="." unique_id=461457469 instance=ExtResource("4_vgpvj")]
+[node name="Mapa" parent="." unique_id=1401132455 instance=ExtResource("4_l0jo7")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 
-[node name="MapV1" parent="." unique_id=1449025873 instance=ExtResource("2_3uvf2")]
-transform = Transform3D(3.05, 0, 0, 0, 2.8, 0, 0, 0, 2.9, 0, -10.035645, 0)
+[node name="MapDeff" parent="." unique_id=461457469 instance=ExtResource("4_vgpvj")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 visible = false
 
 [node name="Path" type="Node3D" parent="." unique_id=1921487203]

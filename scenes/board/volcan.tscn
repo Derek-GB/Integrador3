@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cx030d3wfebli"]
+
+[ext_resource type="PackedScene" uid="uid://bt4f3ui3a2uom" path="res://models/map/Volcan.glb" id="1_bc5yi"]
+[ext_resource type="Shader" uid="uid://ia62o15iuwei" path="res://data/shaders/lava.gdshader" id="2_h01ek"]
+[ext_resource type="Texture2D" uid="uid://c74kjtinxl3wm" path="res://images/texturas/Mascara_Lava.png" id="3_rbefb"]
+[ext_resource type="Texture2D" uid="uid://cjny7eep80vnv" path="res://images/texturas/TexturaVolcan.png" id="4_nuqep"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bpgkn"]
+frequency = 0.4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_1cs3x"]
+noise = SubResource("FastNoiseLite_bpgkn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lkl6o"]
+render_priority = 0
+shader = ExtResource("2_h01ek")
+shader_parameter/textura_roca = ExtResource("4_nuqep")
+shader_parameter/textura_mascara = ExtResource("3_rbefb")
+shader_parameter/textura_ruido = SubResource("NoiseTexture2D_1cs3x")
+shader_parameter/escala_uv_roca = 4.00000018930148
+shader_parameter/suavidad_triplanar = 10.0000004275
+shader_parameter/color_lava = Color(0.66106284, 0.18728104, 0, 1)
+shader_parameter/velocidad_lava = 0.010000000475
+shader_parameter/umbral_corte = 0.2000000095
+shader_parameter/intensidad_brillo = 5.0
+
+[node name="Volcan" unique_id=1658280751 instance=ExtResource("1_bc5yi")]
+
+[node name="Landscape" parent="." index="0" unique_id=2018347956]
+surface_material_override/0 = SubResource("ShaderMaterial_lkl6o")
