@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://cewpoxwnlvbfp"]
 
 [ext_resource type="Script" uid="uid://ccfum6mbyyp8i" path="res://scripts/board/Token.gd" id="1_i0jj6"]
-[ext_resource type="PackedScene" uid="uid://cuewa1fbl437y" path="res://models/piece/Changui_Final_ConTexturasYMenosVertices.glb" id="2_i0jj6"]
+[ext_resource type="PackedScene" uid="uid://diil701htl62f" path="res://models/piece/PandaCorreguido2Reducido.glb" id="2_i0jj6"]
 
 [node name="Token" type="Node3D" unique_id=1007468202]
 script = ExtResource("1_i0jj6")
 speed = 20.0
 
-[node name="Changui_Final_ConTexturasYMenosVertices" parent="." unique_id=992535282 instance=ExtResource("2_i0jj6")]
-transform = Transform3D(-3, 0, -2.6226832e-07, 0, 3, 0, 2.6226832e-07, 0, -3, 0, 0.318, 0)
+[node name="PandaCorreguido2Reducido" parent="." unique_id=66131170 instance=ExtResource("2_i0jj6")]
+transform = Transform3D(-4, 0, -3.496911e-07, 0, 4, 0, 3.496911e-07, 0, -4, 0, 0, 0)
