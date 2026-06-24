@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cdpukfixusqi1"]
 
-[ext_resource type="Script" uid="uid://evgg31un0xo" path="res://minigames/minigame_landslide/landslide_minigame.gd" id="1_xrwn7"]
-[ext_resource type="Script" uid="uid://duea2hq4h82j2" path="res://minigames/minigame_landslide/falling_rock.gd" id="2_xrwn7"]
+[ext_resource type="Script" uid="uid://evgg31un0xo" path="res://Minigames/minigame_landslide/landslide_minigame.gd" id="1_xrwn7"]
+[ext_resource type="Script" uid="uid://duea2hq4h82j2" path="res://Minigames/minigame_landslide/falling_rock.gd" id="2_xrwn7"]
 
 [node name="LandslideMinigame" type="Node2D" unique_id=753319566]
 script = ExtResource("1_xrwn7")

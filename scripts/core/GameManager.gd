@@ -139,7 +139,7 @@ const MINIGAMES: Dictionary = {
 			{ "action": "Mover guante", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
 		]
 	},
-	42: {
+	47: {
 		"title":          "¡Construye la ruta segura!",
 		"description":    "Construye un camino seguro desde la escuela hasta la zona de reunión, evitando los obstáculos.",
 		"instructions":   "Arrastra las piezas de camino desde el panel derecho y colócalas en las casillas disponibles del mapa. Conecta la escuela con la zona segura antes de que termine el tiempo.",
@@ -160,7 +160,7 @@ const MINIGAMES: Dictionary = {
 			{ "action": "Arrastrar comida", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
 		]
 	},
-	47: {
+	53: {
 		"title":          "¡Alarma Inclusiva!",
 		"description":    "Tu escuela aún no cuenta con un sistema de alarma adecuado para personas con discapacidad auditiva.",
 		"instructions":   "Arrastra cada objeto a la categoría correcta. Identifica las luces intermitentes, dispositivos de vibración y señales visuales. Completa la clasificación antes de que se agote el tiempo.",
@@ -170,7 +170,7 @@ const MINIGAMES: Dictionary = {
 			{ "action": "Arrastrar objetos", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
 		]
 	},
-	50: {
+	42: {
 		"title":          "¡Apaga el incendio!",
 		"description":    "Alguien dejó un cigarrillo en el bosque y provocó un incendio.",
 		"instructions":   "Presiona los árboles que están en llamas para apagar el fuego. Tienes 2 segundos antes de que el árbol se queme. Si presionas un árbol sin fuego, perderás una vida.",
@@ -180,7 +180,7 @@ const MINIGAMES: Dictionary = {
 			{ "action": "Presionar árboles en llamas", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
 		]
 	},
-	53: {
+	50: {
 		"title":          "¡Alerta de deslizamiento!",
 		"description":    "Identificaste una amenaza de deslizamiento en la comunidad y debes actuar rápido.",
 		"instructions":   "Muévete con las flechitas para esquivar las rocas. Llega al teléfono, presiona E y marca 911. Después dirígete a la cabina segura antes de que se acabe el tiempo.",

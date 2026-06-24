@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://cdpukfixusqi1"]
 
-[ext_resource type="Script" uid="uid://evgg31un0xo" path="res://minigames/minigame_landslide/landslide_minigame.gd" id="1_xrwn7"]
-[ext_resource type="Texture2D" uid="uid://d3yc8jmqyet7" path="res://minigames/minigame_landslide/assets/01_background_landslide.png" id="2_xrwn7"]
-[ext_resource type="PackedScene" uid="uid://baspr7yo4qutn" path="res://minigames/minigame_landslide/PlayerLandslide.tscn" id="5_3ukm6"]
-[ext_resource type="Texture2D" uid="uid://wvae3oagxp67" path="res://minigames/minigame_landslide/assets/09_key_e_icon.png" id="7_1ik8k"]
-[ext_resource type="PackedScene" uid="uid://cf4skwm7ohn6a" path="res://minigames/minigame_landslide/SafeCabin.tscn" id="7_du55d"]
-[ext_resource type="PackedScene" uid="uid://dwg5a3dxrnsvp" path="res://minigames/minigame_landslide/PhoneCabin.tscn" id="8_1ik8k"]
-[ext_resource type="Texture2D" uid="uid://dqtdp5agskb0i" path="res://minigames/minigame_landslide/assets/08_warning_landslide_sign.png" id="8_fn4ig"]
+[ext_resource type="Script" uid="uid://evgg31un0xo" path="res://Minigames/minigame_landslide/landslide_minigame.gd" id="1_xrwn7"]
+[ext_resource type="Texture2D" uid="uid://d3yc8jmqyet7" path="res://Minigames/minigame_landslide/assets/01_background_landslide.png" id="2_xrwn7"]
+[ext_resource type="PackedScene" uid="uid://baspr7yo4qutn" path="res://Minigames/minigame_landslide/PlayerLandslide.tscn" id="5_3ukm6"]
+[ext_resource type="Texture2D" uid="uid://wvae3oagxp67" path="res://Minigames/minigame_landslide/assets/09_key_e_icon.png" id="7_1ik8k"]
+[ext_resource type="PackedScene" uid="uid://cf4skwm7ohn6a" path="res://Minigames/minigame_landslide/SafeCabin.tscn" id="7_du55d"]
+[ext_resource type="PackedScene" uid="uid://dwg5a3dxrnsvp" path="res://Minigames/minigame_landslide/PhoneCabin.tscn" id="8_1ik8k"]
+[ext_resource type="Texture2D" uid="uid://dqtdp5agskb0i" path="res://Minigames/minigame_landslide/assets/08_warning_landslide_sign.png" id="8_fn4ig"]
 
 [node name="LandslideMinigame" type="Node2D" unique_id=753319566]
 position = Vector2(-8, 24)
