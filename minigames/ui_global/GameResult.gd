@@ -7,8 +7,8 @@ class_name GameResult
 # =========================================================
 
 const FONT_PATHS := [
-	"res://assets/fonts/Montserrat.ttf",
-	"res://assets/fonts/Montserrat-VariableFont_wght.ttf"
+	"res://fonts/Montserrat.ttf",
+	"res:/fonts/Montserrat-VariableFont_wght.ttf"
 ]
 
 const COLOR_CYAN := Color("#30C0F0")
@@ -22,9 +22,9 @@ const PANEL_SIZE := Vector2(660, 280)
 const LABEL_SIZE := Vector2(600, 125)
 const BUTTON_SIZE := Vector2(260, 58)
 
-const WIN_MESSAGE := "¡Felicidades!\nGanaste el juego"
+const WIN_MESSAGE := "Felicidades\n¡Ganaste!"
 const LOSE_MESSAGE := "¡Qué mal!\nPerdiste"
-const BACK_BUTTON_TEXT := "Volver al menú"
+const BACK_BUTTON_TEXT := "Volver al juego"
 
 
 # =========================================================
@@ -188,7 +188,7 @@ func _setup_button():
 	back_button.text = BACK_BUTTON_TEXT
 	back_button.position = Vector2(
 		(screen.x - BUTTON_SIZE.x) / 2,
-		(screen.y / 2) + 88
+		(screen.y / 2) + 62
 	)
 	back_button.size = BUTTON_SIZE
 	

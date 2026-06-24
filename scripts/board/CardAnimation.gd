@@ -3,13 +3,16 @@ class_name CardAnimation
 
 var tween: Tween
 @onready var fleet_manager: Node3D = $FleetManager
+@onready var sprite: Sprite3D = $FleetManager/Sprite3D
 var players_in_range: int = 0
+var fade_tween: Tween
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	start_circular_turn()
 	begin_float_infinitely()
+	sprite.modulate.a = 0.0
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -36,10 +39,47 @@ func begin_float_infinitely() -> void:
 func _set_visible(can_visible: bool):
 	if can_visible:
 		players_in_range += 1
-	elif not can_visible and not players_in_range == 0:
+	elif players_in_range > 0:
 		players_in_range -= 1
+
 	if players_in_range > 0:
-		self.process_mode = Node.PROCESS_MODE_INHERIT
-	elif players_in_range == 0:
-		self.process_mode = Node.PROCESS_MODE_DISABLED
-	self.visible = players_in_range > 0
+		_fade_in()
+	else:
+		_fade_out()
+
+func _fade_in():
+	if fade_tween:
+		fade_tween.kill()
+
+	if not visible:
+		visible = true
+
+	process_mode = Node.PROCESS_MODE_INHERIT
+
+	sprite.modulate.a = sprite.modulate.a
+
+	fade_tween = create_tween()
+	fade_tween.tween_property(
+		sprite,
+		"modulate:a",
+		1.0,
+		0.25
+	)
+
+func _fade_out():
+	if fade_tween:
+		fade_tween.kill()
+
+	fade_tween = create_tween()
+	fade_tween.tween_property(
+		sprite,
+		"modulate:a",
+		0.0,
+		0.25
+	)
+
+	await fade_tween.finished
+
+	if players_in_range == 0:
+		visible = false
+		process_mode = Node.PROCESS_MODE_DISABLED
