@@ -64,8 +64,8 @@ func _ready() -> void:
 	print("Main: waypoints =", _waypoints.size(), " rotaciones =", _waypoint_rotations.size(), " bases =", _waypoint_bases.size())
 
 	camera.make_current()
-	camera.position = marker_iso.position
-	camera.rotation = marker_iso.rotation
+	camera.position = marker_third.position
+	camera.rotation = marker_third.rotation
 
 	btn_throw.pressed.connect(_on_btn_throw)
 	btn_throw.disabled = true

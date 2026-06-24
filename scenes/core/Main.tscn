@@ -207,6 +207,7 @@ position = Vector2(40, 34)
 texture = ExtResource("18_d7485")
 
 [node name="Third_person" type="Button" parent="UI" unique_id=1250765168]
+visible = false
 offset_left = 1434.0
 offset_top = 134.0
 offset_right = 1640.0
@@ -214,6 +215,7 @@ offset_bottom = 201.0
 text = "Tercera persona"
 
 [node name="Iso" type="Button" parent="UI" unique_id=821287163]
+visible = false
 offset_left = 1434.0
 offset_top = 49.0
 offset_right = 1640.0
@@ -228,6 +230,7 @@ offset_bottom = 197.0
 text = "Tirar 3"
 
 [node name="Test_MG" type="Button" parent="UI" unique_id=1496248800]
+visible = false
 offset_left = 1447.0
 offset_top = 232.0
 offset_right = 1653.0
