@@ -3,14 +3,14 @@ extends Node2D
 @export var time_limit := 30.0
 @export var lives_limit := 3
 
-const TIMER_HUD_SCENE = preload("res://minigames/ui_global/TimerUi.tscn")
-const GAME_RESULT_SCENE = preload("res://minigames/ui_global/GameResult.tscn")
-const LIVES_UI_SCENE = preload("res://minigames/ui_global/LivesUi.tscn")
+const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
+const GAME_RESULT_SCENE = preload("res://Minigames/ui_global/GameResult.tscn")
+const LIVES_UI_SCENE = preload("res://Minigames/ui_global/LivesUi.tscn")
 
-const BASS_MUSIC = preload("res://minigames/minigame_identify_river/assets/bass.mp3")
-const FOREST_MUSIC = preload("res://minigames/minigame_identify_river/assets/forest.mp3")
-const CORRECT_SOUND = preload("res://minigames/minigame_identify_river/assets/Correct.mp3")
-const LOSER_SOUND = preload("res://minigames/minigame_identify_river/assets/Loser.mp3")
+const BASS_MUSIC = preload("res://Minigames/minigame_identify_river/assets/bass.mp3")
+const FOREST_MUSIC = preload("res://Minigames/minigame_identify_river/assets/forest.mp3")
+const CORRECT_SOUND = preload("res://Minigames/minigame_identify_river/assets/Correct.mp3")
+const LOSER_SOUND = preload("res://Minigames/minigame_identify_river/assets/Loser.mp3")
 
 var game_active := false
 var already_finished := false
@@ -20,6 +20,7 @@ var max_rounds := 3
 var lives := 3
 
 var river_options: Array[RiverOption] = []
+var river_positions: Array[Vector2] = []
 
 var timer_hud: CanvasLayer
 var game_result_panel: CanvasLayer
@@ -44,6 +45,7 @@ func _ready() -> void:
 	randomize()
 
 	get_river_options()
+	save_river_positions()
 	create_timer()
 	create_game_result_panel()
 	create_lives_ui()
@@ -64,6 +66,27 @@ func get_river_options() -> void:
 
 	if river_options.size() == 0:
 		print("ERROR: No se encontraron RiverOption dentro de Main.")
+
+
+func save_river_positions() -> void:
+	river_positions.clear()
+
+	for river_option in river_options:
+		river_positions.append(river_option.position)
+
+
+func shuffle_river_positions() -> void:
+	if river_options.size() == 0:
+		return
+
+	if river_positions.size() != river_options.size():
+		save_river_positions()
+
+	var shuffled_positions := river_positions.duplicate()
+	shuffled_positions.shuffle()
+
+	for i in range(river_options.size()):
+		river_options[i].position = shuffled_positions[i]
 
 
 func create_timer() -> void:
@@ -154,8 +177,14 @@ func create_simple_ui() -> void:
 	add_child(ui_layer)
 
 	feedback_label = Label.new()
-	feedback_label.position = Vector2(500, 650)
-	feedback_label.add_theme_font_size_override("font_size", 34)
+	feedback_label.position = Vector2(360, 650)
+	feedback_label.size = Vector2(700, 50)
+	feedback_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	feedback_label.add_theme_font_size_override("font_size", 30)
+	feedback_label.add_theme_color_override("font_color", Color.WHITE)
+	feedback_label.add_theme_color_override("font_shadow_color", Color.BLACK)
+	feedback_label.add_theme_constant_override("shadow_offset_x", 3)
+	feedback_label.add_theme_constant_override("shadow_offset_y", 3)
 	ui_layer.add_child(feedback_label)
 
 
@@ -201,11 +230,13 @@ func stop_background_music() -> void:
 
 func play_correct_sound() -> void:
 	if correct_sound_player != null:
+		correct_sound_player.stop()
 		correct_sound_player.play()
 
 
 func play_loser_sound() -> void:
 	if loser_sound_player != null:
+		loser_sound_player.stop()
 		loser_sound_player.play()
 
 
@@ -241,6 +272,7 @@ func start_round() -> void:
 	feedback_label.text = ""
 
 	reset_all_rivers()
+	shuffle_river_positions()
 	update_ui()
 	update_lives_ui()
 
@@ -287,7 +319,10 @@ func _on_river_selected(is_different: bool) -> void:
 		timer_hud.detener()
 		disable_all_rivers()
 
+		feedback_label.text = "¡Correcto!"
+
 		if current_round >= max_rounds:
+			await get_tree().create_timer(0.8).timeout
 			win_game()
 		else:
 			game_active = false
@@ -304,9 +339,27 @@ func _on_river_selected(is_different: bool) -> void:
 			lives = 0
 
 		update_lives_ui()
+		show_correct_river()
+
+		feedback_label.text = "Incorrecto. El río correcto está marcado."
+
+		disable_all_rivers()
+		game_active = false
+		timer_hud.detener()
 
 		if lives <= 0:
+			await get_tree().create_timer(1.4).timeout
 			lose_game()
+		else:
+			await get_tree().create_timer(1.4).timeout
+
+			if current_round >= max_rounds:
+				current_round = max_rounds
+			else:
+				current_round += 1
+
+			update_ui()
+			start_round()
 
 
 func disable_all_rivers() -> void:
@@ -314,10 +367,42 @@ func disable_all_rivers() -> void:
 		river_option.disable_selection()
 
 
+func show_correct_river() -> void:
+	for river_option in river_options:
+		if river_option.is_different:
+			if river_option.has_method("show_correct_mark"):
+				river_option.show_correct_mark()
+
+
 func _on_time_up() -> void:
 	if game_active and not already_finished:
 		play_loser_sound()
-		lose_game()
+		show_correct_river()
+		feedback_label.text = "Se acabó el tiempo. El río correcto está marcado."
+
+		lives -= 1
+
+		if lives < 0:
+			lives = 0
+
+		update_lives_ui()
+		disable_all_rivers()
+		game_active = false
+		timer_hud.detener()
+
+		if lives <= 0:
+			await get_tree().create_timer(1.4).timeout
+			lose_game()
+		else:
+			await get_tree().create_timer(1.4).timeout
+
+			if current_round >= max_rounds:
+				current_round = max_rounds
+			else:
+				current_round += 1
+
+			update_ui()
+			start_round()
 
 
 func win_game() -> void:
