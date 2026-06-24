@@ -88,7 +88,7 @@ func _build_ui() -> void:
 	front_side.add_child(card_image)
 
 	_front_info = Label.new()
-	_front_info.text = "Press to flip"
+	_front_info.text = "Pulsa para voltear"
 	_front_info.position = Vector2(0, 460)
 	_front_info.size = Vector2(CARD_W, 40)
 	_front_info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -238,9 +238,9 @@ func _on_option_selected(option_index: int) -> void:
 	var popup := AcceptDialog.new()
 
 	if is_correct:
-		popup.title = "Correct! ✅"
+		popup.title = "Correcto! ✅"
 	else:
-		popup.title = "Incorrect ❌"
+		popup.title = "Incorrecto! ❌"
 
 	popup.dialog_text = selected_question["explanation"]
 
@@ -268,14 +268,14 @@ func _cpu_auto_play() -> void:
 	await get_tree().create_timer(1.0).timeout
 
 	if _front_info:
-		_front_info.text = "The machine is reading..."
+		_front_info.text = "La maquina esta leyendo..."
 
 	# Paso 2: mostrar la pregunta
 	await get_tree().create_timer(0.8).timeout
 	await _flip_card()
 
 	# Paso 3: pensando
-	_set_cpu_status("The machine is thinking...", Color.WHITE)
+	_set_cpu_status("La maquina esta pensando...", Color.WHITE)
 
 	await get_tree().create_timer(2.0).timeout
 
@@ -291,7 +291,7 @@ func _cpu_auto_play() -> void:
 	)
 
 	_set_cpu_status(
-		"The machine selected option " + selected_letter,
+		"La maquina selecciono la opción " + selected_letter,
 		Color.YELLOW
 	)
 
@@ -303,9 +303,9 @@ func _cpu_auto_play() -> void:
 	var is_correct := random_option == int(selected_question["correct"])
 
 	if is_correct:
-		_set_cpu_status("Correct answer ✅", Color("#4CAF50"))
+		_set_cpu_status("Respuesta correcta ✅", Color("#4CAF50"))
 	else:
-		_set_cpu_status("Incorrect answer ❌", Color("#F44336"))
+		_set_cpu_status("Respuesta incorrecta ❌", Color("#F44336"))
 
 	# Paso 6: cerrar
 	await get_tree().create_timer(2.2).timeout

@@ -13,7 +13,7 @@
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="11_iqafl"]
 [ext_resource type="PackedScene" uid="uid://ccpydjb6bax7m" path="res://scenes/UX/SoundControlPanel.tscn" id="13_f03nn"]
 [ext_resource type="Texture2D" uid="uid://c1cywra6ykqq1" path="res://images/UX/Panda.png" id="13_hm7mn"]
-[ext_resource type="Texture2D" uid="uid://ddwb0q5bxhbvu" path="res://images/UX/Monkey.png" id="14_31ns2"]
+[ext_resource type="Texture2D" uid="uid://dfjud6iaptce2" path="res://images/UX/Monkey.png" id="14_31ns2"]
 [ext_resource type="AudioStream" uid="uid://bqfuym27wm7bw" path="res://sounds/UX/Lobby1.mp3" id="14_f03nn"]
 [ext_resource type="Texture2D" uid="uid://8f6u5n8vq8jb" path="res://images/UX/Robot.png" id="15_6c0a5"]
 
@@ -564,7 +564,6 @@ text = "[center][b]Modos de juego:[/b][/center]
 
 [center][b]¿Cómo jugar?[/b][/center]
 [b]• 	El Inicio:[/b] Todos los jugadores empiezan automáticamente en la casilla de [color=green][b]INICIO[/b][/color].
-[b]• 	Los Turnos:[/b] La computadora elegirá al azar quién lanza primero.
 [b]• 	¡A mover la ficha![/b] En tu turno, presiona el botón para lanzar el dado virtual. Tu ficha se moverá sola contando las casillas que te salgan.
 [b]•	¿Cómo ganar?:[/b] Tienes que llegar a la casilla [color=yellow][b]META[/b][/color] con el número exacto. Si el dado te da más puntos de los que necesitas, tu ficha llegará a la meta y rebotará hacia atrás con los puntos que te sobren. ¡Calcula bien!
 
