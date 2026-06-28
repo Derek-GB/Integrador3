@@ -103,7 +103,7 @@ func open_menu(new_menu: Control) -> void:
 	current_menu = new_menu
 
 func _open_general_settings() -> void:
-	settings_menu.abrir()
+	settings_menu.open()
 
 func close_all() -> void:
 	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)

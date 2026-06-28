@@ -14,6 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://das1o814001dr" path="res://sounds/board/Board.mp3" id="8_eb6dy"]
 [ext_resource type="AudioStream" uid="uid://c8ducdr1t213p" path="res://sounds/minigames/Victory.mp3" id="9_a8y0u"]
 [ext_resource type="AudioStream" uid="uid://dxeggia8j7vcq" path="res://sounds/minigames/TimeOver.mp3" id="9_trceg"]
+[ext_resource type="Script" uid="uid://cn2xwascs7nl8" path="res://scripts/UX/ShadowAware.gd" id="13_1yraq"]
 [ext_resource type="Texture2D" uid="uid://dvsy43c78cdvq" path="res://images/icons/dice.png" id="14_founp"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="14_wpo1s"]
 [ext_resource type="Shader" uid="uid://bqedxetv7f6y0" path="res://data/procedural_clouds.gdshader" id="15_founp"]
@@ -146,6 +147,7 @@ shadow_enabled = true
 shadow_blur = 2.0
 directional_shadow_mode = 0
 directional_shadow_max_distance = 40.0
+script = ExtResource("13_1yraq")
 
 [node name="Map" parent="." unique_id=1363300375 instance=ExtResource("2_jyhfs")]
 

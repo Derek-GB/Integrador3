@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://dfjud6iaptce2" path="res://images/UX/Monkey.png" id="14_31ns2"]
 [ext_resource type="AudioStream" uid="uid://bet0cu5q65l54" path="res://sounds/UX/Lobby1.mp3" id="14_f03nn"]
 [ext_resource type="Texture2D" uid="uid://8f6u5n8vq8jb" path="res://images/UX/Robot.png" id="15_6c0a5"]
-[ext_resource type="PackedScene" uid="uid://qblynj4thv7n" path="res://scenes/core/SettingsMenu.tscn" id="17_xey2k"]
+[ext_resource type="PackedScene" path="res://scenes/core/SettingsMenu.tscn" id="17_xey2k"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f03nn"]
 

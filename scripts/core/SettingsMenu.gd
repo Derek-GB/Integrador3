@@ -3,88 +3,88 @@ extends CanvasLayer
 # =============================================================================
 # SettingsMenu.gd
 #
-# Popup/modal de configuración. Se puede abrir desde el menú principal
-# o desde la pantalla de pausa.
+# Configuration popup/modal. It can be opened from the main menu
+# or from the pause screen.
 #
-# Uso:
-#   SettingsMenu.abrir()
-#   SettingsMenu.cerrar()
+# Usage:
+#   SettingsMenu.open()
+#   SettingsMenu.close()
 # =============================================================================
 
-# ── Nodos ────────────────────────────────────────────────────────────────────
+# ── Nodes ────────────────────────────────────────────────────────────────────
 
-@onready var panel            := $Panel
-@onready var btn_cerrar       := $Panel/VBox/Header/BtnCerrar
-@onready var btn_cancelar     := $Panel/VBox/FooterBtns/BtnCancelar
-@onready var btn_aplicar      := $Panel/VBox/FooterBtns/BtnAplicar
-@onready var lbl_reinicio     := $Panel/VBox/LblReinicio
+@onready var panel              := $Panel
+@onready var btn_close          := $Panel/VBox/Header/BtnCerrar
+@onready var btn_cancel         := $Panel/VBox/FooterBtns/BtnCancelar
+@onready var btn_apply          := $Panel/VBox/FooterBtns/BtnAplicar
+@onready var lbl_restart        := $Panel/VBox/LblReinicio
 
-@onready var opt_modo         := $Panel/VBox/ScrollContainer/Opciones/FilaModo/OptModo
-@onready var opt_res          := $Panel/VBox/ScrollContainer/Opciones/FilaRes/OptRes
-@onready var chk_vsync        := $Panel/VBox/ScrollContainer/Opciones/FilaVsync/ChkVsync
-@onready var opt_fps          := $Panel/VBox/ScrollContainer/Opciones/FilaFPS/OptFPS
-@onready var chk_aa           := $Panel/VBox/ScrollContainer/Opciones/FilaAA/ChkAA
-@onready var chk_sombras      := $Panel/VBox/ScrollContainer/Opciones/FilaSombras/ChkSombras
-@onready var opt_calidad_somb := $Panel/VBox/ScrollContainer/Opciones/FilaCalidadSombras/OptCalidadSombras
+@onready var opt_mode           := $Panel/VBox/ScrollContainer/Opciones/FilaModo/OptModo
+@onready var opt_resolution     := $Panel/VBox/ScrollContainer/Opciones/FilaRes/OptRes
+@onready var chk_vsync          := $Panel/VBox/ScrollContainer/Opciones/FilaVsync/ChkVsync
+@onready var opt_fps            := $Panel/VBox/ScrollContainer/Opciones/FilaFPS/OptFPS
+@onready var chk_aa             := $Panel/VBox/ScrollContainer/Opciones/FilaAA/ChkAA
+@onready var chk_shadows        := $Panel/VBox/ScrollContainer/Opciones/FilaSombras/ChkSombras
+@onready var opt_shadow_quality := $Panel/VBox/ScrollContainer/Opciones/FilaCalidadSombras/OptCalidadSombras
 
-# ── Estado temporal (lo que el usuario seleccionó pero aún no aplicó) ────────
+# ── Temporary state (what the user selected but has not applied yet) ─────────
 
-var _modo_temp         : int
-var _res_temp          : Vector2i
-var _vsync_temp        : bool
-var _fps_temp          : int
-var _aa_temp           : bool
-var _sombras_temp      : bool
-var _calidad_somb_temp : int  # índice del enum ShadowQuality
+var _temp_mode           : int
+var _temp_resolution     : Vector2i
+var _temp_vsync          : bool
+var _temp_fps            : int
+var _temp_aa             : bool
+var _temp_shadows        : bool
+var _temp_shadow_quality : int  # index of the ShadowQuality enum
 
-# ── Constantes de opciones ───────────────────────────────────────────────────
+# ── Option constants ─────────────────────────────────────────────────────────
 
-const MODOS_PANTALLA := ["Pantalla Completa", "Sin Bordes", "Ventana"]
-const RESOLUCIONES   := [
+const SCREEN_MODES   := ["Pantalla Completa", "Sin Bordes", "Ventana"]
+const RESOLUTIONS    := [
 	Vector2i(1280, 720),
 	Vector2i(1600, 900),
 	Vector2i(1920, 1080),
 	Vector2i(2560, 1440),
 ]
-const FPS_OPCIONES   := [30, 60, 120]
-const CALIDAD_SOMBRAS := ["Baja", "Media", "Alta"]
+const FPS_OPTIONS    := [30, 60, 120]
+const SHADOW_QUALITY := ["Baja", "Media", "Alta"]
 
 # =============================================================================
 # GODOT
 # =============================================================================
 
 func _ready() -> void:
-	print("opt_res: ", opt_res)
-	print("opt_modo: ", opt_modo)
+	print("opt_res: ", opt_resolution)
+	print("opt_modo: ", opt_mode)
 	print("opt_fps: ", opt_fps)
-	print("opt_calidad_somb: ", opt_calidad_somb)
+	print("opt_calidad_somb: ", opt_shadow_quality)
 	print("chk_vsync: ", chk_vsync)
 	print("chk_aa: ", chk_aa)
-	print("chk_sombras: ", chk_sombras)
-	_poblar_opciones()
-	_conectar_senales()
+	print("chk_sombras: ", chk_shadows)
+	_populate_options()
+	_connect_signals()
 	visible = false
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if visible and event.is_action_pressed("ui_cancel"):
-		cerrar()
+		close()
 		get_viewport().set_input_as_handled()
 
 # =============================================================================
-# PÚBLICO
+# PUBLIC
 # =============================================================================
 
-func abrir() -> void:
-	_cargar_valores_actuales()
-	lbl_reinicio.visible = false
+func open() -> void:
+	_load_current_values()
+	lbl_restart.visible = false
 	visible = true
-	# Si el juego está corriendo, pausarlo
+	# If the game is running, pause it
 	if get_tree().current_scene != null:
 		get_tree().paused = true
 
 
-func cerrar() -> void:
+func close() -> void:
 	visible = false
 	get_tree().paused = false
 
@@ -92,111 +92,111 @@ func cerrar() -> void:
 # SETUP
 # =============================================================================
 
-func _poblar_opciones() -> void:
-	for m in MODOS_PANTALLA:
-		opt_modo.add_item(m)
+func _populate_options() -> void:
+	for m in SCREEN_MODES:
+		opt_mode.add_item(m)
 
-	for r in RESOLUCIONES:
-		opt_res.add_item("%d x %d" % [r.x, r.y])
+	for r in RESOLUTIONS:
+		opt_resolution.add_item("%d x %d" % [r.x, r.y])
 
-	for f in FPS_OPCIONES:
+	for f in FPS_OPTIONS:
 		opt_fps.add_item("%d FPS" % f)
 
-	for c in CALIDAD_SOMBRAS:
-		opt_calidad_somb.add_item(c)
+	for c in SHADOW_QUALITY:
+		opt_shadow_quality.add_item(c)
 
 
-func _conectar_senales() -> void:
-	btn_cerrar.pressed.connect(cerrar)
-	btn_cancelar.pressed.connect(cerrar)
-	btn_aplicar.pressed.connect(_aplicar)
+func _connect_signals() -> void:
+	btn_close.pressed.connect(close)
+	btn_cancel.pressed.connect(close)
+	btn_apply.pressed.connect(_apply)
 
-	# Detectar cambios para mostrar aviso de reinicio si aplica
+	# Detect changes to show restart warning if applicable
 	chk_aa.toggled.connect(_on_aa_toggled)
-	opt_calidad_somb.item_selected.connect(_on_calidad_sombras_seleccionada)
+	opt_shadow_quality.item_selected.connect(_on_shadow_quality_selected)
 
-	# El resto solo actualiza el estado temporal
-	opt_modo.item_selected.connect(func(i): _modo_temp = i)
-	opt_res.item_selected.connect(func(i): _res_temp = RESOLUCIONES[i])
-	chk_vsync.toggled.connect(func(v): _vsync_temp = v)
-	opt_fps.item_selected.connect(func(i): _fps_temp = FPS_OPCIONES[i])
-	chk_sombras.toggled.connect(func(v): _sombras_temp = v)
+	# The rest only updates the temporary state
+	opt_mode.item_selected.connect(func(i): _temp_mode = i)
+	opt_resolution.item_selected.connect(func(i): _temp_resolution = RESOLUTIONS[i])
+	chk_vsync.toggled.connect(func(v): _temp_vsync = v)
+	opt_fps.item_selected.connect(func(i): _temp_fps = FPS_OPTIONS[i])
+	chk_shadows.toggled.connect(func(v): _temp_shadows = v)
 
 # =============================================================================
-# CARGA DE VALORES ACTUALES
+# LOAD CURRENT VALUES
 # =============================================================================
 
-func _cargar_valores_actuales() -> void:
+func _load_current_values() -> void:
 	var sm := SettingsManager
 
-	_modo_temp         = sm.window_mode
-	_res_temp          = sm.resolution
-	_vsync_temp        = sm.vsync_enabled
-	_fps_temp          = sm.max_fps
-	_aa_temp           = sm.antialiasing_enabled
-	_sombras_temp      = sm.shadows_enabled
-	_calidad_somb_temp = sm.shadow_quality
+	_temp_mode           = sm.window_mode
+	_temp_resolution     = sm.resolution
+	_temp_vsync          = sm.vsync_enabled
+	_temp_fps            = sm.max_fps
+	_temp_aa             = sm.antialiasing_enabled
+	_temp_shadows        = sm.shadows_enabled
+	_temp_shadow_quality = sm.shadow_quality
 
-	# Reflejar en controles
-	opt_modo.select(_modo_temp)
-	opt_res.select(_indice_resolucion(_res_temp))
-	chk_vsync.button_pressed = _vsync_temp
-	opt_fps.select(_indice_fps(_fps_temp))
-	chk_aa.button_pressed = _aa_temp
-	chk_sombras.button_pressed = _sombras_temp
-	opt_calidad_somb.select(_calidad_somb_temp)
+	# Reflect in controls
+	opt_mode.select(_temp_mode)
+	opt_resolution.select(_get_resolution_index(_temp_resolution))
+	chk_vsync.button_pressed = _temp_vsync
+	opt_fps.select(_get_fps_index(_temp_fps))
+	chk_aa.button_pressed = _temp_aa
+	chk_shadows.button_pressed = _temp_shadows
+	opt_shadow_quality.select(_temp_shadow_quality)
 
 
-func _indice_resolucion(res: Vector2i) -> int:
-	for i in RESOLUCIONES.size():
-		if RESOLUCIONES[i] == res:
+func _get_resolution_index(res: Vector2i) -> int:
+	for i in RESOLUTIONS.size():
+		if RESOLUTIONS[i] == res:
 			return i
 	return 2  # default 1080p
 
 
-func _indice_fps(fps: int) -> int:
-	for i in FPS_OPCIONES.size():
-		if FPS_OPCIONES[i] == fps:
+func _get_fps_index(fps: int) -> int:
+	for i in FPS_OPTIONS.size():
+		if FPS_OPTIONS[i] == fps:
 			return i
 	return 1  # default 60
 
 # =============================================================================
-# SEÑALES DE CONTROLES
+# CONTROL SIGNALS
 # =============================================================================
 
-func _on_aa_toggled(valor: bool) -> void:
-	_aa_temp = valor
-	_revisar_reinicio()
+func _on_aa_toggled(value: bool) -> void:
+	_temp_aa = value
+	_check_restart()
 
 
-func _on_calidad_sombras_seleccionada(indice: int) -> void:
-	_calidad_somb_temp = indice
-	_revisar_reinicio()
+func _on_shadow_quality_selected(index: int) -> void:
+	_temp_shadow_quality = index
+	_check_restart()
 
 
-func _revisar_reinicio() -> void:
+func _check_restart() -> void:
 	var sm := SettingsManager
-	var necesita := (
-		_aa_temp != sm.antialiasing_enabled or
-		_calidad_somb_temp != sm.shadow_quality
+	var needs_restart := (
+		_temp_aa != sm.antialiasing_enabled or
+		_temp_shadow_quality != sm.shadow_quality
 	)
-	lbl_reinicio.visible = necesita
+	lbl_restart.visible = needs_restart
 
 # =============================================================================
-# APLICAR
+# APPLY
 # =============================================================================
 
-func _aplicar() -> void:
+func _apply() -> void:
 	var sm := SettingsManager
 
-	sm.set_window_mode(_modo_temp)
-	sm.set_resolution(_res_temp)
-	sm.set_vsync(_vsync_temp)
-	sm.set_max_fps(_fps_temp)
-	sm.set_shadows_enabled(_sombras_temp)
-	sm.set_antialiasing_enabled(_aa_temp)
-	sm.set_shadow_quality(_calidad_somb_temp)
+	sm.set_window_mode(_temp_mode)
+	sm.set_resolution(_temp_resolution)
+	sm.set_vsync(_temp_vsync)
+	sm.set_max_fps(_temp_fps)
+	sm.set_shadows_enabled(_temp_shadows)
+	sm.set_antialiasing_enabled(_temp_aa)
+	sm.set_shadow_quality(_temp_shadow_quality)
 
-	# El aviso de reinicio ya lo maneja SettingsManager via restart_required_changed,
-	# pero también lo mostramos localmente si aplica.
-	lbl_reinicio.visible = sm.restart_required
+	# The restart warning is already handled by SettingsManager via restart_required_changed,
+	# but we also display it locally if applicable.
+	lbl_restart.visible = sm.restart_required
