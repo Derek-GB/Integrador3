@@ -56,7 +56,10 @@ use_occlusion_culling = true
 render_target_update_mode = 4
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport" unique_id=386446058]
-transform = Transform3D(0.93969256, -0.33682406, 0.059391096, 0, 0.17364797, 0.98480767, -0.3420201, -0.92541647, 0.16317572, 0, 0, 0)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.6427876, 0.7660443, 0, -0.7660443, 0.6427875, 0, 0, 0)
+light_energy = 1.5
+shadow_opacity = 0.5
+directional_shadow_mode = 0
 
 [node name="DiceCamera" type="Camera3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport" unique_id=1262027394]
 transform = Transform3D(1, 0, 0, 0, 0.64278764, 0.76604444, 0, -0.76604444, 0.64278764, 0, 22, 18)
