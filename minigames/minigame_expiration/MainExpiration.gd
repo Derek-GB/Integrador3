@@ -177,26 +177,20 @@ func _ready() -> void:
 	# en bucle para siempre (sin importar si el recurso de audio tiene o
 	# no activado su propio "loop"), conectando la señal "finished" para
 	# volver a reproducirlo cada vez que termina. ---
-	if background_sound:
-		# Le bajamos 15 dB al volumen que tenga puesto en el Inspector
-		# (no lo dejamos fijo en -15, así respetamos lo que ya hayas ajustado ahí).
-		background_sound.volume_db -= 15.0
-		if not background_sound.finished.is_connected(_on_background_sound_finished):
-			background_sound.finished.connect(_on_background_sound_finished)
-		background_sound.play()
+	if background_sound and background_sound.stream:
+		# Forzamos loop en el recurso (igual que minigame_fire) en vez del
+		# truco manual de reconectar "finished": el _music_player de
+		# AudioManager es privado y no podemos enganchar esa señal desde aquí.
+		if background_sound.stream is AudioStreamMP3:
+			background_sound.stream.loop = true
+		AudioManager.play_music(background_sound.stream, 1.0, -15.0)
 	else:
 		print("DEBUG background_sound NO está asignado en el Inspector")
 
-	if success_sound:
-		# Le bajamos 10 dB al volumen del efecto de acierto.
-		success_sound.volume_db -= 10.0
-	else:
+	if not success_sound:
 		print("DEBUG success_sound NO está asignado en el Inspector")
 
-	if error_sound:
-		# Le bajamos 10 dB al volumen del efecto de error.
-		error_sound.volume_db -= 10.0
-	else:
+	if not error_sound:
 		print("DEBUG error_sound NO está asignado en el Inspector")
 
 	# "Hoy" lo fijamos a la medianoche del día real del sistema.
@@ -487,30 +481,13 @@ func _show_feedback_icon(correct: bool) -> void:
 ## siempre se escuche completo.
 func _play_feedback_sound(correct: bool) -> void:
 	var player: AudioStreamPlayer = success_sound if correct else error_sound
-	if player == null:
+	if player == null or player.stream == null:
 		return
-	player.stop()
-	player.play()
-
-
-func _on_background_sound_finished() -> void:
-	# Mientras el minijuego no haya terminado, lo volvemos a reproducir
-	# para que suene en bucle infinito.
-	if not _game_finished and background_sound:
-		background_sound.play()
+	AudioManager.play_sfx(player.stream, -10.0)
 
 
 func _stop_background_sound() -> void:
-	if background_sound == null:
-		return
-
-	# Desconectamos la señal para que no se vuelva a disparar el play()
-	# justo después de detenerlo.
-	if background_sound.finished.is_connected(_on_background_sound_finished):
-		background_sound.finished.disconnect(_on_background_sound_finished)
-
-	if background_sound.playing:
-		background_sound.stop()
+	AudioManager.stop_music()
 
 
 # =========================================================

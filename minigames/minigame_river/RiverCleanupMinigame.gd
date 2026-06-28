@@ -74,8 +74,8 @@ func _setup_trash_items():
 
 
 func _play_river_sound():
-	if river_sound != null:
-		river_sound.play()
+	if river_sound != null and river_sound.stream != null:
+		AudioManager.play_music(river_sound.stream)
 
 
 func _on_trash_dropped(trash):
@@ -96,9 +96,8 @@ func _on_trash_dropped(trash):
 func _collect_trash(trash):
 	trash_collected += 1
 
-	if trash_sound != null:
-		trash_sound.stop()
-		trash_sound.play()
+	if trash_sound != null and trash_sound.stream != null:
+		AudioManager.play_sfx(trash_sound.stream)
 
 	trash.queue_free()
 
@@ -117,8 +116,7 @@ func _win_game():
 	if timer_hud != null:
 		timer_hud.detener()
 
-	if river_sound != null:
-		river_sound.stop()
+	AudioManager.stop_music()
 
 	panel_resultado.mostrar_ganaste()
 
@@ -129,14 +127,12 @@ func _lose_game():
 	if timer_hud != null:
 		timer_hud.detener()
 
-	if river_sound != null:
-		river_sound.stop()
+	AudioManager.stop_music()
 
 	panel_resultado.mostrar_perdiste()
 
 
 func _on_back_button_pressed():
-	if river_sound != null:
-		river_sound.stop()
+	AudioManager.stop_music()
 
 	Events.minigame_finished.emit()

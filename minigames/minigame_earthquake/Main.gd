@@ -157,11 +157,12 @@ func _ready() -> void:
 	if _audio_eq and is_instance_valid(_audio_eq):
 		_audio_eq.volume_db += eq_volume_offset_db
 
-	# Música de fondo: arranca con el minijuego y se repite mientras
-	# el juego no haya terminado (WIN/LOSE), aunque el stream no tenga loop activado
-	if _audio_music and is_instance_valid(_audio_music):
-		_audio_music.finished.connect(_on_music_finished)
-		_audio_music.play()
+	# Música de fondo vía AudioManager: forzamos loop en el recurso en vez
+	# del truco de reconectar "finished" (igual que minigame_fire/expiration).
+	if _audio_music and is_instance_valid(_audio_music) and _audio_music.stream:
+		if _audio_music.stream is AudioStreamMP3:
+			_audio_music.stream.loop = true
+		AudioManager.play_music(_audio_music.stream, 1.0, _audio_music.volume_db)
 
 	_set_state(State.WALKING)
 
@@ -224,15 +225,8 @@ func _scroll_background(delta: float) -> void:
 
 
 func _play_warning() -> void:
-	if _audio_warning and is_instance_valid(_audio_warning):
-		_audio_warning.play()
-
-
-func _on_music_finished() -> void:
-	# Si el juego sigue en curso, vuelve a reproducir la música de fondo
-	if _state != State.WIN and _state != State.LOSE:
-		if _audio_music and is_instance_valid(_audio_music):
-			_audio_music.play()
+	if _audio_warning and is_instance_valid(_audio_warning) and _audio_warning.stream:
+		AudioManager.play_sfx(_audio_warning.stream, _audio_warning.volume_db)
 
 
 # ---------------------------------------------------------------------------
@@ -293,8 +287,7 @@ func _set_state(new_state: State) -> void:
 			_current_speed = 0.0
 			if _audio_eq and is_instance_valid(_audio_eq):
 				_audio_eq.stop()
-			if _audio_music and is_instance_valid(_audio_music):
-				_audio_music.stop()
+			AudioManager.stop_music()
 			_hud.show_win()
 			if _player and _player.has_method("set_win"):
 				_player.set_win()
@@ -306,8 +299,7 @@ func _set_state(new_state: State) -> void:
 			_current_speed = 0.0
 			if _audio_eq and is_instance_valid(_audio_eq):
 				_audio_eq.stop()
-			if _audio_music and is_instance_valid(_audio_music):
-				_audio_music.stop()
+			AudioManager.stop_music()
 			_hud.hide_earthquake_banner()
 			if _player and _player.has_method("set_idle"):
 				_player.set_idle()

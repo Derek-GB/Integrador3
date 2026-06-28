@@ -133,15 +133,12 @@ func _setup_game_result():
 
 
 func _setup_audio():
-	if _rain_audio:
-		_rain_audio.volume_db = -12
-		_rain_audio.play()
-
-		if not _rain_audio.finished.is_connected(_on_rain_audio_finished):
-			_rain_audio.finished.connect(_on_rain_audio_finished)
-
-	if _thunder_audio:
-		_thunder_audio.volume_db = -3
+	# Música de lluvia vía AudioManager: forzamos loop en el recurso en vez
+	# del truco de reconectar "finished" (igual que minigame_fire/expiration).
+	if _rain_audio and _rain_audio.stream:
+		if _rain_audio.stream is AudioStreamMP3:
+			_rain_audio.stream.loop = true
+		AudioManager.play_music(_rain_audio.stream, 1.0, -12.0)
 
 
 func _connect_background_lightning():
@@ -235,14 +232,8 @@ func _on_background_lightning_flashes():
 	if _game_finished:
 		return
 
-	if _thunder_audio:
-		_thunder_audio.stop()
-		_thunder_audio.play()
-
-
-func _on_rain_audio_finished():
-	if not _game_finished and _rain_audio:
-		_rain_audio.play()
+	if _thunder_audio and _thunder_audio.stream:
+		AudioManager.play_sfx(_thunder_audio.stream, -3.0)
 
 
 # =========================================================
@@ -260,8 +251,7 @@ func _win_game():
 
 	_stop_timer_ui()
 
-	if _rain_audio:
-		_rain_audio.stop()
+	AudioManager.stop_music()
 
 	if _game_result:
 		if _game_result.has_method("show_win"):
@@ -283,8 +273,7 @@ func _lose_game():
 
 	_stop_timer_ui()
 
-	if _rain_audio:
-		_rain_audio.stop()
+	AudioManager.stop_music()
 
 	if _game_result:
 		if _game_result.has_method("show_lose"):

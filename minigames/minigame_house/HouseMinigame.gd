@@ -202,8 +202,8 @@ func _build_house():
 
 func _start_game():
 	game_active = true
-	audio_fondo.volume_db = -15.0
-	audio_fondo.play()
+	if audio_fondo.stream:
+		AudioManager.play_music(audio_fondo.stream, 1.0, -15.0)
 	timer_hud.iniciar(TOTAL_TIME, "Tiempo restante", "para la erupción")
 
 func _process(_delta):
@@ -212,14 +212,16 @@ func _process(_delta):
 func _on_screw_clicked(_screw):
 	if not game_active:
 		return
-	audio_tornillo.play()
+	if audio_tornillo.stream:
+		AudioManager.play_sfx(audio_tornillo.stream)
 	removed_screws += 1
 	if removed_screws >= total_screws:
 		_win()
 
 func on_piece_detached(_piece: RigidBody2D):
 	detached_pieces += 1
-	audio_caida.play()
+	if audio_caida.stream:
+		AudioManager.play_sfx(audio_caida.stream)
 
 func _on_tiempo_agotado():
 	if game_active:
@@ -227,16 +229,16 @@ func _on_tiempo_agotado():
 
 func _win():
 	game_active = false
-	audio_fondo.stop()
+	AudioManager.stop_music()
 	timer_hud.detener()
 	panel_resultado.mostrar_ganaste()
 
 func _lose():
 	game_active = false
-	audio_fondo.stop()
+	AudioManager.stop_music()
 	timer_hud.detener()
 	panel_resultado.mostrar_perdiste()
 
 func _on_back_pressed():
-	audio_fondo.stop()
+	AudioManager.stop_music()
 	Events.minigame_finished.emit()

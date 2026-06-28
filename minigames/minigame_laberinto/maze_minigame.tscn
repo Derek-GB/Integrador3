@@ -682,6 +682,8 @@ stream = ExtResource("10_a4bxp")
 
 [node name="AudioMusica" type="AudioStreamPlayer2D" parent="." unique_id=1640750025]
 stream = ExtResource("12_hwi0u")
+bus = &"Music"
 
 [node name="AudioRescate" type="AudioStreamPlayer2D" parent="." unique_id=978384693]
 stream = ExtResource("13_4vvp6")
+bus = &"SFX"

@@ -47,3 +47,4 @@ layout_mode = 2
 
 [node name="TimeSound" type="AudioStreamPlayer" parent="." unique_id=972899839]
 stream = ExtResource("2_737en")
+bus = &"SFX"

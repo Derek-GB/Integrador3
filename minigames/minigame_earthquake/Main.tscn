@@ -25,3 +25,4 @@ stream = ExtResource("6_k6jtc")
 
 [node name="AudioEQ" type="AudioStreamPlayer" parent="." unique_id=1865897417]
 stream = ExtResource("7_4x4hf")
+bus = &"SFX"

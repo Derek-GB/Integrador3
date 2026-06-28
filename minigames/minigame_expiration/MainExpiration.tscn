@@ -154,9 +154,12 @@ texture = ExtResource("11_r8d3a")
 
 [node name="BackgroundSound" type="AudioStreamPlayer" parent="." unique_id=945574935]
 stream = ExtResource("12_txdks")
+bus = &"Music"
 
 [node name="SuccessSound" type="AudioStreamPlayer" parent="." unique_id=765356359]
 stream = ExtResource("13_ffkaq")
+bus = &"SFX"
 
 [node name="ErrorSound" type="AudioStreamPlayer" parent="." unique_id=1579143836]
 stream = ExtResource("14_g3un7")
+bus = &"SFX"

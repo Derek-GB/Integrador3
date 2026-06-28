@@ -462,28 +462,26 @@ func _update_lives_ui():
 
 
 func _play_background_sound():
-	if _background_sound == null:
+	if _background_sound == null or _background_sound.stream == null:
 		return
 
-	if not _background_sound.playing:
-		_background_sound.play()
+	# Reusamos el volume_db ya afinado en el Inspector (-7 dB) como
+	# offset relativo dentro del bus Music, en vez de tocarlo a mano.
+	AudioManager.play_music(_background_sound.stream, 1.0, _background_sound.volume_db)
 
 
 func _stop_background_sound():
-	if _background_sound != null:
-		_background_sound.stop()
+	AudioManager.stop_music()
 
 
 func _play_piece_placed_sound():
-	if _piece_placed_sound != null:
-		_piece_placed_sound.stop()
-		_piece_placed_sound.play()
+	if _piece_placed_sound != null and _piece_placed_sound.stream != null:
+		AudioManager.play_sfx(_piece_placed_sound.stream)
 
 
 func _play_lock_sound():
-	if _lock_sound != null:
-		_lock_sound.stop()
-		_lock_sound.play()
+	if _lock_sound != null and _lock_sound.stream != null:
+		AudioManager.play_sfx(_lock_sound.stream)
 
 
 func _on_time_finished():
@@ -536,9 +534,6 @@ func _on_back_button_pressed():
 	_game_active = false
 
 	_stop_background_sound()
-
-	if _lock_sound != null:
-		_lock_sound.stop()
 
 	if _timer_hud != null:
 		_timer_hud.detener()

@@ -30,6 +30,8 @@ offset_bottom = 8.0
 
 [node name="WinSound" type="AudioStreamPlayer" parent="." unique_id=1615529580]
 stream = ExtResource("2_tilk3")
+bus = &"SFX"
 
 [node name="LoseSound" type="AudioStreamPlayer" parent="." unique_id=1301002894]
 stream = ExtResource("3_ti5tt")
+bus = &"SFX"

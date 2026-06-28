@@ -58,9 +58,9 @@ var dial_display: Label = null
 
 var alarm_sound: AudioStreamPlayer = null
 var rocks_sound: AudioStreamPlayer = null
-var keyboard_sound: AudioStreamPlayer = null
 var firetruck_siren_sound: AudioStreamPlayer = null
-var call_911_sound: AudioStreamPlayer = null
+var _keyboard_stream: AudioStream = null
+var _call_911_stream: AudioStream = null
 
 var rescue_truck: Sprite2D = null
 
@@ -226,11 +226,17 @@ func _create_audio() -> void:
 	var firetruck_siren_stream: AudioStream = _load_audio(["Firetrucksiren.mp3", "firetrucksiren.mp3", "FireTruckSiren.mp3"])
 	var call_911_stream: AudioStream = _load_audio(["911.mp3"])
 
+	# alarm_sound, rocks_sound y firetruck_siren_sound se quedan como
+	# AudioStreamPlayer locales: pueden sonar simultáneamente entre sí
+	# (alarma + rocas + sirena a la vez) y AudioManager solo tiene un
+	# canal de música compartido, así que no pueden centralizarse sin
+	# perder esa superposición. Se les asigna el bus correcto a mano.
 	if alarm_stream:
 		alarm_sound = AudioStreamPlayer.new()
 		alarm_sound.name = "AlarmSound"
 		alarm_sound.stream = alarm_stream
 		alarm_sound.volume_db = -2
+		alarm_sound.bus = "SFX"
 		add_child(alarm_sound)
 		alarm_sound.finished.connect(_loop_alarm_sound)
 	else:
@@ -241,18 +247,16 @@ func _create_audio() -> void:
 		rocks_sound.name = "RocksSound"
 		rocks_sound.stream = rocks_stream
 		rocks_sound.volume_db = -10
+		rocks_sound.bus = "Music"
 		add_child(rocks_sound)
 		rocks_sound.finished.connect(_loop_rocks_sound)
 	else:
 		push_warning("No se encontró Rocks.mp3 en Music.")
 
-	if keyboard_stream:
-		keyboard_sound = AudioStreamPlayer.new()
-		keyboard_sound.name = "KeyboardSound"
-		keyboard_sound.stream = keyboard_stream
-		keyboard_sound.volume_db = 0
-		add_child(keyboard_sound)
-	else:
+	# keyboard_sound y call_911_sound son efectos puntuales: se migran a
+	# AudioManager.play_sfx() y ya no necesitan su propio AudioStreamPlayer.
+	_keyboard_stream = keyboard_stream
+	if not _keyboard_stream:
 		push_warning("No se encontró Keyboard.mp3 en Music.")
 
 	if firetruck_siren_stream:
@@ -260,18 +264,14 @@ func _create_audio() -> void:
 		firetruck_siren_sound.name = "FireTruckSirenSound"
 		firetruck_siren_sound.stream = firetruck_siren_stream
 		firetruck_siren_sound.volume_db = -1
+		firetruck_siren_sound.bus = "SFX"
 		add_child(firetruck_siren_sound)
 		firetruck_siren_sound.finished.connect(_loop_firetruck_siren_sound)
 	else:
 		push_warning("No se encontró Firetrucksiren.mp3 en Music.")
 
-	if call_911_stream:
-		call_911_sound = AudioStreamPlayer.new()
-		call_911_sound.name = "Call911Sound"
-		call_911_sound.stream = call_911_stream
-		call_911_sound.volume_db = 0
-		add_child(call_911_sound)
-	else:
+	_call_911_stream = call_911_stream
+	if not _call_911_stream:
 		push_warning("No se encontró 911.mp3 en Music.")
 
 
@@ -326,20 +326,19 @@ func _start_rocks_sound() -> void:
 
 
 func _play_keyboard_sound() -> void:
-	if keyboard_sound:
-		keyboard_sound.stop()
-		keyboard_sound.play()
+	if _keyboard_stream:
+		AudioManager.play_sfx(_keyboard_stream)
 
 
 func _stop_keyboard_sound() -> void:
-	if keyboard_sound:
-		keyboard_sound.stop()
+	# Efecto puntual vía AudioManager: no hay una instancia local que
+	# detener a mitad de reproducción (siempre se deja terminar solo).
+	pass
 
 
 func _play_911_sound() -> void:
-	if call_911_sound:
-		call_911_sound.stop()
-		call_911_sound.play()
+	if _call_911_stream:
+		AudioManager.play_sfx(_call_911_stream)
 
 
 func _play_firetruck_siren_sound() -> void:
@@ -360,11 +359,7 @@ func _stop_audio() -> void:
 	if rocks_sound:
 		rocks_sound.stop()
 
-	_stop_keyboard_sound()
 	_stop_firetruck_siren_sound()
-
-	if call_911_sound:
-		call_911_sound.stop()
 
 
 func _create_ui() -> void:

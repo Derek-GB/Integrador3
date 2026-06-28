@@ -78,10 +78,9 @@ func show_win():
 	message_label.text = current_message
 	message_label.add_theme_color_override("font_color", COLOR_DARK_BLUE)
 	visible = true
-	
-	if win_audio:
-		win_audio.volume_db = -20
-		win_audio.play()
+
+	if win_audio and win_audio.stream:
+		AudioManager.play_sfx(win_audio.stream, -20.0)
 
 
 func show_lose():
@@ -91,10 +90,9 @@ func show_lose():
 	message_label.text = current_message
 	message_label.add_theme_color_override("font_color", COLOR_DARK_BLUE)
 	visible = true
-	
-	if lose_audio:
-		lose_audio.volume_db = -10
-		lose_audio.play()
+
+	if lose_audio and lose_audio.stream:
+		AudioManager.play_sfx(lose_audio.stream, -10.0)
 
 
 func hide_result():
