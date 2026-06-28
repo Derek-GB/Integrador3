@@ -50,6 +50,10 @@ func roll() -> void:
 
 	await _wait_for_stop()
 
+	# Comprobación de seguridad tras la simulación física
+	if not is_inside_tree():
+		return
+
 	_result = _get_face_up()
 	dice_rolled.emit(_result)
 	roll_finished.emit(_result)
@@ -80,6 +84,10 @@ func roll_cpu() -> void:
 	)
 
 	await _wait_for_stop()
+
+	# Comprobación de seguridad tras la simulación física
+	if not is_inside_tree():
+		return
 
 	_result = _get_face_up()
 	roll_finished.emit(_result)
@@ -118,12 +126,35 @@ func _get_face_up() -> int:
 	return best_face
 
 func _wait_for_stop() -> void:
-	# Espera mínimo 0.5s y luego hasta que pare
-	await get_tree().create_timer(0.5).timeout
+	if not is_inside_tree():
+		return
+		
+	var tree := get_tree()
+	if tree == null:
+		return
+
+	# Espera mínimo 0.5s
+	await tree.create_timer(0.5).timeout
+	
+	# Comprobación tras la primera espera
+	if not is_inside_tree():
+		return
+		
 	var timeout := 3.0
 	var t := 0.0
-	while linear_velocity.length() > 0.5 and t < timeout:
+	while linear_velocity.length() > 0.3 and t < timeout:
+		if not is_inside_tree():
+			return
+			
 		await get_tree().process_frame
+		
+		if not is_inside_tree():
+			return
+		
+		# Opcional: No avanzar el tiempo si el juego está pausado
+		if get_tree().paused:
+			continue
+			
 		t += get_process_delta_time()
 
 func _snap_to_face(face: int) -> void:

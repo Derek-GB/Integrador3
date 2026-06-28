@@ -23,14 +23,24 @@ func _process(delta: float) -> void:
 	pass
 
 func exit_game() -> void:
+	get_tree().paused = false
 	get_tree().change_scene_to_file(MAIN_MENU)
 
 func open_window():
+	if get_parent():
+		print(get_parent())
+		# Mueve el menú de pausa al último lugar dentro de $UI para que quede encima del dado
+		get_parent().move_child(self, -1)
+		
 	global_position = VISIBLE_POSITION
 	show()
 	set_process(true)
+	get_tree().paused = true
 
 func close_window():
+	# Mueve este control al final del contenedor para dibujarse sobre los demás
+	if get_parent():
+		get_parent().move_child(self, -1)
 	global_position = HIDDEN_POSITION
 	hide()
 	set_process(false)
