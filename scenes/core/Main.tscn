@@ -142,6 +142,7 @@ time_over_sound = ExtResource("9_trceg")
 transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 0, 0)
 light_energy = 0.85
 light_angular_distance = 0.5
+shadow_enabled = true
 shadow_blur = 2.0
 directional_shadow_mode = 0
 directional_shadow_max_distance = 40.0
@@ -221,6 +222,7 @@ offset_bottom = 116.0
 text = "Isometrico"
 
 [node name="Throw_3" type="Button" parent="UI" unique_id=182608097]
+visible = false
 offset_left = 1673.0
 offset_top = 130.0
 offset_right = 1879.0
@@ -236,6 +238,7 @@ offset_bottom = 299.0
 text = "Prubar minijuego"
 
 [node name="Restart" type="Button" parent="UI" unique_id=1238330896]
+visible = false
 offset_left = 1673.0
 offset_top = 232.0
 offset_right = 1879.0
@@ -248,7 +251,7 @@ offset_left = 2440.0
 offset_right = 2440.0
 
 [node name="Camera_rig" type="Node3D" parent="." unique_id=465502073]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.9073486e-06, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -93.698425, 12.941996, 52.84513)
 
 [node name="Marker_Iso" type="Marker3D" parent="Camera_rig" unique_id=1032289693]
 transform = Transform3D(1, 0, 0, 0, 0.34202015, 0.9396926, 0, -0.9396926, 0.34202015, 0, 29.293, 0)

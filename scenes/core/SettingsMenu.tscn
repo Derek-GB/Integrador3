@@ -1,0 +1,114 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/SettingsMenu.gd" id="1"]
+
+[node name="SettingsMenu" type="CanvasLayer"]
+script = ExtResource("1")
+layer = 10
+visible = false
+
+[node name="Overlay" type="ColorRect" parent="."]
+anchors_preset = 15
+color = Color(0, 0, 0, 0.6)
+mouse_filter = 0
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -300.0
+offset_right = 360.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+theme_override_constants/separation = 16
+
+[node name="Header" type="HBoxContainer" parent="Panel/VBox"]
+
+[node name="LblTitulo" type="Label" parent="Panel/VBox/Header"]
+text = "Configuración"
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 22
+
+[node name="BtnCerrar" type="Button" parent="Panel/VBox/Header"]
+text = "✕"
+
+[node name="HSep" type="HSeparator" parent="Panel/VBox"]
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/VBox"]
+size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 360)
+
+[node name="Opciones" type="VBoxContainer" parent="Panel/VBox/ScrollContainer"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+	[node name="LblVideo" type="Label" parent="Panel/VBox/ScrollContainer/Opciones"]
+	text = "VIDEO"
+
+	[node name="FilaModo" type="HBoxContainer" parent="Panel/VBox/ScrollContainer/Opciones"]
+	[node name="LblModo" type="Label" parent="Panel/VBox/ScrollContainer/Opciones/FilaModo"]
+	text = "Modo de pantalla"
+	size_flags_horizontal = 3
+	[node name="OptModo" type="OptionButton" parent="Panel/VBox/ScrollContainer/Opciones/FilaModo"]
+
+	[node name="FilaRes" type="HBoxContainer" parent="Panel/VBox/ScrollContainer/Opciones"]
+	[node name="LblRes" type="Label" parent="Panel/VBox/ScrollContainer/Opciones/FilaRes"]
+	text = "Resolucion"
+	size_flags_horizontal = 3
+	[node name="OptRes" type="OptionButton" parent="Panel/VBox/ScrollContainer/Opciones/FilaRes"]
+
+	[node name="FilaVsync" type="HBoxContainer" parent="Panel/VBox/ScrollContainer/Opciones"]
+	[node name="LblVsync" type="Label" parent="Panel/VBox/ScrollContainer/Opciones/FilaVsync"]
+	text = "VSync"
+	size_flags_horizontal = 3
+	[node name="ChkVsync" type="CheckButton" parent="Panel/VBox/ScrollContainer/Opciones/FilaVsync"]
+
+	[node name="FilaFPS" type="HBoxContainer" parent="Panel/VBox/ScrollContainer/Opciones"]
+	[node name="LblFPS" type="Label" parent="Panel/VBox/ScrollContainer/Opciones/FilaFPS"]
+	text = "FPS maximos"
+	size_flags_horizontal = 3
+	[node name="OptFPS" type="OptionButton" parent="Panel/VBox/ScrollContainer/Opciones/FilaFPS"]
+
+	[node name="LblGraficos" type="Label" parent="Panel/VBox/ScrollContainer/Opciones"]
+	text = "GRÁFICOS"
+
+	[node name="FilaAA" type="HBoxContainer" parent="Panel/VBox/ScrollContainer/Opciones"]
+	[node name="LblAA" type="Label" parent="Panel/VBox/ScrollContainer/Opciones/FilaAA"]
+	text = "Antialiasing"
+	size_flags_horizontal = 3
+	[node name="ChkAA" type="CheckButton" parent="Panel/VBox/ScrollContainer/Opciones/FilaAA"]
+
+	[node name="FilaSombras" type="HBoxContainer" parent="Panel/VBox/ScrollContainer/Opciones"]
+	[node name="LblSombras" type="Label" parent="Panel/VBox/ScrollContainer/Opciones/FilaSombras"]
+	text = "Sombras"
+	size_flags_horizontal = 3
+	[node name="ChkSombras" type="CheckButton" parent="Panel/VBox/ScrollContainer/Opciones/FilaSombras"]
+
+	[node name="FilaCalidadSombras" type="HBoxContainer" parent="Panel/VBox/ScrollContainer/Opciones"]
+	[node name="LblCalidadSombras" type="Label" parent="Panel/VBox/ScrollContainer/Opciones/FilaCalidadSombras"]
+	text = "Tamaño de sombras"
+	size_flags_horizontal = 3
+	[node name="OptCalidadSombras" type="OptionButton" parent="Panel/VBox/ScrollContainer/Opciones/FilaCalidadSombras"]
+
+[node name="HSep2" type="HSeparator" parent="Panel/VBox"]
+
+[node name="LblReinicio" type="Label" parent="Panel/VBox"]
+text = "⚠ Algunos cambios requieren reiniciar el juego."
+visible = false
+modulate = Color(1, 0.8, 0.2, 1)
+
+[node name="FooterBtns" type="HBoxContainer" parent="Panel/VBox"]
+alignment = 2
+theme_override_constants/separation = 8
+
+[node name="BtnCancelar" type="Button" parent="Panel/VBox/FooterBtns"]
+text = "Cancelar"
+
+[node name="BtnAplicar" type="Button" parent="Panel/VBox/FooterBtns"]
+text = "Aplicar"
