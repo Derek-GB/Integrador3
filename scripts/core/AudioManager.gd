@@ -32,7 +32,7 @@ func play_sfx(stream: AudioStream, volume_db: float = 0.0) -> void:
 	player.play()
 
 
-func play_music(stream: AudioStream, crossfade: float = 1.0) -> void:
+func play_music(stream: AudioStream, crossfade: float = 1.0, volume_db: float = 0.0) -> void:
 	var tween := create_tween()
 	tween.tween_property(_music_player, "volume_db", -80.0, crossfade)
 	await tween.finished
@@ -41,7 +41,7 @@ func play_music(stream: AudioStream, crossfade: float = 1.0) -> void:
 	_music_player.play()
 
 	tween = create_tween()
-	tween.tween_property(_music_player, "volume_db", 0.0, crossfade)
+	tween.tween_property(_music_player, "volume_db", volume_db, crossfade)
 
 func stop_music() -> void:
 	_music_player.stop()

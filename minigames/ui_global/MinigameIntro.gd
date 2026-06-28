@@ -11,10 +11,16 @@ func _clear_scene():
 func _build_scene():
 	var screen = get_viewport_rect().size
 	# ── Sonido de instrucciones en bucle ───────────────────
+	# Se queda como AudioStreamPlayer local (no vía AudioManager.play_music):
+	# Main.gd._on_minigame_intro_started() llama AudioManager.stop_music()
+	# justo después de mostrar este intro (para cortar la música del
+	# tablero), lo que cortaría esta narración de inmediato si compartiera
+	# el mismo canal. Solo se le corrige el bus.
 	var audio = AudioStreamPlayer.new()
 	audio.name = "AudioInstrucciones"
 	audio.stream = load("res://minigames/ui_global/music/Sound_Instruction.mp3")
 	audio.volume_db = -15.0
+	audio.bus = "Music"
 	add_child(audio)
 	audio.call_deferred("play")
 	audio.finished.connect(func(): audio.play())

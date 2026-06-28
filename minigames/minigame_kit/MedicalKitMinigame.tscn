@@ -389,12 +389,15 @@ metadata/_edit_lock_ = true
 [node name="BackgroundSound" type="AudioStreamPlayer" parent="." unique_id=1879940276]
 stream = ExtResource("14_irkdq")
 volume_db = -7.0
+bus = &"Music"
 
 [node name="PiecePlacedSound" type="AudioStreamPlayer" parent="." unique_id=26982050]
 stream = ExtResource("16_a5t3a")
+bus = &"SFX"
 
 [node name="LockSound" type="AudioStreamPlayer" parent="." unique_id=887631748]
 stream = ExtResource("17_kivhu")
+bus = &"SFX"
 
 [node name="ClosedKit" type="Node2D" parent="." unique_id=2062505697]
 

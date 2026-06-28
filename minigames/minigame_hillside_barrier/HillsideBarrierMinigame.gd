@@ -299,22 +299,20 @@ func _spawn_table_tree(table_position: Vector2, start_on_cooldown := false):
 
 
 func _setup_audio():
-	if _background_audio:
-		_background_audio.stream = BACKGROUND_SOUND
-		_background_audio.volume_db = -14
-		_background_audio.play()
+	# Música de fondo vía AudioManager: forzamos loop en el recurso en vez
+	# del truco de reconectar "finished" (igual que minigame_fire/expiration).
+	if BACKGROUND_SOUND is AudioStreamMP3:
+		BACKGROUND_SOUND.loop = true
+	AudioManager.play_music(BACKGROUND_SOUND, 1.0, -14.0)
 
-		if not _background_audio.finished.is_connected(_on_background_audio_finished):
-			_background_audio.finished.connect(_on_background_audio_finished)
+	# _move1_audio y _plant_audio ya no se usan como reproductores: sus
+	# sonidos salen directo por AudioManager.play_sfx() (ver
+	# register_tree_grabbed() / register_successful_tree()).
 
-	if _move1_audio:
-		_move1_audio.stream = MOVE1_SOUND
-		_move1_audio.volume_db = -5
-
-	if _plant_audio:
-		_plant_audio.stream = MOVE2_SOUND
-		_plant_audio.volume_db = -4
-
+	# NOTA: _rocks_audio, _error_audio y _landslide_audio no tienen un nodo
+	# "RocksAudio" ni un stream asignado en esta escena hoy (ya estaban en
+	# silencio antes de esta migración) — se dejan intactos, fuera del
+	# alcance de esta tarea de audio.
 	if _rocks_audio:
 		_rocks_audio.stream = ROCKS_SOUND
 		_rocks_audio.volume_db = -2
@@ -561,9 +559,7 @@ func register_tree_grabbed(_tree: Node):
 	if _game_finished:
 		return
 
-	if _move1_audio:
-		_move1_audio.stop()
-		_move1_audio.play()
+	AudioManager.play_sfx(MOVE1_SOUND, -5.0)
 
 
 func register_successful_tree(tree: Node, spot: Node, table_position: Vector2):
@@ -585,9 +581,7 @@ func register_successful_tree(tree: Node, spot: Node, table_position: Vector2):
 			data["tree"] = tree
 			_active_challenges[rock_id] = data
 
-	if _plant_audio:
-		_plant_audio.stop()
-		_plant_audio.play()
+	AudioManager.play_sfx(MOVE2_SOUND, -4.0)
 
 
 func register_failed_drop(_tree: Node):
@@ -749,15 +743,6 @@ func _on_time_up():
 
 
 # =========================================================
-# AUDIO METHODS
-# =========================================================
-
-func _on_background_audio_finished():
-	if not _game_finished and _background_audio:
-		_background_audio.play()
-
-
-# =========================================================
 # RESULT METHODS
 # =========================================================
 
@@ -775,8 +760,7 @@ func _win_game():
 	_clear_children(_planting_spots)
 	_clear_children(_rocks)
 
-	if _background_audio:
-		_background_audio.stop()
+	AudioManager.stop_music()
 
 	if _game_result:
 		if _game_result.has_method("show_win"):
@@ -801,8 +785,7 @@ func _lose_game():
 	_clear_children(_planting_spots)
 	_clear_children(_rocks)
 
-	if _background_audio:
-		_background_audio.stop()
+	AudioManager.stop_music()
 
 	if _landslide_audio:
 		_landslide_audio.stop()

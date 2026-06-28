@@ -36,8 +36,6 @@ var feedback_label: Label
 
 var bass_music_player: AudioStreamPlayer
 var forest_music_player: AudioStreamPlayer
-var correct_sound_player: AudioStreamPlayer
-var loser_sound_player: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -189,25 +187,21 @@ func create_simple_ui() -> void:
 
 
 func create_audio() -> void:
+	# bass_music_player y forest_music_player se quedan como
+	# AudioStreamPlayer locales: suenan SIMULTÁNEAMENTE (dos capas de
+	# ambiente a la vez) y AudioManager solo tiene un canal de música
+	# compartido, así que no pueden centralizarse sin perder esa mezcla.
 	bass_music_player = AudioStreamPlayer.new()
 	bass_music_player.stream = BASS_MUSIC
 	bass_music_player.volume_db = -14
+	bass_music_player.bus = "Music"
 	add_child(bass_music_player)
 
 	forest_music_player = AudioStreamPlayer.new()
 	forest_music_player.stream = FOREST_MUSIC
 	forest_music_player.volume_db = -8
+	forest_music_player.bus = "Music"
 	add_child(forest_music_player)
-
-	correct_sound_player = AudioStreamPlayer.new()
-	correct_sound_player.stream = CORRECT_SOUND
-	correct_sound_player.volume_db = 0
-	add_child(correct_sound_player)
-
-	loser_sound_player = AudioStreamPlayer.new()
-	loser_sound_player.stream = LOSER_SOUND
-	loser_sound_player.volume_db = 0
-	add_child(loser_sound_player)
 
 	play_background_music()
 
@@ -229,15 +223,11 @@ func stop_background_music() -> void:
 
 
 func play_correct_sound() -> void:
-	if correct_sound_player != null:
-		correct_sound_player.stop()
-		correct_sound_player.play()
+	AudioManager.play_sfx(CORRECT_SOUND)
 
 
 func play_loser_sound() -> void:
-	if loser_sound_player != null:
-		loser_sound_player.stop()
-		loser_sound_player.play()
+	AudioManager.play_sfx(LOSER_SOUND)
 
 
 func connect_river_options() -> void:

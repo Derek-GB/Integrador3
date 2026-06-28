@@ -106,9 +106,11 @@ texture = ExtResource("9_p63nh")
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="." unique_id=237628319]
 stream = ExtResource("10_hx8n7")
 autoplay = true
+bus = &"Music"
 
 [node name="CleanSound" type="AudioStreamPlayer2D" parent="." unique_id=2139897978]
 stream = ExtResource("11_k8wwk")
+bus = &"SFX"
 
 [node name="TimerUI" parent="." unique_id=1042888595 instance=ExtResource("12_ne8od")]
 

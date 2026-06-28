@@ -245,8 +245,8 @@ func _create_global_ui() -> void:
 func _start_game() -> void:
 	_game_finished = false
 
-	if _background_sound != null:
-		_background_sound.play()
+	if _background_sound != null and _background_sound.stream != null:
+		AudioManager.play_music(_background_sound.stream)
 
 	if (
 		_timer_ui != null
@@ -265,38 +265,21 @@ func _start_game() -> void:
 # ============================================================
 
 func _configure_audio() -> void:
-	if _background_sound == null:
+	# Forzamos loop en el recurso en vez del truco de reconectar "finished"
+	# (igual que minigame_fire/expiration), ya que vamos a reproducirlo
+	# vía AudioManager en lugar del AudioStreamPlayer local.
+	if _background_sound == null or _background_sound.stream == null:
 		return
 
-	var finished_callable: Callable = Callable(
-		self,
-		"_on_background_sound_finished"
-	)
-
-	if not _background_sound.finished.is_connected(
-		finished_callable
-	):
-		_background_sound.finished.connect(
-			finished_callable
-		)
-
-
-func _on_background_sound_finished() -> void:
-	if _game_finished:
-		return
-
-	if _background_sound == null:
-		return
-
-	_background_sound.play()
+	if _background_sound.stream is AudioStreamMP3:
+		_background_sound.stream.loop = true
 
 
 func _play_piece_sound() -> void:
-	if _piece_sound == null:
+	if _piece_sound == null or _piece_sound.stream == null:
 		return
 
-	_piece_sound.stop()
-	_piece_sound.play()
+	AudioManager.play_sfx(_piece_sound.stream)
 
 
 # ============================================================
@@ -1735,8 +1718,7 @@ func _finish_game(
 	_stop_timer()
 	_disable_piece_interaction()
 
-	if _background_sound != null:
-		_background_sound.stop()
+	AudioManager.stop_music()
 
 	if did_win:
 		game_won.emit()

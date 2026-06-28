@@ -21,12 +21,6 @@ const LOSE_SOUND = preload("res://minigames/minigame_defo/Music/JuegoPerdido.mp3
 var timer_hud: CanvasLayer
 var game_result_panel: CanvasLayer
 
-var background_music: AudioStreamPlayer
-var plant_sound: AudioStreamPlayer
-var water_sound: AudioStreamPlayer
-var win_sound: AudioStreamPlayer
-var lose_sound: AudioStreamPlayer
-
 var health_layer: CanvasLayer
 var health_ui: HealthBarUi
 
@@ -36,7 +30,7 @@ var health_ui: HealthBarUi
 func _ready():
 	add_to_group("game_manager")
 
-	create_audio()
+	AudioManager.play_music(BACKGROUND_MUSIC, 1.0, -8.0)
 	create_timer()
 	create_game_result_panel()
 	create_health_ui()
@@ -72,34 +66,6 @@ func randomize_bad_holes():
 		holes[i].set_invalid()
 
 	print("Random bad holes: ", amount)
-
-
-func create_audio():
-	background_music = AudioStreamPlayer.new()
-	background_music.stream = BACKGROUND_MUSIC
-	background_music.volume_db = -8
-	add_child(background_music)
-	background_music.play()
-
-	plant_sound = AudioStreamPlayer.new()
-	plant_sound.stream = PLANT_SOUND
-	plant_sound.volume_db = 0
-	add_child(plant_sound)
-
-	water_sound = AudioStreamPlayer.new()
-	water_sound.stream = WATER_SOUND
-	water_sound.volume_db = 0
-	add_child(water_sound)
-
-	win_sound = AudioStreamPlayer.new()
-	win_sound.stream = WIN_SOUND
-	win_sound.volume_db = 0
-	add_child(win_sound)
-
-	lose_sound = AudioStreamPlayer.new()
-	lose_sound.stream = LOSE_SOUND
-	lose_sound.volume_db = 0
-	add_child(lose_sound)
 
 
 func create_timer():
@@ -203,11 +169,8 @@ func win_game():
 
 	timer_hud.detener()
 
-	if background_music != null:
-		background_music.stop()
-
-	if win_sound != null:
-		win_sound.play()
+	AudioManager.stop_music()
+	AudioManager.play_sfx(WIN_SOUND)
 
 	game_result_panel.mostrar_ganaste()
 
@@ -221,23 +184,18 @@ func lose_game():
 
 	timer_hud.detener()
 
-	if background_music != null:
-		background_music.stop()
-
-	if lose_sound != null:
-		lose_sound.play()
+	AudioManager.stop_music()
+	AudioManager.play_sfx(LOSE_SOUND)
 
 	game_result_panel.mostrar_perdiste()
 
 
 func play_plant_sound():
-	if plant_sound != null:
-		plant_sound.play()
+	AudioManager.play_sfx(PLANT_SOUND)
 
 
 func play_water_sound():
-	if water_sound != null:
-		water_sound.play()
+	AudioManager.play_sfx(WATER_SOUND)
 
 
 func _on_back_pressed():
