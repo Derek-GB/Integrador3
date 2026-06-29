@@ -13,19 +13,19 @@ extends CanvasLayer
 
 # ── Nodes ────────────────────────────────────────────────────────────────────
 
-@onready var panel              := $Panel
-@onready var btn_close          := $Panel/VBox/Header/BtnCerrar
-@onready var btn_cancel         := $Panel/VBox/FooterBtns/BtnCancelar
-@onready var btn_apply          := $Panel/VBox/FooterBtns/BtnAplicar
-@onready var lbl_restart        := $Panel/VBox/LblReinicio
+@onready var panel            := $Panel
+@onready var btn_close       := $Panel/MarginContainer/VBox/Header/BtnCerrar
+@onready var btn_cancel     := $Panel/MarginContainer/VBox/FooterBtns/BtnCancelar
+@onready var btn_apply      := $Panel/MarginContainer/VBox/FooterBtns/BtnAplicar
+@onready var lbl_restart     := $Panel/MarginContainer/VBox/LblReinicio
 
-@onready var opt_mode           := $Panel/VBox/ScrollContainer/Opciones/FilaModo/OptModo
-@onready var opt_resolution     := $Panel/VBox/ScrollContainer/Opciones/FilaRes/OptRes
-@onready var chk_vsync          := $Panel/VBox/ScrollContainer/Opciones/FilaVsync/ChkVsync
-@onready var opt_fps            := $Panel/VBox/ScrollContainer/Opciones/FilaFPS/OptFPS
-@onready var chk_aa             := $Panel/VBox/ScrollContainer/Opciones/FilaAA/ChkAA
-@onready var chk_shadows        := $Panel/VBox/ScrollContainer/Opciones/FilaSombras/ChkSombras
-@onready var opt_shadow_quality := $Panel/VBox/ScrollContainer/Opciones/FilaCalidadSombras/OptCalidadSombras
+@onready var opt_mode         := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaModo/OptModo
+@onready var opt_resolution   := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaRes/OptRes
+@onready var chk_vsync        := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaVsync/ChkVsync
+@onready var opt_fps          := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaFPS/OptFPS
+@onready var chk_aa           := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaAA/ChkAA
+@onready var chk_shadows      := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaSombras/ChkSombras
+@onready var opt_shadow_quality := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaCalidadSombras/OptCalidadSombras
 
 # ── Temporary state (what the user selected but has not applied yet) ─────────
 

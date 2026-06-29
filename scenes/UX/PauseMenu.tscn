@@ -22,7 +22,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_amxo1"]
 content_margin_right = 20.0
-bg_color = Color(0.3764706, 0.6901961, 0.3764706, 1)
+bg_color = Color(0.12156863, 0.61960787, 0.14509805, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -30,7 +30,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a3vsi"]
 content_margin_right = 20.0
-bg_color = Color(0.26823774, 0.5032663, 0.26823774, 1)
+bg_color = Color(0.07727701, 0.45038486, 0.094904155, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -38,7 +38,14 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s65lu"]
 content_margin_right = 20.0
-bg_color = Color(0.3764706, 0.6901961, 0.3764706, 1)
+bg_color = Color(0.18069082, 0.84549344, 0.21209882, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tul1g"]
+bg_color = Color(0.04409579, 0.32361087, 0.057301227, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -66,7 +73,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fqop1"]
 content_margin_right = 30.0
-bg_color = Color(0.9411765, 0.1254902, 0.1254902, 1)
+bg_color = Color(1.2747362, 0.18592551, 0.18592551, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -91,24 +98,63 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 
 [node name="Panel" type="Panel" parent="Panel" unique_id=1316540670]
-layout_mode = 0
-offset_left = 792.0
-offset_top = 344.0
-offset_right = 1192.0
-offset_bottom = 544.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -218.0
+offset_right = 256.0
+offset_bottom = 218.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sf0id")
 
+[node name="Leaf" type="Sprite2D" parent="Panel/Panel" unique_id=621621588]
+position = Vector2(519, 10)
+scale = Vector2(0.078125, 0.05468756)
+texture = ExtResource("6_tul1g")
+
+[node name="Leaf2" type="Sprite2D" parent="Panel/Panel" unique_id=1019233336]
+position = Vector2(522, 32)
+rotation = 0.96259755
+scale = Vector2(0.078125, 0.05468756)
+texture = ExtResource("6_tul1g")
+
+[node name="Leaf4" type="Sprite2D" parent="Panel/Panel" unique_id=822711729]
+position = Vector2(-7.621641, 421.3517)
+rotation = 3.171994
+scale = Vector2(0.078125, 0.05468756)
+texture = ExtResource("6_tul1g")
+
+[node name="Leaf3" type="Sprite2D" parent="Panel/Panel" unique_id=326042384]
+position = Vector2(-11.621643, 407.35175)
+rotation = -2.4774776
+scale = Vector2(0.078125, 0.054687563)
+texture = ExtResource("6_tul1g")
+
 [node name="Play" type="Button" parent="Panel/Panel" unique_id=1140279762]
-layout_mode = 0
-offset_left = 80.0
-offset_top = 16.0
-offset_right = 310.0
-offset_bottom = 86.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -186.0
+offset_right = 115.0
+offset_bottom = -116.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(115, 35)
 theme_override_fonts/font = ExtResource("3_sf0id")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_amxo1")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_a3vsi")
 theme_override_styles/hover = SubResource("StyleBoxFlat_s65lu")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_tul1g")
 text = "Continuar"
 alignment = 2
 
@@ -119,17 +165,25 @@ scale = Vector2(0.8, 0.786)
 texture = ExtResource("5_uosg4")
 
 [node name="Exit" type="Button" parent="Panel/Panel" unique_id=2012731666]
-layout_mode = 0
-offset_left = 80.0
-offset_top = 112.0
-offset_right = 310.0
-offset_bottom = 182.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -94.0
+offset_right = 115.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(115, 35)
 theme_override_fonts/font = ExtResource("3_sf0id")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_o1bij")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_0gdly")
 theme_override_styles/hover = SubResource("StyleBoxFlat_fqop1")
-text = "Menu"
+text = "Ir al menu"
 alignment = 2
 
 [node name="ExitI" type="Sprite2D" parent="Panel/Panel/Exit" unique_id=1535229971]
@@ -138,20 +192,14 @@ position = Vector2(43, 36)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("6_wghg2")
 
-[node name="Leaf" type="Sprite2D" parent="Panel/Panel" unique_id=621621588]
-position = Vector2(407, 6)
-scale = Vector2(0.078125, 0.05468756)
-texture = ExtResource("6_tul1g")
-
-[node name="Leaf2" type="Sprite2D" parent="Panel/Panel" unique_id=1019233336]
-position = Vector2(410, 28)
-rotation = 0.96259755
-scale = Vector2(0.078125, 0.05468756)
-texture = ExtResource("6_tul1g")
-
-[node name="SoundControlPanel" parent="." unique_id=1992510102 instance=ExtResource("7_tul1g")]
+[node name="SoundControlPanel" parent="Panel/Panel" unique_id=1992510102 instance=ExtResource("7_tul1g")]
 layout_mode = 1
-offset_left = 768.0
-offset_top = 552.0
-offset_right = -704.0
-offset_bottom = -336.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -223.0
+offset_top = 0.0
+offset_right = -223.0
+offset_bottom = 0.0

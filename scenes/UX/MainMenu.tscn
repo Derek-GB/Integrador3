@@ -1,22 +1,23 @@
 [gd_scene format=3 uid="uid://nbfpyaylc4ys"]
 
 [ext_resource type="Script" uid="uid://cy2jurhducyl" path="res://scripts/UX/MainMenu.gd" id="1_mjre4"]
-[ext_resource type="Texture2D" uid="uid://cfrrlinsu7lek" path="res://images/UX/BackgroundV2.png" id="2_f03nn"]
+[ext_resource type="Texture2D" uid="uid://djt6g0q68qexl" path="res://images/UX/BackgroundV2.png" id="2_f03nn"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="4_31ns2"]
-[ext_resource type="Texture2D" uid="uid://bot5g16d1p8dy" path="res://images/UX/leaf.png" id="4_hm7mn"]
+[ext_resource type="Texture2D" uid="uid://c6p4rtxnhyn6j" path="res://images/UX/leaf.png" id="4_hm7mn"]
 [ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="5_6c0a5"]
+[ext_resource type="Texture2D" uid="uid://b61x7vx1csr5u" path="res://images/icons/sfx.png" id="6_boqd0"]
 [ext_resource type="Texture2D" uid="uid://b78xv0o4e6ta1" path="res://images/icons/settings.png" id="6_f03nn"]
-[ext_resource type="Texture2D" uid="uid://cwtgr2qcx62ff" path="res://images/icons/play.png" id="6_xey2k"]
-[ext_resource type="Texture2D" uid="uid://dhirwartt5oun" path="res://images/icons/rules.png" id="7_boqd0"]
-[ext_resource type="Texture2D" uid="uid://8whemworluu6" path="res://images/icons/credits.png" id="8_q63e5"]
-[ext_resource type="Texture2D" uid="uid://t7hdo20ul1h1" path="res://images/icons/exit.png" id="9_n3d7r"]
+[ext_resource type="Texture2D" uid="uid://n2ch3oyfvlvd" path="res://images/icons/play.png" id="6_xey2k"]
+[ext_resource type="Texture2D" uid="uid://gtpd4xwkeqw3" path="res://images/icons/rules.png" id="7_boqd0"]
+[ext_resource type="Texture2D" uid="uid://bkt77v2f3i1e0" path="res://images/icons/credits.png" id="8_q63e5"]
+[ext_resource type="Texture2D" uid="uid://b35spoxiib4db" path="res://images/icons/exit.png" id="9_n3d7r"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="11_iqafl"]
 [ext_resource type="PackedScene" uid="uid://ccpydjb6bax7m" path="res://scenes/UX/SoundControlPanel.tscn" id="13_f03nn"]
-[ext_resource type="Texture2D" uid="uid://0t36s7ipufqw" path="res://images/UX/Panda.png" id="13_hm7mn"]
+[ext_resource type="Texture2D" uid="uid://c1cywra6ykqq1" path="res://images/UX/Panda.png" id="13_hm7mn"]
 [ext_resource type="Texture2D" uid="uid://dfjud6iaptce2" path="res://images/UX/Monkey.png" id="14_31ns2"]
-[ext_resource type="AudioStream" uid="uid://bet0cu5q65l54" path="res://sounds/UX/Lobby1.mp3" id="14_f03nn"]
+[ext_resource type="AudioStream" uid="uid://bqfuym27wm7bw" path="res://sounds/UX/Lobby1.mp3" id="14_f03nn"]
 [ext_resource type="Texture2D" uid="uid://8f6u5n8vq8jb" path="res://images/UX/Robot.png" id="15_6c0a5"]
-[ext_resource type="PackedScene" path="res://scenes/core/SettingsMenu.tscn" id="17_xey2k"]
+[ext_resource type="PackedScene" uid="uid://dioe1pt5b5s1o" path="res://scenes/core/SettingsMenu.tscn" id="17_xey2k"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f03nn"]
 
@@ -40,7 +41,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aaw56"]
 content_margin_right = 30.0
-bg_color = Color(0.3764706, 0.6901961, 0.3764706, 1)
+bg_color = Color(0.122, 0.62, 0.145, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -48,7 +49,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hhdk0"]
 content_margin_right = 30.0
-bg_color = Color(0.26823774, 0.5032663, 0.26823774, 1)
+bg_color = Color(0.07727701, 0.45038486, 0.094904155, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -56,7 +57,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_duatf"]
 content_margin_right = 30.0
-bg_color = Color(0.3764706, 0.6901961, 0.3764706, 1)
+bg_color = Color(0.18069082, 0.84549344, 0.21209882, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -84,7 +85,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7wcm3"]
 content_margin_right = 30.0
-bg_color = Color(0.06666667, 0.43137255, 0.92156863, 1)
+bg_color = Color(0.10740551, 0.59422946, 1.2485627, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -112,7 +113,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ua4hy"]
 content_margin_right = 30.0
-bg_color = Color(0.81960785, 0.4117647, 0.09803922, 1)
+bg_color = Color(1.1124614, 0.5680561, 0.14928284, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -124,7 +125,7 @@ shader_parameter/tint_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6jbn4"]
 content_margin_right = 30.0
-bg_color = Color(0.9411765, 0.1254902, 0.1254902, 1)
+bg_color = Color(0.941, 0.125, 0.125, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -140,7 +141,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3yemn"]
 content_margin_right = 30.0
-bg_color = Color(0.9411765, 0.1254902, 0.1254902, 1)
+bg_color = Color(1.2747362, 0.18592551, 0.18592551, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -242,6 +243,14 @@ corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q63e5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3d7r"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_602j6"]
+shader = ExtResource("5_6c0a5")
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+
 [node name="Menu" type="Control" unique_id=310760619]
 layout_mode = 3
 anchors_preset = 15
@@ -259,20 +268,20 @@ centered = false
 
 [node name="Settings" type="Button" parent="." unique_id=1587719187]
 layout_mode = 0
-offset_left = 1760.0
-offset_top = 24.0
-offset_right = 1872.0
-offset_bottom = 120.0
+offset_left = 1656.0
+offset_top = 968.0
+offset_right = 1768.0
+offset_bottom = 1064.0
 theme_override_fonts/font = ExtResource("4_31ns2")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxEmpty_f03nn")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_31ns2")
 
-[node name="Settings" type="Sprite2D" parent="Settings" unique_id=634807896]
+[node name="Audio" type="Sprite2D" parent="Settings" unique_id=634807896]
 material = SubResource("ShaderMaterial_hm7mn")
 position = Vector2(56, 48)
 scale = Vector2(1.4, 1.4)
-texture = ExtResource("6_f03nn")
+texture = ExtResource("6_boqd0")
 
 [node name="ButtonMenu" type="Control" parent="." unique_id=2049274251]
 anchors_preset = 0
@@ -594,18 +603,27 @@ stream = ExtResource("14_f03nn")
 [node name="SoundControlPanel" parent="." unique_id=1992510102 instance=ExtResource("13_f03nn")]
 layout_mode = 1
 offset_left = 4040.0
-offset_top = 480.0
+offset_top = 416.0
 offset_right = 2568.0
-offset_bottom = -408.0
+offset_bottom = -472.0
 scale = Vector2(2, 2)
 
 [node name="SettingsMenu" parent="." unique_id=1430662453 instance=ExtResource("17_xey2k")]
 process_mode = 2
+visible = false
 
 [node name="GeneralSettings" type="Button" parent="." unique_id=739366348]
 layout_mode = 0
-offset_left = 1737.0
-offset_top = 971.0
-offset_right = 1886.0
-offset_bottom = 1031.0
-text = "Opciones"
+offset_left = 1784.0
+offset_top = 968.0
+offset_right = 1896.0
+offset_bottom = 1064.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_q63e5")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_n3d7r")
+
+[node name="Settings2" type="Sprite2D" parent="GeneralSettings" unique_id=356527359]
+material = SubResource("ShaderMaterial_602j6")
+position = Vector2(5, 1)
+scale = Vector2(1.609375, 1.453125)
+texture = ExtResource("6_f03nn")
+centered = false

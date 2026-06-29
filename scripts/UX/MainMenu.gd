@@ -2,7 +2,7 @@ extends Control
 
 const MAIN = preload("res://scenes/core/Main.tscn")
 const POS_CENTER = 910.0
-const POS_OUTSIDE_RIGHT = 2000.0
+const POS_OUTSIDE_RIGHT = 3000.0
 const HOME_BUTTONS = 178.0
 const SIDE_BUTTONS = 150.0
 const DURATION = 1.3
