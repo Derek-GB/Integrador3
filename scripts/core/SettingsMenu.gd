@@ -14,18 +14,18 @@ extends CanvasLayer
 # ── Nodos ────────────────────────────────────────────────────────────────────
 
 @onready var panel            := $Panel
-@onready var btn_cerrar       := $Panel/VBox/Header/BtnCerrar
-@onready var btn_cancelar     := $Panel/VBox/FooterBtns/BtnCancelar
-@onready var btn_aplicar      := $Panel/VBox/FooterBtns/BtnAplicar
-@onready var lbl_reinicio     := $Panel/VBox/LblReinicio
+@onready var btn_cerrar       := $Panel/MarginContainer/VBox/Header/BtnCerrar
+@onready var btn_cancelar     := $Panel/MarginContainer/VBox/FooterBtns/BtnCancelar
+@onready var btn_aplicar      := $Panel/MarginContainer/VBox/FooterBtns/BtnAplicar
+@onready var lbl_reinicio     := $Panel/MarginContainer/VBox/LblReinicio
 
-@onready var opt_modo         := $Panel/VBox/ScrollContainer/Opciones/FilaModo/OptModo
-@onready var opt_res          := $Panel/VBox/ScrollContainer/Opciones/FilaRes/OptRes
-@onready var chk_vsync        := $Panel/VBox/ScrollContainer/Opciones/FilaVsync/ChkVsync
-@onready var opt_fps          := $Panel/VBox/ScrollContainer/Opciones/FilaFPS/OptFPS
-@onready var chk_aa           := $Panel/VBox/ScrollContainer/Opciones/FilaAA/ChkAA
-@onready var chk_sombras      := $Panel/VBox/ScrollContainer/Opciones/FilaSombras/ChkSombras
-@onready var opt_calidad_somb := $Panel/VBox/ScrollContainer/Opciones/FilaCalidadSombras/OptCalidadSombras
+@onready var opt_modo         := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaModo/OptModo
+@onready var opt_res          := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaRes/OptRes
+@onready var chk_vsync        := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaVsync/ChkVsync
+@onready var opt_fps          := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaFPS/OptFPS
+@onready var chk_aa           := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaAA/ChkAA
+@onready var chk_sombras      := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaSombras/ChkSombras
+@onready var opt_calidad_somb := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaCalidadSombras/OptCalidadSombras
 
 # ── Estado temporal (lo que el usuario seleccionó pero aún no aplicó) ────────
 
