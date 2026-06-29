@@ -2,7 +2,7 @@ extends Control
 
 const MAIN = preload("res://scenes/core/Main.tscn")
 const POS_CENTER = 910.0
-const POS_OUTSIDE_RIGHT = 2000.0
+const POS_OUTSIDE_RIGHT = 3000.0
 const HOME_BUTTONS = 178.0
 const SIDE_BUTTONS = 150.0
 const DURATION = 1.3
@@ -15,7 +15,9 @@ var current_menu: Control = null
 @onready var game_selection: Control = $GameSelection
 @onready var game_rules: Control = $GameRules
 @onready var settings_panel: Control = $SoundControlPanel
+@onready var settings_menu := $SettingsMenu  # instancia como hijo
 
+@onready var btn_general_settings: Button = $GeneralSettings
 @onready var btn_play_menu: Button = $ButtonMenu/Panel/Play
 @onready var btn_rule_menu: Button = $ButtonMenu/Panel/Rules
 @onready var btn_credits_menu: Button = $ButtonMenu/Panel/Credits
@@ -70,6 +72,8 @@ func _ready() -> void:
 		func(): 
 			open_menu(settings_panel)
 	)
+	
+	btn_general_settings.pressed.connect(_open_general_settings)
 
 	for i in $ButtonMenu.get_children():
 		if i is Button:
@@ -97,6 +101,9 @@ func open_menu(new_menu: Control) -> void:
 	new_menu.position.x = POS_OUTSIDE_RIGHT
 	tween.tween_property(new_menu, "position:x", POS_CENTER, DURATION)
 	current_menu = new_menu
+
+func _open_general_settings() -> void:
+	settings_menu.open()
 
 func close_all() -> void:
 	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)

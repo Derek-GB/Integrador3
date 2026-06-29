@@ -22,10 +22,7 @@ Events="*uid://bn8u6s7s2v3fn"
 AudioManager="*uid://ckwomrh6ox668"
 MinigameData="*uid://s4piojkgml42"
 MainMenuMinigamePrueba="*uid://c1pp0h7e3ccct"
-
-[debug]
-
-settings/stdout/print_gpu_profile=true
+SettingsManager="*uid://0ugvjhbep64g"
 
 [display]
 
@@ -33,6 +30,11 @@ window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/mode=3
 window/stretch/mode="canvas_items"
+
+[editor]
+
+movie_writer/movie_file="C:/Users/d2tod/Documents/Proyectos de Godot/riegolandia/export/test.avi"
+movie_writer/disable_vsync=true
 
 [physics]
 
