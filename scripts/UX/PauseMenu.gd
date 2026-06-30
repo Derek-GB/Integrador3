@@ -6,6 +6,7 @@ const VISIBLE_POSITION: Vector2 = Vector2(0,0)
 
 @onready var btn_exit = $Panel/Panel/Exit
 @onready var btn_play = $Panel/Panel/Play
+@onready var sound_control_panel = $Panel/Panel/SoundControlPanel
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,6 +18,8 @@ func _ready() -> void:
 	btn_play.pressed.connect (
 		self.close_window
 	)
+	
+	sound_control_panel.visible_panel(false)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

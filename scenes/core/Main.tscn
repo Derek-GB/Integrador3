@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://721euuos45tc" path="res://scripts/core/Main.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://c456hb1ulbl35" path="res://scenes/board/Board.tscn" id="2_jyhfs"]
-[ext_resource type="AudioStream" uid="uid://bsyxkw1e4vplj" path="res://sounds/board/Dice.wav" id="4_tbgi4"]
-[ext_resource type="AudioStream" uid="uid://duwdtcqv85d2w" path="res://sounds/board/MoveForward.wav" id="5_85g3d"]
+[ext_resource type="AudioStream" uid="uid://chooex6lm8g42" path="res://sounds/board/Dice.wav" id="4_tbgi4"]
+[ext_resource type="AudioStream" uid="uid://c460uwsvt2nqq" path="res://sounds/board/MoveForward.wav" id="5_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dro1ls1tysuj2" path="res://scenes/UX/PauseMenu.tscn" id="5_choun"]
 [ext_resource type="AudioStream" uid="uid://co30q1vo6o2pu" path="res://sounds/board/Jump.wav" id="5_tefeu"]
 [ext_resource type="AudioStream" uid="uid://bnqe4r08xc83q" path="res://sounds/board/MoveBack.wav" id="6_choun"]
@@ -226,7 +226,6 @@ offset_bottom = 116.0
 text = "Isometrico"
 
 [node name="Throw_3" type="Button" parent="UI" unique_id=182608097]
-visible = false
 offset_left = 1673.0
 offset_top = 130.0
 offset_right = 1879.0

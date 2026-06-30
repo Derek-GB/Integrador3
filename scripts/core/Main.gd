@@ -256,7 +256,7 @@ func _on_throw_3() -> void:
 		return
 	AudioManager.play_sfx(dice_sound)
 	dice_label.text = "Tiraste un 3"
-	await GameManager.on_dice_rolled(19)
+	await GameManager.on_dice_rolled(3)
 
 func _on_restart() -> void:
 	var mg := get_node_or_null("ActiveMinigame")
@@ -380,7 +380,7 @@ func _apply_skip(player_index: int) -> void:
 		GameManager._next_turn()
 
 func _machine_turn() -> void:
-	await get_tree().create_timer(1.2).timeout
+	await get_tree().create_timer(0.3).timeout
 	if game_over:
 		return
 	dice_label.text = "La Maquina esta tirando el dado..."
