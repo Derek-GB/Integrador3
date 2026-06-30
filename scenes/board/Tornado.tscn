@@ -1,52 +1,27 @@
 [gd_scene format=3 uid="uid://dp0m1dj31ud0u"]
 
-[ext_resource type="Shader" uid="uid://b04hgk0mcfnu2" path="res://data/tornado_body.gdshader" id="1_vpp7a"]
-[ext_resource type="Shader" uid="uid://bum7da0ajgudc" path="res://data/tornado_cap.gdshader" id="2_uifxb"]
-[ext_resource type="Texture2D" uid="uid://dhx42wq4lu4xs" path="res://data/noise_texture_2d.tres" id="3_uifxb"]
+[ext_resource type="Shader" uid="uid://ogjgyv3culjm" path="res://data/s_Tornado.tres" id="1_uifxb"]
+[ext_resource type="Texture2D" uid="uid://4t4k2oefbsxn" path="res://images/board/tornado/T_Noise_HU85k.png" id="2_01bxy"]
+[ext_resource type="ArrayMesh" uid="uid://b1kthxpx3trht" path="res://models/map/Tornado/tornado.obj" id="3_le3p7"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vpp7a"]
+[sub_resource type="Gradient" id="Gradient_uifxb"]
+offsets = PackedFloat32Array(0, 0.038690478, 0.9077381, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_01bxy"]
+gradient = SubResource("Gradient_uifxb")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b2yph"]
 render_priority = 0
-shader = ExtResource("1_vpp7a")
-shader_parameter/noise_tex = ExtResource("3_uifxb")
-shader_parameter/scroll_speed = 1.5
-shader_parameter/twist_amount = 3.6470001732325
-shader_parameter/wobble_amount = 0.26800001273
-shader_parameter/base_color = Color(0.12604359, 0.26545185, 0.3378778, 1)
-shader_parameter/alpha_strength = 1.71600008151
-shader_parameter/rim_color = Color(0.6, 0.85, 1, 1)
-shader_parameter/rim_power = 3.0
-shader_parameter/rim_strength = 0.6
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_le3p7"]
-lightmap_size_hint = Vector2i(58, 32)
-material = SubResource("ShaderMaterial_vpp7a")
-top_radius = 1.8
-bottom_radius = 0.3
-radial_segments = 20
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uifxb"]
-render_priority = 1
-shader = ExtResource("2_uifxb")
-shader_parameter/noise_tex = ExtResource("3_uifxb")
-shader_parameter/swirl_speed = 2.0
-shader_parameter/swirl_amount = 4.0
-shader_parameter/cloud_color = Color(0.45, 0.45, 0.5, 1)
-shader_parameter/outer_fade = 0.50000002375
-shader_parameter/rim_color = Color(0.6, 0.85, 1, 1)
-shader_parameter/rim_strength = 0.7
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_h0rub"]
-material = SubResource("ShaderMaterial_uifxb")
+shader = ExtResource("1_uifxb")
+shader_parameter/Speed_XY = Vector2(-0.5, 1)
+shader_parameter/Base_Texture = ExtResource("2_01bxy")
+shader_parameter/Substraction_Texture = SubResource("GradientTexture2D_01bxy")
 
 [node name="Tornado" type="Node3D" unique_id=350737936]
 
-[node name="TornadoBody" type="MeshInstance3D" parent="." unique_id=151898068]
-mesh = SubResource("CylinderMesh_le3p7")
-
-[node name="TornadoBody2" type="MeshInstance3D" parent="." unique_id=1092154419]
-transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
-mesh = SubResource("CylinderMesh_le3p7")
-
-[node name="TornadoCap" type="MeshInstance3D" parent="." unique_id=1278788254]
-transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 1.2524486, 0)
-mesh = SubResource("PlaneMesh_h0rub")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1479817823]
+material_override = SubResource("ShaderMaterial_b2yph")
+cast_shadow = 0
+mesh = ExtResource("3_le3p7")
