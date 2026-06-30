@@ -5,6 +5,7 @@ extends Node
 # =========================================================
 const QUESTION_CARD = preload("res://scenes/cards/QuestionCard.tscn")
 const ACTION_CARD   = preload("res://scenes/cards/ActionCard.tscn")
+const MINIGAME_ACTION_DIALOG = preload("res://scenes/board/MinigameActionDialogFinished.tscn")
 
 const MINIGAME_EFFECTS: Dictionary = {
 	3:  { "on_win": "spin_again",  "on_lose": "nothing"   },
@@ -289,7 +290,7 @@ func show_blue_card() -> bool:
 	file.close()
 
 	var json := JSON.new()
-	json.parse(json_text)	
+	json.parse(json_text)
 	var data: Dictionary = json.get_data()
 	var cards: Array = data["tarjetas"]
 	var question = cards[randi() % cards.size()]
@@ -300,80 +301,71 @@ func show_blue_card() -> bool:
 
 	var card := QUESTION_CARD.instantiate()
 	card.setup(question, image_background)
-	card.cpu_mode = (game_mode == 2 and current_player == 1)
+	card.cpu_mode = is_cpu_turn()  # la carta SIEMPRE se muestra ahora
 	get_tree().current_scene.add_child(card)
 
 	var result: Array = [false]
-	card.answer_result.connect(func(correct: bool): result[0] = correct)
-	await card.tree_exited
+	var resolved := false
 
+	card.answer_result.connect(func(correct: bool):
+		resolved = true
+		result[0] = correct
+	)
+
+	# Seguridad: si es turno de la CPU y la carta no resuelve sola en 2s, forzamos respuesta
+	if is_cpu_turn():
+		var timer := get_tree().create_timer(2.0)
+		timer.timeout.connect(func():
+			if not resolved:
+				resolved = true
+				result[0] = randi() % 2 == 0
+				if is_instance_valid(card):
+					card.queue_free()
+		)
+
+	await card.tree_exited
 	print("GameManager: resultado carta azul =", result[0])
+
 	minigame_active = false
 	return result[0]
 
 func show_red_card(active_token: Node) -> void:
 	print("GameManager: carta roja activada")
-	minigame_active  = true
+	minigame_active = true
 	last_action_type = ""
 
 	var card := ACTION_CARD.instantiate()
-	card.cpu_mode = (game_mode == 2 and current_player == 1)
+	card.cpu_mode = is_cpu_turn()  # la carta SIEMPRE se muestra ahora
 	get_tree().current_scene.add_child(card)
 
 	var action_result := [last_action_type, 0]
+	var resolved := false
+
 	card.action_completed.connect(func(type: String, value: int) -> void:
+		resolved = true
 		action_result[0] = type
 		action_result[1] = value
 		print("GameManager: acción guardada:", type, " valor:", value)
 	)
 
+	# Seguridad: si es turno de la CPU y la carta no resuelve sola en 2s, forzamos respuesta
+	if is_cpu_turn():
+		var timer := get_tree().create_timer(2.0)
+		timer.timeout.connect(func():
+			if not resolved:
+				resolved = true
+				var opciones := ["advance", "go_back", "skip_turn", "spin_again"]
+				action_result[0] = opciones[randi() % opciones.size()]
+				action_result[1] = randi_range(1, 4)
+				print("GameManager: CPU carta roja (fallback) -> acción:", action_result[0])
+				if is_instance_valid(card):
+					card.queue_free()
+		)
+
 	await card.tree_exited
-
-	last_action_type           = action_result[0]
+	last_action_type = action_result[0]
 	var last_action_value: int = action_result[1]
-	print("GameManager: carta cerrada, acción:", last_action_type, " valor:", last_action_value)
-
-	if last_action_type == "advance":
-		# Events.play_sound.emit("avanzar")
-		await active_token.move_steps(last_action_value)
-		if await check_special_tile(active_token):
-			return
-
-	elif last_action_type == "go_back":
-		# Events.play_sound.emit("retroceder")
-		await active_token.move_back(last_action_value)
-		if await check_special_tile(active_token):
-			return
-
-	elif last_action_type == "go_to_space":
-		var steps_needed: int = last_action_value - active_token.current_index
-		if steps_needed > 0:
-			await active_token.move_steps(steps_needed)
-		elif steps_needed < 0:
-			await active_token.move_back(-steps_needed)
-		if await check_special_tile(active_token):
-			return
-
-	elif last_action_type == "skip_turn":
-		skip_player_index = current_player
-		if message_label:
-			var nombre := player_names[current_player] if current_player < player_names.size() else "Jugador"
-			message_label.visible = true
-			message_label.text    = "¡%s pierde el siguiente turno!" % nombre
-			await get_tree().create_timer(2.0).timeout
-			message_label.visible = false
-
-	elif last_action_type == "spin_again":
-		minigame_active  = false
-		is_player_moving = false
-		_unlock_dice()
-		Events.turn_changed.emit(current_player)
-		return
-
-	minigame_active  = false
-	is_player_moving = false
-	_unlock_dice()
-	_next_turn()
+	await _apply_red_card_action(active_token, last_action_type, last_action_value)
 
 func is_cpu_turn() -> bool:
 	return game_mode == 2 and current_player == 1
@@ -381,9 +373,63 @@ func is_cpu_turn() -> bool:
 # =========================================================
 # MÉTODOS PRIVADOS
 # =========================================================
+
+func _apply_red_card_action(active_token: Node, action: String, value: int) -> void:
+	print("GameManager: carta cerrada, acción:", action, " valor:", value)
+
+	if action == "advance":
+		await active_token.move_steps(value)
+		if await check_special_tile(active_token):
+			return
+
+	elif action == "go_back":
+		await active_token.move_back(value)
+		if await check_special_tile(active_token):
+			return
+
+	elif action == "go_to_space":
+		var steps_needed: int = value - active_token.current_index
+		if steps_needed > 0:
+			await active_token.move_steps(steps_needed)
+		elif steps_needed < 0:
+			await active_token.move_back(-steps_needed)
+		if await check_special_tile(active_token):
+			return
+
+	elif action == "skip_turn":
+		skip_player_index = current_player
+		if message_label:
+			var nombre := player_names[current_player] if current_player < player_names.size() else "Jugador"
+			message_label.visible = true
+			message_label.text = "¡%s pierde el siguiente turno!" % nombre
+			await get_tree().create_timer(2.0).timeout
+			message_label.visible = false
+
+	elif action == "spin_again":
+		minigame_active = false
+		is_player_moving = false
+		_unlock_dice()
+		Events.turn_changed.emit(current_player)
+		return
+
+	minigame_active = false
+	is_player_moving = false
+	_unlock_dice()
+	_next_turn()
+
 func _launch_minigame_for_tile(tile_index: int) -> void:
 	print("GameManager: lanzando minijuego para casilla", tile_index)
 	minigame_active = true
+
+	# CPU: omitir minijuego completamente, resultado 50/50
+	if is_cpu_turn():
+		await get_tree().create_timer(0.8).timeout
+		var won_cpu: bool = randi() % 2 == 0
+		print("GameManager: CPU minijuego -> resultado automático:", won_cpu)
+		minigame_active = false
+		await _apply_minigame_effect(tile_index, won_cpu)
+		return
+
 	Events.set_minigame.emit(tile_index)
 
 	var won: bool = await Events.minigame_result
@@ -403,7 +449,19 @@ func _apply_minigame_effect(tile_index: int, won: bool) -> void:
 	var active_token: Node = tokens[current_player]
 
 	print("GameManager: efecto minijuego =", action, " valor =", value)
-
+	
+	var minigame_action_dialog = MINIGAME_ACTION_DIALOG.instantiate()
+	get_tree().current_scene.add_child(minigame_action_dialog)
+	minigame_action_dialog.setup_action(won,effect)
+	var action_result = ["", 0]
+	minigame_action_dialog.action_completed.connect(func(type: String, val: int):
+		action_result[0] = type
+		action_result[1] = val
+	)
+	
+	# CONGELAR LOGICA: Esperamos pacientemente a que el niño cierre la ventana informativa
+	await minigame_action_dialog.tree_exited
+	
 	if action == "spin_again":
 		is_player_moving = false
 		_unlock_dice()
@@ -448,3 +506,4 @@ func _next_turn() -> void:
 	current_player = (current_player + 1) % tokens.size()
 	print("GameManager: siguiente turno -> jugador", current_player + 1)
 	Events.turn_changed.emit(current_player)
+	

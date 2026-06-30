@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://dc3dku8qputrm"]
+
+[ext_resource type="Script" uid="uid://bppywc8qjn8cn" path="res://scripts/board/MinigameActionDialogFinished.gd" id="1_w6q5e"]
+[ext_resource type="StyleBox" uid="uid://c2uf4aqyd268i" path="res://data/style_panel_containert.tres" id="2_523aw"]
+[ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="3_0rn66"]
+[ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="4_5px5u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8tw33"]
+bg_color = Color(0.81960785, 0.4117647, 0.09803922, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x2dvg"]
+bg_color = Color(1.1124614, 0.5680561, 0.14928284, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rkk6a"]
+bg_color = Color(0.60021555, 0.29467842, 0.059649874, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqkqw"]
+bg_color = Color(0.43585706, 0.20696284, 0.031399526, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="MinigameActionDialogFinished" type="CanvasLayer" unique_id=514346738]
+script = ExtResource("1_w6q5e")
+
+[node name="Overlay" type="ColorRect" parent="." unique_id=591120321]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.21960784)
+
+[node name="DialogPanel" type="Panel" parent="." unique_id=1053599356]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -406.0
+offset_top = -108.0
+offset_right = 406.0
+offset_bottom = 108.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_523aw")
+
+[node name="ResultTitle" type="Label" parent="DialogPanel" unique_id=1998947995]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -86.0
+offset_right = 350.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_0rn66")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ActionDescription" type="Label" parent="DialogPanel" unique_id=579628805]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -30.0
+offset_right = 350.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.60021555, 0.29467842, 0.059649874, 1)
+theme_override_fonts/font = ExtResource("4_5px5u")
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="AcceptButton" type="Button" parent="DialogPanel" unique_id=73185984]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = 52.0
+offset_right = 90.0
+offset_bottom = 84.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_5px5u")
+theme_override_styles/normal = SubResource("StyleBoxFlat_8tw33")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_x2dvg")
+theme_override_styles/hover = SubResource("StyleBoxFlat_rkk6a")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_iqkqw")
+text = "Entendido"
