@@ -117,32 +117,26 @@ func _setup_game_result():
 # SONIDO DE FONDO (LOOP MANUAL)
 # =========================================================
 func _setup_background_sound():
-	if background_sound == null:
+	if background_sound == null or background_sound.stream == null:
 		return
 	background_sound.volume_db = -15.0   # ✅ bajamos el volumen del fondo
-	background_sound.play()
-	if not background_sound.finished.is_connected(_on_background_sound_finished):
-		background_sound.finished.connect(_on_background_sound_finished)
-
-func _on_background_sound_finished():
-	# ✅ Lo vuelve a reproducir mientras el juego no haya terminado
-	if not game_over and background_sound:
-		background_sound.play()
+	if background_sound.stream is AudioStreamMP3:
+		background_sound.stream.loop = true
+	AudioManager.play_music(background_sound.stream, 1.0, background_sound.volume_db)
 
 func _stop_background_sound():
-	if background_sound and background_sound.playing:
-		background_sound.stop()
+	AudioManager.stop_music()
 
 # =========================================================
 # SONIDOS PUNTUALES
 # =========================================================
 func play_collision_sound():
-	if collision_sound:
-		collision_sound.play()
+	if collision_sound and collision_sound.stream:
+		AudioManager.play_sfx(collision_sound.stream)
 
 func play_jump_sound():
-	if jump_sound:
-		jump_sound.play()
+	if jump_sound and jump_sound.stream:
+		AudioManager.play_sfx(jump_sound.stream, jump_sound.volume_db)
 
 # =========================================================
 # LIVES

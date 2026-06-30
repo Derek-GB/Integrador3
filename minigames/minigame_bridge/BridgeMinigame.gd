@@ -217,43 +217,33 @@ func _setup_sound_volumes() -> void:
 # minijuego termine, ya sea ganando o perdiendo).
 func _start_background_sound() -> void:
 	_background_sound_active = true
-	
-	if not background_sound:
+
+	if not background_sound or not background_sound.stream:
 		return
-	
-	if background_sound.stream:
-		if background_sound.stream is AudioStreamWAV:
-			background_sound.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
-		elif background_sound.stream is AudioStreamOggVorbis:
-			background_sound.stream.loop = true
-	
-	if not background_sound.finished.is_connected(_on_background_sound_finished):
-		background_sound.finished.connect(_on_background_sound_finished)
-	
-	background_sound.play()
 
+	if background_sound.stream is AudioStreamWAV:
+		background_sound.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	elif background_sound.stream is AudioStreamOggVorbis:
+		background_sound.stream.loop = true
+	elif background_sound.stream is AudioStreamMP3:
+		background_sound.stream.loop = true
 
-# Fallback manual de loop, por si el stream no soporta loop nativo.
-func _on_background_sound_finished() -> void:
-	if _background_sound_active and background_sound:
-		background_sound.play()
+	AudioManager.play_music(background_sound.stream, 1.0, background_sound.volume_db)
 
 
 func _stop_background_sound() -> void:
 	_background_sound_active = false
-	
-	if background_sound:
-		background_sound.stop()
+	AudioManager.stop_music()
 
 
 func _play_wood_sound() -> void:
-	if wood_sound:
-		wood_sound.play()
+	if wood_sound and wood_sound.stream:
+		AudioManager.play_sfx(wood_sound.stream)
 
 
 func _play_hammer_sound() -> void:
-	if hammer_sound:
-		hammer_sound.play()
+	if hammer_sound and hammer_sound.stream:
+		AudioManager.play_sfx(hammer_sound.stream, hammer_sound.volume_db)
 
 
 # =========================================================

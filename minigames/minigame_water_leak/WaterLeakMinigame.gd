@@ -290,17 +290,8 @@ func _create_audio_players() -> void:
 	if patch_sound_stream != null:
 		_patch_sound_player.stream = patch_sound_stream
 
-	_background_music_player.bus = "Master"
 	_background_music_player.volume_db = maxf(background_music_volume_db, -16.0)
-	_background_music_player.max_polyphony = 1
-
-	_patch_sound_player.bus = "Master"
 	_patch_sound_player.volume_db = maxf(patch_sound_volume_db, -8.0)
-	_patch_sound_player.max_polyphony = 2
-
-	var background_finished: Callable = Callable(self, "_on_background_music_finished")
-	if not _background_music_player.finished.is_connected(background_finished):
-		_background_music_player.finished.connect(background_finished)
 
 	# LeakSound01 funciona como plantilla para todas las fugas.
 	var leak_template: AudioStreamPlayer = _get_or_create_audio_player("LeakSound01")
@@ -319,7 +310,13 @@ func _create_audio_players() -> void:
 		elif leak_player.stream == null:
 			leak_player.stream = shared_leak_stream
 
-		leak_player.bus = "Master"
+		# _leak_sound_players se queda local: pueden sonar hasta 18 fugas
+		# simultáneas, cada una con su propio offset de inicio y su propio
+		# .stop() independiente al repararse — AudioManager solo tiene un
+		# canal de música y un pool de SFX sin referencia a instancia
+		# individual, así que no puede reproducir esto. Solo se corrige
+		# el bus (antes apuntaba a "Master" por error).
+		leak_player.bus = "SFX"
 		leak_player.volume_db = maxf(leak_sound_volume_db, -18.0)
 		leak_player.pitch_scale = _random.randf_range(0.94, 1.06)
 		leak_player.max_polyphony = 1
@@ -375,18 +372,13 @@ func _start_audio_after_ready() -> void:
 
 
 func _start_background_music() -> void:
-	if _background_music_player == null:
+	if _background_music_player == null or _background_music_player.stream == null:
 		return
-	if _background_music_player.stream == null:
-		return
-	if not _background_music_player.playing:
-		_background_music_player.play(0.0)
 
+	if _background_music_player.stream is AudioStreamMP3:
+		_background_music_player.stream.loop = true
 
-func _on_background_music_finished() -> void:
-	if _game_finished:
-		return
-	_start_background_music()
+	AudioManager.play_music(_background_music_player.stream, 1.0, _background_music_player.volume_db)
 
 
 func _start_all_leak_sounds() -> void:
@@ -434,19 +426,14 @@ func _stop_leak_sound(leak_index: int) -> void:
 
 
 func _play_patch_sound() -> void:
-	if _patch_sound_player == null:
-		return
-	if _patch_sound_player.stream == null:
+	if _patch_sound_player == null or _patch_sound_player.stream == null:
 		return
 
-	_patch_sound_player.stop()
-	_patch_sound_player.pitch_scale = _random.randf_range(0.97, 1.03)
-	_patch_sound_player.play(0.0)
+	AudioManager.play_sfx(_patch_sound_player.stream, _patch_sound_player.volume_db)
 
 
 func _stop_continuous_audio() -> void:
-	if _background_music_player != null:
-		_background_music_player.stop()
+	AudioManager.stop_music()
 
 	for leak_player: AudioStreamPlayer in _leak_sound_players:
 		if leak_player != null:

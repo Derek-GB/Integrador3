@@ -30,9 +30,7 @@ var lives_layer: CanvasLayer
 
 var score_panel: Panel
 
-var background_music_player: AudioStreamPlayer
-var correct_sound_player: AudioStreamPlayer
-var incorrect_sound_player: AudioStreamPlayer
+var _background_music_playing: bool = false
 
 var questions := [
 	{
@@ -271,7 +269,6 @@ func _ready() -> void:
 	create_timer()
 	create_game_result_panel()
 	create_lives_ui()
-	create_audio()
 	setup_scene_style()
 	connect_buttons()
 
@@ -284,43 +281,23 @@ func _notification(what):
 			setup_scene_style()
 
 
-func create_audio() -> void:
-	background_music_player = AudioStreamPlayer.new()
-	background_music_player.stream = BACKGROUND_MUSIC
-	background_music_player.volume_db = -12
-	add_child(background_music_player)
-
-	correct_sound_player = AudioStreamPlayer.new()
-	correct_sound_player.stream = CORRECT_SOUND
-	correct_sound_player.volume_db = 0
-	add_child(correct_sound_player)
-
-	incorrect_sound_player = AudioStreamPlayer.new()
-	incorrect_sound_player.stream = INCORRECT_SOUND
-	incorrect_sound_player.volume_db = 0
-	add_child(incorrect_sound_player)
-
-
 func play_background_music() -> void:
-	if background_music_player != null and not background_music_player.playing:
-		background_music_player.play()
+	if not _background_music_playing:
+		_background_music_playing = true
+		AudioManager.play_music(BACKGROUND_MUSIC, 1.0, -12.0)
 
 
 func stop_background_music() -> void:
-	if background_music_player != null:
-		background_music_player.stop()
+	_background_music_playing = false
+	AudioManager.stop_music()
 
 
 func play_correct_sound() -> void:
-	if correct_sound_player != null:
-		correct_sound_player.stop()
-		correct_sound_player.play()
+	AudioManager.play_sfx(CORRECT_SOUND)
 
 
 func play_incorrect_sound() -> void:
-	if incorrect_sound_player != null:
-		incorrect_sound_player.stop()
-		incorrect_sound_player.play()
+	AudioManager.play_sfx(INCORRECT_SOUND)
 
 
 func create_timer() -> void:
