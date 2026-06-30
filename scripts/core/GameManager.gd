@@ -5,6 +5,7 @@ extends Node
 # =========================================================
 const QUESTION_CARD = preload("res://scenes/cards/QuestionCard.tscn")
 const ACTION_CARD   = preload("res://scenes/cards/ActionCard.tscn")
+const MINIGAME_ACTION_DIALOG = preload("res://scenes/board/MinigameActionDialogFinished.tscn")
 
 const MINIGAME_EFFECTS: Dictionary = {
 	3:  { "on_win": "spin_again",  "on_lose": "nothing"   },
@@ -448,7 +449,19 @@ func _apply_minigame_effect(tile_index: int, won: bool) -> void:
 	var active_token: Node = tokens[current_player]
 
 	print("GameManager: efecto minijuego =", action, " valor =", value)
-
+	
+	var minigame_action_dialog = MINIGAME_ACTION_DIALOG.instantiate()
+	get_tree().current_scene.add_child(minigame_action_dialog)
+	minigame_action_dialog.setup_action(won,effect)
+	var action_result = ["", 0]
+	minigame_action_dialog.action_completed.connect(func(type: String, val: int):
+		action_result[0] = type
+		action_result[1] = val
+	)
+	
+	# CONGELAR LOGICA: Esperamos pacientemente a que el niño cierre la ventana informativa
+	await minigame_action_dialog.tree_exited
+	
 	if action == "spin_again":
 		is_player_moving = false
 		_unlock_dice()

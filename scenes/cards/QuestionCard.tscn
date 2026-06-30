@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ds3rw727iuxlh" path="res://scripts/cards/QuestionCard.gd" id="1_44btj"]
 [ext_resource type="Texture2D" uid="uid://ci7spk1l6krnb" path="res://images/cards/blue/card_back.png" id="2_v6h3j"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="3_jufxy"]
-[ext_resource type="FontFile" uid="uid://ejplvwbekxuj" path="res://fonts/Montserrat-Regular.ttf" id="4_jufxy"]
+[ext_resource type="StyleBox" uid="uid://c2uf4aqyd268i" path="res://data/style_panel_containert.tres" id="4_muvub"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="4_s2eay"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s2eay"]
@@ -74,18 +74,6 @@ Button/styles/focus = SubResource("StyleBoxFlat_muvub")
 Button/styles/hover = SubResource("StyleBoxFlat_r44b6")
 Button/styles/normal = SubResource("StyleBoxFlat_2t3mo")
 Button/styles/pressed = SubResource("StyleBoxFlat_iaots")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7mdyd"]
-bg_color = Color(0.8901961, 0.7294118, 0.56078434, 1)
-border_width_left = 24
-border_width_top = 10
-border_width_right = 24
-border_width_bottom = 10
-border_color = Color(0.7529412, 0.45882353, 0.26666668, 1)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pk7kt"]
 bg_color = Color(0.81960785, 0.4117647, 0.09803922, 1)
@@ -216,7 +204,7 @@ offset_right = -524.0
 offset_bottom = -432.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_7mdyd")
+theme_override_styles/panel = ExtResource("4_muvub")
 
 [node name="TitleLabel" type="Label" parent="FeedbackPanel" unique_id=1442453146]
 layout_mode = 0
@@ -235,7 +223,8 @@ offset_left = 48.0
 offset_top = 80.0
 offset_right = 824.0
 offset_bottom = 108.0
-theme_override_fonts/font = ExtResource("4_jufxy")
+theme_override_colors/font_color = Color(0.60021555, 0.29467842, 0.059649874, 1)
+theme_override_fonts/font = ExtResource("3_jufxy")
 theme_override_font_sizes/font_size = 22
 horizontal_alignment = 1
 vertical_alignment = 1
