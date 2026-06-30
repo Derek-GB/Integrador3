@@ -21,8 +21,8 @@ const TOTAL_TIME = 30.0
 # =========================================================
 # GLOBAL SCENES
 # =========================================================
-const TIMER_HUD_SCENE       = preload("res://minigames/ui_global/TimerUi.tscn")
-const RESULT_PANEL_SCENE    = preload("res://minigames/ui_global/GameResult.tscn")
+const TIMER_HUD_SCENE       = preload("res://Minigames/ui_global/TimerUi.tscn")
+const RESULT_PANEL_SCENE    = preload("res://Minigames/ui_global/GameResult.tscn")
 
 # =========================================================
 # RESOLUTION
@@ -113,9 +113,10 @@ func _start_game() -> void:
 	_shuffle_pieces()
 	_animate_modal()
 
-	# Música de fondo suave en loop, vía AudioManager
-	if audio_background.stream:
-		AudioManager.play_music(audio_background.stream, 1.0, -15.0)
+	# Música de fondo suave en loop
+	audio_background.volume_db = -15.0
+	audio_slide.volume_db      = -10.0
+	audio_background.play()
 
 	timer_hud.iniciar(TOTAL_TIME, "Tiempo restante", "para completar el mapa")
 
@@ -173,6 +174,10 @@ func _create_pieces() -> void:
 # SHUFFLE
 # =========================================================
 func _shuffle_pieces() -> void:
+	# Forzamos una nueva semilla en cada partida usando microsegundos,
+	# para evitar que el orden se repita si el juego se reinicia muy rápido.
+	seed(Time.get_ticks_usec())
+
 	var positions: Array = range(cols * rows)
 	positions.shuffle()
 	for i in pieces.size():
@@ -265,8 +270,7 @@ func _swap_pieces(a: int, b: int) -> void:
 	pieces[b]["current_pos"] = temp_pos
 	_apply_positions()
 	# Sonido al intercambiar piezas
-	if audio_slide.stream:
-		AudioManager.play_sfx(audio_slide.stream, -10.0)
+	audio_slide.play()
 
 # =========================================================
 # REFRESH HIGHLIGHTS
@@ -299,14 +303,14 @@ func _check_win() -> void:
 # =========================================================
 func _win() -> void:
 	game_active = false
-	AudioManager.stop_music()
+	audio_background.stop()
 	timer_hud.detener()
 	result_panel.mostrar_ganaste()
 	emit_signal("puzzle_completed")
 
 func _lose() -> void:
 	game_active = false
-	AudioManager.stop_music()
+	audio_background.stop()
 	timer_hud.detener()
 	result_panel.mostrar_perdiste()
 	emit_signal("puzzle_failed")

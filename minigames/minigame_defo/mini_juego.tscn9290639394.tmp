@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bhj7f83qasm8s"]
 
-[ext_resource type="Script" uid="uid://caflbc53k5cx" path="res://minigames/minigame_defo/mini_juego.gd" id="1_5bjp5"]
-[ext_resource type="Texture2D" uid="uid://bkeknrhvfkvwg" path="res://minigames/minigame_defo/sprites/Jardin.png" id="2_4td8a"]
-[ext_resource type="PackedScene" uid="uid://ldd4h7dm67ei" path="res://minigames/minigame_defo/seed.tscn" id="3_xbmpo"]
-[ext_resource type="PackedScene" uid="uid://d2ikalu7sjcnd" path="res://minigames/minigame_defo/hole.tscn" id="4_nnfgc"]
-[ext_resource type="PackedScene" uid="uid://cws6fxthegns5" path="res://minigames/minigame_defo/regadera.tscn" id="6_b0edn"]
+[ext_resource type="Script" uid="uid://caflbc53k5cx" path="res://minigame_defo/mini_juego.gd" id="1_5bjp5"]
+[ext_resource type="Texture2D" uid="uid://bkeknrhvfkvwg" path="res://minigame_defo/sprites/Jardin.png" id="2_4td8a"]
+[ext_resource type="PackedScene" uid="uid://ldd4h7dm67ei" path="res://minigame_defo/seed.tscn" id="3_xbmpo"]
+[ext_resource type="PackedScene" uid="uid://d2ikalu7sjcnd" path="res://minigame_defo/hole.tscn" id="4_nnfgc"]
+[ext_resource type="PackedScene" uid="uid://cws6fxthegns5" path="res://minigame_defo/regadera.tscn" id="6_b0edn"]
 
 [node name="MiniJuego" type="Node2D" unique_id=681249820]
 position = Vector2(-722, -682)
