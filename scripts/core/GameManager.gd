@@ -11,7 +11,7 @@ const MINIGAME_EFFECTS: Dictionary = {
 	9:  { "on_win": "advance",     "on_lose": "nothing",  "value": 5 },
 	13: { "on_win": "advance",     "on_lose": "nothing",  "value": 4 },
 	15: { "on_win": "nothing",     "on_lose": "go_back",  "value": 1 },
-	19: { "on_win": "nothing",     "on_lose": "go_back", "value": 1 },
+	19: { "on_win": "nothing",     "on_lose": "go_back",  "value": 1 },
 	23: { "on_win": "advance",     "on_lose": "nothing",  "value": 4 },
 	25: { "on_win": "go_to_space", "on_lose": "nothing",  "value": 30 },
 	29: { "on_win": "advance",     "on_lose": "nothing",  "value": 4 },
@@ -23,8 +23,12 @@ const MINIGAME_EFFECTS: Dictionary = {
 	47: { "on_win": "advance",     "on_lose": "nothing",  "value": 2 },
 	50: { "on_win": "advance",     "on_lose": "nothing",  "value": 2 },
 	53: { "on_win": "nothing",     "on_lose": "go_back",  "value": 1 },
+	60: { "on_win": "advance",     "on_lose": "nothing",  "value": 2 },
+	63: { "on_win": "advance",     "on_lose": "nothing",  "value": 2 },
+	67: { "on_win": "nothing",     "on_lose": "go_back",  "value": 2 },
+	70: { "on_win": "advance",     "on_lose": "nothing",  "value": 3 },
 }
-const MINIGAME_TILE_INDICES: Array[int] = [3, 9, 13, 15, 19, 23, 25, 29, 31, 35, 37, 42, 44, 47, 50, 53]
+const MINIGAME_TILE_INDICES: Array[int] = [3, 9, 13, 15, 19, 23, 25, 29, 31, 35, 37, 42, 44, 47, 50, 53, 60, 63, 67, 70]
 const BLUE_TILE_INDICES: Array[int]     = [5, 11, 21, 34, 45, 54, 61, 66, 72]
 const RED_TILE_INDICES: Array[int]      = [7, 16, 32, 39, 48, 58, 64, 68, 76]
 
@@ -189,6 +193,46 @@ const MINIGAMES: Dictionary = {
 		"controls": [
 			{ "action": "Mover personaje",           "icon": "res://minigames/ui_global/assets/ArrowKeys.png" },
 			{ "action": "Usar teléfono / marcar 911","icon": "res://minigames/ui_global/assets/KeyE.png"      },
+		]
+	},
+		60: {
+		"title":          "¡Derechos de la niñez!",
+		"description":    "Aprendiste que aún en medio de un desastre, la niñez tiene derechos y debe ser protegida.",
+		"instructions":   "Participarás en un juego de preguntas y respuestas relacionado con los derechos de la niñez durante situaciones de desastre.\nEn cada ronda aparecerá una pregunta con diferentes opciones y deberás seleccionar la respuesta correcta.\nGanas si completas correctamente la cantidad requerida de preguntas antes de que se acabe el tiempo.\nPierdes si fallas demasiadas respuestas o si no terminas dentro del tiempo establecido.",
+		"video_path":     "res://minigames/minigame_Question/assets/Video.ogv",
+		"minigame_scene": "res://minigames/minigame_Question/QuestionMinigame.tscn",
+		"controls": [
+			{ "action": "Seleccionar respuesta", "icon": "res://Minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	63: {
+		"title":          "¡Alerta de maremoto!",
+		"description":    "Evacua a un lugar más alto.",
+		"instructions":   "Debes esquivar los obstáculos y evitar que te alcance el maremoto hasta llegar a la zona segura. Con las flechas de arriba y abajo te mueves entre niveles para evitar los obstáculos.",
+		"video_path":     "res://minigames/minigame_wave/assets/WaveInstruction.ogv",
+		"minigame_scene": "res://minigames/minigame_wave/WaveGame.tscn",
+		"controls": [
+			{ "action": "Moverse derecha, izquierda, arriba y abajo", "icon": "res://Minigames/ui_global/assets/Movement.png" },
+		]
+	},
+	67: {
+		"title":          "¡Repara las fugas!",
+		"description":    "Evita el desperdicio de agua reparando todas las fugas antes de que el depósito se vacíe.",
+		"instructions":   "Arrastra el parche hasta cada fuga de la tubería. Repara todos los chorros antes de que el nivel de agua llegue a cero.",
+		"video_path":     "res://minigames/minigame_water_leak/assets/WaterLeak_Instruction.ogv",
+		"minigame_scene": "res://minigames/minigame_water_leak/WaterLeakMinigame.tscn",
+		"controls": [
+			{ "action": "Arrastrar parche", "icon": "res://Minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	70: {
+		"title":          "¡Repara el puente!",
+		"description":    "Un puente se rompió y debes arreglarlo antes de que alguien caiga.",
+		"instructions":   "Arrastra las tablas al lugar correcto para completar el puente. Si te equivocas, perderás vidas. Luego usa el martillo para terminar la reparación.",
+		"video_path":     "res://minigames/minigame_bridge/assets/Bridge_Instruction.ogv",
+		"minigame_scene": "res://minigames/minigame_bridge/BridgeMinigame.tscn",
+		"controls": [
+			{ "action": "Arrastrar tablas, arrastrar martillo", "icon": "res://Minigames/ui_global/assets/ClickIcon.png" },
 		]
 	},
 }

@@ -70,6 +70,22 @@ func _on_button_13_pressed() -> void:
 func _on_button_16_pressed() -> void:
 	Events.set_minigame.emit(53)
 
+# Casilla 60 - Derechos de la niñez (preguntas)
+func _on_button_19_pressed() -> void:
+	Events.set_minigame.emit(60)
+
+# Casilla 63 - Alerta de maremoto
+func _on_button_20_pressed() -> void:
+	Events.set_minigame.emit(63)
+
+# Casilla 67 - Repara las fugas
+func _on_button_21_pressed() -> void:
+	Events.set_minigame.emit(67)
+
+# Casilla 70 - Repara el puente
+func _on_button_22_pressed() -> void:
+	Events.set_minigame.emit(70)
+
 # Volver al selector de edad
 func _on_button_26_pressed() -> void:
 	get_tree().change_scene_to_file("res://age_selector/age_selector.tscn")
