@@ -4,6 +4,7 @@
 [ext_resource type="StyleBox" uid="uid://c2uf4aqyd268i" path="res://data/style_panel_containert.tres" id="2_523aw"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="3_0rn66"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="4_5px5u"]
+[ext_resource type="FontFile" uid="uid://ejplvwbekxuj" path="res://fonts/Montserrat-Regular.ttf" id="5_523aw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8tw33"]
 bg_color = Color(0.81960785, 0.4117647, 0.09803922, 1)
@@ -76,6 +77,25 @@ theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="NamePlayer" type="Label" parent="DialogPanel" unique_id=1746727698]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -51.0
+offset_right = 350.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.31260636, 0.14093566, 0.015429556, 1)
+theme_override_fonts/font = ExtResource("4_5px5u")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="ActionDescription" type="Label" parent="DialogPanel" unique_id=579628805]
 layout_mode = 1
 anchors_preset = 8
@@ -84,13 +104,13 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -350.0
-offset_top = -30.0
+offset_top = -16.0
 offset_right = 350.0
-offset_bottom = 30.0
+offset_bottom = 44.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.60021555, 0.29467842, 0.059649874, 1)
-theme_override_fonts/font = ExtResource("4_5px5u")
+theme_override_fonts/font = ExtResource("5_523aw")
 theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
 vertical_alignment = 1

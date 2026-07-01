@@ -509,14 +509,21 @@ func _apply_minigame_effect(tile_index: int, won: bool) -> void:
 	
 	var minigame_action_dialog = MINIGAME_ACTION_DIALOG.instantiate()
 	get_tree().current_scene.add_child(minigame_action_dialog)
-	minigame_action_dialog.setup_action(won,effect)
+	minigame_action_dialog.setup_action(won,effect, current_player)
 	var action_result = ["", 0]
 	minigame_action_dialog.action_completed.connect(func(type: String, val: int):
 		action_result[0] = type
 		action_result[1] = val
 	)
 	
-	# CONGELAR LOGICA: Esperamos pacientemente a que el niño cierre la ventana informativa
+	var waiting_time := 4
+	var auto_close_timer := get_tree().create_timer(waiting_time)
+	
+	# Cierra la pantalla en el turno de la maquina al esperar 4s
+	auto_close_timer.timeout.connect(func():
+		if game_mode == 2 && current_player == 1:
+			minigame_action_dialog.accept_button.pressed.emit()
+	)
 	await minigame_action_dialog.tree_exited
 	
 	if action == "spin_again":
