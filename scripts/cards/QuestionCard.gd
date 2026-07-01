@@ -243,27 +243,27 @@ func _highlight_cpu_choice(chosen_index: int) -> void:
 		else:
 			option_button.modulate = Color(1.0, 1.0, 1.0, 0.35)
 
+# =========================================================
+# Ajustes del Texto para los botones y explicación de la card
+# =========================================================
 func _adjust_font_size(btn: Button, text: String) -> void:
 	var long = text.length()
-	var font_size := 15 # Tamaño por defecto para textos cortos
+	var font_size := 16
 	
-	# Umbrales basados en la cantidad de caracteres (puedes calibrar estos números)
-	if long > 60:
-		font_size = 11 # Texto extra largo (ej: más de 3 líneas)
-	elif long > 40:
-		font_size = 13 # Texto mediano-largo
-		
-	# Aplicamos el override de tamaño de fuente al botón
+	if long > 80:
+		font_size = 12
+	elif long > 50:
+		font_size = 13
+	elif long > 30:
+			font_size = 14
 	btn.add_theme_font_size_override("font_size", font_size)
 
-## Ajusta el tamaño de la fuente del Label de explicación según su longitud
 func _adjust_font_description(label: Label, text: String) -> void:
 	var long = text.length()
-	var font_size := 18 # Tamaño ideal por defecto para lectura
+	var font_size := 18
 	
-	# Umbrales basados en la cantidad de caracteres para un párrafo
-	if long > 160:
-		font_size = 12 # Texto masivo (reducimos bastante)
-	elif long > 100:
-		font_size = 16 # Texto mediano-largo
+	if long > 130:
+		font_size = 15
+	elif long > 80:
+		font_size = 17
 	label.add_theme_font_size_override("font_size", font_size)
