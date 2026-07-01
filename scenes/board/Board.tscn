@@ -5,8 +5,94 @@
 [ext_resource type="PackedScene" uid="uid://i528un3jtxhd" path="res://scenes/board/CardAnimationBlue.tscn" id="3_v01b6"]
 [ext_resource type="PackedScene" uid="uid://dmiympugo4r4x" path="res://scenes/board/Token.tscn" id="4_chwsj"]
 [ext_resource type="PackedScene" uid="uid://b4sfxq4o4o5tg" path="res://scenes/board/map.tscn" id="4_l0jo7"]
-[ext_resource type="PackedScene" uid="uid://dhkgs1kh8pq2n" path="res://models/map/Mapa.glb" id="4_vgpvj"]
+[ext_resource type="PackedScene" uid="uid://b7kej6vfr121t" path="res://models/map/Mapa.glb" id="4_vgpvj"]
 [ext_resource type="PackedScene" uid="uid://dp0m1dj31ud0u" path="res://scenes/board/Tornado.tscn" id="7_l0jo7"]
+[ext_resource type="Texture2D" uid="uid://ph6ytry5q45e" path="res://images/texturas/TexturaFuego.png" id="8_0kj62"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lew3n"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+albedo_texture = ExtResource("8_0kj62")
+albedo_texture_force_srgb = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_ket53"]
+_data = [Vector2(0.075630255, 1), 0.0, 0.0, 0, 0, Vector2(0.5630252, 1), 0.0, 0.0, 0, 0, Vector2(0.9803921, 0.026649714), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_1i37t"]
+texture_mode = 1
+curve = SubResource("Curve_ket53")
+
+[sub_resource type="Gradient" id="Gradient_80p0r"]
+offsets = PackedFloat32Array(0.10030864, 0.37191358, 0.8441358)
+colors = PackedColorArray(1, 1, 1, 1, 0.62, 0.4836, 0.4836, 1, 0.080783345, 0.080783345, 0.080783345, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_u3syr"]
+gradient = SubResource("Gradient_80p0r")
+
+[sub_resource type="Curve" id="Curve_u15g7"]
+_data = [Vector2(0, 0.39509302), 0.0, 1.5604905, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_twsej"]
+curve = SubResource("Curve_u15g7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_l0jo7"]
+lifetime_randomness = 0.08
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 0.2
+angle_min = -179.99998
+angle_max = 180.00002
+direction = Vector3(0, 1, 0)
+spread = 15.469
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 0.49997765
+gravity = Vector3(0, 1, 0)
+radial_accel_min = -2.2351742e-06
+radial_accel_max = 0.49999776
+scale_min = 0.9
+scale_max = 1.4
+scale_curve = SubResource("CurveTexture_twsej")
+color = Color(1.7715751, 1.2667195, 0, 1)
+color_ramp = SubResource("GradientTexture1D_u3syr")
+alpha_curve = SubResource("CurveTexture_1i37t")
+
+[sub_resource type="QuadMesh" id="QuadMesh_vnc5i"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0mxs0"]
+lifetime_randomness = 0.08
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 0.2
+angle_min = -179.99998
+angle_max = 180.00002
+direction = Vector3(0, 1, 0)
+spread = 15.469
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 0.49997765
+gravity = Vector3(0, 1, 0)
+radial_accel_min = -2.2351742e-06
+radial_accel_max = 0.49999776
+scale_min = 0.9
+scale_curve = SubResource("CurveTexture_twsej")
+color = Color(1.7715751, 1.2667195, 0, 1)
+color_ramp = SubResource("GradientTexture1D_u3syr")
+alpha_curve = SubResource("CurveTexture_1i37t")
+
+[sub_resource type="QuadMesh" id="QuadMesh_4qi0h"]
+size = Vector2(3, 3)
 
 [node name="Board" type="Node3D" unique_id=1363300375 node_paths=PackedStringArray("path_node", "alt_path_node")]
 script = ExtResource("1_vttcb")
@@ -289,4 +375,4 @@ transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70
 [node name="Token" parent="." unique_id=1007468202 instance=ExtResource("4_chwsj")]
 
 [node name="Tornado" parent="." unique_id=350737936 instance=ExtResource("7_l0jo7")]
-transform = Transform3D(1.483985, 0.2914754, 0, -0.21860653, 1.9786465, 0, 0, 0, 1.5, -35.10899, 17.433855, -34.12799)
+transform = Transform3D(2.5, 0, 0, 0, 4, 0, 0, 0, 2.5, 46.216145, 20.012743, -57.676926)
