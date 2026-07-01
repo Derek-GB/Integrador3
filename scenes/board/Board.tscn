@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://i528un3jtxhd" path="res://scenes/board/CardAnimationBlue.tscn" id="3_v01b6"]
 [ext_resource type="PackedScene" uid="uid://dmiympugo4r4x" path="res://scenes/board/Token.tscn" id="4_chwsj"]
 [ext_resource type="PackedScene" uid="uid://b4sfxq4o4o5tg" path="res://scenes/board/map.tscn" id="4_l0jo7"]
-[ext_resource type="PackedScene" uid="uid://b7kej6vfr121t" path="res://models/map/Mapa.glb" id="4_vgpvj"]
+[ext_resource type="PackedScene" uid="uid://dhkgs1kh8pq2n" path="res://models/map/Mapa.glb" id="4_vgpvj"]
 [ext_resource type="PackedScene" uid="uid://dp0m1dj31ud0u" path="res://scenes/board/Tornado.tscn" id="7_l0jo7"]
-[ext_resource type="Texture2D" uid="uid://ph6ytry5q45e" path="res://images/texturas/TexturaFuego.png" id="8_0kj62"]
+[ext_resource type="Texture2D" uid="uid://bverm1ai0mkwd" path="res://images/texturas/TexturaFuego.png" id="8_0kj62"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lew3n"]
 transparency = 1
@@ -375,4 +375,20 @@ transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70
 [node name="Token" parent="." unique_id=1007468202 instance=ExtResource("4_chwsj")]
 
 [node name="Tornado" parent="." unique_id=350737936 instance=ExtResource("7_l0jo7")]
-transform = Transform3D(2.5, 0, 0, 0, 4, 0, 0, 0, 2.5, 46.216145, 20.012743, -57.676926)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.14846, 15.97892, -29.642597)
+
+[node name="Fuego1" type="GPUParticles3D" parent="." unique_id=388590399]
+transform = Transform3D(-0.033177756, -0.22205906, 0.97446865, -0.007556072, 0.9750332, 0.22193047, -0.99942094, 0, -0.03402731, -62.57262, 18.863234, -52.2319)
+material_override = SubResource("StandardMaterial3D_lew3n")
+amount = 50
+lifetime = 1.87
+process_material = SubResource("ParticleProcessMaterial_l0jo7")
+draw_pass_1 = SubResource("QuadMesh_vnc5i")
+
+[node name="Fuego2" type="GPUParticles3D" parent="." unique_id=1072585699]
+transform = Transform3D(-0.033177756, -0.22205906, 0.97446865, -0.007556072, 0.9750332, 0.22193047, -0.99942094, 0, -0.03402731, -60.060837, 16.430574, -47.076195)
+material_override = SubResource("StandardMaterial3D_lew3n")
+amount = 50
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_0mxs0")
+draw_pass_1 = SubResource("QuadMesh_4qi0h")
