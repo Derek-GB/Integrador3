@@ -69,6 +69,9 @@ alpha_curve = SubResource("CurveTexture_1i37t")
 
 [sub_resource type="QuadMesh" id="QuadMesh_vnc5i"]
 
+[sub_resource type="QuadMesh" id="QuadMesh_0kj62"]
+size = Vector2(3, 3)
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0mxs0"]
 lifetime_randomness = 0.08
 particle_flag_rotate_y = true
@@ -92,7 +95,7 @@ color_ramp = SubResource("GradientTexture1D_u3syr")
 alpha_curve = SubResource("CurveTexture_1i37t")
 
 [sub_resource type="QuadMesh" id="QuadMesh_4qi0h"]
-size = Vector2(3, 3)
+size = Vector2(4, 4)
 
 [node name="Board" type="Node3D" unique_id=1363300375 node_paths=PackedStringArray("path_node", "alt_path_node")]
 script = ExtResource("1_vttcb")
@@ -384,6 +387,14 @@ amount = 50
 lifetime = 1.87
 process_material = SubResource("ParticleProcessMaterial_l0jo7")
 draw_pass_1 = SubResource("QuadMesh_vnc5i")
+
+[node name="Fuego3" type="GPUParticles3D" parent="." unique_id=1124658199]
+transform = Transform3D(-0.033177756, -0.22205906, 0.97446865, -0.007556072, 0.9750332, 0.22193047, -0.99942094, 0, -0.03402731, -57.131466, 19.17486, -48.86422)
+material_override = SubResource("StandardMaterial3D_lew3n")
+amount = 50
+lifetime = 1.87
+process_material = SubResource("ParticleProcessMaterial_l0jo7")
+draw_pass_1 = SubResource("QuadMesh_0kj62")
 
 [node name="Fuego2" type="GPUParticles3D" parent="." unique_id=1072585699]
 transform = Transform3D(-0.033177756, -0.22205906, 0.97446865, -0.007556072, 0.9750332, 0.22193047, -0.99942094, 0, -0.03402731, -60.060837, 16.430574, -47.076195)
