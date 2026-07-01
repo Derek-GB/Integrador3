@@ -289,4 +289,4 @@ transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70
 [node name="Token" parent="." unique_id=1007468202 instance=ExtResource("4_chwsj")]
 
 [node name="Tornado" parent="." unique_id=350737936 instance=ExtResource("7_l0jo7")]
-transform = Transform3D(2.5, 0, 0, 0, 4, 0, 0, 0, 2.5, 46.216145, 20.012743, -57.676926)
+transform = Transform3D(1.483985, 0.2914754, 0, -0.21860653, 1.9786465, 0, 0, 0, 1.5, -35.10899, 17.433855, -34.12799)

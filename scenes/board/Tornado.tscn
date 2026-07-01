@@ -1,11 +1,18 @@
 [gd_scene format=3 uid="uid://dp0m1dj31ud0u"]
 
 [ext_resource type="Shader" uid="uid://ogjgyv3culjm" path="res://data/s_Tornado.tres" id="1_uifxb"]
-[ext_resource type="Texture2D" uid="uid://4t4k2oefbsxn" path="res://images/board/tornado/T_Noise_HU85k.png" id="2_01bxy"]
+[ext_resource type="Texture2D" uid="uid://dmy3ce8evay3r" path="res://images/board/tornado/T_VFX_WindNoise1.png" id="2_uifxb"]
 [ext_resource type="ArrayMesh" uid="uid://b1kthxpx3trht" path="res://models/map/Tornado/tornado.obj" id="3_le3p7"]
 
+[sub_resource type="Gradient" id="Gradient_01bxy"]
+offsets = PackedFloat32Array(0.037275065, 0.124678664, 0.20694087, 0.29948586, 0.43059126)
+colors = PackedColorArray(0.573792, 0.5737919, 0.5737919, 0.12156863, 0.77254903, 0.77254903, 1, 0.36078432, 0.76083356, 0.7608337, 0.76083356, 0.45882353, 2.2984, 2.2984, 3.2944162, 0.75686276, 1.0659664, 1.0659664, 1.0659664, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_le3p7"]
+gradient = SubResource("Gradient_01bxy")
+
 [sub_resource type="Gradient" id="Gradient_uifxb"]
-offsets = PackedFloat32Array(0, 0.038690478, 0.9077381, 1)
+offsets = PackedFloat32Array(0, 0.05654762, 0.9077381, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_01bxy"]
@@ -15,9 +22,51 @@ fill_from = Vector2(1, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b2yph"]
 render_priority = 0
 shader = ExtResource("1_uifxb")
-shader_parameter/Speed_XY = Vector2(-0.5, 1)
-shader_parameter/Base_Texture = ExtResource("2_01bxy")
+shader_parameter/Speed_XY = Vector2(0.8, 1)
+shader_parameter/Base_Texture = ExtResource("2_uifxb")
 shader_parameter/Substraction_Texture = SubResource("GradientTexture2D_01bxy")
+shader_parameter/Color_TD_Gradient = SubResource("GradientTexture1D_le3p7")
+shader_parameter/Alpha_Scissor_Threshold = 0.2000000095
+
+[sub_resource type="Animation" id="Animation_uifxb"]
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -6.2831855, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_01bxy"]
+resource_name = "spinnig"
+length = 0.8
+loop_mode = 1
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -6.2831855, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_le3p7"]
+_data = {
+&"RESET": SubResource("Animation_uifxb"),
+&"spinnig": SubResource("Animation_01bxy")
+}
 
 [node name="Tornado" type="Node3D" unique_id=350737936]
 
@@ -25,3 +74,7 @@ shader_parameter/Substraction_Texture = SubResource("GradientTexture2D_01bxy")
 material_override = SubResource("ShaderMaterial_b2yph")
 cast_shadow = 0
 mesh = ExtResource("3_le3p7")
+
+[node name="AnimationTree" type="AnimationPlayer" parent="." unique_id=1871640505]
+libraries/ = SubResource("AnimationLibrary_le3p7")
+autoplay = &"RESET"
