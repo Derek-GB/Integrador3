@@ -195,8 +195,7 @@ func _check_restart() -> void:
 func _apply() -> void:
 	var sm := SettingsManager
 
-	sm.set_window_mode(_temp_mode)
-	sm.set_resolution(_temp_resolution)
+	sm.set_window_settings(_temp_mode, _temp_resolution)
 	sm.set_vsync(_temp_vsync)
 	sm.set_max_fps(_temp_fps)
 	sm.set_shadows_enabled(_temp_shadows)
