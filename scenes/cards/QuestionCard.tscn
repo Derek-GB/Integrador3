@@ -50,6 +50,10 @@ corner_radius_top_left = 15
 corner_radius_top_right = 15
 corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2t3mo"]
 bg_color = Color(0.6039216, 0.50980395, 0.36862746, 1)
@@ -64,10 +68,14 @@ corner_radius_top_left = 15
 corner_radius_top_right = 15
 corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
+expand_margin_left = 2.0
+expand_margin_top = 3.0
+expand_margin_right = 2.0
+expand_margin_bottom = 3.0
 
 [sub_resource type="Theme" id="Theme_v6h3j"]
 Button/colors/font_color = Color(1, 1, 1, 1)
-Button/font_sizes/font_size = 15
+Button/font_sizes/font_size = 18
 Button/fonts/font = ExtResource("3_jufxy")
 Button/styles/disabled = SubResource("StyleBoxFlat_jufxy")
 Button/styles/focus = SubResource("StyleBoxFlat_muvub")
@@ -95,6 +103,10 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+expand_margin_right = 3.0
+expand_margin_bottom = 3.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdnw4"]
 bg_color = Color(0.47987515, 0.23337372, 0.14093566, 1)
@@ -222,7 +234,7 @@ layout_mode = 0
 offset_left = 48.0
 offset_top = 80.0
 offset_right = 824.0
-offset_bottom = 108.0
+offset_bottom = 142.0
 theme_override_colors/font_color = Color(0.60021555, 0.29467842, 0.059649874, 1)
 theme_override_fonts/font = ExtResource("3_jufxy")
 theme_override_font_sizes/font_size = 22
@@ -233,9 +245,9 @@ autowrap_mode = 2
 [node name="PlayingButton" type="Button" parent="FeedbackPanel" unique_id=963677571]
 layout_mode = 0
 offset_left = 296.0
-offset_top = 149.0
+offset_top = 164.0
 offset_right = 576.0
-offset_bottom = 180.0
+offset_bottom = 195.0
 theme_override_fonts/font = ExtResource("3_jufxy")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_pk7kt")

@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 signal answer_result(correct: bool)
-
+const CARD_ANIMATOR = preload("res://scripts/cards/CardAnimator.gd")
 var selected_question: Dictionary = {}
 
 # Reemplazamos la creación manual por referencias a la escena
@@ -21,7 +21,8 @@ var selected_question: Dictionary = {}
 #@onready var cpu_feedback_background: ColorRect = $CardContainer/BackPanel/CpuFeedbackBackground
 #@onready var _cpu_feedback_label: Label = $CardContainer/BackPanel/CpuFeedbackBackground/CpuFeedbackLabel
 
-# Mantener variables de CPU ignoradas por ahora
+var card_animator = CARD_ANIMATOR.new()
+
 var cpu_mode: bool = false
 var _option_buttons: Array = []
 var _cpu_feedback_label: Label = null
@@ -32,12 +33,15 @@ const CARD_H := 500.0
 func _ready() -> void:
 	randomize()
 	# _build_ui() <-- BORRADO, ya no se necesita crear nada
-	_animate_card()
+	card_animator.animate_entry(card_container)
 	if cpu_mode:
 		_cpu_auto_play()
 	if not selected_question.is_empty():
 		_apply_card_data()
-	click_button.pressed.connect(_flip_card)
+	click_button.pressed.connect(
+		func ():
+			card_animator.flip_card(card_container, front_side, back_panel, click_button)
+			)
 
 func setup(question_data: Dictionary, background_image: String = "") -> void:
 	selected_question = {
@@ -47,7 +51,6 @@ func setup(question_data: Dictionary, background_image: String = "") -> void:
 		"explanation": question_data["explicacion"],
 		"background": background_image
 		}
-	# Configurar los elementos dinámicos que dependen de los datos cargados
 	if is_node_ready():
 		_apply_card_data()
 
@@ -59,9 +62,7 @@ func _apply_card_data() -> void:
 		background_image_rect.texture = load("res://images/cards/blue/default_question.png")
 	_build_question()
 
-# Tu función _build_question ahora solo spawnea los botones dentro del contenedor visual existente
 func _build_question() -> void:
-	# Limpiar botones previos si existieran
 	for child in options_container.get_children():
 		child.queue_free()
 	_option_buttons.clear()
@@ -76,43 +77,6 @@ func _build_question() -> void:
 		option_button.pressed.connect(_on_option_selected.bind(option_index))
 		options_container.add_child(option_button)
 		_option_buttons.append(option_button)
-# Las funciones _animate_card(), _flip_card() y _on_option_selected() 
-# se quedan EXACTAMENTE IGUAL, ya que manejan lógica y tweens, no construcción.
-
-
-# =========================================================
-# ANIMACIÓN ENTRADA
-# =========================================================
-func _animate_card() -> void:
-	#card_container.scale = Vector2(0.3, 0.3)
-	var tween := create_tween()
-	tween.tween_property(card_container, "scale", Vector2.ONE, 0.4) \
-		.set_trans(Tween.TRANS_BACK) \
-		.set_ease(Tween.EASE_OUT)
-
-
-# =========================================================
-# GIRAR CARTA
-# =========================================================
-func _flip_card() -> void:
-	var tween_out := create_tween()
-
-	tween_out.tween_property(card_container, "scale:x", 0.0, 0.18) \
-		.set_trans(Tween.TRANS_SINE) \
-		.set_ease(Tween.EASE_IN)
-
-	await tween_out.finished
-
-	front_side.visible = false
-	back_panel.visible = true
-
-	var tween_in := create_tween()
-
-	tween_in.tween_property(card_container, "scale:x", 1.0, 0.18) \
-		.set_trans(Tween.TRANS_SINE) \
-		.set_ease(Tween.EASE_OUT)
-
-	await tween_in.finished
 
 
 # =========================================================
@@ -122,7 +86,7 @@ func _on_option_selected(option_index: int) -> void:
 	
 	for button in _option_buttons:
 		button.disabled = true
-	
+	await card_animator.animate_exit(card_container,_option_buttons)
 	back_panel.visible = false
 	
 	var is_correct := option_index == int(selected_question["correct"])
@@ -158,7 +122,7 @@ func _cpu_auto_play() -> void:
 
 	# Paso 2: mostrar la pregunta
 	await get_tree().create_timer(0.8).timeout
-	await _flip_card()
+	await card_animator.flip_card(card_container, front_side, back_panel, click_button)
 
 	# Paso 3: pensando
 	_set_cpu_status("La maquina esta pensando...", Color.WHITE)
@@ -243,27 +207,26 @@ func _highlight_cpu_choice(chosen_index: int) -> void:
 		else:
 			option_button.modulate = Color(1.0, 1.0, 1.0, 0.35)
 
+# =========================================================
+# Ajustes del Texto para los botones y explicación de la card
+# =========================================================
 func _adjust_font_size(btn: Button, text: String) -> void:
 	var long = text.length()
-	var font_size := 15 # Tamaño por defecto para textos cortos
-	
-	# Umbrales basados en la cantidad de caracteres (puedes calibrar estos números)
-	if long > 60:
-		font_size = 11 # Texto extra largo (ej: más de 3 líneas)
-	elif long > 40:
-		font_size = 13 # Texto mediano-largo
-		
-	# Aplicamos el override de tamaño de fuente al botón
+	var font_size := 16
+	if long > 80:
+		font_size = 12
+	elif long > 50:
+		font_size = 13
+	elif long > 30:
+			font_size = 14
 	btn.add_theme_font_size_override("font_size", font_size)
 
-## Ajusta el tamaño de la fuente del Label de explicación según su longitud
 func _adjust_font_description(label: Label, text: String) -> void:
 	var long = text.length()
-	var font_size := 18 # Tamaño ideal por defecto para lectura
+	var font_size := 18
 	
-	# Umbrales basados en la cantidad de caracteres para un párrafo
-	if long > 160:
-		font_size = 12 # Texto masivo (reducimos bastante)
-	elif long > 100:
-		font_size = 16 # Texto mediano-largo
+	if long > 130:
+		font_size = 15
+	elif long > 80:
+		font_size = 17
 	label.add_theme_font_size_override("font_size", font_size)
