@@ -17,7 +17,7 @@ extends Node
 #   - FPS máximos
 #   - Activar/desactivar sombras
 #
-# Configuraciones que requieren reinicio:
+# Configuraciones que requieren reinicio (en teoria):
 #   - Antialiasing
 #   - Calidad de sombras
 #

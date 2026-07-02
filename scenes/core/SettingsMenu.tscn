@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dioe1pt5b5s1o"]
+[gd_scene format=3 uid="uid://cfwhpb3ymvrgb"]
 
 [ext_resource type="Script" uid="uid://dp4si1l12s408" path="res://scripts/core/SettingsMenu.gd" id="1"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="2_anxn8"]
@@ -370,9 +370,9 @@ theme = SubResource("Theme_gurbv")
 theme_override_constants/separation = 8
 alignment = 2
 
-[node name="BtnCancelar" type="Button" parent="Panel/MarginContainer/VBox/FooterBtns" unique_id=45483423]
+[node name="BtnExit" type="Button" parent="Panel/MarginContainer/VBox/FooterBtns" unique_id=45483423]
 layout_mode = 2
-text = "Cancelar"
+text = "Salir"
 
 [node name="BtnAplicar" type="Button" parent="Panel/MarginContainer/VBox/FooterBtns" unique_id=1583966164]
 layout_mode = 2
@@ -381,3 +381,6 @@ text = "Aplicar"
 [node name="HSep3" type="HSeparator" parent="Panel/MarginContainer/VBox" unique_id=266054349]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxFlat_jgsy0")
+
+[node name="HideLabelTimer" type="Timer" parent="." unique_id=1555075711]
+wait_time = 4.0
