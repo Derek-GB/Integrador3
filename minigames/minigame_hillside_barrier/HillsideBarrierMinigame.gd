@@ -302,7 +302,8 @@ func _setup_audio():
 	# Música de fondo vía AudioManager: forzamos loop en el recurso en vez
 	# del truco de reconectar "finished" (igual que minigame_fire/expiration).
 	if BACKGROUND_SOUND is AudioStreamMP3:
-		BACKGROUND_SOUND.loop = true
+		# BACKGROUND_SOUND.loop = true
+		print("error evitado")
 	AudioManager.play_music(BACKGROUND_SOUND, 1.0, -14.0)
 
 	# _move1_audio y _plant_audio ya no se usan como reproductores: sus

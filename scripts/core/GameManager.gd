@@ -286,10 +286,23 @@ func on_dice_rolled(n: int) -> void:
 
 	is_player_moving = true
 	var active_token: Node = tokens[current_player]
+	
+	# Esperar a que la ficha termine de moverse
 	await active_token.move_steps(n)
+	
+	# COMPROBACIÓN DE SEGURIDAD: ¿Sigue la ficha en el árbol de escena activa?
+	if not is_instance_valid(active_token) or not active_token.is_inside_tree():
+		is_player_moving = false
+		return
+
 	print("GameManager: movimiento completado, casilla:", active_token.current_index)
 
 	if await check_special_tile(active_token):
+		return
+
+	# COMPROBACIÓN DE SEGURIDAD: Re-comprobación por si el chequeo especial destruyó la escena
+	if not is_instance_valid(active_token) or not active_token.is_inside_tree():
+		is_player_moving = false
 		return
 
 	is_player_moving = false
@@ -496,14 +509,21 @@ func _apply_minigame_effect(tile_index: int, won: bool) -> void:
 	
 	var minigame_action_dialog = MINIGAME_ACTION_DIALOG.instantiate()
 	get_tree().current_scene.add_child(minigame_action_dialog)
-	minigame_action_dialog.setup_action(won,effect)
+	minigame_action_dialog.setup_action(won,effect, current_player)
 	var action_result = ["", 0]
 	minigame_action_dialog.action_completed.connect(func(type: String, val: int):
 		action_result[0] = type
 		action_result[1] = val
 	)
 	
-	# CONGELAR LOGICA: Esperamos pacientemente a que el niño cierre la ventana informativa
+	var waiting_time := 4
+	var auto_close_timer := get_tree().create_timer(waiting_time)
+	
+	# Cierra la pantalla en el turno de la maquina al esperar 4s
+	auto_close_timer.timeout.connect(func():
+		if game_mode == 2 && current_player == 1:
+			minigame_action_dialog.accept_button.pressed.emit()
+	)
 	await minigame_action_dialog.tree_exited
 	
 	if action == "spin_again":
@@ -539,7 +559,14 @@ func _apply_minigame_effect(tile_index: int, won: bool) -> void:
 	_next_turn()
 
 func _unlock_dice() -> void:
-	var scene := get_tree().current_scene
+	var tree := get_tree()
+	if tree == null:
+		return
+		
+	var scene := tree.current_scene
+	if scene == null:
+		return
+		
 	if scene.has_node("Dado"):
 		scene.get_node("Dado").set_locked(false)
 		print("GameManager: dado desbloqueado")

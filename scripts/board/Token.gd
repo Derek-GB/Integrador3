@@ -163,8 +163,22 @@ func _move_to(target: Vector3) -> void:
 	var distance: float = start.distance_to(actual_target)
 	var duration: float = max(0.09, distance / speed)
 	var elapsed: float = 0.0
+	
 	while elapsed < duration:
+		# 1. Comprobación de seguridad antes del await
+		if not is_inside_tree():
+			return
+			
 		await get_tree().process_frame
+		
+		# 2. Comprobación de seguridad después del await (por si se reinició la escena en este frame)
+		if not is_inside_tree():
+			return
+			
+		# 3. Si el juego está en pausa, omitimos el frame actual sin avanzar la animación
+		if get_tree().paused:
+			continue
+			
 		elapsed += get_process_delta_time()
 		var t: float = min(elapsed / duration, 1.0)
 		var horizontal: Vector3 = start.lerp(actual_target, t)
@@ -172,8 +186,10 @@ func _move_to(target: Vector3) -> void:
 		global_position = Vector3(horizontal.x, horizontal.y + arc, horizontal.z)
 		var angle: float = lerp_angle(start_rotation_y, target_rotation_y, t)
 		rotation.y = angle
+		
 	global_position = actual_target
 	rotation.y = target_rotation_y
+	
 # =========================================================
 # AJUSTAR CARRIL LATERAL (cuando comparte casilla con otra ficha)
 # No mueve current_index ni hace el salto, solo desliza
