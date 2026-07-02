@@ -16,9 +16,10 @@ signal closed
 
 @onready var panel            := $Panel
 @onready var btn_close       := $Panel/MarginContainer/VBox/Header/BtnCerrar
-@onready var btn_cancel     := $Panel/MarginContainer/VBox/FooterBtns/BtnCancelar
+@onready var btn_cancel     := $Panel/MarginContainer/VBox/FooterBtns/BtnExit
 @onready var btn_apply      := $Panel/MarginContainer/VBox/FooterBtns/BtnAplicar
 @onready var lbl_restart     := $Panel/MarginContainer/VBox/LblReinicio
+@onready var hide_timer: Timer = $HideLabelTimer
 
 @onready var opt_mode         := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaModo/OptModo
 @onready var opt_resolution   := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaRes/OptRes
@@ -64,6 +65,9 @@ func _ready() -> void:
 	print("chk_sombras: ", chk_shadows)
 	_populate_options()
 	_connect_signals()
+	hide_timer.timeout.connect(
+		func(): lbl_restart.visible = false
+	)
 	visible = false
 
 
@@ -82,12 +86,12 @@ func open() -> void:
 	visible = true
 	# If the game is running, pause it
 	if get_tree().current_scene != null:
-		get_tree().paused = true
+		Events.notify_pause.emit(true)
 
 
 func close() -> void:
 	visible = false
-	get_tree().paused = false
+	Events.notify_pause.emit(false)
 	closed.emit()
 
 # =============================================================================
@@ -168,12 +172,12 @@ func _get_fps_index(fps: int) -> int:
 
 func _on_aa_toggled(value: bool) -> void:
 	_temp_aa = value
-	_check_restart()
+	# _check_restart()
 
 
 func _on_shadow_quality_selected(index: int) -> void:
 	_temp_shadow_quality = index
-	_check_restart()
+	# _check_restart()
 
 
 func _check_restart() -> void:
@@ -201,4 +205,6 @@ func _apply() -> void:
 
 	# The restart warning is already handled by SettingsManager via restart_required_changed,
 	# but we also display it locally if applicable.
-	lbl_restart.visible = sm.restart_required
+	lbl_restart.add_theme_color_override("font_color",Color.GREEN)
+	lbl_restart.visible = true
+	hide_timer.start()

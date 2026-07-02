@@ -251,6 +251,7 @@ var message_label: Label     = null
 
 var game_mode: int             = 1
 var player_names: Array[String] = ["Jugador", "Jugador 2"]
+var pausers: int = 0
 
 # =========================================================
 # CICLO DE VIDA
@@ -261,6 +262,7 @@ func _ready() -> void:
 	if scene.has_node("UI/MessageLabel"):
 		message_label = scene.get_node("UI/MessageLabel")
 		message_label.visible = false
+	Events.notify_pause.connect(_set_on_pause)
 
 # =========================================================
 # MÉTODOS PÚBLICOS
@@ -509,21 +511,14 @@ func _apply_minigame_effect(tile_index: int, won: bool) -> void:
 	
 	var minigame_action_dialog = MINIGAME_ACTION_DIALOG.instantiate()
 	get_tree().current_scene.add_child(minigame_action_dialog)
-	minigame_action_dialog.setup_action(won,effect, current_player)
+	minigame_action_dialog.setup_action(won,effect)
 	var action_result = ["", 0]
 	minigame_action_dialog.action_completed.connect(func(type: String, val: int):
 		action_result[0] = type
 		action_result[1] = val
 	)
 	
-	var waiting_time := 4
-	var auto_close_timer := get_tree().create_timer(waiting_time)
-	
-	# Cierra la pantalla en el turno de la maquina al esperar 4s
-	auto_close_timer.timeout.connect(func():
-		if game_mode == 2 && current_player == 1:
-			minigame_action_dialog.accept_button.pressed.emit()
-	)
+	# CONGELAR LOGICA: Esperamos pacientemente a que el niño cierre la ventana informativa
 	await minigame_action_dialog.tree_exited
 	
 	if action == "spin_again":
@@ -578,3 +573,14 @@ func _next_turn() -> void:
 	print("GameManager: siguiente turno -> jugador", current_player + 1)
 	Events.turn_changed.emit(current_player)
 	
+
+func _set_on_pause(notify_pause: bool):
+	if notify_pause:
+		pausers += 1
+	elif pausers > 0:
+		pausers -= 1
+
+	if pausers > 0:
+		get_tree().paused = true
+	else:
+		get_tree().paused = false

@@ -35,7 +35,7 @@ func _process(delta: float) -> void:
 	pass
 
 func exit_game() -> void:
-	get_tree().paused = false
+	Events.notify_pause.emit(false)
 	get_tree().change_scene_to_file(MAIN_MENU)
 
 func open_window():
@@ -47,7 +47,7 @@ func open_window():
 	global_position = VISIBLE_POSITION
 	show()
 	set_process(true)
-	get_tree().paused = true
+	Events.notify_pause.emit(true)
 
 func _open_general_settings() -> void:
 	settings_menu.open()
@@ -59,4 +59,4 @@ func close_window():
 	global_position = HIDDEN_POSITION
 	hide()
 	set_process(false)
-	get_tree().paused = false
+	Events.notify_pause.emit(false)
