@@ -1,6 +1,162 @@
 [gd_scene format=3 uid="uid://cyw7wn75p8l4i"]
 
 [ext_resource type="Script" uid="uid://541i24b2edqc" path="res://scripts/cards/ActionCard.gd" id="1_xkd22"]
+[ext_resource type="Texture2D" uid="uid://bn65wr5j1q5ii" path="res://images/cards/red/card_action.png" id="2_qpmew"]
+[ext_resource type="FontFile" uid="uid://ejplvwbekxuj" path="res://fonts/Montserrat-Regular.ttf" id="3_nkh8t"]
+[ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="4_befqy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p8o08"]
+bg_color = Color(0.9137255, 0.09803922, 0.11764706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1784o"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32x3h"]
+bg_color = Color(0.6039216, 0.50980395, 0.36862746, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2nvyq"]
+bg_color = Color(0.43137255, 0.20784314, 0.050980393, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwb67"]
+bg_color = Color(0.4392157, 0.36862746, 0.2627451, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+expand_margin_right = 3.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bvk7m"]
+bg_color = Color(0.31480727, 0.2619855, 0.18275288, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_07eyl"]
+bg_color = Color(0.6039216, 0.50980395, 0.36862746, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
 
 [node name="ActionCard" type="CanvasLayer" unique_id=1943796220]
 script = ExtResource("1_xkd22")
+
+[node name="Overload" type="ColorRect" parent="." unique_id=1758291495]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.69803923)
+
+[node name="CardContainer" type="Control" parent="." unique_id=1968513325]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -250.0
+offset_right = 175.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FrontSide" type="Panel" parent="CardContainer" unique_id=174038331]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p8o08")
+
+[node name="TextureRect" type="TextureRect" parent="CardContainer/FrontSide" unique_id=1593391170]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qpmew")
+
+[node name="Label" type="Label" parent="CardContainer/FrontSide" unique_id=515949702]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -38.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.92156863, 0.019607844, 1)
+theme_override_fonts/font = ExtResource("3_nkh8t")
+text = "Presiona para ver tu acción"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ClickBtn" type="Button" parent="CardContainer/FrontSide" unique_id=100303663]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[node name="BackPanel" type="Panel" parent="CardContainer" unique_id=1657292565]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1784o")
+
+[node name="BackBgImage" type="TextureRect" parent="CardContainer/BackPanel" unique_id=213696291]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ActionButton" type="Button" parent="CardContainer/BackPanel" unique_id=418527044]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 34.0
+offset_top = -71.0
+offset_right = -39.0
+offset_bottom = -33.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("4_befqy")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_32x3h")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2nvyq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wwb67")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_bvk7m")
+theme_override_styles/focus = SubResource("StyleBoxFlat_07eyl")
+text = "Presiona para continuar"
