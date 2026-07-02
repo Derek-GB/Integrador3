@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cws6fxthegns5"]
 
-[ext_resource type="Script" uid="uid://n1t61c74dgot" path="res://minigames/minigame_defo/watering can.gd" id="1_bo4sr"]
-[ext_resource type="Texture2D" uid="uid://d0gtu02p57nfp" path="res://minigames/minigame_defo/sprites/watering-can.png" id="2_53cfk"]
+[ext_resource type="Script" uid="uid://n1t61c74dgot" path="res://minigame_defo/watering can.gd" id="1_bo4sr"]
+[ext_resource type="Texture2D" uid="uid://d0gtu02p57nfp" path="res://minigame_defo/sprites/watering-can.png" id="2_53cfk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_frqy3"]
 radius = 81.3019
