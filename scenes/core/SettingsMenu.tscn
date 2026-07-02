@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dp4si1l12s408" path="res://scripts/core/SettingsMenu.gd" id="1"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="2_anxn8"]
+[ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="2_e74yx"]
+[ext_resource type="FontFile" uid="uid://ejplvwbekxuj" path="res://fonts/Montserrat-Regular.ttf" id="3_e74yx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xx36a"]
 bg_color = Color(0.8901961, 0.7294118, 0.56078434, 1)
@@ -15,15 +17,180 @@ corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mklws"]
-bg_color = Color(0.46481955, 0.6631728, 0.40935135, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mklws"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qr6q5"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qr6q5"]
 
-[sub_resource type="Theme" id="Theme_b151y"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b151y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jgsy0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tpj5u"]
+
+[sub_resource type="Theme" id="Theme_a7s3b"]
+Button/fonts/font = ExtResource("2_e74yx")
+Button/styles/disabled = SubResource("StyleBoxEmpty_mklws")
+Button/styles/focus = SubResource("StyleBoxEmpty_qr6q5")
+Button/styles/hover = SubResource("StyleBoxEmpty_b151y")
+Button/styles/normal = SubResource("StyleBoxEmpty_jgsy0")
+Button/styles/pressed = SubResource("StyleBoxEmpty_tpj5u")
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_e74yx"]
+color = Color(0.41227904, 0.19130835, 0.018826151, 1)
+thickness = 3
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e74yx"]
+content_margin_left = 30.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e74yx"]
+content_margin_left = 5.0
+bg_color = Color(0.43585706, 0.20696284, 0.031399526, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a7s3b"]
+content_margin_left = 5.0
+bg_color = Color(0.60021555, 0.29467842, 0.059649874, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gurbv"]
+content_margin_left = 5.0
+bg_color = Color(0.81960785, 0.4117647, 0.09803922, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hpat4"]
+content_margin_left = 5.0
+bg_color = Color(1.1124614, 0.5680561, 0.14928284, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sv7d7"]
+bg_color = Color(0.6, 0.29411766, 0.05882353, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f2e1c"]
+bg_color = Color(0.55892307, 0.40790337, 0.23751426, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.6, 0.29411766, 0.05882353, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_sv7d7"]
+CheckButton/fonts/font = ExtResource("3_e74yx")
+Label/colors/font_color = Color(0.5106631, 0.2697821, 0.15666625, 1)
+Label/font_sizes/font_size = 17
+Label/fonts/font = ExtResource("3_e74yx")
+Label/styles/normal = SubResource("StyleBoxEmpty_e74yx")
+OptionButton/fonts/font = ExtResource("3_e74yx")
+OptionButton/styles/disabled = SubResource("StyleBoxFlat_e74yx")
+OptionButton/styles/focus = null
+OptionButton/styles/hover = SubResource("StyleBoxFlat_a7s3b")
+OptionButton/styles/normal = SubResource("StyleBoxFlat_gurbv")
+OptionButton/styles/pressed = SubResource("StyleBoxFlat_hpat4")
+PopupMenu/colors/font_color = Color(1, 1, 1, 1)
+PopupMenu/fonts/font = ExtResource("3_e74yx")
+PopupMenu/styles/hover = SubResource("StyleBoxFlat_sv7d7")
+PopupMenu/styles/panel = SubResource("StyleBoxFlat_f2e1c")
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_mklws"]
+color = Color(0.4117647, 0.19215687, 0.019607844, 1)
+thickness = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lvgj6"]
+content_margin_left = 5.0
+content_margin_top = 4.0
+content_margin_right = 5.0
+content_margin_bottom = 4.0
+bg_color = Color(0.43529412, 0.20784314, 0.03137255, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7xkhr"]
+content_margin_left = 5.0
+content_margin_top = 4.0
+content_margin_right = 5.0
+content_margin_bottom = 4.0
+bg_color = Color(0.81960785, 0.4117647, 0.09803922, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_asyum"]
+content_margin_left = 5.0
+content_margin_top = 4.0
+content_margin_right = 5.0
+content_margin_bottom = 4.0
+bg_color = Color(0.6, 0.29411766, 0.05882353, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w32m2"]
+content_margin_left = 5.0
+content_margin_top = 4.0
+content_margin_right = 5.0
+content_margin_bottom = 4.0
+bg_color = Color(0.81960785, 0.4117647, 0.09803922, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2203v"]
+content_margin_left = 5.0
+content_margin_top = 4.0
+content_margin_right = 5.0
+content_margin_bottom = 4.0
+bg_color = Color(1.112, 0.568, 0.149, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="Theme" id="Theme_gurbv"]
+Button/font_sizes/font_size = 18
 Button/fonts/font = ExtResource("2_anxn8")
-Button/styles/normal = SubResource("StyleBoxFlat_mklws")
-OptionButton/styles/normal = SubResource("StyleBoxFlat_qr6q5")
+Button/styles/disabled = SubResource("StyleBoxFlat_lvgj6")
+Button/styles/focus = SubResource("StyleBoxFlat_7xkhr")
+Button/styles/hover = SubResource("StyleBoxFlat_asyum")
+Button/styles/normal = SubResource("StyleBoxFlat_w32m2")
+Button/styles/pressed = SubResource("StyleBoxFlat_2203v")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jgsy0"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -41,12 +208,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -360.0
-offset_top = -300.0
-offset_right = 360.0
-offset_bottom = 300.0
+offset_left = -536.0
+offset_top = -460.0
+offset_right = 184.0
+offset_bottom = 159.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.5, 1.5)
 theme_override_styles/panel = SubResource("StyleBoxFlat_xx36a")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=271822389]
@@ -58,24 +226,32 @@ theme_override_constants/margin_bottom = 20
 
 [node name="VBox" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=1498147826]
 layout_mode = 2
-theme = SubResource("Theme_b151y")
 theme_override_constants/separation = 16
 
 [node name="Header" type="HBoxContainer" parent="Panel/MarginContainer/VBox" unique_id=1805395101]
 layout_mode = 2
+theme = SubResource("Theme_a7s3b")
 
 [node name="LblTitulo" type="Label" parent="Panel/MarginContainer/VBox/Header" unique_id=1462861825]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.4117647, 0.21176471, 0.11764706, 1)
+theme_override_fonts/font = ExtResource("2_e74yx")
+theme_override_font_sizes/font_size = 24
 text = "Configuración"
 
 [node name="BtnCerrar" type="Button" parent="Panel/MarginContainer/VBox/Header" unique_id=1016270448]
 layout_mode = 2
-text = "✕"
+theme_override_colors/font_color = Color(0.449032, 0.21338642, 0.032030243, 1)
+theme_override_colors/font_focus_color = Color(0.4509804, 0.21176471, 0.03137255, 1)
+theme_override_colors/font_pressed_color = Color(0.62040275, 0.30108815, 0.059608817, 1)
+theme_override_colors/font_hover_color = Color(0.32405698, 0.14484772, 0.015686275, 1)
+theme_override_font_sizes/font_size = 29
+text = "X"
 
 [node name="HSep" type="HSeparator" parent="Panel/MarginContainer/VBox" unique_id=442618876]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_e74yx")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel/MarginContainer/VBox" unique_id=380211199]
 custom_minimum_size = Vector2(0, 360)
@@ -85,11 +261,12 @@ size_flags_vertical = 3
 [node name="Opciones" type="VBoxContainer" parent="Panel/MarginContainer/VBox/ScrollContainer" unique_id=190686382]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = SubResource("Theme_sv7d7")
 theme_override_constants/separation = 12
 
 [node name="LblVideo" type="Label" parent="Panel/MarginContainer/VBox/ScrollContainer/Opciones" unique_id=2127225652]
 layout_mode = 2
-text = "VIDEO"
+text = "Video"
 
 [node name="FilaModo" type="HBoxContainer" parent="Panel/MarginContainer/VBox/ScrollContainer/Opciones" unique_id=2089690778]
 layout_mode = 2
@@ -137,7 +314,7 @@ layout_mode = 2
 
 [node name="LblGraficos" type="Label" parent="Panel/MarginContainer/VBox/ScrollContainer/Opciones" unique_id=1553169952]
 layout_mode = 2
-text = "GRÁFICOS"
+text = "Gráficos"
 
 [node name="FilaAA" type="HBoxContainer" parent="Panel/MarginContainer/VBox/ScrollContainer/Opciones" unique_id=129578314]
 layout_mode = 2
@@ -174,16 +351,22 @@ layout_mode = 2
 
 [node name="HSep2" type="HSeparator" parent="Panel/MarginContainer/VBox" unique_id=521886913]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_mklws")
 
 [node name="LblReinicio" type="Label" parent="Panel/MarginContainer/VBox" unique_id=939044117]
-visible = false
 modulate = Color(1, 0.8, 0.2, 1)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.41255602, 0.21029845, 0.115727834, 1)
+theme_override_fonts/font = ExtResource("2_anxn8")
+theme_override_font_sizes/font_size = 18
 text = "Cambios Guardados"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="FooterBtns" type="HBoxContainer" parent="Panel/MarginContainer/VBox" unique_id=921012730]
 layout_mode = 2
 size_flags_horizontal = 4
+theme = SubResource("Theme_gurbv")
 theme_override_constants/separation = 8
 alignment = 2
 
