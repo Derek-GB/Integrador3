@@ -22,7 +22,7 @@ func _ready() -> void:
 	_build_alt_waypoints()
 	_build_ordered_markers()  # <-- agregar esto
 	Events.visible_pointer.connect(_set_pointer_visible)
-	$Tornado/AnimationTree.play("spinning")
+	$Tornado/AnimationTree.play("spinnig")
 	print("Board: waypoints cargados =", waypoints.size())
 
 func _build_waypoints() -> void:

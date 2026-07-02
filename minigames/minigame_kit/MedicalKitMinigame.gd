@@ -2,9 +2,9 @@ extends Node2D
 class_name MedicalKitMinigame
 
 
-const TIMER_HUD_SCENE = preload("res://minigames/ui_global/TimerUi.tscn")
-const PANEL_RESULTADO_SCENE = preload("res://minigames/ui_global/GameResult.tscn")
-const LIVES_UI_SCENE = preload("res://minigames/ui_global/LivesUi.tscn")
+const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
+const PANEL_RESULTADO_SCENE = preload("res://Minigames/ui_global/GameResult.tscn")
+const LIVES_UI_SCENE = preload("res://Minigames/ui_global/LivesUi.tscn")
 
 
 @export_category("Configuración del juego")
@@ -16,6 +16,9 @@ const LIVES_UI_SCENE = preload("res://minigames/ui_global/LivesUi.tscn")
 @export var lid_open_duration := 0.85
 @export var open_kit_reveal_offset := 55.0
 @export var open_kit_reveal_delay := 0.15
+
+@export_category("Posiciones aleatorias")
+@export var randomize_item_positions := true
 
 
 var _total_items := 0
@@ -38,6 +41,8 @@ var _kit_start_scale := Vector2.ONE
 
 var _open_lid_start_position := Vector2.ZERO
 var _open_lid_start_scale := Vector2.ONE
+
+var _random := RandomNumberGenerator.new()
 
 
 @onready var _kit: Sprite2D = get_node_or_null("kit") as Sprite2D
@@ -83,6 +88,8 @@ var _open_lid_start_scale := Vector2.ONE
 
 
 func _ready():
+	_random.randomize()
+
 	_setup_game_state()
 	_setup_timer_hud()
 	_setup_result_panel()
@@ -91,6 +98,9 @@ func _ready():
 
 	if not _has_required_nodes():
 		return
+
+	if randomize_item_positions:
+		_randomize_item_positions()
 
 	_save_initial_transforms()
 	_connect_items()
@@ -180,6 +190,69 @@ func _has_required_nodes() -> bool:
 		return false
 
 	return true
+
+
+func _randomize_item_positions():
+	var draggable_items: Array[DraggableItem] = []
+	var available_positions: Array[Vector2] = []
+
+	for child in _items.get_children():
+		if child is DraggableItem:
+			var item := child as DraggableItem
+			draggable_items.append(item)
+			available_positions.append(item.position)
+
+	_shuffle_positions(available_positions)
+
+	for index in range(draggable_items.size()):
+		var item := draggable_items[index]
+		item.position = available_positions[index]
+		_update_item_start_position(item)
+
+
+func _shuffle_positions(positions: Array[Vector2]):
+	for index in range(positions.size() - 1, 0, -1):
+		var random_index := _random.randi_range(0, index)
+		var temporary_position := positions[index]
+		positions[index] = positions[random_index]
+		positions[random_index] = temporary_position
+
+
+func _update_item_start_position(item: DraggableItem):
+	# Compatibilidad con diferentes versiones de DraggableItem.
+	# Esto garantiza que return_to_start() regrese a la nueva posición aleatoria.
+	var method_names := [
+		"set_start_position",
+		"set_initial_position",
+		"save_start_position",
+		"guardar_posicion_inicial"
+	]
+
+	for method_name in method_names:
+		if item.has_method(method_name):
+			if method_name == "save_start_position" or method_name == "guardar_posicion_inicial":
+				item.call(method_name)
+			else:
+				item.call(method_name, item.position)
+			return
+
+	var possible_property_names := [
+		"start_position",
+		"_start_position",
+		"initial_position",
+		"_initial_position",
+		"original_position",
+		"_original_position"
+	]
+
+	var available_properties := {}
+	for property_data in item.get_property_list():
+		available_properties[String(property_data.name)] = true
+
+	for property_name in possible_property_names:
+		if available_properties.has(property_name):
+			item.set(property_name, item.position)
+			return
 
 
 func _save_initial_transforms():
@@ -462,26 +535,28 @@ func _update_lives_ui():
 
 
 func _play_background_sound():
-	if _background_sound == null or _background_sound.stream == null:
+	if _background_sound == null:
 		return
 
-	# Reusamos el volume_db ya afinado en el Inspector (-7 dB) como
-	# offset relativo dentro del bus Music, en vez de tocarlo a mano.
-	AudioManager.play_music(_background_sound.stream, 1.0, _background_sound.volume_db)
+	if not _background_sound.playing:
+		_background_sound.play()
 
 
 func _stop_background_sound():
-	AudioManager.stop_music()
+	if _background_sound != null:
+		_background_sound.stop()
 
 
 func _play_piece_placed_sound():
-	if _piece_placed_sound != null and _piece_placed_sound.stream != null:
-		AudioManager.play_sfx(_piece_placed_sound.stream)
+	if _piece_placed_sound != null:
+		_piece_placed_sound.stop()
+		_piece_placed_sound.play()
 
 
 func _play_lock_sound():
-	if _lock_sound != null and _lock_sound.stream != null:
-		AudioManager.play_sfx(_lock_sound.stream)
+	if _lock_sound != null:
+		_lock_sound.stop()
+		_lock_sound.play()
 
 
 func _on_time_finished():
@@ -534,6 +609,9 @@ func _on_back_button_pressed():
 	_game_active = false
 
 	_stop_background_sound()
+
+	if _lock_sound != null:
+		_lock_sound.stop()
 
 	if _timer_hud != null:
 		_timer_hud.detener()
