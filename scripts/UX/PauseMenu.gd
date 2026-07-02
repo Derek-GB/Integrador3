@@ -42,7 +42,7 @@ func open_window():
 	if get_parent():
 		print(get_parent())
 		# Mueve el menú de pausa al último lugar dentro de $UI para que quede encima del dado
-		get_parent().move_child(self, -1)
+		get_parent().move_child(self, 10)
 		
 	global_position = VISIBLE_POSITION
 	show()
@@ -55,7 +55,7 @@ func _open_general_settings() -> void:
 func close_window():
 	# Mueve este control al final del contenedor para dibujarse sobre los demás
 	if get_parent():
-		get_parent().move_child(self, -1)
+		get_parent().move_child(self, 10)
 	global_position = HIDDEN_POSITION
 	hide()
 	set_process(false)

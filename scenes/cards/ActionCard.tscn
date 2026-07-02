@@ -78,6 +78,7 @@ offset_right = 175.0
 offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(175, 250)
 
 [node name="FrontSide" type="Panel" parent="CardContainer" unique_id=174038331]
 layout_mode = 1
