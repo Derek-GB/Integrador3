@@ -511,7 +511,7 @@ func _apply_minigame_effect(tile_index: int, won: bool) -> void:
 	
 	var minigame_action_dialog = MINIGAME_ACTION_DIALOG.instantiate()
 	get_tree().current_scene.add_child(minigame_action_dialog)
-	minigame_action_dialog.setup_action(won,effect)
+	minigame_action_dialog.setup_action(won,effect,current_player)
 	var action_result = ["", 0]
 	minigame_action_dialog.action_completed.connect(func(type: String, val: int):
 		action_result[0] = type

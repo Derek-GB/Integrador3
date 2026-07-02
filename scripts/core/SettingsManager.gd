@@ -338,7 +338,11 @@ func apply_window() -> void:
 	# Aplicar resolución solamente en modos ventana.
 
 	if window_mode != WindowMode.FULLSCREEN:
+		await get_tree().process_frame
 		get_window().size = resolution
+
+		var screen_size := DisplayServer.screen_get_size()
+		get_window().position = (screen_size - resolution) / 2
 
 
 func apply_vsync() -> void:
@@ -435,6 +439,12 @@ func set_resolution(new_resolution: Vector2i) -> void:
 	apply_window()
 	save_settings()
 
+func set_window_settings(mode: WindowMode, new_resolution: Vector2i) -> void:
+	window_mode = mode
+	resolution = new_resolution
+	
+	apply_window()
+	save_settings()
 
 func set_vsync(enabled: bool) -> void:
 	vsync_enabled = enabled
