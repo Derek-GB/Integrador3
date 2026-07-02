@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://dp0m1dj31ud0u"]
 
+[ext_resource type="Script" uid="uid://gt61321cbqkf" path="res://scripts/board/tornado.gd" id="1_h0rub"]
 [ext_resource type="Shader" uid="uid://ogjgyv3culjm" path="res://data/s_Tornado.tres" id="1_uifxb"]
 [ext_resource type="Texture2D" uid="uid://dmy3ce8evay3r" path="res://images/board/tornado/T_VFX_WindNoise1.png" id="2_uifxb"]
 [ext_resource type="ArrayMesh" uid="uid://b1kthxpx3trht" path="res://models/map/Tornado/tornado.obj" id="3_le3p7"]
-[ext_resource type="Shader" uid="uid://d1ir1yh2gngrq" path="res://Data/Tornado_base.tres" id="4_le3p7"]
+[ext_resource type="Shader" uid="uid://d1ir1yh2gngrq" path="res://data/Tornado_base.tres" id="4_le3p7"]
 [ext_resource type="ArrayMesh" uid="uid://cvkyj8y1dwu41" path="res://models/map/Tornado/tornado_base.obj" id="5_b2yph"]
 [ext_resource type="Texture2D" uid="uid://bbh4ai412dwci" path="res://images/board/tornado/T_FirePanningCyl45.png" id="5_h0rub"]
 
@@ -92,7 +93,7 @@ colors = PackedColorArray(0, 0, 0, 1, 0.5854935, 0.55450845, 0.999996, 1, 0.6468
 gradient = SubResource("Gradient_ssxvs")
 
 [sub_resource type="Curve" id="Curve_t21im"]
-_data = [Vector2(0, 0.50979316), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.2500588, 0.0, 0, 0]
+_data = [Vector2(0, 0.41363406), 0.0, 2.3160534, 0, 0, Vector2(1, 1), 1.3992816, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_fxcwq"]
@@ -131,6 +132,7 @@ color_ramp = SubResource("GradientTexture1D_ru76v")
 alpha_curve = SubResource("CurveTexture_nx2so")
 
 [node name="Tornado" type="Node3D" unique_id=350737936]
+script = ExtResource("1_h0rub")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1479817823]
 material_override = SubResource("ShaderMaterial_b2yph")
@@ -139,7 +141,7 @@ mesh = ExtResource("3_le3p7")
 
 [node name="AnimationTree" type="AnimationPlayer" parent="." unique_id=1871640505]
 libraries/ = SubResource("AnimationLibrary_le3p7")
-autoplay = &"RESET"
+autoplay = &"spinnig"
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=238708475]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03351307, -0.10976887, 0)
@@ -152,5 +154,6 @@ draw_pass_1 = ExtResource("5_b2yph")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03351307, 5.707863, 0)
 material_override = SubResource("ShaderMaterial_h0rub")
 cast_shadow = 0
+local_coords = true
 process_material = SubResource("ParticleProcessMaterial_e03ot")
 draw_pass_1 = ExtResource("5_b2yph")

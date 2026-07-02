@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://i528un3jtxhd" path="res://scenes/board/CardAnimationBlue.tscn" id="3_v01b6"]
 [ext_resource type="PackedScene" uid="uid://dmiympugo4r4x" path="res://scenes/board/Token.tscn" id="4_chwsj"]
 [ext_resource type="PackedScene" uid="uid://b4sfxq4o4o5tg" path="res://scenes/board/map.tscn" id="4_l0jo7"]
-[ext_resource type="PackedScene" uid="uid://dhkgs1kh8pq2n" path="res://models/map/Mapa.glb" id="4_vgpvj"]
 [ext_resource type="PackedScene" uid="uid://dp0m1dj31ud0u" path="res://scenes/board/Tornado.tscn" id="7_l0jo7"]
 [ext_resource type="Texture2D" uid="uid://bverm1ai0mkwd" path="res://images/texturas/TexturaFuego.png" id="8_0kj62"]
 
@@ -106,10 +105,6 @@ alt_path_node = NodePath("AltPath")
 
 [node name="Mapa" parent="." unique_id=1401132455 instance=ExtResource("4_l0jo7")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
-
-[node name="MapDeff" parent="." unique_id=461457469 instance=ExtResource("4_vgpvj")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
-visible = false
 
 [node name="Path" type="Node3D" parent="." unique_id=1921487203]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.933542, 0)
@@ -375,10 +370,29 @@ transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70
 [node name="C30" type="Marker3D" parent="AltPath" unique_id=485646808]
 transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 8.26573, 0, 37.676254)
 
+[node name="TornadoPath" type="Node3D" parent="." unique_id=1430294777]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.201286, 0)
+
+[node name="C1" type="Marker3D" parent="TornadoPath" unique_id=1658592772]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -22.248642, 0, -44.098347)
+
+[node name="C2" type="Marker3D" parent="TornadoPath" unique_id=1025400028]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34.554073, 0, -35.626453)
+
+[node name="C3" type="Marker3D" parent="TornadoPath" unique_id=1720132503]
+transform = Transform3D(0.34202015, 0, -0.9396926, 0, 1, 0, 0.9396926, 0, 0.34202015, -31.511368, 0, -21.583088)
+
+[node name="C4" type="Marker3D" parent="TornadoPath" unique_id=1302717347]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -17.815119, 0, -22.693516)
+
+[node name="C5" type="Marker3D" parent="TornadoPath" unique_id=474775175]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -17.009132, 0, -34.60618)
+
 [node name="Token" parent="." unique_id=1007468202 instance=ExtResource("4_chwsj")]
 
-[node name="Tornado" parent="." unique_id=350737936 instance=ExtResource("7_l0jo7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.14846, 15.97892, -29.642597)
+[node name="Tornado" parent="." unique_id=350737936 node_paths=PackedStringArray("route") instance=ExtResource("7_l0jo7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.14846, 15.97892, -14.490395)
+route = NodePath("../TornadoPath")
 
 [node name="Fuego1" type="GPUParticles3D" parent="." unique_id=388590399]
 transform = Transform3D(-0.033177756, -0.22205906, 0.97446865, -0.007556072, 0.9750332, 0.22193047, -0.99942094, 0, -0.03402731, -62.57262, 18.863234, -52.2319)
