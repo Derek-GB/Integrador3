@@ -3,10 +3,12 @@
 [ext_resource type="Script" uid="uid://bynetwflhyeic" path="res://scripts/UX/PauseMenu.gd" id="1_g25gx"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="3_sf0id"]
 [ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="4_ohn6c"]
-[ext_resource type="Texture2D" uid="uid://cwtgr2qcx62ff" path="res://images/icons/play.png" id="5_uosg4"]
-[ext_resource type="Texture2D" uid="uid://bot5g16d1p8dy" path="res://images/UX/leaf.png" id="6_tul1g"]
-[ext_resource type="Texture2D" uid="uid://t7hdo20ul1h1" path="res://images/icons/exit.png" id="6_wghg2"]
+[ext_resource type="Texture2D" uid="uid://n2ch3oyfvlvd" path="res://images/icons/play.png" id="5_uosg4"]
+[ext_resource type="Texture2D" uid="uid://c6p4rtxnhyn6j" path="res://images/UX/leaf.png" id="6_tul1g"]
+[ext_resource type="Texture2D" uid="uid://b35spoxiib4db" path="res://images/icons/exit.png" id="6_wghg2"]
 [ext_resource type="PackedScene" uid="uid://ccpydjb6bax7m" path="res://scenes/UX/SoundControlPanel.tscn" id="7_tul1g"]
+[ext_resource type="Texture2D" uid="uid://b78xv0o4e6ta1" path="res://images/icons/settings.png" id="8_ohn6c"]
+[ext_resource type="PackedScene" uid="uid://dioe1pt5b5s1o" path="res://scenes/core/SettingsMenu.tscn" id="9_ohn6c"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sf0id"]
 bg_color = Color(0.8784314, 0.6901961, 0.5019608, 1)
@@ -30,7 +32,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a3vsi"]
 content_margin_right = 20.0
-bg_color = Color(0.07727701, 0.45038486, 0.094904155, 1)
+bg_color = Color(0.18069082, 0.84549344, 0.21209882, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -38,13 +40,14 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s65lu"]
 content_margin_right = 20.0
-bg_color = Color(0.18069082, 0.84549344, 0.21209882, 1)
+bg_color = Color(0.07727701, 0.45038486, 0.094904155, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tul1g"]
+content_margin_right = 30.0
 bg_color = Color(0.04409579, 0.32361087, 0.057301227, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
@@ -65,7 +68,7 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gdly"]
 content_margin_right = 30.0
-bg_color = Color(0.6912892, 0.080214866, 0.080214866, 1)
+bg_color = Color(1.2747362, 0.18592551, 0.18592551, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
@@ -73,13 +76,57 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fqop1"]
 content_margin_right = 30.0
-bg_color = Color(1.2747362, 0.18592551, 0.18592551, 1)
+bg_color = Color(0.735357, 0.08902844, 0.08902844, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wvmt4"]
+content_margin_right = 30.0
+bg_color = Color(0.5040852, 0.046296705, 0.046296705, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_od67c"]
+shader = ExtResource("4_ohn6c")
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ohn6c"]
+content_margin_left = 65.0
+bg_color = Color(0.81960785, 0.4117647, 0.09803922, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uosg4"]
+content_margin_left = 65.0
+bg_color = Color(1.1124614, 0.5680561, 0.14928284, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wghg2"]
+content_margin_left = 65.0
+bg_color = Color(0.60021555, 0.29467842, 0.059649874, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4qmum"]
+content_margin_left = 65.0
+bg_color = Color(0.43585706, 0.20696284, 0.031399526, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wvmt4"]
 shader = ExtResource("4_ohn6c")
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 
@@ -108,7 +155,7 @@ anchor_bottom = 0.5
 offset_left = -256.0
 offset_top = -218.0
 offset_right = 256.0
-offset_bottom = 218.0
+offset_bottom = 209.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sf0id")
@@ -144,9 +191,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -115.0
-offset_top = -186.0
+offset_top = -195.5
 offset_right = 115.0
-offset_bottom = -116.0
+offset_bottom = -125.5
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(115, 35)
@@ -173,9 +220,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -115.0
-offset_top = -94.0
+offset_top = -110.5
 offset_right = 115.0
-offset_bottom = -24.0
+offset_bottom = -40.5
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(115, 35)
@@ -184,6 +231,7 @@ theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_o1bij")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_0gdly")
 theme_override_styles/hover = SubResource("StyleBoxFlat_fqop1")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_wvmt4")
 text = "Ir al menu"
 alignment = 2
 
@@ -201,6 +249,37 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -223.0
-offset_top = 0.0
+offset_top = -33.5
 offset_right = -223.0
-offset_bottom = 0.0
+offset_bottom = -33.5
+
+[node name="GeneralSettings" type="Button" parent="Panel/Panel" unique_id=30869130]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -115.0
+offset_top = -74.0
+offset_right = 115.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_sf0id")
+theme_override_font_sizes/font_size = 23
+theme_override_styles/normal = SubResource("StyleBoxFlat_ohn6c")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_uosg4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wghg2")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_4qmum")
+text = "Más ajustes"
+
+[node name="Settings2" type="Sprite2D" parent="Panel/Panel/GeneralSettings" unique_id=1203771547]
+material = SubResource("ShaderMaterial_wvmt4")
+position = Vector2(43, 30)
+scale = Vector2(0.85937446, 0.796875)
+texture = ExtResource("8_ohn6c")
+
+[node name="SettingsMenu" parent="Panel" unique_id=2013161568 instance=ExtResource("9_ohn6c")]
+process_mode = 2
+visible = false

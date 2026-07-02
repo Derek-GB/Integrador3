@@ -33,14 +33,14 @@ const CARD_H := 500.0
 func _ready() -> void:
 	randomize()
 	# _build_ui() <-- BORRADO, ya no se necesita crear nada
-	card_animator.animate_entry(card_container)
+	card_animator.animate_entry(card_container,click_button)
 	if cpu_mode:
 		_cpu_auto_play()
 	if not selected_question.is_empty():
 		_apply_card_data()
 	click_button.pressed.connect(
 		func ():
-			card_animator.flip_card(card_container, front_side, back_panel, click_button)
+			card_animator.flip_card(card_container, front_side, back_panel, _option_buttons)
 			)
 
 func setup(question_data: Dictionary, background_image: String = "") -> void:
@@ -122,7 +122,7 @@ func _cpu_auto_play() -> void:
 
 	# Paso 2: mostrar la pregunta
 	await get_tree().create_timer(0.8).timeout
-	await card_animator.flip_card(card_container, front_side, back_panel, click_button)
+	await card_animator.flip_card(card_container, front_side, back_panel, _option_buttons)
 
 	# Paso 3: pensando
 	_set_cpu_status("La maquina esta pensando...", Color.WHITE)

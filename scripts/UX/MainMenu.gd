@@ -73,7 +73,12 @@ func _ready() -> void:
 			open_menu(settings_panel)
 	)
 	
-	btn_general_settings.pressed.connect(_open_general_settings)
+	btn_general_settings.pressed.connect(
+		func ():
+			visible_settings_menu()
+			_open_general_settings()
+			)
+	settings_menu.closed.connect(visible_settings_menu)
 
 	for i in $ButtonMenu.get_children():
 		if i is Button:
@@ -111,3 +116,8 @@ func close_all() -> void:
 	if current_menu:
 		tween.tween_property(current_menu, "position:x", POS_OUTSIDE_RIGHT, DURATION)
 		current_menu = null
+	
+func visible_settings_menu() -> void:
+	var menus: Array = [button_menu, game_selection, game_rules, settings_panel]
+	for menu in menus:
+		menu.visible = !menu.visible
