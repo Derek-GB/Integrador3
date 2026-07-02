@@ -12,6 +12,7 @@ extends CanvasLayer
 # =============================================================================
 
 # ── Nodes ────────────────────────────────────────────────────────────────────
+signal closed
 
 @onready var panel            := $Panel
 @onready var btn_close       := $Panel/MarginContainer/VBox/Header/BtnCerrar
@@ -87,6 +88,7 @@ func open() -> void:
 func close() -> void:
 	visible = false
 	get_tree().paused = false
+	closed.emit()
 
 # =============================================================================
 # SETUP

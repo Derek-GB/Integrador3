@@ -361,11 +361,11 @@ func _ready():
 	randomize()
 	_pick_card()
 	_setup_card_ui()
-	card_animator.animate_entry(card_container)
+	card_animator.animate_entry(card_container,click_button)
 	
 	click_button.pressed.connect(
 		func ():
-			card_animator.flip_card(card_container, front_side, back_panel, click_button)
+			card_animator.flip_card(card_container, front_side, back_panel, [click_button,action_button])
 			)
 			
 	action_button.pressed.connect(_on_accepted)
@@ -405,6 +405,6 @@ func _on_accepted():
 # =========================================================
 func _cpu_auto_play() -> void:
 	await get_tree().create_timer(1.4).timeout
-	await card_animator.flip_card(card_container, front_side, back_panel, click_button)
+	await card_animator.flip_card(card_container, front_side, back_panel, [click_button,action_button])
 	await get_tree().create_timer(1.5).timeout
 	_on_accepted()
