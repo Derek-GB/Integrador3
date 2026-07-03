@@ -25,7 +25,9 @@ extends Node3D
 @onready var camera: Camera3D   = $Camera_rig/Camera3D
 @onready var marker_iso: Marker3D   = $Camera_rig/Marker_Iso
 @onready var marker_third: Marker3D = $Camera_rig/Marker_Third
-@onready var dice_label: Label  = $UI/DiceLabel
+@onready var dice_label: Label  = $UI/InfoPanel/DiceLabel
+@onready var turn_label: Label  = $UI/InfoPanel/TurnLabel
+@onready var position_label: Label  = $UI/InfoPanel/PositionLabel
 @onready var btn_pause: Button  = $UI/Pause
 @onready var btn_throw: Button  = $UI/BtnThrow
 @onready var btn_throw_3: Button = $UI/Throw_3
@@ -51,8 +53,6 @@ var _camera_delay_timer: float  = 0.0
 var _camera_delay_active: bool  = false
 var _dice_overlay_instance: Node = null
 var piece2 = null
-var turn_label: Label     = null
-var position_label: Label = null
 
 # =========================================================
 # CICLO DE VIDA
@@ -90,8 +90,6 @@ func _ready() -> void:
 
 	pause_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	AudioManager.play_music(board_sound)
-
-	_init_ui_extra()
 	_start_game()
 
 func _process(delta: float) -> void:
@@ -136,25 +134,6 @@ func switch_camera(marker: Marker3D) -> void:
 # =========================================================
 # MÉTODOS PRIVADOS
 # =========================================================
-func _init_ui_extra() -> void:
-	turn_label = Label.new()
-	turn_label.name = "TurnoLabel"
-	turn_label.set_position(Vector2(660, 10))
-	turn_label.custom_minimum_size = Vector2(600, 50)
-	turn_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	turn_label.add_theme_font_size_override("font_size", 26)
-	turn_label.add_theme_color_override("font_color", Color(1.0, 0.95, 0.4))
-	$UI.add_child(turn_label)
-
-	position_label = Label.new()
-	position_label.name = "PosicionLabel"
-	position_label.set_position(Vector2(660, 62))
-	position_label.custom_minimum_size = Vector2(600, 40)
-	position_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	position_label.add_theme_font_size_override("font_size", 18)
-	position_label.add_theme_color_override("font_color", Color(0.9, 0.9, 0.9))
-	$UI.add_child(position_label)
-
 func _start_game() -> void:
 	var mode := GameManager.game_mode
 	game_mode = mode
