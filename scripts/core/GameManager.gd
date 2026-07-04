@@ -259,15 +259,20 @@ var pausers: int = 0
 func _ready() -> void:
 	await get_tree().process_frame
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	var scene := get_tree().current_scene
-	if scene.has_node("UI/MessageLabel"):
-		message_label = scene.get_node("UI/MessageLabel")
-		message_label.visible = false
+	
+	
+	
 	Events.notify_pause.connect(_set_on_pause)
 
 # =========================================================
 # MÉTODOS PÚBLICOS
 # =========================================================
+func instantiate_message_lbl() -> void:
+	var scene := get_tree().current_scene
+	if scene.has_node("UI/InfoPanel/MessageLabel"):
+		message_label = scene.get_node("UI/InfoPanel/MessageLabel")
+		message_label.visible = false
+
 func register_token(token: Node) -> void:
 	if token in tokens:
 		return
@@ -370,6 +375,12 @@ func show_blue_card() -> bool:
 	card.answer_result.connect(func(correct: bool):
 		resolved = true
 		result[0] = correct
+		if message_label && !correct:
+			var nombre := player_names[current_player] if current_player < player_names.size() else "Jugador"
+			message_label.visible = true
+			message_label.text = "¡%s pierde el siguiente turno!" % nombre
+			get_tree().create_timer(5.5).timeout.connect(
+				func ():message_label.visible = false)
 	)
 
 	# Seguridad: si es turno de la CPU y la carta no resuelve sola en 2s, forzamos respuesta
@@ -462,8 +473,9 @@ func _apply_red_card_action(active_token: Node, action: String, value: int) -> v
 			var nombre := player_names[current_player] if current_player < player_names.size() else "Jugador"
 			message_label.visible = true
 			message_label.text = "¡%s pierde el siguiente turno!" % nombre
-			await get_tree().create_timer(2.0).timeout
-			message_label.visible = false
+			get_tree().create_timer(5.5).timeout.connect(
+				func ():message_label.visible = false)
+			
 
 	elif action == "spin_again":
 		minigame_active = false

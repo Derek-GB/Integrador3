@@ -239,6 +239,6 @@ func _apply() -> void:
 
 	# The restart warning is already handled by SettingsManager via restart_required_changed,
 	# but we also display it locally if applicable.
-	lbl_restart.add_theme_color_override("font_color",Color.GREEN)
+	#lbl_restart.add_theme_color_override("font_color",Color.GREEN)
 	lbl_restart.visible = true
 	hide_timer.start()
