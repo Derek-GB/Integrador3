@@ -22,7 +22,8 @@ extends Node3D
 @onready var map                            = $Map
 @onready var piece                          = $Map/Token
 @onready var camera_rig: Node3D             = $Camera_rig
-@onready var camera: Camera3D               = $Camera_rig/MainCamera
+@onready var camera_free_body: CharacterBody3D = $Camera_rig/CameraFreeBody
+@onready var camera: Camera3D               = $Camera_rig/CameraFreeBody/MainCamera
 @onready var marker_iso: Marker3D           = $Camera_rig/Marker_Iso
 @onready var default_cam_position: Marker3D = $Camera_rig/DefaultPosition
 @onready var dice_label: Label              = $UI/InfoPanel/DiceLabel
@@ -65,8 +66,7 @@ func _ready() -> void:
 	print("Main: waypoints =", _waypoints.size(), " rotaciones =", _waypoint_rotations.size(), " bases =", _waypoint_bases.size())
 
 	camera.make_current()
-	camera.position = default_cam_position.position
-	camera.rotation = default_cam_position.rotation
+	camera_free_body.transform = default_cam_position.transform
 
 	btn_throw.pressed.connect(_on_btn_throw)
 	btn_throw.disabled = true
@@ -124,18 +124,17 @@ func _process(delta: float) -> void:
 # MÉTODOS PÚBLICOS
 # =========================================================
 func switch_camera(marker: Marker3D, free_move: bool = true) -> void:
-	camera_rig.can_free_move = false
+	camera_free_body.can_free_move = false
 	var active: Node3D
 	if GameManager.current_player < GameManager.tokens.size():
 		active = GameManager.tokens[GameManager.current_player]
 	else:
 		active = piece
 	var tween: Tween = create_tween().set_parallel(true)
-	tween.tween_property(camera, "transform", marker.transform, 0.6)
+	tween.tween_property(camera_free_body, "transform", marker.transform, 0.6)
 	tween.tween_property(camera_rig, "rotation:y", deg_to_rad(active.rotation_degrees.y), 0.6)
 	tween.set_parallel(false)
-	tween.tween_callback(func(): camera_rig.can_free_move = free_move)
-
+	tween.tween_callback(func(): camera_free_body.can_free_move = free_move)
 # =========================================================
 # MÉTODOS PRIVADOS
 # =========================================================
@@ -182,6 +181,7 @@ func _start_game() -> void:
 	_update_turn_label(0)
 	_update_position_label()
 	for i in range(1,7):
+		Events.visible_pointer.emit(i,true)
 		Events.visible_pointer.emit(i,true)
 	print("Main: juego iniciado modo", mode)
 

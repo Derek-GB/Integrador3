@@ -2,20 +2,20 @@
 
 [ext_resource type="Script" uid="uid://721euuos45tc" path="res://scripts/core/Main.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://c456hb1ulbl35" path="res://scenes/board/Board.tscn" id="2_jyhfs"]
-[ext_resource type="AudioStream" uid="uid://chooex6lm8g42" path="res://sounds/board/Dice.wav" id="4_tbgi4"]
-[ext_resource type="AudioStream" uid="uid://c460uwsvt2nqq" path="res://sounds/board/MoveForward.wav" id="5_85g3d"]
+[ext_resource type="AudioStream" uid="uid://bsyxkw1e4vplj" path="res://sounds/board/Dice.wav" id="4_tbgi4"]
+[ext_resource type="AudioStream" uid="uid://duwdtcqv85d2w" path="res://sounds/board/MoveForward.wav" id="5_85g3d"]
 [ext_resource type="PackedScene" uid="uid://dro1ls1tysuj2" path="res://scenes/UX/PauseMenu.tscn" id="5_choun"]
-[ext_resource type="AudioStream" uid="uid://wuqp5bkvg48g" path="res://sounds/board/Jump.wav" id="5_tefeu"]
-[ext_resource type="AudioStream" uid="uid://dtlso313ro5sk" path="res://sounds/board/MoveBack.wav" id="6_choun"]
-[ext_resource type="AudioStream" uid="uid://3mo1pafcjv0l" path="res://sounds/minigames/GameOver.mp3" id="6_trceg"]
-[ext_resource type="AudioStream" uid="uid://bqfuym27wm7bw" path="res://sounds/UX/Lobby1.mp3" id="6_ya4ey"]
-[ext_resource type="AudioStream" uid="uid://cfkc470bn0jn7" path="res://sounds/UX/Lobby2.mp3" id="7_eb6dy"]
-[ext_resource type="AudioStream" uid="uid://f3tfhx3rabsy" path="res://sounds/board/Move.wav" id="7_ya4ey"]
-[ext_resource type="AudioStream" uid="uid://dgj712u32888" path="res://sounds/board/Board.mp3" id="8_eb6dy"]
-[ext_resource type="AudioStream" uid="uid://bg0t27s44wqcc" path="res://sounds/minigames/Victory.mp3" id="9_a8y0u"]
-[ext_resource type="AudioStream" uid="uid://dnirek0estv62" path="res://sounds/minigames/TimeOver.mp3" id="9_trceg"]
+[ext_resource type="AudioStream" uid="uid://co30q1vo6o2pu" path="res://sounds/board/Jump.wav" id="5_tefeu"]
+[ext_resource type="AudioStream" uid="uid://bnqe4r08xc83q" path="res://sounds/board/MoveBack.wav" id="6_choun"]
+[ext_resource type="AudioStream" uid="uid://yflua6rj6pd0" path="res://sounds/minigames/GameOver.mp3" id="6_trceg"]
+[ext_resource type="AudioStream" uid="uid://bet0cu5q65l54" path="res://sounds/UX/Lobby1.mp3" id="6_ya4ey"]
+[ext_resource type="AudioStream" uid="uid://dh8wge5fmq7os" path="res://sounds/UX/Lobby2.mp3" id="7_eb6dy"]
+[ext_resource type="AudioStream" uid="uid://d1l8oj0p3llb4" path="res://sounds/board/Move.wav" id="7_ya4ey"]
+[ext_resource type="AudioStream" uid="uid://das1o814001dr" path="res://sounds/board/Board.mp3" id="8_eb6dy"]
+[ext_resource type="AudioStream" uid="uid://c8ducdr1t213p" path="res://sounds/minigames/Victory.mp3" id="9_a8y0u"]
+[ext_resource type="AudioStream" uid="uid://dxeggia8j7vcq" path="res://sounds/minigames/TimeOver.mp3" id="9_trceg"]
 [ext_resource type="Script" uid="uid://cn2xwascs7nl8" path="res://scripts/UX/ShadowAware.gd" id="13_1yraq"]
-[ext_resource type="Texture2D" uid="uid://c5bp5dlfc4im1" path="res://images/icons/dice.png" id="14_founp"]
+[ext_resource type="Texture2D" uid="uid://dvsy43c78cdvq" path="res://images/icons/dice.png" id="14_founp"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="14_wpo1s"]
 [ext_resource type="Shader" uid="uid://bqedxetv7f6y0" path="res://data/procedural_clouds.gdshader" id="15_founp"]
 [ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="15_ship8"]
@@ -108,6 +108,8 @@ corner_radius_bottom_left = 25
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tyork"]
 shader = ExtResource("15_ship8")
 shader_parameter/tint_color = Color(1, 1, 1, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_e72lg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_founp"]
 shader = ExtResource("15_founp")
@@ -321,23 +323,28 @@ offset_right = 2440.0
 
 [node name="Camera_rig" type="Node3D" parent="." unique_id=465502073]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -93.698425, 12.941996, 52.84513)
-script = ExtResource("20_tyork")
-speed = 35.0
-min_high = 5.0
 
 [node name="Marker_Iso" type="Marker3D" parent="Camera_rig" unique_id=1032289693]
 transform = Transform3D(1, 0, 0, 0, 0.34202015, 0.9396926, 0, -0.9396926, 0.34202015, 0, 29.293, 0)
 
-[node name="MainCamera" type="Camera3D" parent="Camera_rig" unique_id=1337209012]
-transform = Transform3D(1, 0, 0, 0, 0.73916113, 0.67352873, 0, -0.67352873, 0.73916113, 0, 10.277119, 8.542511)
+[node name="CameraFreeBody" type="CharacterBody3D" parent="Camera_rig" unique_id=1245241236]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.277119, 8.542511)
+script = ExtResource("20_tyork")
+speed = 35.0
+min_high = 10.0
+
+[node name="MainCamera" type="Camera3D" parent="Camera_rig/CameraFreeBody" unique_id=1337209012]
 current = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera_rig/CameraFreeBody" unique_id=678532914]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+shape = SubResource("SphereShape3D_e72lg")
+
+[node name="GroundCast3D" type="RayCast3D" parent="Camera_rig/CameraFreeBody" unique_id=174118459]
+target_position = Vector3(0, -10, 0)
 
 [node name="DefaultPosition" type="Marker3D" parent="Camera_rig" unique_id=1782549252]
 transform = Transform3D(1, 0, 0, 0, 0.7396311, 0.6730125, 0, -0.6730125, 0.7396311, 0, 10.277119, 8.542511)
-
-[node name="RayCast3D" type="RayCast3D" parent="Camera_rig" unique_id=449502717]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.277119, 8.542511)
-target_position = Vector3(0, -100, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=614183138]
 environment = SubResource("Environment_tupnw")
