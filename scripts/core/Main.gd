@@ -92,6 +92,7 @@ func _ready() -> void:
 
 	pause_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	AudioManager.play_music(board_sound)
+	GameManager.instantiate_message_lbl()
 	_start_game()
 
 func _process(delta: float) -> void:
@@ -240,7 +241,7 @@ func _on_throw_3() -> void:
 		return
 	AudioManager.play_sfx(dice_sound)
 	dice_label.text = "Tiraste un 3"
-	await GameManager.on_dice_rolled(15)
+	await GameManager.on_dice_rolled(25)
 
 
 func _on_restart() -> void:
@@ -363,11 +364,8 @@ func _apply_skip(player_index: int) -> void:
 	if GameManager.message_label:
 		GameManager.message_label.visible = true
 		GameManager.message_label.text    = "¡%s pierde este turno!" % _name
-
-	await get_tree().create_timer(2.0).timeout
-
-	if GameManager.message_label:
-		GameManager.message_label.visible = false
+		get_tree().create_timer(5.5).timeout.connect(
+				func ():GameManager.message_label.visible = false)
 
 	if not game_over:
 		GameManager._next_turn()
@@ -415,6 +413,8 @@ func _declare_winner(player_index: int) -> void:
 	if GameManager.message_label:
 		GameManager.message_label.visible = true
 		GameManager.message_label.text    = message
+		get_tree().create_timer(5.5).timeout.connect(
+				func ():GameManager.message_label.visible = false)
 	print("Main:", message)
 
 func _update_turn_label(player_index: int) -> void:
