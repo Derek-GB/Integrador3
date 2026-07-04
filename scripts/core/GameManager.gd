@@ -258,6 +258,7 @@ var pausers: int = 0
 # =========================================================
 func _ready() -> void:
 	await get_tree().process_frame
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	var scene := get_tree().current_scene
 	if scene.has_node("UI/MessageLabel"):
 		message_label = scene.get_node("UI/MessageLabel")

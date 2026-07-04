@@ -11,6 +11,10 @@ extends CanvasLayer
 #   SettingsMenu.close()
 # =============================================================================
 
+const UI_SCALE := 1.5
+const TAMANO_BASE := Vector2(720, 619)  # el tamaño "de diseño" del panel (offset actual)
+const MARGEN_MAXIMO := 0.9              # nunca ocupar más del 90% de la pantalla
+
 # ── Nodes ────────────────────────────────────────────────────────────────────
 signal closed
 
@@ -68,7 +72,38 @@ func _ready() -> void:
 	hide_timer.timeout.connect(
 		func(): lbl_restart.visible = false
 	)
+	panel.scale = Vector2.ONE  # quitamos el scale por transform, causaba el blur
+	scale_ui(panel, UI_SCALE)
+	change_size_panel()
+	get_viewport().size_changed.connect(change_size_panel)
 	visible = false
+
+func scale_ui(node: Node, factor: float) -> void:
+	if node is Label or node is Button or node is CheckButton or node is OptionButton:
+		var actual_size: int = node.get_theme_font_size("font_size")
+		if actual_size > 0:
+			node.add_theme_font_size_override("font_size", int(actual_size * factor))
+
+	if node is MarginContainer:
+		for lado in ["margin_left", "margin_top", "margin_right", "margin_bottom"]:
+			var actual: int = node.get_theme_constant(lado)
+			node.add_theme_constant_override(lado, int(actual * factor))
+
+	if node is BoxContainer:
+		var sep: int = node.get_theme_constant("separation")
+		node.add_theme_constant_override("separation", int(sep * factor))
+
+	for child in node.get_children():
+		scale_ui(child, factor)
+
+func change_size_panel() -> void:
+	var vp_size: Vector2 = get_viewport().get_visible_rect().size
+	var tam_deseado: Vector2 = TAMANO_BASE * UI_SCALE
+	var tam_maximo: Vector2 = vp_size * MARGEN_MAXIMO
+	$Panel.custom_minimum_size = Vector2(
+		min(tam_deseado.x, tam_maximo.x),
+		min(tam_deseado.y, tam_maximo.y)
+	)
 
 
 func _unhandled_input(event: InputEvent) -> void:

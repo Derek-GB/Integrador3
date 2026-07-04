@@ -19,21 +19,22 @@ extends Node3D
 # =========================================================
 # NODOS DE LA ESCENA
 # =========================================================
-@onready var map                = $Map
-@onready var piece              = $Map/Token
-@onready var camera_rig: Node3D = $Camera_rig
-@onready var camera: Camera3D   = $Camera_rig/Camera3D
-@onready var marker_iso: Marker3D   = $Camera_rig/Marker_Iso
-@onready var marker_third: Marker3D = $Camera_rig/Marker_Third
-@onready var dice_label: Label  = $UI/DiceLabel
-@onready var btn_pause: Button  = $UI/Pause
-@onready var btn_throw: Button  = $UI/BtnThrow
-@onready var btn_throw_3: Button = $UI/Throw_3
-@onready var btn_restart: Button = $UI/Restart
-@onready var btn_third: Button  = $UI/Third_person
-@onready var btn_iso: Button    = $UI/Iso
-@onready var pause_menu         = $UI/PauseMenu
-@onready var btn_minigame: Button = $UI/Test_MG
+@onready var map                            = $Map
+@onready var piece                          = $Map/Token
+@onready var camera_rig: Node3D             = $Camera_rig
+@onready var camera: Camera3D               = $Camera_rig/MainCamera
+@onready var marker_iso: Marker3D           = $Camera_rig/Marker_Iso
+@onready var default_cam_position: Marker3D = $Camera_rig/DefaultPosition
+@onready var dice_label: Label              = $UI/DiceLabel
+@onready var btn_pause: Button              = $UI/Pause
+@onready var btn_throw: Button              = $UI/BtnThrow
+@onready var btn_throw_3: Button            = $UI/Throw_3
+@onready var btn_restart: Button            = $UI/Restart
+@onready var btn_third: Button              = $UI/Third_person
+@onready var btn_iso: Button                = $UI/Iso
+@onready var btn_bind_cam: Button           = $UI/BindCam
+@onready var pause_menu                     = $UI/PauseMenu
+@onready var btn_minigame: Button           = $UI/Test_MG
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
 const STOP_MENU          = preload("res://scenes/UX/PauseMenu.tscn")
@@ -64,17 +65,18 @@ func _ready() -> void:
 	print("Main: waypoints =", _waypoints.size(), " rotaciones =", _waypoint_rotations.size(), " bases =", _waypoint_bases.size())
 
 	camera.make_current()
-	camera.position = marker_third.position
-	camera.rotation = marker_third.rotation
+	camera.position = default_cam_position.position
+	camera.rotation = default_cam_position.rotation
 
 	btn_throw.pressed.connect(_on_btn_throw)
 	btn_throw.disabled = true
 	btn_pause.pressed.connect(_on_pause)
 	btn_throw_3.pressed.connect(_on_throw_3)
 	btn_restart.pressed.connect(_on_restart)
-	btn_third.pressed.connect(switch_camera.bind(marker_third))
+	btn_third.pressed.connect(switch_camera.bind(default_cam_position))
 	btn_iso.pressed.connect(switch_camera.bind(marker_iso))
 	btn_minigame.pressed.connect(_on_minigame_test)
+	btn_bind_cam.pressed.connect(switch_camera.bind(default_cam_position))
 
 	Events.turn_changed.connect(_on_turn_changed)
 	Events.play_sound.connect(_on_play_sound)
@@ -123,7 +125,8 @@ func _process(delta: float) -> void:
 # =========================================================
 # MÉTODOS PÚBLICOS
 # =========================================================
-func switch_camera(marker: Marker3D) -> void:
+func switch_camera(marker: Marker3D, free_move: bool = true) -> void:
+	camera_rig.can_free_move = false
 	var active: Node3D
 	if GameManager.current_player < GameManager.tokens.size():
 		active = GameManager.tokens[GameManager.current_player]
@@ -132,6 +135,8 @@ func switch_camera(marker: Marker3D) -> void:
 	var tween: Tween = create_tween().set_parallel(true)
 	tween.tween_property(camera, "transform", marker.transform, 0.6)
 	tween.tween_property(camera_rig, "rotation:y", deg_to_rad(active.rotation_degrees.y), 0.6)
+	tween.set_parallel(false)
+	tween.tween_callback(func(): camera_rig.can_free_move = free_move)
 
 # =========================================================
 # MÉTODOS PRIVADOS
@@ -256,7 +261,7 @@ func _on_throw_3() -> void:
 		return
 	AudioManager.play_sfx(dice_sound)
 	dice_label.text = "Tiraste un 3"
-	await GameManager.on_dice_rolled(14)
+	await GameManager.on_dice_rolled(15)
 
 
 func _on_restart() -> void:
@@ -339,7 +344,7 @@ func _on_minigame_intro_started() -> void:
 	AudioManager.stop_music()
 
 func _on_minigame_confirmed() -> void:
-	var path: String = get_node("/root/MinigameData").minigame_scene
+	var path: String = MinigameData.minigame_scene
 	print("Cargando minijuego:", path)
 	var mg_scene = load(path)
 	if mg_scene == null:
@@ -350,6 +355,9 @@ func _on_minigame_confirmed() -> void:
 	add_child(mg)
 	if mg.has_signal("minigame_finished"):
 		mg.minigame_finished.connect(func(): Events.minigame_finished.emit(), CONNECT_ONE_SHOT)
+	# Aplica el modo a todo el árbol del minijuego
+	_set_process_mode_recursive(mg, Node.PROCESS_MODE_WHEN_PAUSED)
+	Events.notify_pause.emit(true)
 
 func _on_minigame_finished() -> void:
 	var mg := get_node_or_null("ActiveMinigame")
@@ -357,6 +365,11 @@ func _on_minigame_finished() -> void:
 		mg.queue_free()
 	$UI.visible = true
 	AudioManager.play_music(board_sound)
+
+func _set_process_mode_recursive(node: Node, mode: int) -> void:
+	node.process_mode = mode
+	for child in node.get_children():
+		_set_process_mode_recursive(child, mode)
 
 func _apply_skip(player_index: int) -> void:
 	var _name: String

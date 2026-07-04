@@ -208,13 +208,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -536.0
-offset_top = -460.0
-offset_right = 184.0
-offset_bottom = 159.0
+offset_left = -360.0
+offset_top = -309.5
+offset_right = 360.0
+offset_bottom = 309.5
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.5, 1.5)
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_xx36a")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=271822389]

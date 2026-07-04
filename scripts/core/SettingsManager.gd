@@ -99,6 +99,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	load_settings()
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 # =============================================================================
 # LOAD / SAVE

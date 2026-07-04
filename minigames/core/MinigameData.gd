@@ -6,3 +6,5 @@ var instructions: String = ""
 var video_path: String = ""
 var controls: Array = []
 var minigame_scene: String = ""
+
+func _ready(): process_mode = Node.PROCESS_MODE_ALWAYS

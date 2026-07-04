@@ -5,6 +5,7 @@ var _sfx_pool: Array[AudioStreamPlayer] = []
 var _music_player: AudioStreamPlayer
 
 func _ready()-> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	for i in range(POOL_SIZE):
 		var p := AudioStreamPlayer.new()
 		p.bus = "SFX"

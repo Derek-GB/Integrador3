@@ -20,6 +20,8 @@
 [ext_resource type="Shader" uid="uid://bqedxetv7f6y0" path="res://data/procedural_clouds.gdshader" id="15_founp"]
 [ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="15_ship8"]
 [ext_resource type="Texture2D" uid="uid://d2v8sp1dbswtj" path="res://images/icons/pausa2.png" id="18_d7485"]
+[ext_resource type="Texture2D" uid="uid://c64jphd28hqmu" path="res://images/icons/video-camera.png" id="19_ujn3e"]
+[ext_resource type="Script" uid="uid://egncy7pctmyh" path="res://scripts/board/CameraMovement.gd" id="20_tyork"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tupnw"]
 content_margin_right = 12.0
@@ -209,6 +211,25 @@ material = SubResource("ShaderMaterial_tyork")
 position = Vector2(32, 33)
 texture = ExtResource("18_d7485")
 
+[node name="BindCam" type="Button" parent="UI" unique_id=740133672]
+offset_left = 1673.0
+offset_top = 38.0
+offset_right = 1737.0
+offset_bottom = 105.0
+theme_override_fonts/font = ExtResource("14_wpo1s")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_1yraq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tyork")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ujn3e")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_l85qj")
+alignment = 2
+
+[node name="Pausa2" type="Sprite2D" parent="UI/BindCam" unique_id=1964175172]
+material = SubResource("ShaderMaterial_tyork")
+position = Vector2(32, 33)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("19_ujn3e")
+
 [node name="Third_person" type="Button" parent="UI" unique_id=1250765168]
 visible = false
 offset_left = 1434.0
@@ -254,16 +275,23 @@ offset_right = 2440.0
 
 [node name="Camera_rig" type="Node3D" parent="." unique_id=465502073]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -93.698425, 12.941996, 52.84513)
+script = ExtResource("20_tyork")
+speed = 35.0
+min_high = 5.0
 
 [node name="Marker_Iso" type="Marker3D" parent="Camera_rig" unique_id=1032289693]
 transform = Transform3D(1, 0, 0, 0, 0.34202015, 0.9396926, 0, -0.9396926, 0.34202015, 0, 29.293, 0)
 
-[node name="Camera3D" type="Camera3D" parent="Camera_rig" unique_id=1337209012]
+[node name="MainCamera" type="Camera3D" parent="Camera_rig" unique_id=1337209012]
 transform = Transform3D(1, 0, 0, 0, 0.73916113, 0.67352873, 0, -0.67352873, 0.73916113, 0, 10.277119, 8.542511)
 current = true
 
-[node name="Marker_Third" type="Marker3D" parent="Camera_rig" unique_id=1782549252]
+[node name="DefaultPosition" type="Marker3D" parent="Camera_rig" unique_id=1782549252]
 transform = Transform3D(1, 0, 0, 0, 0.7396311, 0.6730125, 0, -0.6730125, 0.7396311, 0, 10.277119, 8.542511)
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera_rig" unique_id=449502717]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.277119, 8.542511)
+target_position = Vector3(0, -100, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=614183138]
 environment = SubResource("Environment_tupnw")
