@@ -5,6 +5,7 @@ extends CharacterBody3D
 @onready var raycast_ground: RayCast3D = $GroundCast3D
 
 var can_free_move := true
+var twenn: Tween
 
 func _ready() -> void:
 	# Cámara libre "voladora": sin snapping de piso/pendientes ni gravedad especial.
@@ -40,4 +41,12 @@ func _correct_ground_high() -> void:
 	if raycast_ground.is_colliding():
 		var point: Vector3 = raycast_ground.get_collision_point()
 		if global_position.y < point.y + min_high:
-			global_position.y = point.y + min_high
+			if Input.is_action_pressed("zoom_in"):
+				global_position.y = point.y + min_high
+				if twenn != null and twenn.is_running():
+					twenn.kill()
+				return
+			if twenn == null or not twenn.is_running():
+				twenn = create_tween()
+				twenn.tween_property(self,"global_position:y",point.y + min_high, 0.4)
+			#global_position.y = point.y + min_high
