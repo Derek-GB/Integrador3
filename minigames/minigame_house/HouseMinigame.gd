@@ -8,12 +8,12 @@ extends Node2D
 @onready var audio_tornillo  = $ScrewSound
 @onready var audio_caida     = $FallSound
 
-const SCREW_SCENE = preload("res://minigames/minigame_house/Screw.tscn")
-const PIECE_SCENE = preload("res://minigames/minigame_house/Piece.tscn")
-const TIMER_HUD_SCENE = preload("res://minigames/ui_global/TimerUi.tscn")
-const PANEL_RESULTADO_SCENE = preload("res://minigames/ui_global/GameResult.tscn")
+const SCREW_SCENE = preload("res://Minigames/minigame_house/Screw.tscn")
+const PIECE_SCENE = preload("res://Minigames/minigame_house/Piece.tscn")
+const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
+const PANEL_RESULTADO_SCENE = preload("res://Minigames/ui_global/GameResult.tscn")
 
-const TOTAL_TIME = 40.0
+var TOTAL_TIME: float = 45.0
 var total_pieces: int = 0
 var detached_pieces: int = 0
 var game_active: bool = false
@@ -26,7 +26,7 @@ var panel_resultado: CanvasLayer
 var house_data = [
 	{
 		"id": "wall_main",
-		"texture": "res://minigames/minigame_house/assets/wall_main.png",
+		"texture": "res://Minigames/minigame_house/assets/wall_main.png",
 		"position": Vector2(0, 120),
 		"piece_scale": Vector2(1.3, 1.3),
 		"screws": [
@@ -40,7 +40,7 @@ var house_data = [
 	},
 	{
 		"id": "wall_windows",
-		"texture": "res://minigames/minigame_house/assets/wall_windows.png",
+		"texture": "res://Minigames/minigame_house/assets/wall_windows.png",
 		"position": Vector2(5, -395),
 		"piece_scale": Vector2(3.2, 3.2),
 		"screws": [
@@ -54,7 +54,7 @@ var house_data = [
 	},
 	{
 		"id": "roof",
-		"texture": "res://minigames/minigame_house/assets/roof.png",
+		"texture": "res://Minigames/minigame_house/assets/roof.png",
 		"position": Vector2(5, -620),
 		"piece_scale": Vector2(3.5, 3.5),
 		"screws": [
@@ -68,7 +68,7 @@ var house_data = [
 	},
 	{
 		"id": "door",
-		"texture": "res://minigames/minigame_house/assets/door.png",
+		"texture": "res://Minigames/minigame_house/assets/door.png",
 		"position": Vector2(-90, 170),
 		"piece_scale": Vector2(3.3, 3.3),
 		"screws": [
@@ -77,7 +77,7 @@ var house_data = [
 	},
 	{
 		"id": "fence_left",
-		"texture": "res://minigames/minigame_house/assets/fence.png",
+		"texture": "res://Minigames/minigame_house/assets/fence.png",
 		"position": Vector2(-370, 290),
 		"piece_scale": Vector2(2.0, 2.0),
 		"screws": [
@@ -89,7 +89,7 @@ var house_data = [
 	},
 	{
 		"id": "fence_right",
-		"texture": "res://minigames/minigame_house/assets/fence.png",
+		"texture": "res://Minigames/minigame_house/assets/fence.png",
 		"position": Vector2(370, 290),
 		"piece_scale": Vector2(2.0, 2.0),
 		"screws": [
@@ -101,7 +101,7 @@ var house_data = [
 	},
 	{
 		"id": "magnet_lantch",
-		"texture": "res://minigames/minigame_house/assets/magnet_latch.png",
+		"texture": "res://Minigames/minigame_house/assets/magnet_latch.png",
 		"position": Vector2(-90, 390),
 		"piece_scale": Vector2(2.3, 2.3),
 		"screws": [
@@ -111,7 +111,7 @@ var house_data = [
 	},
 	{
 		"id": "windows_frame_1",
-		"texture": "res://minigames/minigame_house/assets/windows_frame.png",
+		"texture": "res://Minigames/minigame_house/assets/windows_frame.png",
 		"position": Vector2(-145, -360),
 		"piece_scale": Vector2(2.3, 2.3),
 		"screws": [
@@ -120,7 +120,7 @@ var house_data = [
 	},
 	{
 		"id": "windows_frame_2",
-		"texture": "res://minigames/minigame_house/assets/windows_frame.png",
+		"texture": "res://Minigames/minigame_house/assets/windows_frame.png",
 		"position": Vector2(155, -360),
 		"piece_scale": Vector2(2.3, 2.3),
 		"screws": [
@@ -129,7 +129,7 @@ var house_data = [
 	},
 	{
 		"id": "windows_frame_3",
-		"texture": "res://minigames/minigame_house/assets/windows_frame.png",
+		"texture": "res://Minigames/minigame_house/assets/windows_frame.png",
 		"position": Vector2(178, 100),
 		"piece_scale": Vector2(2.1, 2.8),
 		"screws": [
@@ -139,11 +139,11 @@ var house_data = [
 ]
 
 var screw_textures = {
-	"red":    "res://minigames/minigame_house/screws/screw_red.png",
-	"green":  "res://minigames/minigame_house/screws/screw_green.png",
-	"yellow": "res://minigames/minigame_house/screws/screw_yellow.png",
-	"orange": "res://minigames/minigame_house/screws/screw_orange.png",
-	"purple": "res://minigames/minigame_house/screws/screw_purple.png",
+	"red":    "res://Minigames/minigame_house/screws/screw_red.png",
+	"green":  "res://Minigames/minigame_house/screws/screw_green.png",
+	"yellow": "res://Minigames/minigame_house/screws/screw_yellow.png",
+	"orange": "res://Minigames/minigame_house/screws/screw_orange.png",
+	"purple": "res://Minigames/minigame_house/screws/screw_purple.png",
 }
 
 func _ready():
@@ -165,7 +165,20 @@ func _init_game():
 
 	_build_house()
 	_start_game()
-
+	
+# =========================================================
+# TIME BONUS POR EDAD
+# =========================================================
+func _get_time_bonus(age: int) -> float:
+	match age:
+		11: return 5.0
+		10: return 5.0
+		9:  return 7.0
+		8:  return 10.0
+		7:  return 15.0
+		_:  return 15.0 if age < 7 else 0.0
+		
+		
 func _build_house():
 	total_pieces = house_data.size()
 	detached_pieces = 0
@@ -202,8 +215,16 @@ func _build_house():
 
 func _start_game():
 	game_active = true
-	if audio_fondo.stream:
-		AudioManager.play_music(audio_fondo.stream, 1.0, -15.0)
+	audio_fondo.volume_db = -15.0
+	audio_fondo.play()
+	
+	# --- NUEVO: ajustar tiempo según edad del jugador ---
+	var player_age: int = MinigameData.player_age  # <-- ajusta el nombre del autoload
+	if player_age < 12:
+		TOTAL_TIME = 45.0 + _get_time_bonus(player_age)
+	else:
+		TOTAL_TIME = 45.0
+	
 	timer_hud.iniciar(TOTAL_TIME, "Tiempo restante", "para la erupción")
 
 func _process(_delta):
@@ -212,16 +233,14 @@ func _process(_delta):
 func _on_screw_clicked(_screw):
 	if not game_active:
 		return
-	if audio_tornillo.stream:
-		AudioManager.play_sfx(audio_tornillo.stream)
+	audio_tornillo.play()
 	removed_screws += 1
 	if removed_screws >= total_screws:
 		_win()
 
 func on_piece_detached(_piece: RigidBody2D):
 	detached_pieces += 1
-	if audio_caida.stream:
-		AudioManager.play_sfx(audio_caida.stream)
+	audio_caida.play()
 
 func _on_tiempo_agotado():
 	if game_active:
@@ -229,16 +248,16 @@ func _on_tiempo_agotado():
 
 func _win():
 	game_active = false
-	AudioManager.stop_music()
+	audio_fondo.stop()
 	timer_hud.detener()
 	panel_resultado.mostrar_ganaste()
 
 func _lose():
 	game_active = false
-	AudioManager.stop_music()
+	audio_fondo.stop()
 	timer_hud.detener()
 	panel_resultado.mostrar_perdiste()
 
 func _on_back_pressed():
-	AudioManager.stop_music()
-	Events.minigame_finished.emit()
+	audio_fondo.stop()
+	get_tree().change_scene_to_file("res://Main.tscn")

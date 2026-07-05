@@ -2,8 +2,8 @@ extends Node2D
 class_name RiverCleanupMinigame
 
 
-const TIMER_HUD_SCENE = preload("res://minigames/ui_global/TimerUi.tscn")
-const PANEL_RESULTADO_SCENE = preload("res://minigames/ui_global/GameResult.tscn")
+const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
+const PANEL_RESULTADO_SCENE = preload("res://Minigames/ui_global/GameResult.tscn")
 
 
 @export var time_limit := 30.0
@@ -35,11 +35,28 @@ func _ready():
 
 func _start_game():
 	game_active = true
-
+	
+	var player_age: int = MinigameData.player_age
+	if player_age < 12:
+		time_limit = 30.0 + _get_time_bonus(player_age)
+	else:
+		time_limit = 30.0
+		
 	if timer_hud != null:
 		timer_hud.iniciar(time_limit, "Tiempo restante", "para limpiar el río")
 
-
+# =========================================================
+# TIME BONUS POR EDAD
+# =========================================================
+func _get_time_bonus(age: int) -> float:
+	match age:
+		11: return 2.0
+		10: return 3.0
+		9:  return 5.0
+		8:  return 7.0
+		7:  return 10.0
+		_:  return 10.0 if age < 7 else 0.0
+		
 func _setup_timer_hud():
 	timer_hud = TIMER_HUD_SCENE.instantiate()
 	add_child(timer_hud)
@@ -74,8 +91,8 @@ func _setup_trash_items():
 
 
 func _play_river_sound():
-	if river_sound != null and river_sound.stream != null:
-		AudioManager.play_music(river_sound.stream)
+	if river_sound != null:
+		river_sound.play()
 
 
 func _on_trash_dropped(trash):
@@ -96,8 +113,9 @@ func _on_trash_dropped(trash):
 func _collect_trash(trash):
 	trash_collected += 1
 
-	if trash_sound != null and trash_sound.stream != null:
-		AudioManager.play_sfx(trash_sound.stream)
+	if trash_sound != null:
+		trash_sound.stop()
+		trash_sound.play()
 
 	trash.queue_free()
 
@@ -116,7 +134,8 @@ func _win_game():
 	if timer_hud != null:
 		timer_hud.detener()
 
-	AudioManager.stop_music()
+	if river_sound != null:
+		river_sound.stop()
 
 	panel_resultado.mostrar_ganaste()
 
@@ -127,12 +146,14 @@ func _lose_game():
 	if timer_hud != null:
 		timer_hud.detener()
 
-	AudioManager.stop_music()
+	if river_sound != null:
+		river_sound.stop()
 
 	panel_resultado.mostrar_perdiste()
 
 
 func _on_back_button_pressed():
-	AudioManager.stop_music()
+	if river_sound != null:
+		river_sound.stop()
 
-	Events.minigame_finished.emit()
+	get_tree().change_scene_to_file("res://MenuPrincipal.tscn")
