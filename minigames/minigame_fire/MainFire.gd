@@ -5,13 +5,13 @@ extends Node2D
 # CONSTANTS
 # =========================================================
 
-const BACKGROUND_PATH := "res://minigames/minigame_fire/assets/background.png"
-const FIRE_BACKGROUND_SOUND_PATH := "res://minigames/minigame_fire/assets/sound/fire.mp3"
+const BACKGROUND_PATH := "res://Minigames/minigame_fire/assets/background.png"
+const FIRE_BACKGROUND_SOUND_PATH := "res://Minigames/minigame_fire/assets/sound/fire.mp3"
 
-const TIMER_UI_SCENE_PATH := "res://minigames/ui_global/TimerUI.tscn"
-const GAME_RESULT_SCENE_PATH := "res://minigames/ui_global/GameResult.tscn"
+const TIMER_UI_SCENE_PATH := "res://Minigames/ui_global/TimerUI.tscn"
+const GAME_RESULT_SCENE_PATH := "res://Minigames/ui_global/GameResult.tscn"
 
-const TOTAL_TIME := 35.0
+var TOTAL_TIME: float = 35.0
 
 const TOTAL_FLAMES_TO_APPEAR := 10
 const INITIAL_FIRE_TREES := 2
@@ -49,7 +49,7 @@ const C_PHASE_RED := Color("#D63A3A")
 
 var timer_ui = null
 var game_result = null
-var _fire_stream: AudioStream = null
+var fire_background_sound: AudioStreamPlayer = null
 
 var trees: Array = []
 var rng := RandomNumberGenerator.new()
@@ -135,26 +135,39 @@ func _setup_background():
 # =========================================================
 
 func _setup_background_sound():
+	fire_background_sound = AudioStreamPlayer.new()
+	fire_background_sound.name = "FireBackgroundSound"
+	fire_background_sound.volume_db = -8.0
+	fire_background_sound.bus = "Master"
+	
 	if ResourceLoader.exists(FIRE_BACKGROUND_SOUND_PATH):
 		var fire_stream = load(FIRE_BACKGROUND_SOUND_PATH)
-
+		
 		if fire_stream is AudioStreamMP3:
 			fire_stream.loop = true
-
-		_fire_stream = fire_stream
+		
+		fire_background_sound.stream = fire_stream
+		add_child(fire_background_sound)
 	else:
 		push_error("No se encontró el sonido de fondo en: " + FIRE_BACKGROUND_SOUND_PATH)
 
 
 func _play_background_sound():
-	if _fire_stream == null:
+	if not fire_background_sound:
 		return
-
-	AudioManager.play_music(_fire_stream, 1.0, -8.0)
+	
+	if fire_background_sound.stream == null:
+		return
+	
+	if not fire_background_sound.playing:
+		fire_background_sound.play()
 
 
 func _stop_background_sound():
-	AudioManager.stop_music()
+	if not fire_background_sound:
+		return
+	
+	fire_background_sound.stop()
 
 
 # =========================================================
@@ -186,10 +199,18 @@ func _start_global_timer():
 	if timer_ui.has_method("set_tamano_panel"):
 		timer_ui.set_tamano_panel(570, 60)
 	
+	var player_age: int = MinigameData.player_age
+
+	if player_age < 12:
+		TOTAL_TIME = 35.0 + _get_time_bonus(player_age)
+	else:
+		TOTAL_TIME = 35.0
+	
 	if timer_ui.has_method("iniciar"):
 		timer_ui.iniciar(TOTAL_TIME, "Tiempo restante", "para apagar incendios")
 	else:
 		push_error("TimerUI no tiene el método iniciar(p_time, p_text_before, p_text_after).")
+
 
 
 func _stop_global_timer():
@@ -601,3 +622,22 @@ func _get_burning_count() -> int:
 				count += 1
 	
 	return count
+
+
+# =========================================================
+# TIME BONUS POR EDAD
+# =========================================================
+func _get_time_bonus(age: int) -> float:
+	match age:
+		11:
+			return 2.0
+		10:
+			return 3.0
+		9:
+			return 5.0
+		8:
+			return 7.0
+		7:
+			return 10.0
+		_:
+			return 10.0 if age < 7 else 0.0

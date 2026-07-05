@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var time_limit := 45.0
+@export var TOTAL_TIME: float = 45.0
 @export var max_lives := 3
 
 @export var rock_scene: PackedScene = preload("res://Minigames/minigame_landslide/FallingRock.tscn")
@@ -58,9 +58,9 @@ var dial_display: Label = null
 
 var alarm_sound: AudioStreamPlayer = null
 var rocks_sound: AudioStreamPlayer = null
+var keyboard_sound: AudioStreamPlayer = null
 var firetruck_siren_sound: AudioStreamPlayer = null
-var _keyboard_stream: AudioStream = null
-var _call_911_stream: AudioStream = null
+var call_911_sound: AudioStreamPlayer = null
 
 var rescue_truck: Sprite2D = null
 
@@ -226,17 +226,11 @@ func _create_audio() -> void:
 	var firetruck_siren_stream: AudioStream = _load_audio(["Firetrucksiren.mp3", "firetrucksiren.mp3", "FireTruckSiren.mp3"])
 	var call_911_stream: AudioStream = _load_audio(["911.mp3"])
 
-	# alarm_sound, rocks_sound y firetruck_siren_sound se quedan como
-	# AudioStreamPlayer locales: pueden sonar simultáneamente entre sí
-	# (alarma + rocas + sirena a la vez) y AudioManager solo tiene un
-	# canal de música compartido, así que no pueden centralizarse sin
-	# perder esa superposición. Se les asigna el bus correcto a mano.
 	if alarm_stream:
 		alarm_sound = AudioStreamPlayer.new()
 		alarm_sound.name = "AlarmSound"
 		alarm_sound.stream = alarm_stream
 		alarm_sound.volume_db = -2
-		alarm_sound.bus = "SFX"
 		add_child(alarm_sound)
 		alarm_sound.finished.connect(_loop_alarm_sound)
 	else:
@@ -247,16 +241,18 @@ func _create_audio() -> void:
 		rocks_sound.name = "RocksSound"
 		rocks_sound.stream = rocks_stream
 		rocks_sound.volume_db = -10
-		rocks_sound.bus = "Music"
 		add_child(rocks_sound)
 		rocks_sound.finished.connect(_loop_rocks_sound)
 	else:
 		push_warning("No se encontró Rocks.mp3 en Music.")
 
-	# keyboard_sound y call_911_sound son efectos puntuales: se migran a
-	# AudioManager.play_sfx() y ya no necesitan su propio AudioStreamPlayer.
-	_keyboard_stream = keyboard_stream
-	if not _keyboard_stream:
+	if keyboard_stream:
+		keyboard_sound = AudioStreamPlayer.new()
+		keyboard_sound.name = "KeyboardSound"
+		keyboard_sound.stream = keyboard_stream
+		keyboard_sound.volume_db = 0
+		add_child(keyboard_sound)
+	else:
 		push_warning("No se encontró Keyboard.mp3 en Music.")
 
 	if firetruck_siren_stream:
@@ -264,14 +260,18 @@ func _create_audio() -> void:
 		firetruck_siren_sound.name = "FireTruckSirenSound"
 		firetruck_siren_sound.stream = firetruck_siren_stream
 		firetruck_siren_sound.volume_db = -1
-		firetruck_siren_sound.bus = "SFX"
 		add_child(firetruck_siren_sound)
 		firetruck_siren_sound.finished.connect(_loop_firetruck_siren_sound)
 	else:
 		push_warning("No se encontró Firetrucksiren.mp3 en Music.")
 
-	_call_911_stream = call_911_stream
-	if not _call_911_stream:
+	if call_911_stream:
+		call_911_sound = AudioStreamPlayer.new()
+		call_911_sound.name = "Call911Sound"
+		call_911_sound.stream = call_911_stream
+		call_911_sound.volume_db = 0
+		add_child(call_911_sound)
+	else:
 		push_warning("No se encontró 911.mp3 en Music.")
 
 
@@ -326,19 +326,20 @@ func _start_rocks_sound() -> void:
 
 
 func _play_keyboard_sound() -> void:
-	if _keyboard_stream:
-		AudioManager.play_sfx(_keyboard_stream)
+	if keyboard_sound:
+		keyboard_sound.stop()
+		keyboard_sound.play()
 
 
 func _stop_keyboard_sound() -> void:
-	# Efecto puntual vía AudioManager: no hay una instancia local que
-	# detener a mitad de reproducción (siempre se deja terminar solo).
-	pass
+	if keyboard_sound:
+		keyboard_sound.stop()
 
 
 func _play_911_sound() -> void:
-	if _call_911_stream:
-		AudioManager.play_sfx(_call_911_stream)
+	if call_911_sound:
+		call_911_sound.stop()
+		call_911_sound.play()
 
 
 func _play_firetruck_siren_sound() -> void:
@@ -359,7 +360,11 @@ func _stop_audio() -> void:
 	if rocks_sound:
 		rocks_sound.stop()
 
+	_stop_keyboard_sound()
 	_stop_firetruck_siren_sound()
+
+	if call_911_sound:
+		call_911_sound.stop()
 
 
 func _create_ui() -> void:
@@ -465,56 +470,109 @@ func _create_phone_keypad() -> void:
 	phone_overlay.size = overlay_size
 	ui_layer.add_child(phone_overlay)
 
-	var panel := Panel.new()
-	panel.name = "PhonePanel"
-	panel.size = Vector2(380, 510)
-	panel.position = (overlay_size - panel.size) / 2.0
-	phone_overlay.add_child(panel)
+	var phone_panel := Panel.new()
+	phone_panel.name = "PhoneKeypadPanel"
+	phone_panel.size = Vector2(410, 560)
+	phone_panel.position = (overlay_size - phone_panel.size) / 2.0
+	phone_overlay.add_child(phone_panel)
+
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color("#F2F2F2")
+	panel_style.border_color = Color("#CFCFCF")
+	panel_style.border_width_left = 4
+	panel_style.border_width_right = 4
+	panel_style.border_width_top = 4
+	panel_style.border_width_bottom = 4
+	panel_style.corner_radius_top_left = 32
+	panel_style.corner_radius_top_right = 32
+	panel_style.corner_radius_bottom_left = 32
+	panel_style.corner_radius_bottom_right = 32
+	panel_style.shadow_color = Color(0, 0, 0, 0.35)
+	panel_style.shadow_size = 12
+	panel_style.shadow_offset = Vector2(0, 6)
+	phone_panel.add_theme_stylebox_override("panel", panel_style)
 
 	var title := Label.new()
 	title.text = "Llamar al 911"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.position = Vector2(20, 18)
+	title.position = Vector2(35, 30)
 	title.size = Vector2(340, 35)
-	title.add_theme_font_size_override("font_size", 24)
-	panel.add_child(title)
+	title.add_theme_font_size_override("font_size", 28)
+	title.add_theme_color_override("font_color", Color("#202020"))
+	phone_panel.add_child(title)
 
 	dial_display = Label.new()
 	dial_display.text = "___"
 	dial_display.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	dial_display.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	dial_display.position = Vector2(35, 68)
-	dial_display.size = Vector2(310, 55)
-	dial_display.add_theme_font_size_override("font_size", 34)
-	panel.add_child(dial_display)
+	dial_display.position = Vector2(55, 85)
+	dial_display.size = Vector2(300, 60)
+	dial_display.add_theme_font_size_override("font_size", 38)
+	dial_display.add_theme_color_override("font_color", Color("#111111"))
+	phone_panel.add_child(dial_display)
 
 	var grid := GridContainer.new()
 	grid.columns = 3
-	grid.position = Vector2(52, 140)
-	grid.size = Vector2(276, 245)
-	panel.add_child(grid)
+	grid.position = Vector2(60, 165)
+	grid.size = Vector2(290, 280)
+	phone_panel.add_child(grid)
 
 	for number in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "BORRAR", "0", "LLAMAR"]:
 		var button := Button.new()
-		button.text = number
-		button.custom_minimum_size = Vector2(88, 58)
-		button.add_theme_font_size_override("font_size", 18)
-		grid.add_child(button)
+		button.custom_minimum_size = Vector2(88, 64)
+		button.add_theme_font_size_override("font_size", 24)
+		button.add_theme_stylebox_override("normal", _create_key_button_style(Color("#FFFFFF"), Color("#D0D0D0")))
+		button.add_theme_stylebox_override("hover", _create_key_button_style(Color("#F4FAFF"), Color("#6CA9E8")))
+		button.add_theme_stylebox_override("pressed", _create_key_button_style(Color("#D9ECFF"), Color("#4A90E2")))
+		button.add_theme_color_override("font_color", Color("#222222"))
 
 		if number == "BORRAR":
+			button.text = "⌫"
+			button.add_theme_font_size_override("font_size", 28)
 			button.pressed.connect(_backspace_digit)
 		elif number == "LLAMAR":
+			button.text = "☎"
+			button.add_theme_font_size_override("font_size", 30)
+			button.add_theme_stylebox_override("normal", _create_key_button_style(Color("#39C95F"), Color("#229B42")))
+			button.add_theme_stylebox_override("hover", _create_key_button_style(Color("#4EE874"), Color("#229B42")))
+			button.add_theme_stylebox_override("pressed", _create_key_button_style(Color("#28A94A"), Color("#17752F")))
+			button.add_theme_color_override("font_color", Color.WHITE)
 			button.pressed.connect(_try_call_number)
 		else:
+			button.text = number
 			button.pressed.connect(_on_keypad_number_pressed.bind(number))
+
+		grid.add_child(button)
 
 	var cancel_button := Button.new()
 	cancel_button.text = "CERRAR"
-	cancel_button.position = Vector2(100, 425)
+	cancel_button.position = Vector2(115, 475)
 	cancel_button.size = Vector2(180, 45)
 	cancel_button.add_theme_font_size_override("font_size", 18)
+	cancel_button.add_theme_stylebox_override("normal", _create_key_button_style(Color("#EEEEEE"), Color("#C4C4C4")))
+	cancel_button.add_theme_stylebox_override("hover", _create_key_button_style(Color("#FFFFFF"), Color("#AFC9E8")))
+	cancel_button.add_theme_stylebox_override("pressed", _create_key_button_style(Color("#D6D6D6"), Color("#999999")))
+	cancel_button.add_theme_color_override("font_color", Color("#222222"))
 	cancel_button.pressed.connect(_close_phone_keypad)
-	panel.add_child(cancel_button)
+	phone_panel.add_child(cancel_button)
+
+
+func _create_key_button_style(background_color: Color, border_color: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = background_color
+	style.border_color = border_color
+	style.border_width_left = 2
+	style.border_width_right = 2
+	style.border_width_top = 2
+	style.border_width_bottom = 2
+	style.corner_radius_top_left = 32
+	style.corner_radius_top_right = 32
+	style.corner_radius_bottom_left = 32
+	style.corner_radius_bottom_right = 32
+	style.shadow_color = Color(0, 0, 0, 0.16)
+	style.shadow_size = 4
+	style.shadow_offset = Vector2(0, 2)
+	return style
 
 
 func _connect_signals() -> void:
@@ -560,12 +618,22 @@ func start_game() -> void:
 	_update_hud()
 	_show_prompt("Busca el teléfono y llama al 911.")
 
+	
+	var player_age: int = MinigameData.player_age
+
+	if player_age < 12:
+		TOTAL_TIME = 45.0 + _get_time_bonus(player_age)
+	else:
+		TOTAL_TIME = 45.0
+
 	if timer_hud.has_method("iniciar"):
-		timer_hud.iniciar(time_limit, "Tiempo", "para evacuar")
+		timer_hud.iniciar(TOTAL_TIME, "Tiempo", "para evacuar")
 	elif timer_hud.has_method("start_timer"):
-		timer_hud.start_timer(time_limit)
+		timer_hud.start_timer(TOTAL_TIME)
 	elif timer_hud.has_method("start"):
-		timer_hud.start(time_limit)
+		timer_hud.start(TOTAL_TIME)
+
+
 
 
 func _handle_rock_spawn(delta: float) -> void:
@@ -894,8 +962,6 @@ func _on_player_damaged() -> void:
 	if lives < 0:
 		lives = 0
 
-	print("Vidas actuales: ", lives)
-
 	update_lives_ui()
 
 	if lives <= 0:
@@ -1038,3 +1104,21 @@ func _update_hud() -> void:
 func _show_prompt(message: String) -> void:
 	if prompt_label:
 		prompt_label.text = message
+
+# =========================================================
+# TIME BONUS POR EDAD
+# =========================================================
+func _get_time_bonus(age: int) -> float:
+	match age:
+		11:
+			return 2.0
+		10:
+			return 3.0
+		9:
+			return 5.0
+		8:
+			return 7.0
+		7:
+			return 10.0
+		_:
+			return 10.0 if age < 7 else 0.0

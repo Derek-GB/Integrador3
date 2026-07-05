@@ -15,9 +15,9 @@ signal answer_resolved(was_correct: bool, score: int)
 # SCENES
 # =========================================================
 
-const TIMER_UI_SCENE := preload("res://minigames/ui_global/TimerUi.tscn")
-const GAME_RESULT_SCENE := preload("res://minigames/ui_global/GameResult.tscn")
-const LIVES_UI_SCENE := preload("res://minigames/ui_global/LivesUi.tscn")
+const TIMER_UI_SCENE := preload("res://Minigames/ui_global/TimerUi.tscn")
+const GAME_RESULT_SCENE := preload("res://Minigames/ui_global/GameResult.tscn")
+const LIVES_UI_SCENE := preload("res://Minigames/ui_global/LivesUi.tscn")
 
 
 # =========================================================
@@ -81,7 +81,7 @@ const MONTH_NAMES = [
 
 ## Cuántos segundos debe sobrevivir el jugador (sin quedarse sin vidas)
 ## para ganar el minijuego. Calculado para 8 artículos (5 segundos cada uno).
-@export var total_time: float = 40.0
+@export var TOTAL_TIME: float = 40.0
 
 ## --- SONIDOS ---
 ## Arrastra aquí el nodo "BackgroundSound": empieza a sonar (en loop) en
@@ -177,20 +177,26 @@ func _ready() -> void:
 	# en bucle para siempre (sin importar si el recurso de audio tiene o
 	# no activado su propio "loop"), conectando la señal "finished" para
 	# volver a reproducirlo cada vez que termina. ---
-	if background_sound and background_sound.stream:
-		# Forzamos loop en el recurso (igual que minigame_fire) en vez del
-		# truco manual de reconectar "finished": el _music_player de
-		# AudioManager es privado y no podemos enganchar esa señal desde aquí.
-		if background_sound.stream is AudioStreamMP3:
-			background_sound.stream.loop = true
-		AudioManager.play_music(background_sound.stream, 1.0, -15.0)
+	if background_sound:
+		# Le bajamos 15 dB al volumen que tenga puesto en el Inspector
+		# (no lo dejamos fijo en -15, así respetamos lo que ya hayas ajustado ahí).
+		background_sound.volume_db -= 15.0
+		if not background_sound.finished.is_connected(_on_background_sound_finished):
+			background_sound.finished.connect(_on_background_sound_finished)
+		background_sound.play()
 	else:
 		print("DEBUG background_sound NO está asignado en el Inspector")
 
-	if not success_sound:
+	if success_sound:
+		# Le bajamos 10 dB al volumen del efecto de acierto.
+		success_sound.volume_db -= 10.0
+	else:
 		print("DEBUG success_sound NO está asignado en el Inspector")
 
-	if not error_sound:
+	if error_sound:
+		# Le bajamos 10 dB al volumen del efecto de error.
+		error_sound.volume_db -= 10.0
+	else:
 		print("DEBUG error_sound NO está asignado en el Inspector")
 
 	# "Hoy" lo fijamos a la medianoche del día real del sistema.
@@ -235,6 +241,7 @@ func _setup_timer_ui():
 	add_child(_timer_ui)
 
 	# Tu TimerUi global emite la señal "time_up"
+
 	if _timer_ui.has_signal("time_up"):
 		_timer_ui.connect("time_up", Callable(self, "_on_time_up"))
 	else:
@@ -244,7 +251,14 @@ func _setup_timer_ui():
 		_timer_ui.set_tamano_panel(500, 60)
 
 	if _timer_ui.has_method("iniciar"):
-		_timer_ui.iniciar(total_time, "Tiempo restante", "para ganar")
+		var player_age: int = MinigameData.player_age
+
+		if player_age < 12:
+			TOTAL_TIME = 40.0 + _get_time_bonus(player_age)
+		else:
+			TOTAL_TIME = 40.0
+
+		_timer_ui.iniciar(TOTAL_TIME, "Tiempo restante", "para ganar")
 	else:
 		print("ERROR: El TimerUi no tiene el método iniciar()")
 
@@ -279,6 +293,7 @@ func _on_time_up():
 	# Si ya los hubiera repartido todos, el juego ya habría terminado en
 	# victoria antes de que sonara el tiempo (ver _spawn_random_food()).
 	_lose_game()
+
 
 
 func _stop_timer_ui():
@@ -481,13 +496,30 @@ func _show_feedback_icon(correct: bool) -> void:
 ## siempre se escuche completo.
 func _play_feedback_sound(correct: bool) -> void:
 	var player: AudioStreamPlayer = success_sound if correct else error_sound
-	if player == null or player.stream == null:
+	if player == null:
 		return
-	AudioManager.play_sfx(player.stream, -10.0)
+	player.stop()
+	player.play()
+
+
+func _on_background_sound_finished() -> void:
+	# Mientras el minijuego no haya terminado, lo volvemos a reproducir
+	# para que suene en bucle infinito.
+	if not _game_finished and background_sound:
+		background_sound.play()
 
 
 func _stop_background_sound() -> void:
-	AudioManager.stop_music()
+	if background_sound == null:
+		return
+
+	# Desconectamos la señal para que no se vuelva a disparar el play()
+	# justo después de detenerlo.
+	if background_sound.finished.is_connected(_on_background_sound_finished):
+		background_sound.finished.disconnect(_on_background_sound_finished)
+
+	if background_sound.playing:
+		background_sound.stop()
 
 
 # =========================================================
@@ -562,3 +594,21 @@ func _lose_game():
 			_game_result.mostrar_perdiste()
 
 	emit_signal("puzzle_failed")
+	
+	# =========================================================
+# TIME BONUS POR EDAD
+# =========================================================
+func _get_time_bonus(age: int) -> float:
+	match age:
+		11:
+			return 2.0
+		10:
+			return 3.0
+		9:
+			return 5.0
+		8:
+			return 7.0
+		7:
+			return 10.0
+		_:
+			return 10.0 if age < 7 else 0.0

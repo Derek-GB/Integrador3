@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var time_limit := 30.0
+@export var TOTAL_TIME: float = 30.0
 @export var lives_limit := 3
 
 const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
@@ -36,6 +36,8 @@ var feedback_label: Label
 
 var bass_music_player: AudioStreamPlayer
 var forest_music_player: AudioStreamPlayer
+var correct_sound_player: AudioStreamPlayer
+var loser_sound_player: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -187,21 +189,25 @@ func create_simple_ui() -> void:
 
 
 func create_audio() -> void:
-	# bass_music_player y forest_music_player se quedan como
-	# AudioStreamPlayer locales: suenan SIMULTÁNEAMENTE (dos capas de
-	# ambiente a la vez) y AudioManager solo tiene un canal de música
-	# compartido, así que no pueden centralizarse sin perder esa mezcla.
 	bass_music_player = AudioStreamPlayer.new()
 	bass_music_player.stream = BASS_MUSIC
 	bass_music_player.volume_db = -14
-	bass_music_player.bus = "Music"
 	add_child(bass_music_player)
 
 	forest_music_player = AudioStreamPlayer.new()
 	forest_music_player.stream = FOREST_MUSIC
 	forest_music_player.volume_db = -8
-	forest_music_player.bus = "Music"
 	add_child(forest_music_player)
+
+	correct_sound_player = AudioStreamPlayer.new()
+	correct_sound_player.stream = CORRECT_SOUND
+	correct_sound_player.volume_db = 0
+	add_child(correct_sound_player)
+
+	loser_sound_player = AudioStreamPlayer.new()
+	loser_sound_player.stream = LOSER_SOUND
+	loser_sound_player.volume_db = 0
+	add_child(loser_sound_player)
 
 	play_background_music()
 
@@ -223,11 +229,15 @@ func stop_background_music() -> void:
 
 
 func play_correct_sound() -> void:
-	AudioManager.play_sfx(CORRECT_SOUND)
+	if correct_sound_player != null:
+		correct_sound_player.stop()
+		correct_sound_player.play()
 
 
 func play_loser_sound() -> void:
-	AudioManager.play_sfx(LOSER_SOUND)
+	if loser_sound_player != null:
+		loser_sound_player.stop()
+		loser_sound_player.play()
 
 
 func connect_river_options() -> void:
@@ -266,8 +276,18 @@ func start_round() -> void:
 	update_ui()
 	update_lives_ui()
 
+
+	var player_age: int = MinigameData.player_age
+
+	if player_age < 12:
+		TOTAL_TIME = 30.0 + _get_time_bonus(player_age)
+	else:
+		TOTAL_TIME = 30.0
+
 	timer_hud.detener()
-	timer_hud.iniciar(time_limit, "Tiempo", "identifica el río diferente")
+	timer_hud.iniciar(TOTAL_TIME, "Tiempo", "identifica el río diferente")
+
+
 
 	var different_index := randi() % river_options.size()
 
@@ -428,3 +448,21 @@ func lose_game() -> void:
 func _on_back_pressed() -> void:
 	stop_background_music()
 	get_tree().change_scene_to_file("res://MenuPrincipal.tscn")
+
+# =========================================================
+# TIME BONUS POR EDAD
+# =========================================================
+func _get_time_bonus(age: int) -> float:
+	match age:
+		11:
+			return 2.0
+		10:
+			return 3.0
+		9:
+			return 5.0
+		8:
+			return 7.0
+		7:
+			return 10.0
+		_:
+			return 10.0 if age < 7 else 0.0

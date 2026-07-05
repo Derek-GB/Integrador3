@@ -5,22 +5,22 @@ extends Node2D
 # PATHS
 # =========================================================
 
-const BACKGROUND_BROKEN_PATH := "res://minigames/minigame_bridge/assets/background.png"
-const BACKGROUND_FIXED_PATH := "res://minigames/minigame_bridge/assets/background_fixed.png"
-const HAMMER_PATH := "res://minigames/minigame_bridge/assets/hammer.png"
+const BACKGROUND_BROKEN_PATH := "res://Minigames/minigame_bridge/assets/background.png"
+const BACKGROUND_FIXED_PATH := "res://Minigames/minigame_bridge/assets/background_fixed.png"
+const HAMMER_PATH := "res://Minigames/minigame_bridge/assets/hammer.png"
 
-const BRIDGE_BOARD_SCENE_PATH := "res://minigames/minigame_bridge/BridgeBoard.tscn"
-const BRIDGE_SLOT_SCENE_PATH := "res://minigames/minigame_bridge/BridgeSlot.tscn"
+const BRIDGE_BOARD_SCENE_PATH := "res://Minigames/minigame_bridge/BridgeBoard.tscn"
+const BRIDGE_SLOT_SCENE_PATH := "res://Minigames/minigame_bridge/BridgeSlot.tscn"
 
-const TIMER_UI_SCENE_PATH := "res://minigames/ui_global/TimerUI.tscn"
-const GAME_RESULT_SCENE_PATH := "res://minigames/ui_global/GameResult.tscn"
-const LIVES_UI_SCRIPT_PATH := "res://minigames/ui_global/LivesUi.gd"
+const TIMER_UI_SCENE_PATH := "res://Minigames/ui_global/TimerUI.tscn"
+const GAME_RESULT_SCENE_PATH := "res://Minigames/ui_global/GameResult.tscn"
+const LIVES_UI_SCRIPT_PATH := "res://Minigames/ui_global/LivesUi.gd"
 
 const BOARD_TEXTURES := {
-	1: "res://minigames/minigame_bridge/assets/boards/board_1.png",
-	2: "res://minigames/minigame_bridge/assets/boards/board_2.png",
-	3: "res://minigames/minigame_bridge/assets/boards/board_3.png",
-	4: "res://minigames/minigame_bridge/assets/boards/board_4.png",
+	1: "res://Minigames/minigame_bridge/assets/boards/board_1.png",
+	2: "res://Minigames/minigame_bridge/assets/boards/board_2.png",
+	3: "res://Minigames/minigame_bridge/assets/boards/board_3.png",
+	4: "res://Minigames/minigame_bridge/assets/boards/board_4.png",
 }
 
 
@@ -28,7 +28,7 @@ const BOARD_TEXTURES := {
 # GAME SETTINGS
 # =========================================================
 
-const TOTAL_TIME := 40.0
+var TOTAL_TIME: float = 40.0
 const TOTAL_BOARDS := 6
 
 const DROP_DISTANCE := 115.0
@@ -217,33 +217,43 @@ func _setup_sound_volumes() -> void:
 # minijuego termine, ya sea ganando o perdiendo).
 func _start_background_sound() -> void:
 	_background_sound_active = true
-
-	if not background_sound or not background_sound.stream:
+	
+	if not background_sound:
 		return
+	
+	if background_sound.stream:
+		if background_sound.stream is AudioStreamWAV:
+			background_sound.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+		elif background_sound.stream is AudioStreamOggVorbis:
+			background_sound.stream.loop = true
+	
+	if not background_sound.finished.is_connected(_on_background_sound_finished):
+		background_sound.finished.connect(_on_background_sound_finished)
+	
+	background_sound.play()
 
-	if background_sound.stream is AudioStreamWAV:
-		background_sound.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
-	elif background_sound.stream is AudioStreamOggVorbis:
-		background_sound.stream.loop = true
-	elif background_sound.stream is AudioStreamMP3:
-		background_sound.stream.loop = true
 
-	AudioManager.play_music(background_sound.stream, 1.0, background_sound.volume_db)
+# Fallback manual de loop, por si el stream no soporta loop nativo.
+func _on_background_sound_finished() -> void:
+	if _background_sound_active and background_sound:
+		background_sound.play()
 
 
 func _stop_background_sound() -> void:
 	_background_sound_active = false
-	AudioManager.stop_music()
+	
+	if background_sound:
+		background_sound.stop()
 
 
 func _play_wood_sound() -> void:
-	if wood_sound and wood_sound.stream:
-		AudioManager.play_sfx(wood_sound.stream)
+	if wood_sound:
+		wood_sound.play()
 
 
 func _play_hammer_sound() -> void:
-	if hammer_sound and hammer_sound.stream:
-		AudioManager.play_sfx(hammer_sound.stream, hammer_sound.volume_db)
+	if hammer_sound:
+		hammer_sound.play()
 
 
 # =========================================================
@@ -502,6 +512,7 @@ func _setup_timer_ui():
 		timer_ui.ocultar()
 
 
+
 func _start_global_timer():
 	if not timer_ui:
 		return
@@ -509,10 +520,18 @@ func _start_global_timer():
 	if timer_ui.has_method("set_tamano_panel"):
 		timer_ui.set_tamano_panel(650, 60)
 	
+	var player_age: int = MinigameData.player_age
+
+	if player_age < 12:
+		TOTAL_TIME = 40.0 + _get_time_bonus(player_age)
+	else:
+		TOTAL_TIME = 40.0
+	
 	if timer_ui.has_method("iniciar"):
 		timer_ui.iniciar(TOTAL_TIME, "Tiempo restante", "para reparar el puente")
 	else:
 		push_error("TimerUI no tiene el método iniciar(p_time, p_text_before, p_text_after).")
+
 
 
 func _stop_global_timer():
@@ -980,3 +999,21 @@ func _lose_game():
 func _disable_boards():
 	for board in boards:
 		board.locked = true
+
+# =========================================================
+# TIME BONUS POR EDAD
+# =========================================================
+func _get_time_bonus(age: int) -> float:
+	match age:
+		11:
+			return 2.0
+		10:
+			return 3.0
+		9:
+			return 5.0
+		8:
+			return 7.0
+		7:
+			return 10.0
+		_:
+			return 10.0 if age < 7 else 0.0

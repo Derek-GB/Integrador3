@@ -101,6 +101,8 @@ var _distance_traveled: float = 0.0
 var _current_speed:     float = 0.0
 var _current_lives:     int   = 3
 
+var _progress_age_multiplier: float = 1.0
+
 # _button_held se actualiza desde el Hud vía on_hide_button_pressed/released
 var _button_held: bool = false
 
@@ -126,11 +128,17 @@ var _lives_ui:    Node2D = null
 var _game_result: Node   = null
 
 
+
 func _ready() -> void:
 	_current_lives = max_lives
 
+	var player_age: int = MinigameData.player_age
+	_progress_age_multiplier = _get_progress_multiplier(player_age)
+
+
+
 	# --- LivesUi ---
-	var lives_scene = load("res://minigames/ui_global/LivesUi.tscn")
+	var lives_scene = load("res://Minigames/ui_global/LivesUi.tscn")
 	if lives_scene:
 		_lives_ui = lives_scene.instantiate()
 		add_child(_lives_ui)
@@ -140,7 +148,7 @@ func _ready() -> void:
 		push_error("Main.gd: No se encontró res://ui_global/LivesUi.tscn")
 
 	# --- GameResult ---
-	var result_scene = load("res://minigames/ui_global/GameResult.tscn")
+	var result_scene = load("res://Minigames/ui_global/GameResult.tscn")
 	if result_scene:
 		_game_result = result_scene.instantiate()
 		add_child(_game_result)
@@ -157,12 +165,11 @@ func _ready() -> void:
 	if _audio_eq and is_instance_valid(_audio_eq):
 		_audio_eq.volume_db += eq_volume_offset_db
 
-	# Música de fondo vía AudioManager: forzamos loop en el recurso en vez
-	# del truco de reconectar "finished" (igual que minigame_fire/expiration).
-	if _audio_music and is_instance_valid(_audio_music) and _audio_music.stream:
-		if _audio_music.stream is AudioStreamMP3:
-			_audio_music.stream.loop = true
-		AudioManager.play_music(_audio_music.stream, 1.0, _audio_music.volume_db)
+	# Música de fondo: arranca con el minijuego y se repite mientras
+	# el juego no haya terminado (WIN/LOSE), aunque el stream no tenga loop activado
+	if _audio_music and is_instance_valid(_audio_music):
+		_audio_music.finished.connect(_on_music_finished)
+		_audio_music.play()
 
 	_set_state(State.WALKING)
 
@@ -177,7 +184,10 @@ func _process(delta: float) -> void:
 
 # ---------------------------------------------------------------------------
 func _process_walking(delta: float) -> void:
-	_distance_traveled += _current_speed * delta
+
+	_distance_traveled += _current_speed * _progress_age_multiplier * delta
+
+
 	var progress = clamp(_distance_traveled / total_walk_distance, 0.0, 1.0)
 
 	_hud.update_progress(progress)
@@ -225,21 +235,26 @@ func _scroll_background(delta: float) -> void:
 
 
 func _play_warning() -> void:
-	if _audio_warning and is_instance_valid(_audio_warning) and _audio_warning.stream:
-		AudioManager.play_sfx(_audio_warning.stream, _audio_warning.volume_db)
+	if _audio_warning and is_instance_valid(_audio_warning):
+		_audio_warning.play()
+
+
+func _on_music_finished() -> void:
+	# Si el juego sigue en curso, vuelve a reproducir la música de fondo
+	if _state != State.WIN and _state != State.LOSE:
+		if _audio_music and is_instance_valid(_audio_music):
+			_audio_music.play()
 
 
 # ---------------------------------------------------------------------------
 # Llamado por Hud._on_hold_down / _on_hold_up
 func on_hide_button_pressed() -> void:
-	print("---PRESIONADO---")
 	_button_held = true
 	# Si presiona fuera del terremoto → pierde vida
 	if _state == State.WALKING:
 		_lose_life()
 
 func on_hide_button_released() -> void:
-	print("---SOLTADO---")
 	_button_held = false
 
 
@@ -287,7 +302,8 @@ func _set_state(new_state: State) -> void:
 			_current_speed = 0.0
 			if _audio_eq and is_instance_valid(_audio_eq):
 				_audio_eq.stop()
-			AudioManager.stop_music()
+			if _audio_music and is_instance_valid(_audio_music):
+				_audio_music.stop()
 			_hud.show_win()
 			if _player and _player.has_method("set_win"):
 				_player.set_win()
@@ -299,7 +315,8 @@ func _set_state(new_state: State) -> void:
 			_current_speed = 0.0
 			if _audio_eq and is_instance_valid(_audio_eq):
 				_audio_eq.stop()
-			AudioManager.stop_music()
+			if _audio_music and is_instance_valid(_audio_music):
+				_audio_music.stop()
 			_hud.hide_earthquake_banner()
 			if _player and _player.has_method("set_idle"):
 				_player.set_idle()
@@ -334,3 +351,22 @@ func _schedule_next_earthquake() -> void:
 func on_player_reached_safe_zone() -> void:
 	if _state != State.WIN and _state != State.LOSE:
 		_set_state(State.WIN)
+
+
+# =========================================================
+# PROGRESS BONUS POR EDAD
+# =========================================================
+func _get_progress_multiplier(age: int) -> float:
+	match age:
+		11:
+			return 1.10
+		10:
+			return 1.20
+		9:
+			return 1.35
+		8:
+			return 1.50
+		7:
+			return 1.70
+		_:
+			return 1.80 if age < 7 else 1.0

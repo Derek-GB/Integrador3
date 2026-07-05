@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var time_limit := 60.0
+@export var TOTAL_TIME: float = 60.0
 @export var lives_limit := 3
 @export var max_rounds := 8
 @export var required_correct_answers := 8
@@ -30,7 +30,9 @@ var lives_layer: CanvasLayer
 
 var score_panel: Panel
 
-var _background_music_playing: bool = false
+var background_music_player: AudioStreamPlayer
+var correct_sound_player: AudioStreamPlayer
+var incorrect_sound_player: AudioStreamPlayer
 
 var questions := [
 	{
@@ -269,6 +271,7 @@ func _ready() -> void:
 	create_timer()
 	create_game_result_panel()
 	create_lives_ui()
+	create_audio()
 	setup_scene_style()
 	connect_buttons()
 
@@ -281,23 +284,43 @@ func _notification(what):
 			setup_scene_style()
 
 
+func create_audio() -> void:
+	background_music_player = AudioStreamPlayer.new()
+	background_music_player.stream = BACKGROUND_MUSIC
+	background_music_player.volume_db = -12
+	add_child(background_music_player)
+
+	correct_sound_player = AudioStreamPlayer.new()
+	correct_sound_player.stream = CORRECT_SOUND
+	correct_sound_player.volume_db = 0
+	add_child(correct_sound_player)
+
+	incorrect_sound_player = AudioStreamPlayer.new()
+	incorrect_sound_player.stream = INCORRECT_SOUND
+	incorrect_sound_player.volume_db = 0
+	add_child(incorrect_sound_player)
+
+
 func play_background_music() -> void:
-	if not _background_music_playing:
-		_background_music_playing = true
-		AudioManager.play_music(BACKGROUND_MUSIC, 1.0, -12.0)
+	if background_music_player != null and not background_music_player.playing:
+		background_music_player.play()
 
 
 func stop_background_music() -> void:
-	_background_music_playing = false
-	AudioManager.stop_music()
+	if background_music_player != null:
+		background_music_player.stop()
 
 
 func play_correct_sound() -> void:
-	AudioManager.play_sfx(CORRECT_SOUND)
+	if correct_sound_player != null:
+		correct_sound_player.stop()
+		correct_sound_player.play()
 
 
 func play_incorrect_sound() -> void:
-	AudioManager.play_sfx(INCORRECT_SOUND)
+	if incorrect_sound_player != null:
+		incorrect_sound_player.stop()
+		incorrect_sound_player.play()
 
 
 func create_timer() -> void:
@@ -405,8 +428,17 @@ func start_game() -> void:
 	if timer_hud.has_method("detener"):
 		timer_hud.detener()
 
+	var player_age: int = MinigameData.player_age
+
+	if player_age < 12:
+		TOTAL_TIME = 60.0 + _get_time_bonus(player_age)
+	else:
+		TOTAL_TIME = 60.0
+
 	if timer_hud.has_method("iniciar"):
-		timer_hud.iniciar(time_limit, "Tiempo", "responde las preguntas")
+		timer_hud.iniciar(TOTAL_TIME, "Tiempo", "responde las preguntas")
+
+
 
 
 func show_question() -> void:
@@ -685,3 +717,21 @@ func create_panel_style(bg_color: Color, border_color: Color, radius: int, shado
 		style.shadow_offset = Vector2(0, 4)
 
 	return style
+
+# =========================================================
+# TIME BONUS POR EDAD
+# =========================================================
+func _get_time_bonus(age: int) -> float:
+	match age:
+		11:
+			return 2.0
+		10:
+			return 3.0
+		9:
+			return 5.0
+		8:
+			return 7.0
+		7:
+			return 10.0
+		_:
+			return 10.0 if age < 7 else 0.0

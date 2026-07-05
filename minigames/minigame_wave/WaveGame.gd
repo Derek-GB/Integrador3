@@ -10,7 +10,7 @@ const LIVES_UI_SCENE := preload("res://Minigames/ui_global/LivesUi.tscn")
 # =========================================================
 # CONSTANTS
 # =========================================================
-const TOTAL_TIME := 40.0
+var TOTAL_TIME: float = 40.0
 
 # =========================================================
 # NODE REFERENCES
@@ -99,8 +99,18 @@ func _setup_timer_ui():
 	if _timer_ui.has_method("set_tamano_panel"):
 		_timer_ui.set_tamano_panel(500, 60)
 	
+
+	var player_age: int = MinigameData.player_age
+
+	if player_age < 12:
+		TOTAL_TIME = 40.0 + _get_time_bonus(player_age)
+	else:
+		TOTAL_TIME = 53.0
+
 	if _timer_ui.has_method("iniciar"):
 		_timer_ui.iniciar(TOTAL_TIME, "Tiempo restante", "para sobrevivir")
+
+
 
 func _setup_lives_ui():
 	_lives_ui = LIVES_UI_SCENE.instantiate()
@@ -117,26 +127,32 @@ func _setup_game_result():
 # SONIDO DE FONDO (LOOP MANUAL)
 # =========================================================
 func _setup_background_sound():
-	if background_sound == null or background_sound.stream == null:
+	if background_sound == null:
 		return
 	background_sound.volume_db = -15.0   # ✅ bajamos el volumen del fondo
-	if background_sound.stream is AudioStreamMP3:
-		background_sound.stream.loop = true
-	AudioManager.play_music(background_sound.stream, 1.0, background_sound.volume_db)
+	background_sound.play()
+	if not background_sound.finished.is_connected(_on_background_sound_finished):
+		background_sound.finished.connect(_on_background_sound_finished)
+
+func _on_background_sound_finished():
+	# ✅ Lo vuelve a reproducir mientras el juego no haya terminado
+	if not game_over and background_sound:
+		background_sound.play()
 
 func _stop_background_sound():
-	AudioManager.stop_music()
+	if background_sound and background_sound.playing:
+		background_sound.stop()
 
 # =========================================================
 # SONIDOS PUNTUALES
 # =========================================================
 func play_collision_sound():
-	if collision_sound and collision_sound.stream:
-		AudioManager.play_sfx(collision_sound.stream)
+	if collision_sound:
+		collision_sound.play()
 
 func play_jump_sound():
-	if jump_sound and jump_sound.stream:
-		AudioManager.play_sfx(jump_sound.stream, jump_sound.volume_db)
+	if jump_sound:
+		jump_sound.play()
 
 # =========================================================
 # LIVES
@@ -278,3 +294,21 @@ func trigger_game_over():
 	wave.position.x = wave_x
 	await get_tree().create_timer(0.5).timeout
 	_lose_game()
+
+# =========================================================
+# TIME BONUS POR EDAD
+# =========================================================
+func _get_time_bonus(age: int) -> float:
+	match age:
+		11:
+			return 10.0
+		10:
+			return 7.0
+		9:
+			return 5.0
+		8:
+			return 3.0
+		7:
+			return 0.0
+		_:
+			return 0.0 if age < 7 else 0.0
