@@ -80,20 +80,6 @@ func _ready():
 	if _lightning_spawn_timer:
 		_lightning_spawn_timer.start()
 
-	# FIX: Volvemos a forzar el process_mode del propio nodo y de _player
-	# por si Main.gd aplicó _set_process_mode_recursive ANTES de que estos
-	# @onready existieran del todo (defensivo, no debería hacer falta pero
-	# no cuesta nada y elimina una fuente de bugs de orden de ejecución).
-	call_deferred("_ensure_pause_mode")
-
-
-func _ensure_pause_mode() -> void:
-	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
-	if _player:
-		_player.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
-	if _lightning_spawn_timer:
-		_lightning_spawn_timer.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
-
 
 func _process(_delta):
 	if _game_finished:
@@ -135,7 +121,7 @@ func _setup_timer_ui():
 	if _timer_ui.has_method("set_tamano_panel"):
 		_timer_ui.set_tamano_panel(500, 60)
 
-	# --- ajustar tiempo según edad del jugador ---
+# --- NUEVO: ajustar tiempo según edad del jugador ---
 	var player_age: int = MinigameData.player_age
 	TOTAL_TIME = 28.0 + _get_time_bonus(player_age)
 
@@ -143,11 +129,11 @@ func _setup_timer_ui():
 		_timer_ui.iniciar(TOTAL_TIME, "Tiempo restante", "para sobrevivir")
 	else:
 		print("ERROR: El TimerUi no tiene el método iniciar()")
-	# FIX: Habías llamado _timer_ui.iniciar(...) DOS veces seguidas.
-	# Eso puede reiniciar el timer interno de tu TimerUi o duplicar
-	# conexiones/animaciones según cómo esté implementado ese script.
-	# Se eliminó la llamada duplicada.
 
+	if _timer_ui.has_method("iniciar"):
+		_timer_ui.iniciar(TOTAL_TIME, "Tiempo restante", "para sobrevivir")
+	else:
+		print("ERROR: El TimerUi no tiene el método iniciar()")
 
 func _setup_lives_ui():
 	_lives_ui = LIVES_UI_SCENE.instantiate()
@@ -260,11 +246,6 @@ func _on_lightning_spawn_timer_timeout():
 		lightning.position.y = -80 - (index * 90)
 
 		add_child(lightning)
-		# FIX: aseguramos explícitamente que el rayo recién creado
-		# herede el modo de pausa correcto, sin depender de que
-		# PROCESS_MODE_INHERIT resuelva bien en el frame exacto
-		# en que Main.gd pausa el árbol.
-		lightning.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 
 
 # =========================================================
