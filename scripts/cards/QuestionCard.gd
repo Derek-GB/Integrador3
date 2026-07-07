@@ -114,55 +114,37 @@ func _on_continuar_pressed(is_correct: bool) -> void:
 # MODO CPU — FLUJO AUTOMÁTICO CON FEEDBACK VISUAL
 # =========================================================
 func _cpu_auto_play() -> void:
-	# Paso 1: leyendo en el frente de la carta
-	await get_tree().create_timer(1.0).timeout
-
+	await get_tree().create_timer(0.8).timeout
 	if _front_info:
 		_front_info.text = "La maquina esta leyendo..."
-
-	# Paso 2: mostrar la pregunta
-	await get_tree().create_timer(0.8).timeout
+	await get_tree().create_timer(0.6).timeout
 	await card_animator.flip_card(card_container, front_side, back_panel, _option_buttons)
+	
+	for btn in _option_buttons:
+		if is_instance_valid(btn):
+			btn.disabled = true
 
-	# Paso 3: pensando
 	_set_cpu_status("La maquina esta pensando...", Color.WHITE)
-
-	await get_tree().create_timer(2.0).timeout
-
-	# Paso 4: elegir opción
-	var random_option : int = randi() % int(selected_question["options"].size())
-
-	var option_letters : Array = ["A", "B", "C", "D", "E"]
-
-	var selected_letter : String = (
+	await get_tree().create_timer(1.5).timeout
+	var random_option: int = randi() % int(selected_question["options"].size())
+	var option_letters: Array = ["A", "B", "C", "D", "E"]
+	var selected_letter: String = (
 		option_letters[random_option]
 		if random_option < option_letters.size()
 		else str(random_option + 1)
 	)
-
-	_set_cpu_status(
-		"La maquina selecciono la opción " + selected_letter,
-		Color.YELLOW
-	)
-
+	_set_cpu_status("La maquina selecciono la opción " + selected_letter, Color.YELLOW)
 	_highlight_cpu_choice(random_option)
-
-	await get_tree().create_timer(1.5).timeout
-
-	# Paso 5: resultado
+	await get_tree().create_timer(1.0).timeout
 	var is_correct := random_option == int(selected_question["correct"])
-
 	if is_correct:
 		_set_cpu_status("Respuesta correcta ✅", Color("#4CAF50"))
 	else:
 		_set_cpu_status("Respuesta incorrecta ❌", Color("#F44336"))
-
-	# Paso 6: cerrar
-	await get_tree().create_timer(2.2).timeout
-
-	print("QuestionCard: emitting answer_result =", is_correct)
-
+	await get_tree().create_timer(1.5).timeout
+	await card_animator.animate_exit(card_container, _option_buttons)
 	answer_result.emit(is_correct)
+	await get_tree().create_timer(1.5).timeout
 	queue_free()
 
 

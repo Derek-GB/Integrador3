@@ -404,7 +404,15 @@ func _on_accepted():
 # MODO CPU — FLUJO AUTOMÁTICO
 # =========================================================
 func _cpu_auto_play() -> void:
-	await get_tree().create_timer(1.4).timeout
-	await card_animator.flip_card(card_container, front_side, back_panel, [click_button,action_button])
+	# Bloquear botones para que el jugador no pueda interactuar
+	action_button.disabled = true
+	click_button.disabled = true
+
+	await get_tree().create_timer(2.0).timeout
+	await card_animator.flip_card(card_container, front_side, back_panel, [click_button, action_button])
+	await get_tree().create_timer(2.5).timeout
+	action_button.disabled = true
+	await card_animator.animate_exit(card_container, [action_button])
+	action_completed.emit(selected_card["type"], selected_card["value"])
 	await get_tree().create_timer(1.5).timeout
-	_on_accepted()
+	queue_free()

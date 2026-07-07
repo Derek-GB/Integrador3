@@ -343,48 +343,27 @@ func check_special_tile(active_token: Node) -> bool:
 func show_blue_card() -> bool:
 	print("GameManager: carta azul activada")
 	minigame_active = true
-
 	var file := FileAccess.open("res://data/cartas_azules.json", FileAccess.READ)
 	var json_text := file.get_as_text()
 	file.close()
-
 	var json := JSON.new()
 	json.parse(json_text)
 	var data: Dictionary = json.get_data()
 	var cards: Array = data["tarjetas"]
 	var question = cards[randi() % cards.size()]
-
 	var image_background := ""
 	if question.has("imagen"):
 		image_background = question["imagen"]
-
 	var card := QUESTION_CARD.instantiate()
 	card.setup(question, image_background)
-	card.cpu_mode = is_cpu_turn()  # la carta SIEMPRE se muestra ahora
+	card.cpu_mode = is_cpu_turn()
 	get_tree().current_scene.add_child(card)
-
 	var result: Array = [false]
-	var resolved := false
-
 	card.answer_result.connect(func(correct: bool):
-		resolved = true
 		result[0] = correct
 	)
-
-	# Seguridad: si es turno de la CPU y la carta no resuelve sola en 2s, forzamos respuesta
-	if is_cpu_turn():
-		var timer := get_tree().create_timer(2.0)
-		timer.timeout.connect(func():
-			if not resolved:
-				resolved = true
-				result[0] = randi() % 2 == 0
-				if is_instance_valid(card):
-					card.queue_free()
-		)
-
 	await card.tree_exited
 	print("GameManager: resultado carta azul =", result[0])
-
 	minigame_active = false
 	return result[0]
 
@@ -392,35 +371,15 @@ func show_red_card(active_token: Node) -> void:
 	print("GameManager: carta roja activada")
 	minigame_active = true
 	last_action_type = ""
-
 	var card := ACTION_CARD.instantiate()
-	card.cpu_mode = is_cpu_turn()  # la carta SIEMPRE se muestra ahora
+	card.cpu_mode = is_cpu_turn()
 	get_tree().current_scene.add_child(card)
-
 	var action_result := [last_action_type, 0]
-	var resolved := false
-
 	card.action_completed.connect(func(type: String, value: int) -> void:
-		resolved = true
 		action_result[0] = type
 		action_result[1] = value
 		print("GameManager: acción guardada:", type, " valor:", value)
 	)
-
-	# Seguridad: si es turno de la CPU y la carta no resuelve sola en 2s, forzamos respuesta
-	if is_cpu_turn():
-		var timer := get_tree().create_timer(2.0)
-		timer.timeout.connect(func():
-			if not resolved:
-				resolved = true
-				var opciones := ["advance", "go_back", "skip_turn", "spin_again"]
-				action_result[0] = opciones[randi() % opciones.size()]
-				action_result[1] = randi_range(1, 4)
-				print("GameManager: CPU carta roja (fallback) -> acción:", action_result[0])
-				if is_instance_valid(card):
-					card.queue_free()
-		)
-
 	await card.tree_exited
 	last_action_type = action_result[0]
 	var last_action_value: int = action_result[1]
