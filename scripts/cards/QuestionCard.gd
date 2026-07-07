@@ -125,7 +125,7 @@ func _cpu_auto_play() -> void:
 			btn.disabled = true
 
 	_set_cpu_status("La maquina esta pensando...", Color.WHITE)
-	await get_tree().create_timer(1.5).timeout
+	await get_tree().create_timer(1).timeout
 	var random_option: int = randi() % int(selected_question["options"].size())
 	var option_letters: Array = ["A", "B", "C", "D", "E"]
 	var selected_letter: String = (
@@ -135,16 +135,16 @@ func _cpu_auto_play() -> void:
 	)
 	_set_cpu_status("La maquina selecciono la opción " + selected_letter, Color.YELLOW)
 	_highlight_cpu_choice(random_option)
-	await get_tree().create_timer(1.0).timeout
+	await get_tree().create_timer(0.5).timeout
 	var is_correct := random_option == int(selected_question["correct"])
 	if is_correct:
 		_set_cpu_status("Respuesta correcta ✅", Color("#4CAF50"))
 	else:
 		_set_cpu_status("Respuesta incorrecta ❌", Color("#F44336"))
-	await get_tree().create_timer(1.5).timeout
+	await get_tree().create_timer(1).timeout
 	await card_animator.animate_exit(card_container, _option_buttons)
 	answer_result.emit(is_correct)
-	await get_tree().create_timer(1.5).timeout
+	await get_tree().create_timer(1).timeout
 	queue_free()
 
 
