@@ -241,7 +241,7 @@ func _on_throw_3() -> void:
 		return
 	AudioManager.play_sfx(dice_sound)
 	dice_label.text = "Tiraste un 3"
-	await GameManager.on_dice_rolled(14)
+	await GameManager.on_dice_rolled(19)
 
 
 func _on_restart() -> void:
@@ -335,9 +335,9 @@ func _on_minigame_confirmed() -> void:
 	add_child(mg)
 	if mg.has_signal("minigame_finished"):
 		mg.minigame_finished.connect(func(): Events.minigame_finished.emit(), CONNECT_ONE_SHOT)
-	# Aplica el modo a todo el árbol del minijuego
-	#_set_process_mode_recursive(mg, Node.PROCESS_MODE_WHEN_PAUSED)
-	#Events.notify_pause.emit(true)
+	# Mantiene el minijuego activo mientras el tablero queda pausado
+	_set_process_mode_recursive(mg, Node.PROCESS_MODE_ALWAYS)
+	Events.notify_pause.emit(true)
 
 func _on_minigame_finished() -> void:
 	var mg := get_node_or_null("ActiveMinigame")

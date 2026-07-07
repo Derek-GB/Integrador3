@@ -46,7 +46,7 @@ const CARDINAL_DIRECTIONS: Array[Vector2i] = [
 
 @export_group("Tiempo")
 
-@export var time_limit: float = 90.0
+@export var TOTAL_TIME: float = 90.0
 @export var timer_panel_width: float = 620.0
 @export var timer_panel_height: float = 60.0
 
@@ -245,8 +245,16 @@ func _create_global_ui() -> void:
 func _start_game() -> void:
 	_game_finished = false
 
-	if _background_sound != null and _background_sound.stream != null:
-		AudioManager.play_music(_background_sound.stream)
+	if _background_sound != null:
+		_background_sound.play()
+
+	
+	var player_age: int = MinigameData.player_age
+
+	if player_age < 12:
+		TOTAL_TIME = 90.0 + _get_time_bonus(player_age)
+	else:
+		TOTAL_TIME = 90.0
 
 	if (
 		_timer_ui != null
@@ -254,10 +262,12 @@ func _start_game() -> void:
 	):
 		_timer_ui.call(
 			"iniciar",
-			time_limit,
+			TOTAL_TIME,
 			"Tiempo restante",
 			"para llegar a la zona segura"
 		)
+
+
 
 
 # ============================================================
@@ -265,21 +275,38 @@ func _start_game() -> void:
 # ============================================================
 
 func _configure_audio() -> void:
-	# Forzamos loop en el recurso en vez del truco de reconectar "finished"
-	# (igual que minigame_fire/expiration), ya que vamos a reproducirlo
-	# vía AudioManager en lugar del AudioStreamPlayer local.
-	if _background_sound == null or _background_sound.stream == null:
+	if _background_sound == null:
 		return
 
-	if _background_sound.stream is AudioStreamMP3:
-		_background_sound.stream.loop = true
+	var finished_callable: Callable = Callable(
+		self,
+		"_on_background_sound_finished"
+	)
+
+	if not _background_sound.finished.is_connected(
+		finished_callable
+	):
+		_background_sound.finished.connect(
+			finished_callable
+		)
+
+
+func _on_background_sound_finished() -> void:
+	if _game_finished:
+		return
+
+	if _background_sound == null:
+		return
+
+	_background_sound.play()
 
 
 func _play_piece_sound() -> void:
-	if _piece_sound == null or _piece_sound.stream == null:
+	if _piece_sound == null:
 		return
 
-	AudioManager.play_sfx(_piece_sound.stream)
+	_piece_sound.stop()
+	_piece_sound.play()
 
 
 # ============================================================
@@ -1718,7 +1745,8 @@ func _finish_game(
 	_stop_timer()
 	_disable_piece_interaction()
 
-	AudioManager.stop_music()
+	if _background_sound != null:
+		_background_sound.stop()
 
 	if did_win:
 		game_won.emit()
@@ -1784,3 +1812,23 @@ func _disable_piece_interaction() -> void:
 			)
 
 			board_piece.input_pickable = false
+
+
+# ============================================================
+# TIME BONUS POR EDAD
+# ============================================================
+
+func _get_time_bonus(age: int) -> float:
+	match age:
+		11:
+			return 2.0
+		10:
+			return 3.0
+		9:
+			return 5.0
+		8:
+			return 7.0
+		7:
+			return 10.0
+		_:
+			return 10.0 if age < 7 else 0.0

@@ -12,29 +12,31 @@ signal puzzle_failed
 # GLOBAL UI SCENES
 # =========================================================
 
-const TIMER_UI_SCENE := preload("res://minigames/ui_global/TimerUi.tscn")
-const LIVES_UI_SCENE := preload("res://minigames/ui_global/LivesUi.tscn")
-const GAME_RESULT_SCENE := preload("res://minigames/ui_global/GameResult.tscn")
+const TIMER_UI_SCENE := preload("res://Minigames/ui_global/TimerUi.tscn")
+const LIVES_UI_SCENE := preload("res://Minigames/ui_global/LivesUi.tscn")
+const GAME_RESULT_SCENE := preload("res://Minigames/ui_global/GameResult.tscn")
 
 
 # =========================================================
 # MINIGAME SCENES
 # =========================================================
 
-const TREE_SAPLING_SCENE := preload("res://minigames/minigame_hillside_barrier/TreeSapling.tscn")
-const PLANTING_SPOT_SCENE := preload("res://minigames/minigame_hillside_barrier/PlantingSpot.tscn")
-const ROLLING_ROCK_SCENE := preload("res://minigames/minigame_hillside_barrier/RollingRock.tscn")
+const TREE_SAPLING_SCENE := preload("res://Minigames/minigame_hillside_barrier/TreeSapling.tscn")
+const PLANTING_SPOT_SCENE := preload("res://Minigames/minigame_hillside_barrier/PlantingSpot.tscn")
+const ROLLING_ROCK_SCENE := preload("res://Minigames/minigame_hillside_barrier/RollingRock.tscn")
 
-const BACKGROUND_SOUND := preload("res://minigames/minigame_hillside_barrier/assets/sounds/Background.mp3")
-const MOVE1_SOUND := preload("res://minigames/minigame_hillside_barrier/assets/sounds/move1.mp3")
-const MOVE2_SOUND := preload("res://minigames/minigame_hillside_barrier/assets/sounds/move2.mp3")
-const ROCKS_SOUND := preload("res://minigames/minigame_hillside_barrier/assets/sounds/rocks.mp3")
+const BACKGROUND_SOUND := preload("res://Minigames/minigame_hillside_barrier/assets/sounds/Background.mp3")
+const MOVE1_SOUND := preload("res://Minigames/minigame_hillside_barrier/assets/sounds/move1.mp3")
+const MOVE2_SOUND := preload("res://Minigames/minigame_hillside_barrier/assets/sounds/move2.mp3")
+const ROCKS_SOUND := preload("res://Minigames/minigame_hillside_barrier/assets/sounds/rocks.mp3")
 
 # =========================================================
 # CONSTANTS
 # =========================================================
 
-const TOTAL_TIME := 65.0
+
+var TOTAL_TIME: float = 65.0
+
 const MAX_LIVES := 3
 const ROCKS_TO_BLOCK := 8
 
@@ -189,10 +191,20 @@ func _setup_timer_ui():
 	if _timer_ui.has_method("set_tamano_panel"):
 		_timer_ui.set_tamano_panel(TIMER_PANEL_WIDTH, TIMER_PANEL_HEIGHT)
 
+
+	var player_age: int = MinigameData.player_age
+
+	if player_age < 12:
+		TOTAL_TIME = 65.0 + _get_time_bonus(player_age)
+	else:
+		TOTAL_TIME = 65.0
+
 	if _timer_ui.has_method("iniciar"):
 		_timer_ui.iniciar(TOTAL_TIME, "Tiempo para el", "deslizamiento")
 	else:
 		print("ERROR: TimerUi no tiene el método iniciar()")
+
+
 
 
 func _setup_lives_ui():
@@ -299,21 +311,22 @@ func _spawn_table_tree(table_position: Vector2, start_on_cooldown := false):
 
 
 func _setup_audio():
-	# Música de fondo vía AudioManager: forzamos loop en el recurso en vez
-	# del truco de reconectar "finished" (igual que minigame_fire/expiration).
-	if BACKGROUND_SOUND is AudioStreamMP3:
-		# BACKGROUND_SOUND.loop = true
-		print("error evitado")
-	AudioManager.play_music(BACKGROUND_SOUND, 1.0, -14.0)
+	if _background_audio:
+		_background_audio.stream = BACKGROUND_SOUND
+		_background_audio.volume_db = -14
+		_background_audio.play()
 
-	# _move1_audio y _plant_audio ya no se usan como reproductores: sus
-	# sonidos salen directo por AudioManager.play_sfx() (ver
-	# register_tree_grabbed() / register_successful_tree()).
+		if not _background_audio.finished.is_connected(_on_background_audio_finished):
+			_background_audio.finished.connect(_on_background_audio_finished)
 
-	# NOTA: _rocks_audio, _error_audio y _landslide_audio no tienen un nodo
-	# "RocksAudio" ni un stream asignado en esta escena hoy (ya estaban en
-	# silencio antes de esta migración) — se dejan intactos, fuera del
-	# alcance de esta tarea de audio.
+	if _move1_audio:
+		_move1_audio.stream = MOVE1_SOUND
+		_move1_audio.volume_db = -5
+
+	if _plant_audio:
+		_plant_audio.stream = MOVE2_SOUND
+		_plant_audio.volume_db = -4
+
 	if _rocks_audio:
 		_rocks_audio.stream = ROCKS_SOUND
 		_rocks_audio.volume_db = -2
@@ -560,7 +573,9 @@ func register_tree_grabbed(_tree: Node):
 	if _game_finished:
 		return
 
-	AudioManager.play_sfx(MOVE1_SOUND, -5.0)
+	if _move1_audio:
+		_move1_audio.stop()
+		_move1_audio.play()
 
 
 func register_successful_tree(tree: Node, spot: Node, table_position: Vector2):
@@ -582,7 +597,9 @@ func register_successful_tree(tree: Node, spot: Node, table_position: Vector2):
 			data["tree"] = tree
 			_active_challenges[rock_id] = data
 
-	AudioManager.play_sfx(MOVE2_SOUND, -4.0)
+	if _plant_audio:
+		_plant_audio.stop()
+		_plant_audio.play()
 
 
 func register_failed_drop(_tree: Node):
@@ -744,6 +761,15 @@ func _on_time_up():
 
 
 # =========================================================
+# AUDIO METHODS
+# =========================================================
+
+func _on_background_audio_finished():
+	if not _game_finished and _background_audio:
+		_background_audio.play()
+
+
+# =========================================================
 # RESULT METHODS
 # =========================================================
 
@@ -761,7 +787,8 @@ func _win_game():
 	_clear_children(_planting_spots)
 	_clear_children(_rocks)
 
-	AudioManager.stop_music()
+	if _background_audio:
+		_background_audio.stop()
 
 	if _game_result:
 		if _game_result.has_method("show_win"):
@@ -786,7 +813,8 @@ func _lose_game():
 	_clear_children(_planting_spots)
 	_clear_children(_rocks)
 
-	AudioManager.stop_music()
+	if _background_audio:
+		_background_audio.stop()
 
 	if _landslide_audio:
 		_landslide_audio.stop()
@@ -811,3 +839,22 @@ func _clear_children(parent: Node):
 
 	for child in parent.get_children():
 		child.queue_free()
+
+
+# =========================================================
+# TIME BONUS POR EDAD
+# =========================================================
+func _get_time_bonus(age: int) -> float:
+	match age:
+		11:
+			return 2.0
+		10:
+			return 3.0
+		9:
+			return 5.0
+		8:
+			return 7.0
+		7:
+			return 10.0
+		_:
+			return 10.0 if age < 7 else 0.0

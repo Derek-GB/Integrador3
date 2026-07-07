@@ -14,17 +14,17 @@ signal puzzle_failed
 # SCENES
 # =========================================================
 
-const TIMER_UI_SCENE := preload("res://minigames/ui_global/TimerUi.tscn")
-const GAME_RESULT_SCENE := preload("res://minigames/ui_global/GameResult.tscn")
-const LIVES_UI_SCENE := preload("res://minigames/ui_global/LivesUi.tscn")
-const DEFAULT_LIGHTNING_SCENE := preload("res://minigames/minigame_storm/Lightning.tscn")
+const TIMER_UI_SCENE := preload("res://Minigames/ui_global/TimerUi.tscn")
+const GAME_RESULT_SCENE := preload("res://Minigames/ui_global/GameResult.tscn")
+const LIVES_UI_SCENE := preload("res://Minigames/ui_global/LivesUi.tscn")
+const DEFAULT_LIGHTNING_SCENE := preload("res://Minigames/minigame_storm/Lightning.tscn")
 
 
 # =========================================================
 # CONSTANTS
 # =========================================================
 
-const TOTAL_TIME := 20.0
+var TOTAL_TIME: float = 28.0
 const LIGHTNING_SPAWN_MARGIN := 80
 
 
@@ -90,6 +90,19 @@ func _process(_delta):
 	if _player and _player.lives <= 0:
 		_lose_game()
 
+# =========================================================
+# TIME BONUS POR EDAD
+# =========================================================
+func _get_time_bonus(age: int) -> float:
+	if age >= 12:
+		return 12.0
+	match age:
+		7:  return 2.0
+		8:  return 3.0
+		9:  return 5.0
+		10: return 7.0
+		11: return 10.0
+		_:  return 0.0
 
 # =========================================================
 # SETUP METHODS
@@ -108,11 +121,19 @@ func _setup_timer_ui():
 	if _timer_ui.has_method("set_tamano_panel"):
 		_timer_ui.set_tamano_panel(500, 60)
 
+# --- NUEVO: ajustar tiempo según edad del jugador ---
+	var player_age: int = MinigameData.player_age
+	TOTAL_TIME = 28.0 + _get_time_bonus(player_age)
+
 	if _timer_ui.has_method("iniciar"):
 		_timer_ui.iniciar(TOTAL_TIME, "Tiempo restante", "para sobrevivir")
 	else:
 		print("ERROR: El TimerUi no tiene el método iniciar()")
 
+	if _timer_ui.has_method("iniciar"):
+		_timer_ui.iniciar(TOTAL_TIME, "Tiempo restante", "para sobrevivir")
+	else:
+		print("ERROR: El TimerUi no tiene el método iniciar()")
 
 func _setup_lives_ui():
 	_lives_ui = LIVES_UI_SCENE.instantiate()
@@ -133,12 +154,15 @@ func _setup_game_result():
 
 
 func _setup_audio():
-	# Música de lluvia vía AudioManager: forzamos loop en el recurso en vez
-	# del truco de reconectar "finished" (igual que minigame_fire/expiration).
-	if _rain_audio and _rain_audio.stream:
-		if _rain_audio.stream is AudioStreamMP3:
-			_rain_audio.stream.loop = true
-		AudioManager.play_music(_rain_audio.stream, 1.0, -12.0)
+	if _rain_audio:
+		_rain_audio.volume_db = -12
+		_rain_audio.play()
+
+		if not _rain_audio.finished.is_connected(_on_rain_audio_finished):
+			_rain_audio.finished.connect(_on_rain_audio_finished)
+
+	if _thunder_audio:
+		_thunder_audio.volume_db = -3
 
 
 func _connect_background_lightning():
@@ -232,8 +256,14 @@ func _on_background_lightning_flashes():
 	if _game_finished:
 		return
 
-	if _thunder_audio and _thunder_audio.stream:
-		AudioManager.play_sfx(_thunder_audio.stream, -3.0)
+	if _thunder_audio:
+		_thunder_audio.stop()
+		_thunder_audio.play()
+
+
+func _on_rain_audio_finished():
+	if not _game_finished and _rain_audio:
+		_rain_audio.play()
 
 
 # =========================================================
@@ -251,7 +281,8 @@ func _win_game():
 
 	_stop_timer_ui()
 
-	AudioManager.stop_music()
+	if _rain_audio:
+		_rain_audio.stop()
 
 	if _game_result:
 		if _game_result.has_method("show_win"):
@@ -273,7 +304,8 @@ func _lose_game():
 
 	_stop_timer_ui()
 
-	AudioManager.stop_music()
+	if _rain_audio:
+		_rain_audio.stop()
 
 	if _game_result:
 		if _game_result.has_method("show_lose"):

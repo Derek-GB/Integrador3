@@ -593,7 +593,10 @@ func _set_on_pause(notify_pause: bool):
 	elif pausers > 0:
 		pausers -= 1
 
-	if pausers > 0:
-		get_tree().paused = true
-	else:
-		get_tree().paused = false
+	var should_pause: bool = pausers > 0
+	var current_scene := get_tree().current_scene
+	if current_scene:
+		current_scene.process_mode = (
+			Node.PROCESS_MODE_DISABLED if should_pause
+			else Node.PROCESS_MODE_INHERIT
+		)
