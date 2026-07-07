@@ -263,6 +263,7 @@ func _ready() -> void:
 	
 	
 	Events.notify_pause.connect(_set_on_pause)
+	Events.notify_pause_for_minigame.connect(_set_on_pause_for_minigame)
 
 # =========================================================
 # MÉTODOS PÚBLICOS
@@ -588,6 +589,17 @@ func _next_turn() -> void:
 	
 
 func _set_on_pause(notify_pause: bool):
+	if notify_pause:
+		pausers += 1
+	elif pausers > 0:
+		pausers -= 1
+	
+	if pausers > 0:
+		get_tree().paused = true
+	else:
+		get_tree().paused = false
+
+func _set_on_pause_for_minigame(notify_pause: bool):
 	if notify_pause:
 		pausers += 1
 	elif pausers > 0:

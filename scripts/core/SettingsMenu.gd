@@ -60,6 +60,7 @@ const SHADOW_QUALITY := ["Baja", "Media", "Alta"]
 # =============================================================================
 
 func _ready() -> void:
+	#process_mode = Node.PROCESS_MODE_ALWAYS
 	print("opt_res: ", opt_resolution)
 	print("opt_modo: ", opt_mode)
 	print("opt_fps: ", opt_fps)

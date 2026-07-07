@@ -15,5 +15,6 @@ signal minigame_finished      # cuando el minijuego terminav
 signal minigame_result(won: bool)         # para determinar resultado
 
 signal notify_pause(on_pause: bool)
+signal notify_pause_for_minigame(on_pause: bool)
 
 func _ready(): process_mode = Node.PROCESS_MODE_ALWAYS

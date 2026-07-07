@@ -13,6 +13,7 @@ const VISIBLE_POSITION: Vector2 = Vector2(0,0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	global_position = HIDDEN_POSITION
 	btn_exit.pressed.connect (
 		exit_game
