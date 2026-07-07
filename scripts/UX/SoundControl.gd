@@ -16,12 +16,12 @@ func _ready() -> void:
 		
 	btn_music_control.value_changed.connect(
 		func (value):
-		AudioManager.change_volume(MUSIC_BUS, value)
+			SettingsManager.set_music_volume(value)
 	)
 	
 	btn_sfx_control.value_changed.connect(
 		func (value):
-			AudioManager.change_volume(SFX_BUS, value)
+			SettingsManager.set_sfx_volume(value)
 	)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

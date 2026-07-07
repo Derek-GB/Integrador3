@@ -1,7 +1,7 @@
 extends Control
 
 func _ready() -> void:
-	pass
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _process(_delta: float) -> void:
 	pass
