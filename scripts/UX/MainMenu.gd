@@ -1,6 +1,7 @@
 extends Control
 
-const MAIN = preload("res://scenes/core/Main.tscn")
+const MAIN          = preload("res://scenes/core/Main.tscn")
+const AGE_SELECTION_PATH = "res://scenes/UX/AgeSelector.tscn"
 const POS_CENTER = 910.0
 const POS_OUTSIDE_RIGHT = 3000.0
 const HOME_BUTTONS = 178.0
@@ -59,13 +60,13 @@ func _ready() -> void:
 	btn_1vs1.pressed.connect(
 		func():
 			GameManager.game_mode = 1
-			get_tree().change_scene_to_packed(MAIN)
+			get_tree().change_scene_to_file(AGE_SELECTION_PATH)
 	)
 
 	btn_1vsbot.pressed.connect(
 		func():
 			GameManager.game_mode = 2
-			get_tree().change_scene_to_packed(MAIN)
+			get_tree().change_scene_to_file(AGE_SELECTION_PATH)
 	)
 	
 	btn_settings.pressed.connect(

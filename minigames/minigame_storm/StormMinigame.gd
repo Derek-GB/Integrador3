@@ -123,7 +123,14 @@ func _setup_timer_ui():
 
 # --- NUEVO: ajustar tiempo según edad del jugador ---
 	var player_age: int = MinigameData.player_age
-	TOTAL_TIME = 28.0 + _get_time_bonus(player_age)
+	print("[StormMinigame] Edad recibida en minijuego:", player_age)
+	
+	if player_age < 12:
+		TOTAL_TIME = 28.0 + _get_time_bonus(player_age)
+	else:
+		TOTAL_TIME = 28.0
+		
+	print("[StormMinigame] TOTAL_TIME calculado:", TOTAL_TIME)
 
 	if _timer_ui.has_method("iniciar"):
 		_timer_ui.iniciar(TOTAL_TIME, "Tiempo restante", "para sobrevivir")

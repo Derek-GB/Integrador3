@@ -26,11 +26,14 @@ func _ready() -> void:
 	$Amigos/Amigo2.body_entered.connect(_on_amigo2_rescatado)
 	$ZonaSegura.body_entered.connect(_on_zona_segura_entrada)
 	var player_age: int = MinigameData.player_age
+	print("[MazeMinigame] Edad recibida en minijuego:", player_age)
 
 	if player_age < 12:
 		TOTAL_TIME = 50.0 + _get_time_bonus(player_age)
 	else:
 		TOTAL_TIME = 50.0
+		
+	print("[MazeMinigame] TOTAL_TIME calculado:", TOTAL_TIME)
 
 	$TimerUI.iniciar(TOTAL_TIME, "Evacúa en", "segundos")
 	$TimerUI.time_up.connect(_on_tiempo_agotado)

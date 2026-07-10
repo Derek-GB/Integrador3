@@ -101,11 +101,14 @@ func _setup_timer_ui():
 	
 
 	var player_age: int = MinigameData.player_age
+	print("[WaveGame] Edad recibida en minijuego:", player_age)
 
 	if player_age < 12:
 		TOTAL_TIME = 40.0 + _get_time_bonus(player_age)
 	else:
 		TOTAL_TIME = 53.0
+
+	print("[WaveGame] TOTAL_TIME calculado:", TOTAL_TIME)
 
 	if _timer_ui.has_method("iniciar"):
 		_timer_ui.iniciar(TOTAL_TIME, "Tiempo restante", "para sobrevivir")

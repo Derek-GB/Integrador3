@@ -88,4 +88,4 @@ func _on_button_22_pressed() -> void:
 
 # Volver al selector de edad
 func _on_button_26_pressed() -> void:
-	get_tree().change_scene_to_file("res://age_selector/age_selector.tscn")
+	get_tree().change_scene_to_file("res://scenes/UX/AgeSelector.tscn")
