@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://cjr8rwja674f5"]
 
-[ext_resource type="Script" uid="uid://m61mx5tehtiy" path="res://scripts/UX/AgeSelector.gd" id="1_xv3ck"]
-[ext_resource type="Texture2D" uid="uid://d3wovm11fy185" path="res://images/UX/Fondo.png" id="2_5bp0f"]
-[ext_resource type="Texture2D" uid="uid://b4td8kild0dgp" path="res://images/UX/Barra.png" id="2_ta6bi"]
-[ext_resource type="Texture2D" uid="uid://b8xv2nus7uul4" path="res://images/UX/Etapa1.png" id="3_5bp0f"]
-[ext_resource type="Texture2D" uid="uid://dkg103j7yjxk6" path="res://images/UX/PiedraSelectora.png" id="4_okh50"]
-[ext_resource type="Texture2D" uid="uid://cn11rxs3l4sdt" path="res://images/UX/Boton_continuar.png" id="5_vtiug"]
+[ext_resource type="Script" uid="uid://deumkv8kv8gq8" path="res://scripts/UX/AgeSelector.gd" id="1_xv3ck"]
+[ext_resource type="Texture2D" uid="uid://cgjg7d228qn81" path="res://images/UX/Fondo.png" id="2_5bp0f"]
+[ext_resource type="Texture2D" uid="uid://dw77j8va8y8iu" path="res://images/UX/Barra.png" id="2_ta6bi"]
+[ext_resource type="Texture2D" uid="uid://dst0rh8lueq3v" path="res://images/UX/Etapa1.png" id="3_5bp0f"]
+[ext_resource type="Texture2D" uid="uid://cg8knkrftyogk" path="res://images/UX/PiedraSelectora.png" id="4_okh50"]
+[ext_resource type="Texture2D" uid="uid://w638puqrtvgf" path="res://images/UX/Boton_continuar.png" id="5_vtiug"]
+[ext_resource type="Texture2D" uid="uid://bw4badylkc2wk" path="res://images/UX/Boton_continuar_gris.png" id="7_3e0ey"]
 
 [node name="AgeSelector" type="Control" unique_id=2085806543]
 layout_mode = 3
@@ -58,11 +59,13 @@ text = "0"
 
 [node name="BtnContinuar" type="TextureButton" parent="." unique_id=266149419]
 layout_mode = 0
-offset_left = 831.0
-offset_top = 855.0
-offset_right = 1086.0
-offset_bottom = 945.0
+offset_left = 643.0
+offset_top = 758.0
+offset_right = 1243.0
+offset_bottom = 1158.0
 texture_normal = ExtResource("5_vtiug")
+texture_pressed = ExtResource("7_3e0ey")
+texture_hover = ExtResource("7_3e0ey")
 
 [node name="InstructionLabel" type="Label" parent="." unique_id=902567860]
 layout_mode = 0

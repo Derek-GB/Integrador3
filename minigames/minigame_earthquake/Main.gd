@@ -84,6 +84,11 @@ var _game_result: Node = null
 
 
 func _ready() -> void:
+	# ✅ Nos identificamos por grupo, no por nombre de nodo ni ruta absoluta.
+	# Así Hud.gd y Player.gd pueden encontrarnos sin importar cómo se llame
+	# este nodo ni en qué parte del árbol quede, incluso en otro proyecto.
+	add_to_group("earthquake_main")
+
 	randomize()
 
 	_current_lives = max_lives
@@ -225,9 +230,19 @@ func on_hide_button_pressed() -> void:
 			_lose_life()
 			return
 
+	# ✅ Avisamos al jugador para que se esconda visualmente.
+	# (Hud.gd también llama a Player directamente; esto es un respaldo
+	# redundante pero seguro por si alguna vez Main se usa sin ese llamado.)
+	if _player and _player.has_method("on_hold_button_pressed"):
+		_player.on_hold_button_pressed()
+
 
 func on_hide_button_released() -> void:
 	_button_held = false
+
+	# ✅ Avisamos al jugador para que salga del escondite.
+	if _player and _player.has_method("on_hold_button_released"):
+		_player.on_hold_button_released()
 
 
 # ---------------------------------------------------------------------------

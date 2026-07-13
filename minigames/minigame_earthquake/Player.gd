@@ -34,6 +34,11 @@ var _walk_timer: float = 0.0
 
 
 func _ready() -> void:
+	# ✅ Nos identificamos por grupo, no por nombre de nodo ni ruta absoluta.
+	# Así Hud.gd y Main.gd pueden encontrarnos sin importar cómo se llame
+	# este nodo ni en qué parte del árbol quede, incluso en otro proyecto.
+	add_to_group("earthquake_player")
+
 	z_index = 5
 	z_as_relative = false
 
@@ -50,7 +55,10 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_on_viewport_resized)
 
 	await get_tree().process_frame
-	var main = get_parent()
+
+	# ✅ Buscamos a Main por grupo en vez de get_parent(), para que funcione
+	# sin importar en qué parte del árbol quede Player en otro proyecto.
+	var main = get_tree().get_first_node_in_group("earthquake_main")
 	if main and main.has_signal("earthquake_started"):
 		main.earthquake_started.connect(_on_earthquake_started)
 		main.earthquake_ended.connect(_on_earthquake_ended)
@@ -220,4 +228,9 @@ func _on_earthquake_ended() -> void:
 func _on_safe_zone_reached() -> void:
 	_set_state(PlayerState.WIN)
 	emit_signal("safe_zone_reached")
-	get_parent().on_player_reached_safe_zone()
+
+	# ✅ Avisamos a Main por grupo en vez de get_parent(), por si Player
+	# no queda como hijo directo de Main en otro proyecto.
+	var main = get_tree().get_first_node_in_group("earthquake_main")
+	if main and main.has_method("on_player_reached_safe_zone"):
+		main.on_player_reached_safe_zone()

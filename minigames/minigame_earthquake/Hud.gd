@@ -516,8 +516,11 @@ func _on_hold_up() -> void:
 		player.on_hold_button_released()
 
 
+# ✅ Buscamos por grupo en vez de rutas absolutas ("/root/Main"), para que
+# funcione sin importar el nombre del nodo raíz o la estructura del árbol
+# en cualquier proyecto donde se integre este minijuego.
 func _get_main_node() -> Node:
-	var main = get_node_or_null("/root/Main")
+	var main = get_tree().get_first_node_in_group("earthquake_main")
 
 	if main:
 		return main
@@ -529,7 +532,7 @@ func _get_main_node() -> Node:
 
 
 func _get_player_node() -> Node:
-	var player = get_node_or_null("/root/Main/Player")
+	var player = get_tree().get_first_node_in_group("earthquake_player")
 
 	if player:
 		return player
