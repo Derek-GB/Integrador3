@@ -16,7 +16,6 @@
 [ext_resource type="AudioStream" uid="uid://bylw0nbvb4fxp" path="res://Minigames/minigame_river_clean/assets/audio/cleam.mp3" id="11_k8wwk"]
 [ext_resource type="PackedScene" uid="uid://m3dt448yc1u" path="res://Minigames/ui_global/TimerUi.tscn" id="12_ne8od"]
 [ext_resource type="PackedScene" uid="uid://dsdbaxj6xesxn" path="res://Minigames/ui_global/GameResult.tscn" id="13_3n02i"]
-[ext_resource type="AudioStream" uid="uid://4vdmimp1qbyv" path="res://Minigames/minigame_mathChallenge/assets/audio/Error.mp3" id="20_4ujdx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8y2w3"]
 size = Vector2(50.375, 54.25)
@@ -25,7 +24,7 @@ size = Vector2(50.375, 54.25)
 size = Vector2(74, 34.25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sxihc"]
-size = Vector2(129, 127)
+size = Vector2(86, 82)
 
 [node name="RiverCleanMinigame" type="Node2D" unique_id=2009519007]
 script = ExtResource("1_atuvn")
@@ -123,33 +122,31 @@ shape = SubResource("RectangleShape2D_vggo2")
 visible = false
 
 [node name="Sprite2D" type="Sprite2D" parent="Fish3" unique_id=751652724]
-position = Vector2(1309.375, 845.37494)
-scale = Vector2(0.0854492, 0.07934566)
+position = Vector2(1333, 912)
+scale = Vector2(0.07714842, 0.07275394)
 texture = ExtResource("10_4xdq4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fish3" unique_id=338963275]
-position = Vector2(1313, 844)
+position = Vector2(1330, 906)
 shape = SubResource("RectangleShape2D_vggo2")
 
 [node name="CleaningGlove" type="Area2D" parent="." unique_id=243690598]
 
 [node name="Sprite2D" type="Sprite2D" parent="CleaningGlove" unique_id=819940685]
-position = Vector2(20.550001, 19.399994)
-scale = Vector2(0.24472253, 0.26339868)
+scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_sxihc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CleaningGlove" unique_id=1275853686]
-position = Vector2(22.5, 20.5)
+position = Vector2(1, -2)
 shape = SubResource("RectangleShape2D_sxihc")
 
 [node name="CleanEffect" type="Sprite2D" parent="." unique_id=443562461]
-position = Vector2(13.500002, 9.999998)
-scale = Vector2(0.18433933, 0.20880914)
+position = Vector2(-5.4999995, -7.953121)
+scale = Vector2(0.122349106, 0.15023452)
 texture = ExtResource("9_p63nh")
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="." unique_id=237628319]
 stream = ExtResource("10_hx8n7")
-volume_db = -10.0
 autoplay = true
 
 [node name="CleanSound" type="AudioStreamPlayer2D" parent="." unique_id=2139897978]
@@ -158,10 +155,6 @@ stream = ExtResource("11_k8wwk")
 [node name="TimerUI" parent="." unique_id=1042888595 instance=ExtResource("12_ne8od")]
 
 [node name="GameResult" parent="." unique_id=2106536257 instance=ExtResource("13_3n02i")]
-
-[node name="ErrorPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1275809191]
-stream = ExtResource("20_4ujdx")
-volume_db = 15.0
 
 [connection signal="area_entered" from="TrashBottle" to="." method="_on_trash_bottle_area_entered"]
 [connection signal="area_entered" from="TrashPaper" to="." method="_on_trash_paper_area_entered"]
