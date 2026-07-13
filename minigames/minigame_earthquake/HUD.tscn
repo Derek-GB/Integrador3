@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cqykt4enwb6ma"]
 
-[ext_resource type="Script" uid="uid://gta7yedlbu0c" path="res://minigames/minigame_earthquake/Hud.gd" id="1_hyoy0"]
+[ext_resource type="Script" uid="uid://gta7yedlbu0c" path="res://minigame_earthquake/Hud.gd" id="1_hyoy0"]
 
 [node name="Hud" type="CanvasLayer" unique_id=1756208885]
 script = ExtResource("1_hyoy0")

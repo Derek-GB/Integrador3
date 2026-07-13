@@ -1,4 +1,5 @@
-# Player.gd — usa DisplayServer para tamaño real de ventana
+# Player.gd — usa el viewport real y se reajusta si cambia la resolución
+# de la pantalla, para adaptarse a cualquier dispositivo/tamaño de ventana.
 
 extends Node2D
 
@@ -36,9 +37,33 @@ func _ready() -> void:
 	z_index = 5
 	z_as_relative = false
 
-	var win_size = DisplayServer.window_get_size()
-	_sw = float(win_size.x)
-	_sh = float(win_size.y)
+	_update_screen_size()
+
+	_load_textures()
+	_build_table()
+	_build_girl()
+	_set_state(PlayerState.WALKING)
+
+	# Si la pantalla cambia de tamaño/resolución (redimensionar ventana,
+	# rotar dispositivo, ejecutar en otro monitor, etc.), recalculamos las
+	# posiciones relativas y reubicamos a la niña y la mesa.
+	get_viewport().size_changed.connect(_on_viewport_resized)
+
+	await get_tree().process_frame
+	var main = get_parent()
+	if main and main.has_signal("earthquake_started"):
+		main.earthquake_started.connect(_on_earthquake_started)
+		main.earthquake_ended.connect(_on_earthquake_ended)
+	else:
+		push_warning("Player.gd: No se encontraron señales earthquake_started/ended en Main.")
+
+
+# Usa el tamaño real del viewport (no de la ventana del SO), para que las
+# posiciones se ajusten correctamente a la resolución en la que se dibuja.
+func _update_screen_size() -> void:
+	var vp_size = get_viewport().get_visible_rect().size
+	_sw = vp_size.x
+	_sh = vp_size.y
 
 	_player_x = _sw * 0.50
 	_player_y = _sh * 0.70
@@ -50,26 +75,24 @@ func _ready() -> void:
 	_hiding_x = _table_x + 30.0
 	_hiding_y = _player_y + 18.0
 
-	_load_textures()
-	_build_table()
-	_build_girl()
-	_set_state(PlayerState.WALKING)
 
-	await get_tree().process_frame
-	var main = get_parent()
-	if main and main.has_signal("earthquake_started"):
-		main.earthquake_started.connect(_on_earthquake_started)
-		main.earthquake_ended.connect(_on_earthquake_ended)
-	else:
-		push_warning("Player.gd: No se encontraron señales earthquake_started/ended en Main.")
+func _on_viewport_resized() -> void:
+	_update_screen_size()
+
+	if _table_sprite:
+		_table_sprite.position = Vector2(_table_x, _table_y)
+
+	# Reaplica la posición correspondiente al estado actual con las nuevas
+	# coordenadas ya recalculadas.
+	_set_state(current_state)
 
 
 func _load_textures() -> void:
-	_idle_texture   = load("res://minigames/minigame_earthquake/assets/sprites/girl_idle.png")   as Texture2D
-	_hiding_texture = load("res://minigames/minigame_earthquake/assets/sprites/girl_hiding.png") as Texture2D
-	_table_texture  = load("res://minigames/minigame_earthquake/assets/sprites/table.png")       as Texture2D
+	_idle_texture   = load("res://Minigames/minigame_earthquake/assets/sprites/girl_idle.png")   as Texture2D
+	_hiding_texture = load("res://Minigames/minigame_earthquake/assets/sprites/girl_hiding.png") as Texture2D
+	_table_texture  = load("res://Minigames/minigame_earthquake/assets/sprites/table.png")       as Texture2D
 	for i in range(1, 5):
-		var t = load("res://minigames/minigame_earthquake/assets/sprites/girl_walk_%d.png" % i) as Texture2D
+		var t = load("res://Minigames/minigame_earthquake/assets/sprites/girl_walk_%d.png" % i) as Texture2D
 		_walk_textures.append(t)
 	if _idle_texture   == null: push_error("No se pudo cargar girl_idle.png")
 	if _hiding_texture == null: push_error("No se pudo cargar girl_hiding.png")

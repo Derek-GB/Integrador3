@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://drg1sfdfxdsh8"]
 
-[ext_resource type="Script" uid="uid://cgqbug7s1jsmu" path="res://minigames/minigame_earthquake/Background.gd" id="1_b2yk5"]
+[ext_resource type="Script" uid="uid://cgqbug7s1jsmu" path="res://minigame_earthquake/Background.gd" id="1_b2yk5"]
 
 [node name="Background" type="Node2D" unique_id=1303420272]
 script = ExtResource("1_b2yk5")

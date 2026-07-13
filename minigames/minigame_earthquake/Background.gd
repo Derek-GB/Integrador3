@@ -28,10 +28,38 @@ var _progress: float = 0.0
 func _ready() -> void:
 	z_as_relative = false
 
-	var win = DisplayServer.window_get_size()
-	_sw = float(win.x)
-	_sh = float(win.y)
+	_update_screen_size()
+
+	_build_sky()
+	_build_ground()
+	_build_city()
+	_update_zoom()
+
+	# Si la ventana/pantalla cambia de tamaño (resize, distinto dispositivo,
+	# distinta resolución u orientación), reconstruimos todo el fondo para
+	# que quede correctamente ajustado a la nueva resolución.
+	get_viewport().size_changed.connect(_on_viewport_resized)
+
+
+# Usa el tamaño real del viewport (no de la ventana del SO), ya que es lo que
+# realmente se está dibujando en pantalla y respeta el stretch mode del proyecto.
+func _update_screen_size() -> void:
+	var vp_size = get_viewport().get_visible_rect().size
+	_sw = vp_size.x
+	_sh = vp_size.y
 	_horizon_y = _sh * 0.52
+
+
+func _on_viewport_resized() -> void:
+	_update_screen_size()
+	_rebuild()
+
+
+func _rebuild() -> void:
+	for child in get_children():
+		remove_child(child)
+		child.queue_free()
+	_city_node = null
 
 	_build_sky()
 	_build_ground()
@@ -49,7 +77,7 @@ func _build_sky() -> void:
 	fill.z_as_relative = false
 	add_child(fill)
 
-	var tex = load("res://minigames/minigame_earthquake/assets/backgrounds/bg_sky.png") as Texture2D
+	var tex = load("res://Minigames/minigame_earthquake/assets/backgrounds/bg_sky.png") as Texture2D
 	if tex:
 		var spr           = Sprite2D.new()
 		spr.centered      = false
@@ -66,7 +94,7 @@ func _build_sky() -> void:
 # ── CAMINO (estático) ─────────────────────────────────────────────────────────
 func _build_ground() -> void:
 	var ground_h = _sh - _horizon_y
-	var tex = load("res://minigames/minigame_earthquake/assets/backgrounds/bg_ground.png") as Texture2D
+	var tex = load("res://Minigames/minigame_earthquake/assets/backgrounds/bg_ground.png") as Texture2D
 
 	if tex:
 		var spr           = Sprite2D.new()
@@ -97,9 +125,9 @@ func _build_city() -> void:
 	add_child(_city_node)
 
 	# Intenta cargar bg_city.png primero, si no bg_buildings.png como fallback
-	var tex = load("res://minigames/minigame_earthquake/assets/backgrounds/bg_city.png") as Texture2D
+	var tex = load("res://Minigames/minigame_earthquake/assets/backgrounds/bg_city.png") as Texture2D
 	if tex == null:
-		tex = load("res://minigames/minigame_earthquake/assets/backgrounds/bg_buildings.png") as Texture2D
+		tex = load("res://Minigames/minigame_earthquake/assets/backgrounds/bg_buildings.png") as Texture2D
 
 	if tex:
 		var spr           = Sprite2D.new()
