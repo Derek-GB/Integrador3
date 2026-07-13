@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bhj7f83qasm8s"]
 
-[ext_resource type="Script" uid="uid://caflbc53k5cx" path="res://minigames/minigame_defo/mini_game.gd" id="1_al8k3"]
-[ext_resource type="Texture2D" uid="uid://c1rk8kk6yh5s2" path="res://minigames/minigame_defo/sprites/Jardin.png" id="2_0kmy7"]
-[ext_resource type="PackedScene" uid="uid://d2ikalu7sjcnd" path="res://minigames/minigame_defo/hole.tscn" id="3_22sn1"]
-[ext_resource type="PackedScene" uid="uid://cws6fxthegns5" path="res://minigames/minigame_defo/watering can.tscn" id="4_g3u6n"]
-[ext_resource type="PackedScene" uid="uid://ldd4h7dm67ei" path="res://minigames/minigame_defo/seed.tscn" id="5_mfvwy"]
+[ext_resource type="Script" uid="uid://caflbc53k5cx" path="res://minigame_defo/mini_game.gd" id="1_al8k3"]
+[ext_resource type="Texture2D" uid="uid://bkeknrhvfkvwg" path="res://minigame_defo/sprites/Jardin.png" id="2_m73hk"]
+[ext_resource type="PackedScene" uid="uid://d2ikalu7sjcnd" path="res://minigame_defo/hole.tscn" id="3_22sn1"]
+[ext_resource type="PackedScene" uid="uid://cws6fxthegns5" path="res://minigame_defo/watering can.tscn" id="4_g3u6n"]
+[ext_resource type="PackedScene" uid="uid://ldd4h7dm67ei" path="res://minigame_defo/seed.tscn" id="5_mfvwy"]
 
 [node name="MiniJuego" type="Node2D" unique_id=681249820]
 position = Vector2(-722, -682)
@@ -15,7 +15,7 @@ metadata/_edit_vertical_guides_ = [-31552.0]
 z_index = -10
 position = Vector2(1699.5001, 1235.9999)
 scale = Vector2(0.5127604, 0.5212963)
-texture = ExtResource("2_0kmy7")
+texture = ExtResource("2_m73hk")
 
 [node name="Hole" parent="." unique_id=1337232162 instance=ExtResource("3_22sn1")]
 position = Vector2(1780, 1434)
