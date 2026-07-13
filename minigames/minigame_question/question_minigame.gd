@@ -234,6 +234,106 @@ var questions := [
 			"Asustarlos"
 		],
 		"correct": 0
+	},
+	{
+		"question": "¿Qué debe hacer un adulto si un niño está asustado durante un desastre?",
+		"options": [
+			"Consolarlo y explicarle con calma",
+			"Regañarlo por tener miedo",
+			"Dejarlo solo para que se calme",
+			"Ignorar sus sentimientos"
+		],
+		"correct": 0
+	},
+	{
+		"question": "¿Qué es importante para la salud de los niños después de una emergencia?",
+		"options": [
+			"Recibir atención médica si la necesitan",
+			"No decir nada de sus heridas",
+			"Evitar a los médicos",
+			"Curarse solos"
+		],
+		"correct": 0
+	},
+	{
+		"question": "¿Qué deben hacer los niños si se separan de su familia?",
+		"options": [
+			"Buscar a un adulto de uniforme o autoridad",
+			"Esconderse y no hablar con nadie",
+			"Salir a buscarlos solos por la calle",
+			"Quedarse llorando sin pedir ayuda"
+		],
+		"correct": 0
+	},
+	{
+		"question": "¿Por qué es importante que los niños participen en simulacros?",
+		"options": [
+			"Para saber cómo actuar en una emergencia real",
+			"Porque es obligatorio y sin motivo",
+			"Para perder clases",
+			"Porque es un juego sin importancia"
+		],
+		"correct": 0
+	},
+	{
+		"question": "¿Qué derecho tienen los niños a la educación durante un desastre?",
+		"options": [
+			"Seguir aprendiendo aunque cambien las condiciones",
+			"Dejar de estudiar para siempre",
+			"Perder el año sin ayuda",
+			"No tener acceso a maestros"
+		],
+		"correct": 0
+	},
+	{
+		"question": "¿Qué deben hacer los adultos si un niño no entiende las instrucciones de evacuación?",
+		"options": [
+			"Explicarle de forma clara y sencilla",
+			"Gritarle para que corra más rápido",
+			"Dejarlo atrás",
+			"No explicarle nada"
+		],
+		"correct": 0
+	},
+	{
+		"question": "¿Qué es un derecho básico de todo niño o niña en cualquier situación?",
+		"options": [
+			"Tener un nombre y una identidad protegida",
+			"Perder su identidad",
+			"No tener documentos",
+			"Ser tratado como adulto"
+		],
+		"correct": 0
+	},
+	{
+		"question": "¿Qué deben hacer los niños si ven que un adulto está en peligro?",
+		"options": [
+			"Pedir ayuda a otro adulto de confianza",
+			"Intentar rescatarlo solos",
+			"Ignorarlo",
+			"Salir corriendo sin avisar a nadie"
+		],
+		"correct": 0
+	},
+	{
+		"question": "¿Qué es importante mantener durante una emergencia para sentirse seguro?",
+		"options": [
+			"La calma y la comunicación con la familia",
+			"El silencio total sin hablar",
+			"La distancia de todos los adultos",
+			"El desorden"
+		],
+		"correct": 0
+	},
+	{
+		"question": "¿Qué deben recibir los niños que perdieron su hogar en un desastre?",
+		"options": [
+			"Refugio y cuidado seguro",
+			"Ninguna ayuda",
+			"Solo comida sin refugio",
+			"Indiferencia"
+		],
+		"correct": 0
 	}
 ]
 
@@ -478,6 +578,7 @@ func _on_option_selected(selected_index: int) -> void:
 	if selected_index == current_correct_index:
 		play_correct_sound()
 		correct_answers += 1
+		current_round += 1
 		show_correct_answer(current_correct_index)
 	else:
 		play_incorrect_sound()
@@ -498,14 +599,16 @@ func _on_option_selected(selected_index: int) -> void:
 
 	await get_tree().create_timer(1.1).timeout
 
-	if current_round >= max_rounds:
-		if correct_answers >= required_correct_answers:
-			win_game()
-		else:
-			lose_game()
+	# El juego se gana al llegar a las respuestas correctas requeridas.
+	# YA NO se pierde ni se gana por "acabarse las rondas": las rondas
+	# ahora solo avanzan cuando el niño acierta (ver arriba), y la ÚNICA
+	# forma de perder es quedarse sin vidas (ver el bloque de arriba).
+	if correct_answers >= required_correct_answers:
+		win_game()
 		return
 
-	current_round += 1
+	# Tanto si acertó como si falló, se muestra una pregunta nueva; si
+	# falló, sigue en la misma ronda (current_round no cambió arriba).
 	current_question_index += 1
 	show_question()
 
@@ -589,7 +692,7 @@ func lose_game() -> void:
 
 
 func setup_scene_style() -> void:
-	var screen_size := get_viewport_rect().size
+	var screen_size := get_viewport().get_visible_rect().size
 	var screen_width := screen_size.x
 	var screen_height := screen_size.y
 
