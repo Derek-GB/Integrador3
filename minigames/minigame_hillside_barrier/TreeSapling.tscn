@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c68yocpjs7fe1"]
 
-[ext_resource type="Script" uid="uid://cvapcskk2ohjn" path="res://minigames/minigame_hillside_barrier/TreeSapling.gd" id="1_bm6y4"]
-[ext_resource type="Texture2D" uid="uid://diaw61g1e0dig" path="res://minigames/minigame_hillside_barrier/assets/images/Tree.png" id="2_sarbj"]
+[ext_resource type="Script" uid="uid://cvapcskk2ohjn" path="res://minigame_hillside_barrier/TreeSapling.gd" id="1_bm6y4"]
+[ext_resource type="Texture2D" uid="uid://diaw61g1e0dig" path="res://minigame_hillside_barrier/assets/images/Tree.png" id="2_sarbj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t1of6"]
 radius = 55.0
