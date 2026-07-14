@@ -28,8 +28,12 @@ const MINIGAME_EFFECTS: Dictionary = {
 	63: { "on_win": "advance",     "on_lose": "nothing",  "value": 2 },
 	67: { "on_win": "nothing",     "on_lose": "go_back",  "value": 2 },
 	70: { "on_win": "advance",     "on_lose": "nothing",  "value": 3 },
+	55: { "on_win": "advance",     "on_lose": "nothing",  "value": 4 },
+	71: { "on_win": "advance",     "on_lose": "nothing",  "value": 2 },
+	73: { "on_win": "advance",     "on_lose": "nothing",  "value": 2 },
+	74: { "on_win": "advance",     "on_lose": "nothing",  "value": 1 },
 }
-const MINIGAME_TILE_INDICES: Array[int] = [3, 9, 13, 15, 19, 23, 25, 29, 31, 35, 37, 42, 44, 47, 50, 53, 60, 63, 67, 70]
+const MINIGAME_TILE_INDICES: Array[int] = [3, 9, 13, 15, 19, 23, 25, 29, 31, 35, 37, 42, 44, 47, 50, 53, 55, 60, 63, 67, 70, 71, 73, 74]
 const BLUE_TILE_INDICES: Array[int]     = [5, 11, 21, 34, 45, 54, 61, 66, 72]
 const RED_TILE_INDICES: Array[int]      = [7, 16, 32, 39, 48, 58, 64, 68, 76]
 
@@ -203,7 +207,7 @@ const MINIGAMES: Dictionary = {
 		"video_path":     "res://minigames/minigame_Question/assets/Video.ogv",
 		"minigame_scene": "res://minigames/minigame_Question/QuestionMinigame.tscn",
 		"controls": [
-			{ "action": "Seleccionar respuesta", "icon": "res://Minigames/ui_global/assets/ClickIcon.png" },
+			{ "action": "Seleccionar respuesta", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
 		]
 	},
 	63: {
@@ -213,7 +217,7 @@ const MINIGAMES: Dictionary = {
 		"video_path":     "res://minigames/minigame_wave/assets/WaveInstruction.ogv",
 		"minigame_scene": "res://minigames/minigame_wave/WaveGame.tscn",
 		"controls": [
-			{ "action": "Moverse derecha, izquierda, arriba y abajo", "icon": "res://Minigames/ui_global/assets/Movement.png" },
+			{ "action": "Moverse derecha, izquierda, arriba y abajo", "icon": "res://minigames/ui_global/assets/Movement.png" },
 		]
 	},
 	67: {
@@ -223,7 +227,7 @@ const MINIGAMES: Dictionary = {
 		"video_path":     "res://minigames/minigame_water_leak/assets/WaterLeak_Instruction.ogv",
 		"minigame_scene": "res://minigames/minigame_water_leak/WaterLeakMinigame.tscn",
 		"controls": [
-			{ "action": "Arrastrar parche", "icon": "res://Minigames/ui_global/assets/ClickIcon.png" },
+			{ "action": "Arrastrar parche", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
 		]
 	},
 	70: {
@@ -233,7 +237,48 @@ const MINIGAMES: Dictionary = {
 		"video_path":     "res://minigames/minigame_bridge/assets/Bridge_Instruction.ogv",
 		"minigame_scene": "res://minigames/minigame_bridge/BridgeMinigame.tscn",
 		"controls": [
-			{ "action": "Arrastrar tablas, arrastrar martillo", "icon": "res://Minigames/ui_global/assets/ClickIcon.png" },
+			{ "action": "Arrastrar tablas, arrastrar martillo", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	55: {
+		"title":          "¡Encuentra a la familia!",
+		"description":    "¡Alerta! Debes ir al punto de encuentro acordado con la familia durante una emergencia.",
+		"instructions":   "Mueve al rescatista dentro de la casa para encontrar a papá, mamá, hijo e hija. Rescata a los cuatro familiares y llévalos a la zona segura antes de que se acabe el tiempo.",
+		"video_path":     "res://minigames/minigame_FamilyMeeting/assets/video/FamilyMeetingInstructions.ogv",
+		"minigame_scene": "res://minigames/minigame_FamilyMeeting/FamilyMeetingMinigame.tscn",
+		"controls": [
+			{ "action": "Moverse derecha, izquierda, arriba y abajo", "icon": "res://minigames/ui_global/assets/Movement.png" },
+		]
+	},
+	71: {
+		"title":          "¡Evacuación segura!",
+		"description":    "Ayuda a los niños a evacuar de forma ordenada y llegar seguros a la escuela siguiendo el ritmo correcto.",
+		"instructions":   "Observa los colores que bajan en pantalla y presiona las flechas correctas o el ratón cuando lleguen a la zona de ritmo. Si fallas demasiadas veces o se acaba el tiempo, perderás la partida.",
+		"video_path":     "res://minigames/minigame_evacuation/assets/InstructionsEva.ogv",
+		"minigame_scene": "res://minigames/minigame_evacuation/EvacuationRhythmMinigame.tscn",
+		"controls": [
+			{ "action": "Usa el ratón", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+			{ "action": "Derecha, izquierda, arriba y abajo", "icon": "res://minigames/ui_global/assets/Movement.png" },
+		]
+	},
+	73: {
+		"title":          "¡Desafío Matemático!",
+		"description":    "Pon a prueba tu rapidez resolviendo operaciones matemáticas antes de que se acabe el tiempo.",
+		"instructions":   "Observa la operación que aparece en la pizarra y selecciona el número correcto en el teclado. Completa 10 operaciones antes de que termine el tiempo. Si acumulas 3 errores o se acaba el tiempo, perderás la partida.",
+		"video_path":     "res://minigames/minigame_mathChallenge/assets/video/InstructionsMath.ogv",
+		"minigame_scene": "res://minigames/minigame_mathChallenge/MathChallengeMinigame.tscn",
+		"controls": [
+			{ "action": "Seleccionar la respuesta correcta", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
+		]
+	},
+	74: {
+		"title":          "¡Comité de emergencias!",
+		"description":    "Forma parte del comité de emergencias y organiza correctamente a cada integrante según sus responsabilidades.",
+		"instructions":   "Arrastra cada objeto al personaje correcto. El bombero necesita sus herramientas contra incendios, la Cruz Roja necesita objetos médicos, el rescatista necesita equipo de rescate y el comunicador necesita objetos para avisar y coordinar. Si colocas un objeto en el lugar incorrecto, perderás una vida. Si completas todas las asignaciones antes de que se acabe el tiempo, ganarás la partida.",
+		"video_path":     "res://minigames/minigame_committee/assets/InstructionsCommittee.ogv",
+		"minigame_scene": "res://minigames/minigame_committee/EmergencyCommitteeMinigame.tscn",
+		"controls": [
+			{ "action": "Arrastrar objetos con el ratón", "icon": "res://minigames/ui_global/assets/ClickIcon.png" },
 		]
 	},
 }

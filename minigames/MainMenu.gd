@@ -70,6 +70,10 @@ func _on_button_13_pressed() -> void:
 func _on_button_16_pressed() -> void:
 	Events.set_minigame.emit(53)
 
+# Casilla 55 - Encuentra a la familia
+func _on_button_18_pressed() -> void:
+	Events.set_minigame.emit(55)
+
 # Casilla 60 - Derechos de la niñez (preguntas)
 func _on_button_19_pressed() -> void:
 	Events.set_minigame.emit(60)
@@ -86,6 +90,20 @@ func _on_button_21_pressed() -> void:
 func _on_button_22_pressed() -> void:
 	Events.set_minigame.emit(70)
 
+# Casilla 71 - Evacuación segura
+func _on_button_23_pressed() -> void:
+	Events.set_minigame.emit(71)
+
+# Casilla 73 - Desafío Matemático
+func _on_button_24_pressed() -> void:
+	Events.set_minigame.emit(73)
+
+# Casilla 74 - Comité de emergencias
+func _on_button_25_pressed() -> void:
+	Events.set_minigame.emit(74)
+
 # Volver al selector de edad
 func _on_button_26_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/UX/AgeSelector.tscn")
+	get_tree().change_scene_to_file(
+		"res://scenes/UX/AgeSelector.tscn"
+	)

@@ -8,7 +8,7 @@ class_name GameResult
 
 const FONT_PATHS := [
 	"res://fonts/Montserrat.ttf",
-	"res:/fonts/Montserrat-VariableFont_wght.ttf"
+	"res://fonts/Montserrat-VariableFont_wght.ttf"
 ]
 
 const COLOR_CYAN := Color("#30C0F0")
