@@ -14,7 +14,7 @@ const BRIDGE_SLOT_SCENE_PATH := "res://Minigames/minigame_bridge/BridgeSlot.tscn
 
 const TIMER_UI_SCENE_PATH := "res://Minigames/ui_global/TimerUI.tscn"
 const GAME_RESULT_SCENE_PATH := "res://Minigames/ui_global/GameResult.tscn"
-const LIVES_UI_SCRIPT_PATH := "res://Minigames/ui_global/LivesUi.gd"
+const LIVES_UI_SCENE_PATH := "res://Minigames/ui_global/LivesUi.tscn"
 
 const BOARD_TEXTURES := {
 	1: "res://Minigames/minigame_bridge/assets/boards/board_1.png",
@@ -654,28 +654,34 @@ func _setup_lives_ui():
 	if lives_layer:
 		return
 	
+	if not ResourceLoader.exists(LIVES_UI_SCENE_PATH):
+		push_error("No se encontró LivesUi.tscn en: " + LIVES_UI_SCENE_PATH)
+		return
+	
 	lives_layer = CanvasLayer.new()
 	lives_layer.name = "LivesLayer"
 	lives_layer.layer = 120
 	add_child(lives_layer)
 	
-	if ResourceLoader.exists(LIVES_UI_SCRIPT_PATH):
-		var lives_script = load(LIVES_UI_SCRIPT_PATH)
-		lives_ui = Node2D.new()
-		lives_ui.name = "LivesUI"
-		lives_ui.set_script(lives_script)
-		lives_layer.add_child(lives_ui)
-	else:
-		push_error("No se encontró LivesUi.gd en: " + LIVES_UI_SCRIPT_PATH)
-		return
+	var lives_scene: PackedScene = load(LIVES_UI_SCENE_PATH)
+	lives_ui = lives_scene.instantiate()
+	lives_ui.name = "LivesUI"
+	lives_layer.add_child(lives_ui)
 	
-	# IMPORTANTE:
-	# No lo movemos con position porque el LivesUi global ya maneja esquinas.
+	# LivesUi se dibuja usando el tamaño del viewport.
+	# Por eso se mantiene en la posición global (0, 0).
 	lives_ui.position = Vector2.ZERO
 	
-	# TOP_RIGHT en el enum global normalmente es 1.
-	lives_ui.set("panel_corner", 1)
-	lives_ui.set("panel_margin", Vector2(25, 25))
+	# TOP_RIGHT corresponde al valor 1 del enum PanelCorner.
+	if lives_ui.has_method("set_panel_corner"):
+		lives_ui.set_panel_corner(1)
+	else:
+		lives_ui.set("panel_corner", 1)
+	
+	if lives_ui.has_method("set_panel_margin"):
+		lives_ui.set_panel_margin(Vector2(25, 25))
+	else:
+		lives_ui.set("panel_margin", Vector2(25, 25))
 	
 	if lives_ui.has_method("set_max_lives"):
 		lives_ui.set_max_lives(MAX_LIVES)
@@ -683,9 +689,6 @@ func _setup_lives_ui():
 		lives_ui.set("max_lives", MAX_LIVES)
 	
 	_update_lives_ui()
-	
-	if lives_ui.has_method("queue_redraw"):
-		lives_ui.queue_redraw()
 
 
 func _update_lives_ui():
@@ -712,9 +715,6 @@ func _start_game():
 	hammer_phase = false
 	hammer_dragging = false
 	hammer_hit_busy = false
-	
-	placed_boards = 0
-	current_lives = MAX_LIVES
 	
 	placed_boards = 0
 	current_lives = MAX_LIVES

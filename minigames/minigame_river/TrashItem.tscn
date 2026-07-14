@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ce3pi21xcyeqx"]
 
-[ext_resource type="Script" uid="uid://biytrdc22p2nq" path="res://minigames/minigame_river/TrashItem.gd" id="1_ag0cf"]
-[ext_resource type="Texture2D" uid="uid://crcdp561ol8be" path="res://minigames/minigame_river/assets/basura.png" id="2_ag0cf"]
+[ext_resource type="Script" uid="uid://biytrdc22p2nq" path="res://minigame_river/TrashItem.gd" id="1_ag0cf"]
+[ext_resource type="Texture2D" uid="uid://crcdp561ol8be" path="res://minigame_river/assets/basura.png" id="2_ag0cf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ag0cf"]
 size = Vector2(133, 145)

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c7poucxdt5atw" path="res://minigames/minigame_wave/WaveGame.gd" id="1_v1n4o"]
 [ext_resource type="Texture2D" uid="uid://3nvcxsve70ml" path="res://minigames/minigame_wave/assets/jump1.png" id="2_eua56"]
+[ext_resource type="Texture2D" uid="uid://d3km7vv7j717f" path="res://minigames/minigame_wave/assets/ObstacleBackground.png" id="2_n6d5t"]
 [ext_resource type="Texture2D" uid="uid://c77opq84smvg7" path="res://minigames/minigame_wave/assets/run1.png" id="2_ubvdr"]
 [ext_resource type="Script" uid="uid://ytwswugkpd6q" path="res://minigames/minigame_wave/CharacterBody2dD.gd" id="3_0h4q8"]
 [ext_resource type="Script" uid="uid://i8vnwm8o230x" path="res://minigames/minigame_wave/Background.gd" id="3_ak01e"]
@@ -28,7 +29,6 @@
 [ext_resource type="AudioStream" uid="uid://c7603rtcvlkb2" path="res://minigames/minigame_wave/music/SoundBackground.mp3" id="26_6dhov"]
 [ext_resource type="AudioStream" uid="uid://dhl2ssyct8xrp" path="res://minigames/minigame_wave/music/SoundCollision.mp3" id="27_uo1ub"]
 [ext_resource type="AudioStream" uid="uid://dbovkgfjugqi4" path="res://minigames/minigame_wave/music/SoundJump.mp3" id="28_7imau"]
-[ext_resource type="Texture2D" uid="uid://b4x47o5a4cd4f" path="res://Minigames/minigame_wave/assets/ObstacleBackground.png" id="99_bgimg"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3ragl"]
 animations = [{
@@ -99,7 +99,7 @@ script = ExtResource("1_v1n4o")
 [node name="Background" type="Sprite2D" parent="." unique_id=810954376]
 position = Vector2(1025.125, 593.7499)
 scale = Vector2(1.3556316, 1.1791991)
-texture = ExtResource("99_bgimg")
+texture = ExtResource("2_n6d5t")
 script = ExtResource("3_ak01e")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=441474057]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ctphiepgoswex"]
 
-[ext_resource type="Script" uid="uid://bwphbidaposye" path="res://minigames/minigame_fire/FireTree.gd" id="1_fycjt"]
+[ext_resource type="Script" uid="uid://bwphbidaposye" path="res://Minigames/minigame_fire/FireTree.gd" id="1_fycjt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_82f2u"]
 

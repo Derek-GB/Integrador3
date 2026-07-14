@@ -2,6 +2,7 @@ extends Node2D
 class_name LivesUi
 
 
+
 enum PanelCorner {
 	TOP_LEFT,
 	TOP_RIGHT,
