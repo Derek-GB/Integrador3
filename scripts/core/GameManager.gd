@@ -558,11 +558,14 @@ func _apply_minigame_effect(tile_index: int, won: bool) -> void:
 			return
 
 	elif action == "go_to_space":
-		var steps_needed: int = value - active_token.current_index
-		if steps_needed > 0:
-			await active_token.move_steps(steps_needed)
-		elif steps_needed < 0:
-			await active_token.move_back(-steps_needed)
+		if tile_index == 25:
+			await active_token.move_to_alt_path(value)
+		else:
+			var steps_needed: int = value - active_token.current_index
+			if steps_needed > 0:
+				await active_token.move_steps(steps_needed)
+			elif steps_needed < 0:
+				await active_token.move_back(-steps_needed)
 		if await check_special_tile(active_token):
 			return
 

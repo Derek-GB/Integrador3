@@ -2,6 +2,9 @@ extends Node3D
 var waypoints: Array[Vector3] = []
 var waypoint_rotations: Array[float] = []
 var waypoint_bases: Array[Basis] = []
+var alt_waypoints: Array[Vector3] = []
+var alt_waypoint_rotations: Array[float] = []
+var alt_waypoint_bases: Array[Basis] = []
 var current_index: int = 0
 @export var speed: float = 8.0
 @export var jump_height: float = 1.2
@@ -33,6 +36,68 @@ func setup(board_waypoints: Array[Vector3], board_rotations: Array[float] = [], 
 	else:
 		push_warning("Ficha: no recibió waypoints")
 		
+
+func setup_alt_path(
+	alt_path_waypoints: Array[Vector3],
+	alt_path_rotations: Array[float] = [],
+	alt_path_bases: Array[Basis] = []
+) -> void:
+	alt_waypoints = alt_path_waypoints
+	alt_waypoint_rotations = alt_path_rotations
+	alt_waypoint_bases = alt_path_bases
+	print("Ficha: setup_alt_path - waypoints alternos:", alt_waypoints.size())
+
+# =========================================================
+# ATAJO: TOMA LA RUTA ALTERNA (AltPath) EN VEZ DEL CAMINO NORMAL
+# Recorre las casillas intermedias por el camino alterno, pero
+# SIEMPRE reserva el último paso para aterrizar en la posición
+# real de la casilla destino (camino principal). Esto evita que
+# la ficha quede visualmente "antes" de la meta cuando el último
+# marcador del AltPath no coincide exactamente con el Marker3D
+# real de esa casilla.
+# =========================================================
+func move_to_alt_path(target_index: int) -> void:
+	var steps: int = target_index - current_index
+
+	if steps <= 0:
+		return
+
+	var meta_index: int = waypoints.size() - 1
+
+	if alt_waypoints.is_empty():
+		push_warning("Ficha: no hay ruta alterna configurada, usando ruta normal")
+		await move_steps(steps)
+		return
+
+	# Reservamos el último paso para el aterrizaje real en target_index,
+	# así el AltPath solo cubre las casillas intermedias (26..29 en este caso).
+	var alt_steps: int = min(steps - 1, alt_waypoints.size())
+
+	for i in range(alt_steps):
+		current_index += 1
+		lane_offset = _resolve_lane_offset(current_index)
+
+		print("Ficha: atajo -> índice", current_index, " posición alterna:", alt_waypoints[i])
+
+		await _move_to_alt(alt_waypoints[i], i)
+
+		stepped_on.emit(current_index)
+
+	# Aterrizaje final: siempre usa la posición/rotación/base REAL
+	# de la casilla destino en el camino principal.
+	if current_index < target_index:
+		current_index = target_index
+		lane_offset = _resolve_lane_offset(current_index)
+
+		print("Ficha: atajo -> aterrizaje final en índice real", current_index)
+
+		await _move_to(waypoints[current_index])
+
+		stepped_on.emit(current_index)
+
+	if current_index == meta_index:
+		reached_end.emit()
+
 # =========================================================
 # MOVER PASOS HACIA ADELANTE
 # Incluye rebote al sobrepasar la meta y cálculo
@@ -145,48 +210,55 @@ func move_back(steps: int) -> void:
 # Aplica lane_offset al destino para mantener el carril
 # =========================================================
 func _move_to(target: Vector3) -> void:
-	if _lane_tween and _lane_tween.is_valid():
-		_lane_tween.kill()
-	var offset := lane_offset
+	var basis: Basis = Basis.IDENTITY
 	if current_index < waypoint_bases.size():
-		offset = waypoint_bases[current_index] * lane_offset
-	var actual_target := target + offset
-	var start_rotation_y: float = rotation.y
-	var target_rotation_y: float = start_rotation_y
+		basis = waypoint_bases[current_index]
+	var target_rotation_y: float = rotation.y
 	if current_index < waypoint_rotations.size():
 		target_rotation_y = deg_to_rad(waypoint_rotations[current_index])
+	await _move_to_point(target, target_rotation_y, basis)
+
+func _move_to_alt(target: Vector3, alt_index: int) -> void:
+	var basis: Basis = Basis.IDENTITY
+	if alt_index < alt_waypoint_bases.size():
+		basis = alt_waypoint_bases[alt_index]
+	var target_rotation_y: float = rotation.y
+	if alt_index < alt_waypoint_rotations.size():
+		target_rotation_y = deg_to_rad(alt_waypoint_rotations[alt_index])
+	await _move_to_point(target, target_rotation_y, basis)
+
+func _move_to_point(target: Vector3, target_rotation_y: float, basis: Basis) -> void:
+	if _lane_tween and _lane_tween.is_valid():
+		_lane_tween.kill()
+	var offset: Vector3 = basis * lane_offset
+	var actual_target: Vector3 = target + offset
+	var start_rotation_y: float = rotation.y
+
 	if speed <= 0:
 		global_position = actual_target
 		rotation.y = target_rotation_y
 		return
+
 	var start: Vector3 = global_position
 	var distance: float = start.distance_to(actual_target)
 	var duration: float = max(0.09, distance / speed)
 	var elapsed: float = 0.0
-	
+
 	while elapsed < duration:
-		# 1. Comprobación de seguridad antes del await
 		if not is_inside_tree():
 			return
-			
 		await get_tree().process_frame
-		
-		# 2. Comprobación de seguridad después del await (por si se reinició la escena en este frame)
 		if not is_inside_tree():
 			return
-			
-		# 3. Si el juego está en pausa, omitimos el frame actual sin avanzar la animación
 		if get_tree().paused:
 			continue
-			
 		elapsed += get_process_delta_time()
 		var t: float = min(elapsed / duration, 1.0)
 		var horizontal: Vector3 = start.lerp(actual_target, t)
 		var arc: float = sin(t * PI) * jump_height
 		global_position = Vector3(horizontal.x, horizontal.y + arc, horizontal.z)
-		var angle: float = lerp_angle(start_rotation_y, target_rotation_y, t)
-		rotation.y = angle
-		
+		rotation.y = lerp_angle(start_rotation_y, target_rotation_y, t)
+
 	global_position = actual_target
 	rotation.y = target_rotation_y
 	
