@@ -20,7 +20,7 @@ var game_finished := false
 
 const REQUIRED_ANSWERS := 10
 const MAX_ERRORS := 3
-const SYMBOL_PATH := "res://Minigames/minigame_mathChallenge/assets/objects/math_symbols/"
+const SYMBOL_PATH := "res://minigames/minigame_mathChallenge/assets/objects/math_symbols/"
 var TOTAL_TIME: float = 50.0
 
 var damage_layer: CanvasLayer = null
