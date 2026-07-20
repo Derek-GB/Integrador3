@@ -85,6 +85,16 @@ var damage_rect: ColorRect = null
 
 
 func _ready() -> void:
+	# ✅ Nos identificamos por grupo, no dependemos de ser la escena raíz.
+	# Antes Hud.gd y Player.gd usaban get_tree().current_scene como fallback
+	# para encontrarnos, lo cual solo funcionaba si Main era el root de la
+	# escena. Al integrar el minijuego dentro de otro proyecto (donde Main
+	# queda como escena hija), ese fallback apuntaba al nodo equivocado y
+	# on_hide_button_pressed() nunca se llamaba, causando que _button_held
+	# se quedara en false aunque el jugador estuviera sosteniendo el botón
+	# (de ahí que perdiera vidas incluso estando "escondido").
+	add_to_group("earthquake_main")
+
 	randomize()
 
 	_current_lives = max_lives
