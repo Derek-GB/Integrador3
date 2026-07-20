@@ -5,24 +5,23 @@ extends Node2D
 # PATHS
 # =========================================================
 
-const BACKGROUND_BROKEN_PATH := "res://Minigames/minigame_bridge/assets/background.png"
-const BACKGROUND_FIXED_PATH := "res://Minigames/minigame_bridge/assets/background_fixed.png"
-const HAMMER_PATH := "res://Minigames/minigame_bridge/assets/hammer.png"
+const BACKGROUND_BROKEN_PATH := "res://minigames/minigame_bridge/assets/background.png"
+const BACKGROUND_FIXED_PATH := "res://minigames/minigame_bridge/assets/background_fixed.png"
+const HAMMER_PATH := "res://minigames/minigame_bridge/assets/hammer.png"
 
-const BRIDGE_BOARD_SCENE_PATH := "res://Minigames/minigame_bridge/BridgeBoard.tscn"
-const BRIDGE_SLOT_SCENE_PATH := "res://Minigames/minigame_bridge/BridgeSlot.tscn"
+const BRIDGE_BOARD_SCENE_PATH := "res://minigames/minigame_bridge/BridgeBoard.tscn"
+const BRIDGE_SLOT_SCENE_PATH := "res://minigames/minigame_bridge/BridgeSlot.tscn"
 
-const TIMER_UI_SCENE_PATH := "res://Minigames/ui_global/TimerUI.tscn"
-const GAME_RESULT_SCENE_PATH := "res://Minigames/ui_global/GameResult.tscn"
-const LIVES_UI_SCRIPT_PATH := "res://Minigames/ui_global/LivesUi.gd"
+const TIMER_UI_SCENE_PATH := "res://minigames/ui_global/TimerUi.tscn"
+const GAME_RESULT_SCENE_PATH := "res://minigames/ui_global/GameResult.tscn"
+const LIVES_UI_SCRIPT_PATH := "res://minigames/ui_global/LivesUi.gd"
 
 const BOARD_TEXTURES := {
-	1: "res://Minigames/minigame_bridge/assets/boards/board_1.png",
-	2: "res://Minigames/minigame_bridge/assets/boards/board_2.png",
-	3: "res://Minigames/minigame_bridge/assets/boards/board_3.png",
-	4: "res://Minigames/minigame_bridge/assets/boards/board_4.png",
+	1: "res://minigames/minigame_bridge/assets/boards/board_1.png",
+	2: "res://minigames/minigame_bridge/assets/boards/board_2.png",
+	3: "res://minigames/minigame_bridge/assets/boards/board_3.png",
+	4: "res://minigames/minigame_bridge/assets/boards/board_4.png",
 }
-
 
 # =========================================================
 # GAME SETTINGS
