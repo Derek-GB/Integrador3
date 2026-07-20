@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://cdpukfixusqi1"]
 
-[ext_resource type="Script" uid="uid://evgg31un0xo" path="res://Minigames/minigame_landslide/landslide_minigame.gd" id="1_xrwn7"]
-[ext_resource type="Texture2D" uid="uid://d3yc8jmqyet7" path="res://Minigames/minigame_landslide/minigame_landslide/assets/01_background_landslide.png" id="2_xrwn7"]
-[ext_resource type="PackedScene" uid="uid://baspr7yo4qutn" path="res://Minigames/minigame_landslide/minigame_landslide/PlayerLandslide.tscn" id="5_3ukm6"]
-[ext_resource type="PackedScene" uid="uid://cf4skwm7ohn6a" path="res://Minigames/minigame_landslide/minigame_landslide/SafeCabin.tscn" id="7_du55d"]
-[ext_resource type="PackedScene" uid="uid://b6gh71oryvhkw" path="res://Minigames/minigame_landslide/Trunk.tscn" id="7_telab"]
-[ext_resource type="PackedScene" uid="uid://dwg5a3dxrnsvp" path="res://Minigames/minigame_landslide/minigame_landslide/PhoneCabin.tscn" id="8_1ik8k"]
+[ext_resource type="Script" uid="uid://evgg31un0xo" path="res://minigames/minigame_landslide/landslide_minigame.gd" id="1_xrwn7"]
+[ext_resource type="Texture2D" uid="uid://dkpmlqcdsq1ya" path="res://minigames/minigame_landslide/assets/01_background_landslide.png" id="2_xrwn7"]
+[ext_resource type="PackedScene" uid="uid://baspr7yo4qutn" path="res://minigames/minigame_landslide/PlayerLandslide.tscn" id="5_3ukm6"]
+[ext_resource type="PackedScene" uid="uid://cf4skwm7ohn6a" path="res://minigames/minigame_landslide/SafeCabin.tscn" id="7_du55d"]
+[ext_resource type="PackedScene" uid="uid://b6gh71oryvhkw" path="res://minigames/minigame_landslide/Trunk.tscn" id="7_telab"]
+[ext_resource type="PackedScene" uid="uid://dwg5a3dxrnsvp" path="res://minigames/minigame_landslide/PhoneCabin.tscn" id="8_1ik8k"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_telab"]
 radius = 9.942078

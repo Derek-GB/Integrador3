@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b6gh71oryvhkw"]
 
-[ext_resource type="Script" uid="uid://dtmibrkircxmq" path="res://Minigames/minigame_landslide/trunk.gd" id="1_3v11x"]
-[ext_resource type="Texture2D" uid="uid://cyb8iu4voij7j" path="res://Minigames/minigame_landslide/minigame_landslide/assets/07_tree_log_obstacle.png" id="1_js7q8"]
+[ext_resource type="Script" uid="uid://dtmibrkircxmq" path="res://minigames/minigame_landslide/trunk.gd" id="1_3v11x"]
+[ext_resource type="Texture2D" uid="uid://ctqjtyk6rkjdr" path="res://minigames/minigame_landslide/assets/07_tree_log_obstacle.png" id="1_js7q8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fyc5r"]
 size = Vector2(96, 35)
