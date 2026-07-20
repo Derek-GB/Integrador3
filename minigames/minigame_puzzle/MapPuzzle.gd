@@ -369,6 +369,8 @@ func _play_damage_effect():
 			randf_range(-8.0, 8.0)
 		)
 		
+		
+		
 		shake_tween.tween_property(self, "position", original_position + offset, 0.03)
 	
 	shake_tween.tween_property(self, "position", original_position, 0.05)
