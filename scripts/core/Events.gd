@@ -17,4 +17,7 @@ signal minigame_result(won: bool)         # para determinar resultado
 signal notify_pause(on_pause: bool)
 signal notify_pause_for_minigame(on_pause: bool)
 
+signal earthquake_triggered
+signal earthquake_finished
+
 func _ready(): process_mode = Node.PROCESS_MODE_ALWAYS
