@@ -191,7 +191,6 @@ func _start_game() -> void:
 	_update_position_label()
 	for i in range(1,7):
 		Events.visible_pointer.emit(i,true)
-		Events.visible_pointer.emit(i,true)
 	print("Main: juego iniciado modo", mode)
 
 func _add_tag(f: Node3D, texto: String) -> void:
@@ -233,8 +232,22 @@ func _on_ficha_stepped(_index: int) -> void:
 	elif type == "go_to_space":
 		AudioManager.play_sfx(move_sound)
 		GameManager.last_action_type = ""
+		
+	
 	Events.visible_pointer.emit(_index+6,true)
-	Events.visible_pointer.emit(_index-6,false)
+	if (_index < piece.current_index || _index < piece2.current_index):
+		Events.visible_pointer.emit(_index-6, false)
+	
+	Events.visible_pointer.emit(piece.current_index, false)
+	Events.visible_pointer.emit(piece2.current_index, false)
+	
+
+func card_index (index: int, vector: Array ) -> bool:
+	var value : bool
+	for i in vector:
+		value = !(i == index)
+	return value
+
 
 func _on_pause() -> void:
 	pause_menu.open_window()
@@ -249,7 +262,7 @@ func _on_throw_3() -> void:
 		return
 	AudioManager.play_sfx(dice_sound)
 	dice_label.text = "Tiraste un 3"
-	await GameManager.on_dice_rolled(25)
+	await GameManager.on_dice_rolled(11)
 
 
 func _on_restart() -> void:
