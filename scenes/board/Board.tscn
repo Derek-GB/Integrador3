@@ -4,9 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://l7yehtkd42qe" path="res://scenes/board/CardAnimation.tscn" id="2_wjfn2"]
 [ext_resource type="PackedScene" uid="uid://i528un3jtxhd" path="res://scenes/board/CardAnimationBlue.tscn" id="3_v01b6"]
 [ext_resource type="PackedScene" uid="uid://dmiympugo4r4x" path="res://scenes/board/Token.tscn" id="4_chwsj"]
-[ext_resource type="PackedScene" uid="uid://b4sfxq4o4o5tg" path="res://scenes/board/map.tscn" id="4_l0jo7"]
+[ext_resource type="PackedScene" uid="uid://b4sfxq4o4o5tg" path="res://scenes/board/mapa.tscn" id="4_l0jo7"]
 [ext_resource type="PackedScene" uid="uid://dp0m1dj31ud0u" path="res://scenes/board/Tornado.tscn" id="7_l0jo7"]
-[ext_resource type="Texture2D" uid="uid://ph6ytry5q45e" path="res://images/texturas/TexturaFuego.png" id="8_0kj62"]
+[ext_resource type="Texture2D" uid="uid://bverm1ai0mkwd" path="res://images/texturas/TexturaFuego.png" id="8_0kj62"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lew3n"]
 transparency = 1
@@ -411,19 +411,19 @@ transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.201286, 0)
 
 [node name="C1" type="Marker3D" parent="TornadoPath" unique_id=1658592772]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -22.248642, 0, -44.098347)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -22.85157, 0, -39.160614)
 
 [node name="C2" type="Marker3D" parent="TornadoPath" unique_id=1025400028]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -34.554073, 0, -35.626453)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -22.850004, 0, -35.626453)
 
 [node name="C3" type="Marker3D" parent="TornadoPath" unique_id=1720132503]
-transform = Transform3D(0.34202015, 0, -0.9396926, 0, 1, 0, 0.9396926, 0, 0.34202015, -31.511368, 0, -21.583088)
+transform = Transform3D(0.34202015, 0, -0.9396926, 0, 1, 0, 0.9396926, 0, 0.34202015, -18.927475, 0, -34.72766)
 
 [node name="C4" type="Marker3D" parent="TornadoPath" unique_id=1302717347]
-transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -17.815119, 0, -22.693516)
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -18.69548, 0, -39.054245)
 
 [node name="C5" type="Marker3D" parent="TornadoPath" unique_id=474775175]
-transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -17.009132, 0, -34.60618)
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -21.054071, 0, -39.542984)
 
 [node name="Token" parent="." unique_id=1007468202 instance=ExtResource("4_chwsj")]
 
