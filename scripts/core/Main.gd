@@ -15,6 +15,8 @@ extends Node3D
 @export var time_over_sound: AudioStream
 # Separación lateral entre fichas cuando comparten casilla
 @export var lane_split_offset: float = 1.75
+@export var earthquake_duration: float = 1.4
+@export var earthquake_strength: float = 0.2
 
 # =========================================================
 # NODOS DE LA ESCENA
@@ -90,6 +92,7 @@ func _ready() -> void:
 	Events.minigame_intro_started.connect(_on_minigame_intro_started)
 	Events.minigame_confirmed.connect(_on_minigame_confirmed)
 	Events.minigame_finished.connect(_on_minigame_finished)
+	Events.earthquake_triggered.connect(_on_earthquake_triggered)
 
 	_dice_overlay_instance = DICE_OVERLAY_SCENE.instantiate()
 	_dice_overlay_instance.visible = false
@@ -249,7 +252,7 @@ func _on_throw_3() -> void:
 		return
 	AudioManager.play_sfx(dice_sound)
 	dice_label.text = "Tiraste un 3"
-	await GameManager.on_dice_rolled(25)
+	await GameManager.on_dice_rolled(28)
 
 
 func _on_restart() -> void:
@@ -447,3 +450,25 @@ func _update_position_label() -> void:
 		position_label.text = "J1: casilla %d     J2: casilla %d" % [pos1, pos2]
 	else:
 		position_label.text = "Jugador: casilla %d     CPU: casilla %d" % [pos1, pos2]
+
+func _on_earthquake_triggered() -> void:
+	await _shake_camera(earthquake_duration, earthquake_strength)
+	Events.earthquake_finished.emit()
+
+func _shake_camera(duration: float, strength: float) -> void:
+	var original_position: Vector3 = camera.position
+	var elapsed: float = 0.0
+
+	while elapsed < duration:
+		await get_tree().process_frame
+		if not is_inside_tree():
+			return
+		elapsed += get_process_delta_time()
+		var falloff: float = 1.0 - (elapsed / duration)
+		camera.position = original_position + Vector3(
+			randf_range(-strength, strength) * falloff,
+			randf_range(-strength, strength) * falloff,
+			0.0
+		)
+
+	camera.position = original_position
