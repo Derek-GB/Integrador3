@@ -122,6 +122,7 @@ func move_steps(steps: int) -> void:
 		" meta =",
 		meta_index
 	)
+	stepped_on.emit(current_index)
 
 	# =====================================================
 	# CASO NORMAL: NO SOBREPASA LA META
@@ -205,6 +206,7 @@ func move_back(steps: int) -> void:
 		lane_offset = _resolve_lane_offset(current_index)
 		print("Ficha: retrocediendo a índice", current_index)
 		await _move_to(waypoints[current_index])
+		stepped_on.emit(current_index)
 # =========================================================
 # MOVER A POSICIÓN CON SALTO
 # Aplica lane_offset al destino para mantener el carril
