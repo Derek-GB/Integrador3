@@ -447,6 +447,14 @@ lifetime = 1.87
 process_material = SubResource("ParticleProcessMaterial_l0jo7")
 draw_pass_1 = SubResource("QuadMesh_0kj62")
 
+[node name="Fuego4" type="GPUParticles3D" parent="." unique_id=823708642]
+transform = Transform3D(-0.09953323, -0.66617715, 2.9234056, -0.022668215, 2.9250996, 0.6657914, -2.9982626, -6.9849193e-09, -0.102081895, -40.304146, 27.524963, -55.270107)
+material_override = SubResource("StandardMaterial3D_lew3n")
+amount = 50
+lifetime = 1.87
+process_material = SubResource("ParticleProcessMaterial_l0jo7")
+draw_pass_1 = SubResource("QuadMesh_0kj62")
+
 [node name="Fuego2" type="GPUParticles3D" parent="." unique_id=1072585699]
 transform = Transform3D(-0.033177756, -0.22205906, 0.97446865, -0.007556072, 0.9750332, 0.22193047, -0.99942094, 0, -0.03402731, -60.060837, 16.430574, -47.076195)
 material_override = SubResource("StandardMaterial3D_lew3n")
