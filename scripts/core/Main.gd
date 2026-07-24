@@ -241,9 +241,12 @@ func _on_ficha_stepped(_index: int) -> void:
 	if (_index < piece.current_index || _index < piece2.current_index):
 		Events.visible_pointer.emit(_index-6, false)
 	
-	Events.visible_pointer.emit(piece.current_index, false)
-	Events.visible_pointer.emit(piece2.current_index, false)
-	
+	Events.forced_visible_pointer.emit(_index,true)
+	Events.forced_visible_pointer.emit(_index-1,_is_space_occupied(_index-1))
+	Events.forced_visible_pointer.emit(_index+1,_is_space_occupied(_index+1))
+
+func _is_space_occupied(index:int) -> bool:
+	return piece.current_index == index or piece2.current_index == index
 
 func card_index (index: int, vector: Array ) -> bool:
 	var value : bool
@@ -265,7 +268,7 @@ func _on_throw_3() -> void:
 		return
 	AudioManager.play_sfx(dice_sound)
 	dice_label.text = "Tiraste un 3"
-	await GameManager.on_dice_rolled(28)
+	await GameManager.on_dice_rolled(11)
 
 
 func _on_restart() -> void:

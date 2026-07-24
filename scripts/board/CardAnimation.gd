@@ -6,6 +6,7 @@ var tween: Tween
 @onready var sprite: Sprite3D = $FleetManager/Sprite3D
 var players_in_range: int = 0
 var fade_tween: Tween
+var visibility_locked := false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -36,11 +37,26 @@ func begin_float_infinitely() -> void:
 		.set_trans(Tween.TRANS_SINE)\
 		.set_ease(Tween.EASE_IN_OUT)
 
-func _set_visible(can_visible: bool):
-	if can_visible:
+func _forced_set_visible(force_hide: bool):
+	visibility_locked = force_hide
+
+	if visibility_locked:
+		_fade_out()
+	else:
+		if players_in_range > 0:
+			_fade_in()
+		else:
+			_fade_out()
+
+func _set_visible(in_range: bool):
+	if in_range:
 		players_in_range += 1
-	elif players_in_range > 0:
-		players_in_range -= 1
+	else:
+		players_in_range = max(players_in_range - 1, 0)
+
+	if visibility_locked:
+		_fade_out()
+		return
 
 	if players_in_range > 0:
 		_fade_in()

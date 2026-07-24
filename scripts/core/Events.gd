@@ -7,6 +7,7 @@ signal turn_changed(player_index: int)
 signal play_sound(sound_name: String)
 
 signal visible_pointer(pointer: int, visible: bool)
+signal forced_visible_pointer(pointer: int, visible: bool)
 
 signal set_minigame(minigame:int)
 signal minigame_intro_started    # cuando se abre el intro
