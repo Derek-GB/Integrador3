@@ -10,9 +10,10 @@ const MASTER_BUS = "Master"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
-	synchronize_slider(MUSIC_BUS,btn_music_control)
-	synchronize_slider(SFX_BUS,btn_sfx_control)
+	SettingsManager.settings_changed.connect(_refresh_sliders)
+	_refresh_sliders()
+	#synchronize_slider(MUSIC_BUS,btn_music_control)
+	#synchronize_slider(SFX_BUS,btn_sfx_control)
 		
 	btn_music_control.value_changed.connect(
 		func (value):
@@ -37,3 +38,7 @@ func visible_panel(option: bool) -> void:
 	panel.visible = option
 	leaf.visible = option
 	leaf2.visible = option
+
+func _refresh_sliders() -> void:
+	synchronize_slider(MUSIC_BUS, btn_music_control)
+	synchronize_slider(SFX_BUS, btn_sfx_control)
