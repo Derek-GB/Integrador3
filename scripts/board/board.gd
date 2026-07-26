@@ -22,6 +22,7 @@ func _ready() -> void:
 	_build_alt_waypoints()
 	_build_ordered_markers()  # <-- agregar esto
 	Events.visible_pointer.connect(_set_pointer_visible)
+	Events.forced_visible_pointer.connect(_set_pointer_visible_forced)
 	$Tornado/AnimationTree.play("spinnig")
 	print("Board: waypoints cargados =", waypoints.size())
 
@@ -85,6 +86,22 @@ func _set_pointer_visible(pointer: int, can_visible: bool):
 	if pointer_card.has_method("_set_visible"):
 		pointer_card._set_visible(can_visible)
 	print("Visibilidad despues de ", pointer, ": ", pointer_card.visible, " / modo: ", pointer_card.process_mode)
+
+func _set_pointer_visible_forced(pointer: int, can_visible: bool):
+	if pointer < 0 or pointer >= ordered_markers.size():
+		return
+	var marker := ordered_markers[pointer]
+	if marker.get_child_count() == 0:
+		return
+	var pointer_card := marker.get_child(0)
+	print("Primero: ", marker)
+	print("Segundo: ", pointer_card)
+	if pointer_card == null: return
+	print("Visibilidad inicial de ", pointer, ": ", pointer_card.visible, " / modo: ", pointer_card.process_mode)
+	if pointer_card.has_method("_forced_set_visible"):
+		pointer_card._forced_set_visible(can_visible)
+	print("Visibilidad despues de ", pointer, ": ", pointer_card.visible, " / modo: ", pointer_card.process_mode)
+
 
 func _build_ordered_markers() -> void:
 	ordered_markers.clear()

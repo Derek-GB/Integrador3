@@ -365,7 +365,11 @@ func on_dice_rolled(n: int) -> void:
 
 func check_special_tile(active_token: Node) -> bool:
 	var index: int = active_token.current_index
-
+	
+	if index == 28:
+		await _trigger_earthquake_tile()
+		return true
+		
 	if index in MINIGAME_TILE_INDICES:
 		await _launch_minigame_for_tile(index)
 		is_player_moving = false
@@ -449,6 +453,19 @@ func is_cpu_turn() -> bool:
 # =========================================================
 # MÉTODOS PRIVADOS
 # =========================================================
+
+# =========================================================
+# CASILLA 28: TERREMOTO (SCREEN SHAKE)
+# Avisa a la cámara (vía Events) que tiemble, espera a que
+# termine, y solo entonces continúa el flujo normal de turno.
+# =========================================================
+func _trigger_earthquake_tile() -> void:
+	print("GameManager: casilla 28 -> activando terremoto")
+	Events.earthquake_triggered.emit()
+	await Events.earthquake_finished
+	is_player_moving = false
+	_unlock_dice()
+	_next_turn()
 
 func _apply_red_card_action(active_token: Node, action: String, value: int) -> void:
 	print("GameManager: carta cerrada, acción:", action, " valor:", value)

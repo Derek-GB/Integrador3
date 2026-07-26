@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://c4bjv6v7hqx4e"]
+
+[ext_resource type="PackedScene" uid="uid://bo0sk5gwoi8cb" path="res://models/map/Montañas/montaña2 (1).glb" id="1_do44g"]
+[ext_resource type="Shader" uid="uid://dysodvv67ehfv" path="res://data/shaders/montañaNieve.gdshader" id="2_fqryl"]
+[ext_resource type="Texture2D" uid="uid://b0428stb7ilo1" path="res://models/map/Montañas/MascaraNieve.png" id="3_17isd"]
+[ext_resource type="Texture2D" uid="uid://c1y1y28sflw2a" path="res://images/texturas/CespedMontaña.png" id="4_uo815"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f46qa"]
+render_priority = 0
+shader = ExtResource("2_fqryl")
+shader_parameter/textura_cesped = ExtResource("4_uo815")
+shader_parameter/mascara_nieve = ExtResource("3_17isd")
+shader_parameter/color_nieve = Color(1, 1, 1, 1)
+shader_parameter/usar_triplanar = false
+shader_parameter/uv1_escala = Vector3(10, 10, 10)
+
+[node name="montaña2" unique_id=921116821 instance=ExtResource("1_do44g")]
+
+[node name="TableroBase_001" parent="." index="0" unique_id=289057911]
+transform = Transform3D(36, 0, 0, 0, 36, 0, 0, 0, 24, 0, 0, 20.915525)
+surface_material_override/0 = SubResource("ShaderMaterial_f46qa")
