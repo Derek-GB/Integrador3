@@ -41,7 +41,7 @@ const MINIGAMES: Dictionary = {
 	3: {
 		"title":          "¡Ordena el mapa de riesgo escolar!",
 		"description":    "Participaste en la elaboración del mapa de riesgo",
-		"instructions":   "Tocá una pieza y después toca donde la quieres acomodar, para armar el mapa de riesgo",
+		"instructions":   "Tocá una pieza y luego tocá el lugar donde querés colocarla para armar el mapa de riesgo.",
 		"video_path":     "res://minigames/minigame_puzzle/assets/Puzzle_Instruction.ogv",
 		"minigame_scene": "res://minigames/minigame_puzzle/MapPuzzle.tscn",
 		"controls": [
@@ -111,7 +111,7 @@ const MINIGAMES: Dictionary = {
 	29: {
 		"title":          "¡Llega a la zona segura!",
 		"description":    "TERREMOTO. Te metiste debajo de la mesa para protegerte.",
-		"instructions":   "Mantén presionado el botón rojo cuando ocurra un terremoto para ocultarte debajo de la mesa.",
+		"instructions":   "Mantené presionado el botón cuando se ponga de color rojo. Eso significa que está ocurriendo un terremoto, ¡y debés ocultarte debajo de la mesa!",
 		"video_path":     "res://minigames/minigame_earthquake/assets/EarthquakeInstructions.ogv",
 		"minigame_scene": "res://minigames/minigame_earthquake/Main.tscn",
 		"controls": [
@@ -121,7 +121,7 @@ const MINIGAMES: Dictionary = {
 	31: {
 		"title":          "¡Ordena el botiquín!",
 		"description":    "Abre el botiquín y organiza correctamente todos los implementos médicos.",
-		"instructions":   "Primero selecciona los dos seguros para abrir el botiquín. Después arrastra cada implemento hacia su espacio correspondiente antes de que se acaben los 30 segundos.",
+		"instructions":   "Primero selecciona los dos seguros para abrir el botiquín. Después arrastra cada implemento hacia su espacio correspondiente antes de que se acabe el tiempo.",
 		"video_path":     "res://minigames/minigame_kit/assets/kit_Instruction.ogv",
 		"minigame_scene": "res://minigames/minigame_kit/MedicalKitMinigame.tscn",
 		"controls": [
@@ -141,7 +141,7 @@ const MINIGAMES: Dictionary = {
 	37: {
 		"title":          "¡Limpia el río!",
 		"description":    "Las fábricas han contaminado el río de tu comunidad.",
-		"instructions":   "Mueve el cursor rápidamente sobre los desechos que aparecen en el agua para eliminarlos antes de que se acabe el tiempo.",
+		"instructions":   "Mueve el cursor rápidamente sobre los desechos que aparecen en el agua para eliminarlos antes de que se acabe el tiempo. Ten cuidado de no tocar un pez!!",
 		"video_path":     "res://minigames/minigame_river_clean/assets/video/RiverCleanInstructions.ogv",
 		"minigame_scene": "res://minigames/minigame_river_clean/RiverCleanMinigame.tscn",
 		"controls": [
@@ -182,7 +182,7 @@ const MINIGAMES: Dictionary = {
 	42: {
 		"title":          "¡Apaga el incendio!",
 		"description":    "Alguien dejó un cigarrillo en el bosque y provocó un incendio.",
-		"instructions":   "Presiona los árboles que están en llamas para apagar el fuego. Tienes 2 segundos antes de que el árbol se queme. Si presionas un árbol sin fuego, perderás una vida.",
+		"instructions":   "Presiona los árboles que están en llamas para apagar el fuego. Tienes pocos segundos antes de que el árbol se queme. Si presionas un árbol sin fuego, perderás una vida.",
 		"video_path":     "res://minigames/minigame_fire/assets/Fire_Instruction.ogv",
 		"minigame_scene": "res://minigames/minigame_fire/MainFire.tscn",
 		"controls": [
@@ -192,7 +192,7 @@ const MINIGAMES: Dictionary = {
 	50: {
 		"title":          "¡Alerta de deslizamiento!",
 		"description":    "Identificaste una amenaza de deslizamiento en la comunidad y debes actuar rápido.",
-		"instructions":   "Muévete con las flechitas para esquivar las rocas. Llega al teléfono, presiona E y marca 911. Después dirígete a la cabina segura antes de que se acabe el tiempo.",
+		"instructions":   "Muévete con las flechitas para esquivar las rocas y los obstaculos. Llega al teléfono y marca 911.",
 		"video_path":     "res://minigames/minigame_landslide/assets/MiniGame13.ogv",
 		"minigame_scene": "res://minigames/minigame_landslide/LandslideMinigame.tscn",
 		"controls": [
