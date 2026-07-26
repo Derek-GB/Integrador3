@@ -37,6 +37,8 @@ func _process(delta: float) -> void:
 
 func exit_game() -> void:
 	Events.notify_pause.emit(false)
+	AudioManager.stop_all_sfx()
+
 	get_tree().change_scene_to_file(MAIN_MENU)
 
 func open_window():

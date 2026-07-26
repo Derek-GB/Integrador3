@@ -3,6 +3,7 @@ extends Node
 const POOL_SIZE := 8
 var _sfx_pool: Array[AudioStreamPlayer] = []
 var _music_player: AudioStreamPlayer
+var block_sfx := false
 
 func _ready()-> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -26,12 +27,24 @@ func change_volume(name_bus: String, linear_value: float) -> void:
 		AudioServer.set_bus_mute(bus_index, false)
 		AudioServer.set_bus_volume_db(bus_index, linear_to_db(linear_value))
 
-func play_sfx(stream: AudioStream, volume_db: float = 0.0) -> void:
+func play_sfx(stream: AudioStream, volume_db := 0.0) -> void:
+	if block_sfx:
+		return
+
 	var player := _get_free_player()
 	player.stream = stream
 	player.volume_db = volume_db
 	player.play()
 
+func stop_all_sfx() -> void:
+	block_sfx = true
+
+	for player in _sfx_pool:
+		player.stop()
+		player.stream = null
+
+func enable_sfx() -> void:
+	block_sfx = false
 
 func play_music(stream: AudioStream, crossfade: float = 1.0, volume_db: float = 0.0) -> void:
 	var tween := create_tween()

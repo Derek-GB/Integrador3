@@ -32,6 +32,7 @@ var current_menu: Control = null
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	AudioManager.play_music(lobby1)
+	AudioManager.enable_sfx()
 
 	btn_exit_menu.pressed.connect (
 		exit_game

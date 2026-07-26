@@ -13,9 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://t7hdo20ul1h1" path="res://images/icons/exit.png" id="9_n3d7r"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="11_iqafl"]
 [ext_resource type="PackedScene" uid="uid://ccpydjb6bax7m" path="res://scenes/UX/SoundControlPanel.tscn" id="13_f03nn"]
-[ext_resource type="Texture2D" uid="uid://c1cywra6ykqq1" path="res://images/UX/Panda.png" id="13_hm7mn"]
+[ext_resource type="Texture2D" uid="uid://0t36s7ipufqw" path="res://images/UX/Panda.png" id="13_hm7mn"]
 [ext_resource type="Texture2D" uid="uid://dfjud6iaptce2" path="res://images/UX/Monkey.png" id="14_31ns2"]
-[ext_resource type="AudioStream" uid="uid://u1s7vcv8icfq" path="res://sounds/UX/Lobby1.mp3" id="14_f03nn"]
+[ext_resource type="AudioStream" uid="uid://bet0cu5q65l54" path="res://sounds/UX/Lobby1.mp3" id="14_f03nn"]
 [ext_resource type="Texture2D" uid="uid://8f6u5n8vq8jb" path="res://images/UX/Robot.png" id="15_6c0a5"]
 [ext_resource type="PackedScene" uid="uid://cfwhpb3ymvrgb" path="res://scenes/core/SettingsMenu.tscn" id="17_xey2k"]
 
