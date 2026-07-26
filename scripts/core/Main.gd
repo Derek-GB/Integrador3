@@ -264,11 +264,13 @@ func _on_minigame_test() -> void:
 func _on_throw_3() -> void:
 	if game_over:
 		return
+	
 	if game_mode == 2 and GameManager.current_player == 1:
 		return
+	
 	AudioManager.play_sfx(dice_sound)
-	dice_label.text = "Tiraste un 3"
-await GameManager.on_dice_rolled(71)
+	dice_label.text = "Tiraste un 3"						
+	await GameManager.on_dice_rolled(50)
 
 
 func _on_restart() -> void:
