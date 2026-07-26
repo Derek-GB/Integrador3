@@ -47,6 +47,14 @@ func enable_sfx() -> void:
 	block_sfx = false
 
 func play_music(stream: AudioStream, crossfade: float = 1.0, volume_db: float = 0.0) -> void:
+	if stream == null:
+		return
+
+	if _music_player.playing and _music_player.stream == stream:
+		return
+
+	_set_stream_loop(stream)
+
 	var tween := create_tween()
 	tween.tween_property(_music_player, "volume_db", -80.0, crossfade)
 	await tween.finished
@@ -65,3 +73,19 @@ func _get_free_player() -> AudioStreamPlayer:
 		if not p.playing:
 			return p
 	return _sfx_pool[0] # fallback: reutilizar el primero
+
+func _set_stream_loop(stream: AudioStream, enabled: bool = true) -> void:
+	if stream == null:
+		return
+
+	if stream is AudioStreamOggVorbis:
+		stream.loop = enabled
+
+	elif stream is AudioStreamMP3:
+		stream.loop = enabled
+
+	elif stream is AudioStreamWAV:
+		stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+
+	else:
+		push_warning("AudioManager: Tipo de AudioStream no soportado para loop: %s" % stream.get_class())
