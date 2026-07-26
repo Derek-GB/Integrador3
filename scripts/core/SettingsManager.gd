@@ -95,9 +95,6 @@ var restart_required: bool = false
 # =============================================================================
 
 func _ready() -> void:
-	# Esperar un frame para asegurar que AudioManager ya existe.
-	await get_tree().process_frame
-
 	load_settings()
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
@@ -388,38 +385,46 @@ func apply_shadow_quality() -> void:
 	RenderingServer.directional_shadow_atlas_set_size(atlas_size, true)
 
 # =============================================================================
-# AUDIO SETTERS
+# AUDIO PREVIEWs
 # =============================================================================
 
-func set_master_volume(value: float) -> void:
+func preview_master_volume(value: float) -> void:
 	master_volume = clampf(value, 0.0, 1.0)
 
 	AudioManager.change_volume(
-		"Master",
-		master_volume
-	)
+		"Master", master_volume
+		)
 
-	save_settings()
-
-
-func set_music_volume(value: float) -> void:
+func preview_music_volume(value: float) -> void:
 	music_volume = clampf(value, 0.0, 1.0)
 
 	AudioManager.change_volume(
-		"Music",
-		music_volume
+		"Music", music_volume
 	)
 
-	save_settings()
-
-
-func set_sfx_volume(value: float) -> void:
+func preview_sfx_volume(value: float) -> void:
 	sfx_volume = clampf(value, 0.0, 1.0)
 
 	AudioManager.change_volume(
-		"SFX",
-		sfx_volume
+		"SFX", sfx_volume
 	)
+
+# =============================================================================
+# AUDIO SETTERS
+# =============================================================================
+
+func set_music_volume(value: float) -> void:
+	preview_music_volume(value)
+
+	save_settings()
+
+func set_sfx_volume(value: float) -> void:
+	preview_sfx_volume(value)
+
+	save_settings()
+
+func set_master_volume(value: float) -> void:
+	preview_master_volume(value)
 
 	save_settings()
 
