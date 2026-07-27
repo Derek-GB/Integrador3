@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://cgdkn0qo0drho"]
 
 [ext_resource type="Script" uid="uid://dshms2m10iev1" path="res://minigames/minigame_house/HouseMinigame.gd" id="1_dhsa5"]
-[ext_resource type="Texture2D" uid="uid://7xe8fby0htxe" path="res://minigames/minigame_house/assets/Fondo2D.png" id="2_84h05"]
-[ext_resource type="AudioStream" uid="uid://djbshm2balub3" path="res://minigames/minigame_house/music/FondoHouse.wav" id="3_84h05"]
-[ext_resource type="AudioStream" uid="uid://yncv337f8nqy" path="res://minigames/minigame_house/music/QuitarTornillo.wav" id="4_gawxg"]
-[ext_resource type="AudioStream" uid="uid://cm6m1yyhbc3di" path="res://minigames/minigame_house/music/CaidaPieza.wav" id="5_jaypx"]
+[ext_resource type="Texture2D" uid="uid://cgf6ot3ba2bol" path="res://minigames/minigame_house/assets/Fondo2D.png" id="2_loyp5"]
+[ext_resource type="AudioStream" uid="uid://jgwld3chv7it" path="res://minigames/minigame_house/music/FondoHouse.wav" id="3_74bkh"]
+[ext_resource type="AudioStream" uid="uid://bdgrosq56q3mm" path="res://minigames/minigame_house/music/QuitarTornillo.wav" id="4_ku5sp"]
+[ext_resource type="AudioStream" uid="uid://bl2x5b41nc43q" path="res://minigames/minigame_house/music/CaidaPieza.wav" id="5_t855n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_to2ju"]
 bg_color = Color(0.3342767, 0.271695, 0.21732834, 1)
@@ -15,7 +15,7 @@ script = ExtResource("1_dhsa5")
 [node name="Background" type="Sprite2D" parent="." unique_id=586096648]
 position = Vector2(1121.0271, 677.6312)
 scale = Vector2(1.6388493, 1.7665852)
-texture = ExtResource("2_84h05")
+texture = ExtResource("2_loyp5")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1640180912]
 
@@ -74,13 +74,10 @@ one_shot = true
 [node name="HouseContainer" type="Node2D" parent="." unique_id=1332241059]
 
 [node name="BackgroundSound" type="AudioStreamPlayer" parent="." unique_id=213290253]
-stream = ExtResource("3_84h05")
-bus = &"Music"
+stream = ExtResource("3_74bkh")
 
 [node name="ScrewSound" type="AudioStreamPlayer" parent="." unique_id=1528503988]
-stream = ExtResource("4_gawxg")
-bus = &"SFX"
+stream = ExtResource("4_ku5sp")
 
 [node name="FallSound" type="AudioStreamPlayer" parent="." unique_id=884774488]
-stream = ExtResource("5_jaypx")
-bus = &"SFX"
+stream = ExtResource("5_t855n")

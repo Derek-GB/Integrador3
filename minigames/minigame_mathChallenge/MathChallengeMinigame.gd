@@ -23,8 +23,12 @@ const MAX_ERRORS := 3
 const SYMBOL_PATH := "res://minigames/minigame_mathChallenge/assets/objects/math_symbols/"
 var TOTAL_TIME: float = 50.0
 
+var damage_layer: CanvasLayer = null
+var damage_rect: ColorRect = null
+
 
 func _ready() -> void:
+	_setup_damage_effect()
 	update_hud()
 
 	var player_age: int = MinigameData.player_age
@@ -43,20 +47,59 @@ func _ready() -> void:
 
 
 func generate_question() -> void:
-	var is_addition := randi_range(0, 1) == 0
+	var player_age: int = MinigameData.player_age
 	var a := 0
 	var b := 0
 
-	if is_addition:
-		a = randi_range(0, 9)
-		b = randi_range(0, 9 - a)
-		current_answer = a + b
-		operator.texture = load(SYMBOL_PATH + "+.png")
+	# Reinicia la rotación y el tamaño por defecto (suma/resta usan el símbolo tal cual)
+	operator.rotation_degrees = 0
+	operator.scale = Vector2(1.0, 1.0)
+
+	if player_age >= 10:
+		# A partir de los 10 años: se mezclan suma, resta y multiplicación.
+		# A partir de los 11 (más de 10) también se suma la división.
+		var max_op_type := 3 if player_age > 10 else 2
+		var op_type := randi_range(0, max_op_type)
+		match op_type:
+			0:
+				a = randi_range(0, 9)
+				b = randi_range(0, 9 - a)
+				current_answer = a + b
+				operator.texture = load(SYMBOL_PATH + "+.png")
+			1:
+				a = randi_range(0, 9)
+				b = randi_range(0, a)
+				current_answer = a - b
+				operator.texture = load(SYMBOL_PATH + "-.png")
+			2:
+				# Se limita el producto a un solo dígito (0-9) porque los
+				# botones de respuesta solo cubren ese rango.
+				a = randi_range(1, 3)
+				b = randi_range(0, int(9.0 / a))
+				current_answer = a * b
+				operator.texture = load(SYMBOL_PATH + "+.png")
+				operator.rotation_degrees = 45  # "+" rotado 45° se ve como "x"
+			3:
+				# Se elige un divisor y un cociente de un solo dígito para
+				# que el dividendo (a) también quepa en la textura 0-9.
+				b = randi_range(1, 3)
+				var q := randi_range(0, int(9.0 / b))
+				a = b * q
+				current_answer = q
+				operator.texture = load(SYMBOL_PATH + "division.png")
+				operator.scale = Vector2(0.5, 0.5)
 	else:
-		a = randi_range(0, 9)
-		b = randi_range(0, a)
-		current_answer = a - b
-		operator.texture = load(SYMBOL_PATH + "-.png")
+		var is_addition := randi_range(0, 1) == 0
+		if is_addition:
+			a = randi_range(0, 9)
+			b = randi_range(0, 9 - a)
+			current_answer = a + b
+			operator.texture = load(SYMBOL_PATH + "+.png")
+		else:
+			a = randi_range(0, 9)
+			b = randi_range(0, a)
+			current_answer = a - b
+			operator.texture = load(SYMBOL_PATH + "-.png")
 
 	number_a.texture = load(SYMBOL_PATH + str(a) + ".png")
 	number_b.texture = load(SYMBOL_PATH + str(b) + ".png")
@@ -77,6 +120,7 @@ func check_answer(selected_number: int) -> void:
 	else:
 		wrong_answers += 1
 		error_player.play()
+		_play_damage_effect()
 
 	update_hud()
 
@@ -141,7 +185,53 @@ func _on_timer_ui_time_up() -> void:
 
 	game_finished = true
 	music_player.stop()
+	_play_damage_effect()
 	game_result.show_lose()
+
+
+# =========================================================
+# DAMAGE EFFECT
+# =========================================================
+
+func _setup_damage_effect():
+	damage_layer = CanvasLayer.new()
+	damage_layer.name = "DamageLayer"
+	damage_layer.layer = 200
+	add_child(damage_layer)
+	
+	damage_rect = ColorRect.new()
+	damage_rect.name = "DamageRect"
+	damage_rect.color = Color(1, 0, 0)
+	damage_rect.modulate.a = 0.0
+	damage_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	damage_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	
+	damage_layer.add_child(damage_rect)
+
+
+func _play_damage_effect():
+	if not damage_rect:
+		return
+	
+	var original_position: Vector2 = position
+	
+	var flash_tween := create_tween()
+	damage_rect.modulate.a = 0.0
+	flash_tween.tween_property(damage_rect, "modulate:a", 0.35, 0.08)
+	flash_tween.tween_property(damage_rect, "modulate:a", 0.0, 0.22)
+	
+	var shake_tween := create_tween()
+	
+	for i in range(6):
+		var offset := Vector2(
+			randf_range(-8.0, 8.0),
+			randf_range(-8.0, 8.0)
+		)
+		
+		shake_tween.tween_property(self, "position", original_position + offset, 0.03)
+	
+	shake_tween.tween_property(self, "position", original_position, 0.05)
+
 
 # =========================================================
 # TIME BONUS POR EDAD
