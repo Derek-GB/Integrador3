@@ -24,7 +24,7 @@ shader_parameter/wave_strength = 0.01
 shader_parameter/wave_speed = 1.2
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r8a0m"]
-load_path = "res://.godot/imported/agua.png-9fd2be9bb80b8d4fd871a4ab5b80bb30.ctex"
+load_path = "res://.godot/imported/agua.png-a7f6a7aa2db4b7a4e0f7d6f4cc76bca1.ctex"
 
 [node name="RiverCleanupMinigame" type="Node2D" unique_id=937733243]
 script = ExtResource("1_ge4tx")
