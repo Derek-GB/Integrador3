@@ -135,9 +135,8 @@ func _ready() -> void:
 
 	_setup_sound_volumes()
 
-	if _audio_music and is_instance_valid(_audio_music):
-		_audio_music.finished.connect(_on_music_finished)
-		_audio_music.play()
+	if _audio_music and is_instance_valid(_audio_music) and _audio_music.stream:
+		AudioManager.play_music(_audio_music.stream, 0.5, GLOBAL_SOUND_VOLUME)
 
 	_set_state(State.WALKING)
 
@@ -244,10 +243,8 @@ func _set_result_sound_volume() -> void:
 
 
 func _play_warning() -> void:
-	if _audio_warning and is_instance_valid(_audio_warning):
-		_audio_warning.volume_db = GLOBAL_SOUND_VOLUME
-		_audio_warning.stop()
-		_audio_warning.play()
+	if _audio_warning and is_instance_valid(_audio_warning) and _audio_warning.stream:
+		AudioManager.play_sfx(_audio_warning.stream, GLOBAL_SOUND_VOLUME)
 
 
 func _play_earthquake_sound() -> void:
@@ -257,11 +254,6 @@ func _play_earthquake_sound() -> void:
 		_audio_eq.play()
 
 
-func _on_music_finished() -> void:
-	if _state != State.WIN and _state != State.LOSE:
-		if _audio_music and is_instance_valid(_audio_music):
-			_audio_music.volume_db = GLOBAL_SOUND_VOLUME
-			_audio_music.play()
 
 
 # ---------------------------------------------------------------------------
@@ -450,8 +442,7 @@ func _set_state(new_state: State) -> void:
 			if _audio_eq and is_instance_valid(_audio_eq):
 				_audio_eq.stop()
 
-			if _audio_music and is_instance_valid(_audio_music):
-				_audio_music.stop()
+			AudioManager.stop_music()
 
 			if _hud.has_method("set_hide_button_mode"):
 				_hud.set_hide_button_mode("disabled")
@@ -476,8 +467,7 @@ func _set_state(new_state: State) -> void:
 			if _audio_eq and is_instance_valid(_audio_eq):
 				_audio_eq.stop()
 
-			if _audio_music and is_instance_valid(_audio_music):
-				_audio_music.stop()
+			AudioManager.stop_music()
 
 			_hud.hide_earthquake_banner()
 

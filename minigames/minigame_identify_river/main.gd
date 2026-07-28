@@ -38,8 +38,6 @@ var feedback_label: Label
 
 var bass_music_player: AudioStreamPlayer
 var forest_music_player: AudioStreamPlayer
-var correct_sound_player: AudioStreamPlayer
-var loser_sound_player: AudioStreamPlayer
 
 var damage_layer: CanvasLayer = null
 var damage_rect: ColorRect = null
@@ -205,22 +203,14 @@ func create_audio() -> void:
 	bass_music_player = AudioStreamPlayer.new()
 	bass_music_player.stream = BASS_MUSIC
 	bass_music_player.volume_db = GLOBAL_SOUND_VOLUME
+	bass_music_player.bus = &"Music"
 	add_child(bass_music_player)
 
 	forest_music_player = AudioStreamPlayer.new()
 	forest_music_player.stream = FOREST_MUSIC
 	forest_music_player.volume_db = GLOBAL_SOUND_VOLUME
+	forest_music_player.bus = &"Music"
 	add_child(forest_music_player)
-
-	correct_sound_player = AudioStreamPlayer.new()
-	correct_sound_player.stream = CORRECT_SOUND
-	correct_sound_player.volume_db = GLOBAL_SOUND_VOLUME
-	add_child(correct_sound_player)
-
-	loser_sound_player = AudioStreamPlayer.new()
-	loser_sound_player.stream = LOSER_SOUND
-	loser_sound_player.volume_db = GLOBAL_SOUND_VOLUME
-	add_child(loser_sound_player)
 
 	play_background_music()
 
@@ -248,18 +238,6 @@ func _set_game_result_sound_volume() -> void:
 			sound.process_mode = Node.PROCESS_MODE_ALWAYS
 
 
-func _play_sound(sound: AudioStreamPlayer) -> void:
-	if sound == null:
-		return
-
-	if sound.stream == null:
-		return
-
-	sound.volume_db = GLOBAL_SOUND_VOLUME
-	sound.stop()
-	sound.play()
-
-
 func play_background_music() -> void:
 	if bass_music_player != null:
 		bass_music_player.volume_db = GLOBAL_SOUND_VOLUME
@@ -281,11 +259,11 @@ func stop_background_music() -> void:
 
 
 func play_correct_sound() -> void:
-	_play_sound(correct_sound_player)
+	AudioManager.play_sfx(CORRECT_SOUND, GLOBAL_SOUND_VOLUME)
 
 
 func play_loser_sound() -> void:
-	_play_sound(loser_sound_player)
+	AudioManager.play_sfx(LOSER_SOUND, GLOBAL_SOUND_VOLUME)
 
 
 # =========================================================

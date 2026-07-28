@@ -132,10 +132,11 @@ metadata/_edit_lock_ = true
 
 [node name="RiverSound" type="AudioStreamPlayer" parent="." unique_id=442071721]
 stream = ExtResource("11_obk83")
-autoplay = true
+bus = &"Music"
 
 [node name="TrashSound" type="AudioStreamPlayer" parent="." unique_id=804693863]
 stream = ExtResource("12_g6qnw")
+bus = &"SFX"
 
 [node name="Fish" type="Node2D" parent="." unique_id=2031341227]
 

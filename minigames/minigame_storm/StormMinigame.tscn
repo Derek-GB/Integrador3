@@ -21,11 +21,11 @@ autostart = true
 
 [node name="RainAudio" type="AudioStreamPlayer" parent="." unique_id=1221711485]
 stream = ExtResource("7_o0p4n")
-volume_db = -40.536
+bus = &"Music"
 
 [node name="ThunderAudio" type="AudioStreamPlayer" parent="." unique_id=649442358]
 stream = ExtResource("8_d8f6g")
-volume_db = -46.561
+bus = &"SFX"
 
 [connection signal="timeout" from="LightningSpawnTimer" to="." method="_on_timer_spawn_rayos_timeout"]
 [connection signal="timeout" from="LightningSpawnTimer" to="." method="_on_lightning_spawn_timer_timeout"]

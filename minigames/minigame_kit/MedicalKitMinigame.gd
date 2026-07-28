@@ -594,28 +594,22 @@ func _update_lives_ui():
 
 
 func _play_background_sound():
-	if _background_sound == null:
-		return
-
-	if not _background_sound.playing:
-		_background_sound.play()
+	if _background_sound and _background_sound.stream:
+		AudioManager.play_music(_background_sound.stream, 0.5, 0.0)
 
 
 func _stop_background_sound():
-	if _background_sound != null:
-		_background_sound.stop()
+	AudioManager.stop_music()
 
 
 func _play_piece_placed_sound():
-	if _piece_placed_sound != null:
-		_piece_placed_sound.stop()
-		_piece_placed_sound.play()
+	if _piece_placed_sound and _piece_placed_sound.stream:
+		AudioManager.play_sfx(_piece_placed_sound.stream, 0.0)
 
 
 func _play_lock_sound():
-	if _lock_sound != null:
-		_lock_sound.stop()
-		_lock_sound.play()
+	if _lock_sound and _lock_sound.stream:
+		AudioManager.play_sfx(_lock_sound.stream, 0.0)
 
 
 func _on_time_finished():
@@ -670,8 +664,6 @@ func _on_back_button_pressed():
 
 	_stop_background_sound()
 
-	if _lock_sound != null:
-		_lock_sound.stop()
 
 	if _timer_hud != null:
 		_timer_hud.detener()

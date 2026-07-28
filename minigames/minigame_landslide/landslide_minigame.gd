@@ -490,6 +490,7 @@ func _create_audio() -> void:
 		alarm_sound.name = "AlarmSound"
 		alarm_sound.stream = alarm_stream
 		alarm_sound.volume_db = GLOBAL_SOUND_VOLUME
+		alarm_sound.bus = &"Music"
 		add_child(alarm_sound)
 		alarm_sound.finished.connect(_loop_alarm_sound)
 	else:
@@ -500,6 +501,7 @@ func _create_audio() -> void:
 		rocks_sound.name = "RocksSound"
 		rocks_sound.stream = rocks_stream
 		rocks_sound.volume_db = GLOBAL_SOUND_VOLUME
+		rocks_sound.bus = &"Music"
 		add_child(rocks_sound)
 		rocks_sound.finished.connect(_loop_rocks_sound)
 	else:
@@ -519,6 +521,7 @@ func _create_audio() -> void:
 		firetruck_siren_sound.name = "FireTruckSirenSound"
 		firetruck_siren_sound.stream = firetruck_siren_stream
 		firetruck_siren_sound.volume_db = GLOBAL_SOUND_VOLUME
+		firetruck_siren_sound.bus = &"SFX"
 		add_child(firetruck_siren_sound)
 		firetruck_siren_sound.finished.connect(_loop_firetruck_siren_sound)
 	else:
@@ -590,22 +593,17 @@ func _start_rocks_sound() -> void:
 
 
 func _play_keyboard_sound() -> void:
-	if keyboard_sound:
-		keyboard_sound.volume_db = GLOBAL_SOUND_VOLUME
-		keyboard_sound.stop()
-		keyboard_sound.play()
+	if keyboard_sound and keyboard_sound.stream:
+		AudioManager.play_sfx(keyboard_sound.stream, GLOBAL_SOUND_VOLUME)
 
 
 func _stop_keyboard_sound() -> void:
-	if keyboard_sound:
-		keyboard_sound.stop()
+	pass
 
 
 func _play_911_sound() -> void:
-	if call_911_sound:
-		call_911_sound.volume_db = GLOBAL_SOUND_VOLUME
-		call_911_sound.stop()
-		call_911_sound.play()
+	if call_911_sound and call_911_sound.stream:
+		AudioManager.play_sfx(call_911_sound.stream, GLOBAL_SOUND_VOLUME)
 
 
 func _play_firetruck_siren_sound() -> void:

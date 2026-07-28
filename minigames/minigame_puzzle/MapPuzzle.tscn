@@ -13,6 +13,8 @@ background_texture = ExtResource("3_hi2aj")
 
 [node name="BackgroundSound" type="AudioStreamPlayer" parent="." unique_id=224652397]
 stream = ExtResource("4_hi2aj")
+bus = &"Music"
 
 [node name="SlideSound" type="AudioStreamPlayer" parent="." unique_id=310225832]
 stream = ExtResource("5_tjatc")
+bus = &"SFX"

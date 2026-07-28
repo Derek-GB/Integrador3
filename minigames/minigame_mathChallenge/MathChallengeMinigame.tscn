@@ -239,10 +239,12 @@ texture = ExtResource("16_rmpei")
 
 [node name="CorrectPlayer" type="AudioStreamPlayer2D" parent="." unique_id=578035522]
 stream = ExtResource("9_6st3i")
+bus = &"SFX"
 
 [node name="ErrorPlayer" type="AudioStreamPlayer2D" parent="." unique_id=763818959]
 stream = ExtResource("10_xj55e")
 volume_db = 20.0
+bus = &"SFX"
 
 [node name="Panel" type="Sprite2D" parent="." unique_id=386383071]
 position = Vector2(1663.0001, 310.00003)
@@ -285,6 +287,7 @@ text = "0/3"
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1477339437]
 stream = ExtResource("24_hcvh5")
+bus = &"Music"
 
 [connection signal="pressed" from="NumberPad/Button0" to="." method="_on_button_0_pressed"]
 [connection signal="pressed" from="NumberPad/Button1" to="." method="_on_button_1_pressed"]

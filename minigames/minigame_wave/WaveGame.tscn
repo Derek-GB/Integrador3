@@ -157,9 +157,12 @@ script = ExtResource("25_24hp3")
 
 [node name="BackgroundSound" type="AudioStreamPlayer" parent="." unique_id=226781817]
 stream = ExtResource("26_6dhov")
+bus = &"Music"
 
 [node name="CollisionSound" type="AudioStreamPlayer" parent="." unique_id=68318784]
 stream = ExtResource("27_uo1ub")
+bus = &"SFX"
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="." unique_id=971415386]
 stream = ExtResource("28_7imau")
+bus = &"SFX"

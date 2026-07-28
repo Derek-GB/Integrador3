@@ -36,6 +36,10 @@ window/stretch/mode="canvas_items"
 movie_writer/movie_file="C:/Users/d2tod/Documents/Proyectos de Godot/riegolandia/export/test.avi"
 movie_writer/disable_vsync=true
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 zoom_in={

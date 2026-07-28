@@ -182,15 +182,6 @@ func _init_game():
 # =========================================================
 
 func _setup_sound_volumes() -> void:
-	if audio_fondo and audio_fondo is AudioStreamPlayer:
-		audio_fondo.volume_db = GLOBAL_SOUND_VOLUME
-
-	if audio_tornillo and audio_tornillo is AudioStreamPlayer:
-		audio_tornillo.volume_db = GLOBAL_SOUND_VOLUME
-
-	if audio_caida and audio_caida is AudioStreamPlayer:
-		audio_caida.volume_db = GLOBAL_SOUND_VOLUME
-
 	_set_game_result_sound_volume()
 
 
@@ -217,16 +208,6 @@ func _set_game_result_sound_volume() -> void:
 			sound.process_mode = Node.PROCESS_MODE_ALWAYS
 
 
-func _play_sound(sound: AudioStreamPlayer) -> void:
-	if sound == null:
-		return
-
-	if sound.stream == null:
-		return
-
-	sound.volume_db = GLOBAL_SOUND_VOLUME
-	sound.stop()
-	sound.play()
 
 
 # =========================================================
@@ -331,9 +312,8 @@ func _build_house():
 func _start_game():
 	game_active = true
 
-	if audio_fondo:
-		audio_fondo.volume_db = GLOBAL_SOUND_VOLUME
-		audio_fondo.play()
+	if audio_fondo and audio_fondo.stream:
+		AudioManager.play_music(audio_fondo.stream, 0.5, GLOBAL_SOUND_VOLUME)
 
 	var player_age: int = MinigameData.player_age
 
@@ -353,7 +333,8 @@ func _on_screw_clicked(_screw):
 	if not game_active:
 		return
 
-	_play_sound(audio_tornillo)
+	if audio_tornillo and audio_tornillo.stream:
+		AudioManager.play_sfx(audio_tornillo.stream, GLOBAL_SOUND_VOLUME)
 
 	removed_screws += 1
 
@@ -363,7 +344,8 @@ func _on_screw_clicked(_screw):
 
 func on_piece_detached(_piece: RigidBody2D):
 	detached_pieces += 1
-	_play_sound(audio_caida)
+	if audio_caida and audio_caida.stream:
+		AudioManager.play_sfx(audio_caida.stream, GLOBAL_SOUND_VOLUME)
 
 
 func _on_tiempo_agotado():
@@ -373,10 +355,7 @@ func _on_tiempo_agotado():
 
 func _win():
 	game_active = false
-
-	if audio_fondo:
-		audio_fondo.stop()
-
+	AudioManager.stop_music()
 	timer_hud.detener()
 	_set_game_result_sound_volume()
 	panel_resultado.mostrar_ganaste()
@@ -384,10 +363,7 @@ func _win():
 
 func _lose():
 	game_active = false
-
-	if audio_fondo:
-		audio_fondo.stop()
-
+	AudioManager.stop_music()
 	timer_hud.detener()
 	_set_game_result_sound_volume()
 	_play_damage_effect()
@@ -395,7 +371,5 @@ func _lose():
 
 
 func _on_back_pressed():
-	if audio_fondo:
-		audio_fondo.stop()
-
+	AudioManager.stop_music()
 	get_tree().change_scene_to_file("res://Main.tscn")

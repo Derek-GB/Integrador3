@@ -308,9 +308,8 @@ func _create_global_ui() -> void:
 func _start_game() -> void:
 	_game_finished = false
 
-	if _background_sound != null:
-		_background_sound.volume_db = GLOBAL_SOUND_VOLUME
-		_background_sound.play()
+	if _background_sound and _background_sound.stream:
+		AudioManager.play_music(_background_sound.stream, 0.5, GLOBAL_SOUND_VOLUME)
 
 	
 	var player_age: int = MinigameData.player_age
@@ -339,24 +338,6 @@ func _start_game() -> void:
 # ============================================================
 
 func _configure_audio() -> void:
-	if _background_sound != null:
-		_background_sound.volume_db = GLOBAL_SOUND_VOLUME
-
-		var finished_callable: Callable = Callable(
-			self,
-			"_on_background_sound_finished"
-		)
-
-		if not _background_sound.finished.is_connected(
-			finished_callable
-		):
-			_background_sound.finished.connect(
-				finished_callable
-			)
-
-	if _piece_sound != null:
-		_piece_sound.volume_db = GLOBAL_SOUND_VOLUME
-
 	_set_game_result_sound_volume()
 
 
@@ -383,27 +364,9 @@ func _set_game_result_sound_volume() -> void:
 			sound.process_mode = Node.PROCESS_MODE_ALWAYS
 
 
-func _on_background_sound_finished() -> void:
-	if _game_finished:
-		return
-
-	if _background_sound == null:
-		return
-
-	_background_sound.volume_db = GLOBAL_SOUND_VOLUME
-	_background_sound.play()
-
-
 func _play_piece_sound() -> void:
-	if _piece_sound == null:
-		return
-
-	if _piece_sound.stream == null:
-		return
-
-	_piece_sound.volume_db = GLOBAL_SOUND_VOLUME
-	_piece_sound.stop()
-	_piece_sound.play()
+	if _piece_sound and _piece_sound.stream:
+		AudioManager.play_sfx(_piece_sound.stream, GLOBAL_SOUND_VOLUME)
 
 
 # ============================================================
@@ -2067,8 +2030,7 @@ func _finish_game(
 	_stop_timer()
 	_disable_piece_interaction()
 
-	if _background_sound != null:
-		_background_sound.stop()
+	AudioManager.stop_music()
 
 	_set_game_result_sound_volume()
 

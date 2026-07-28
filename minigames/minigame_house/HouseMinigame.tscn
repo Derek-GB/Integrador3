@@ -75,9 +75,12 @@ one_shot = true
 
 [node name="BackgroundSound" type="AudioStreamPlayer" parent="." unique_id=213290253]
 stream = ExtResource("3_74bkh")
+bus = &"Music"
 
 [node name="ScrewSound" type="AudioStreamPlayer" parent="." unique_id=1528503988]
 stream = ExtResource("4_ku5sp")
+bus = &"SFX"
 
 [node name="FallSound" type="AudioStreamPlayer" parent="." unique_id=884774488]
 stream = ExtResource("5_t855n")
+bus = &"SFX"

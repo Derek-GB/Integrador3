@@ -122,9 +122,8 @@ func _start_game() -> void:
 	_animate_modal()
 
 	# Música de fondo suave en loop
-	audio_background.volume_db = -15.0
-	audio_slide.volume_db      = -10.0
-	audio_background.play()
+	if audio_background and audio_background.stream:
+		AudioManager.play_music(audio_background.stream, 0.5, -15.0)
 
 	if player_age < 12:
 		TOTAL_TIME = 30.0 + _get_time_bonus(player_age)
@@ -284,7 +283,8 @@ func _swap_pieces(a: int, b: int) -> void:
 	_apply_positions()
 
 	# Sonido al intercambiar piezas
-	audio_slide.play()
+	if audio_slide and audio_slide.stream:
+		AudioManager.play_sfx(audio_slide.stream, -10.0)
 
 # =========================================================
 # REFRESH HIGHLIGHTS
@@ -317,14 +317,14 @@ func _check_win() -> void:
 # =========================================================
 func _win() -> void:
 	game_active = false
-	audio_background.stop()
+	AudioManager.stop_music()
 	timer_hud.detener()
 	result_panel.mostrar_ganaste()
 	emit_signal("puzzle_completed")
 
 func _lose() -> void:
 	game_active = false
-	audio_background.stop()
+	AudioManager.stop_music()
 	timer_hud.detener()
 	_play_damage_effect()
 	result_panel.mostrar_perdiste()

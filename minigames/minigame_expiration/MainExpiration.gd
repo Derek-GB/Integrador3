@@ -238,23 +238,10 @@ func _ready() -> void:
 	# en bucle para siempre (sin importar si el recurso de audio tiene o
 	# no activado su propio "loop"), conectando la señal "finished" para
 	# volver a reproducirlo cada vez que termina. ---
-	if background_sound:
-		background_sound.volume_db = GLOBAL_SOUND_VOLUME
-		if not background_sound.finished.is_connected(_on_background_sound_finished):
-			background_sound.finished.connect(_on_background_sound_finished)
-		background_sound.play()
+	if background_sound and background_sound.stream:
+		AudioManager.play_music(background_sound.stream, 0.5, GLOBAL_SOUND_VOLUME)
 	else:
 		print("DEBUG background_sound NO está asignado en el Inspector")
-
-	if success_sound:
-		success_sound.volume_db = GLOBAL_SOUND_VOLUME
-	else:
-		print("DEBUG success_sound NO está asignado en el Inspector")
-
-	if error_sound:
-		error_sound.volume_db = GLOBAL_SOUND_VOLUME
-	else:
-		print("DEBUG error_sound NO está asignado en el Inspector")
 
 	# "Hoy" lo fijamos a la medianoche del día real del sistema.
 	var now: Dictionary = Time.get_datetime_dict_from_system()
@@ -671,34 +658,13 @@ func _show_feedback_icon(correct: bool) -> void:
 ## sonando (jugador muy rápido), lo reinicia desde el principio para que
 ## siempre se escuche completo.
 func _play_feedback_sound(correct: bool) -> void:
-	var player: AudioStreamPlayer = success_sound if correct else error_sound
-	if player == null:
-		return
-
-	player.volume_db = GLOBAL_SOUND_VOLUME
-	player.stop()
-	player.play()
-
-
-func _on_background_sound_finished() -> void:
-	# Mientras el minijuego no haya terminado, lo volvemos a reproducir
-	# para que suene en bucle infinito.
-	if not _game_finished and background_sound:
-		background_sound.volume_db = GLOBAL_SOUND_VOLUME
-		background_sound.play()
+	var sound: AudioStreamPlayer = success_sound if correct else error_sound
+	if sound and sound.stream:
+		AudioManager.play_sfx(sound.stream, GLOBAL_SOUND_VOLUME)
 
 
 func _stop_background_sound() -> void:
-	if background_sound == null:
-		return
-
-	# Desconectamos la señal para que no se vuelva a disparar el play()
-	# justo después de detenerlo.
-	if background_sound.finished.is_connected(_on_background_sound_finished):
-		background_sound.finished.disconnect(_on_background_sound_finished)
-
-	if background_sound.playing:
-		background_sound.stop()
+	AudioManager.stop_music()
 
 
 # =========================================================

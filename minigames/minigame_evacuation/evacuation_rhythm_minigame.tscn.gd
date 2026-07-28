@@ -116,9 +116,6 @@ var game_result_panel: CanvasLayer
 var lives_ui: Node
 var lives_layer: CanvasLayer
 
-var background_music_player: AudioStreamPlayer
-var correct_sound_player: AudioStreamPlayer
-var error_sound_player: AudioStreamPlayer
 
 var damage_layer: CanvasLayer = null
 var damage_rect: ColorRect = null
@@ -227,59 +224,23 @@ func _create_sequence() -> void:
 # =========================
 
 func create_audio() -> void:
-	background_music_player = AudioStreamPlayer.new()
-	background_music_player.stream = BACKGROUND_MUSIC
-	background_music_player.volume_db = GLOBAL_SOUND_VOLUME
-	background_music_player.finished.connect(_on_background_music_finished)
-	add_child(background_music_player)
-
-	correct_sound_player = AudioStreamPlayer.new()
-	correct_sound_player.stream = CORRECT_SOUND
-	correct_sound_player.volume_db = GLOBAL_SOUND_VOLUME
-	add_child(correct_sound_player)
-
-	error_sound_player = AudioStreamPlayer.new()
-	error_sound_player.stream = ERROR_SOUND
-	error_sound_player.volume_db = GLOBAL_SOUND_VOLUME
-	add_child(error_sound_player)
-
-
-func _play_sound(sound: AudioStreamPlayer) -> void:
-	if sound == null:
-		return
-
-	if sound.stream == null:
-		return
-
-	sound.volume_db = GLOBAL_SOUND_VOLUME
-	sound.stop()
-	sound.play()
+	pass
 
 
 func play_background_music() -> void:
-	if background_music_player != null:
-		background_music_player.volume_db = GLOBAL_SOUND_VOLUME
-
-		if not background_music_player.playing:
-			background_music_player.play()
+	AudioManager.play_music(BACKGROUND_MUSIC, 0.5, GLOBAL_SOUND_VOLUME)
 
 
 func stop_background_music() -> void:
-	if background_music_player != null:
-		background_music_player.stop()
-
-
-func _on_background_music_finished() -> void:
-	if game_active and not already_finished:
-		play_background_music()
+	AudioManager.stop_music()
 
 
 func play_correct_sound() -> void:
-	_play_sound(correct_sound_player)
+	AudioManager.play_sfx(CORRECT_SOUND, GLOBAL_SOUND_VOLUME)
 
 
 func play_error_sound() -> void:
-	_play_sound(error_sound_player)
+	AudioManager.play_sfx(ERROR_SOUND, GLOBAL_SOUND_VOLUME)
 
 
 func _set_game_result_sound_volume() -> void:

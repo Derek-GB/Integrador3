@@ -337,31 +337,7 @@ func _spawn_table_tree(table_position: Vector2, start_on_cooldown := false):
 
 
 func _setup_audio():
-	if _background_audio:
-		_background_audio.stream = BACKGROUND_SOUND
-		_background_audio.volume_db = -14
-		_background_audio.play()
-
-		if not _background_audio.finished.is_connected(_on_background_audio_finished):
-			_background_audio.finished.connect(_on_background_audio_finished)
-
-	if _move1_audio:
-		_move1_audio.stream = MOVE1_SOUND
-		_move1_audio.volume_db = -5
-
-	if _plant_audio:
-		_plant_audio.stream = MOVE2_SOUND
-		_plant_audio.volume_db = -4
-
-	if _rocks_audio:
-		_rocks_audio.stream = ROCKS_SOUND
-		_rocks_audio.volume_db = -2
-
-	if _error_audio:
-		_error_audio.volume_db = -6
-
-	if _landslide_audio:
-		_landslide_audio.volume_db = -3
+	AudioManager.play_music(BACKGROUND_SOUND, 0.5, -14.0)
 
 
 # =========================================================
@@ -573,9 +549,7 @@ func _spawn_rock(start_position: Vector2, end_position: Vector2, rock_speed: flo
 		print("ERROR: No existe el nodo Rocks")
 		return null
 
-	if _rocks_audio:
-		_rocks_audio.stop()
-		_rocks_audio.play()
+	AudioManager.play_sfx(ROCKS_SOUND, -2.0)
 
 	var rock = ROLLING_ROCK_SCENE.instantiate()
 	rock.z_index = 35
@@ -600,9 +574,7 @@ func register_tree_grabbed(_tree: Node):
 	if _game_finished:
 		return
 
-	if _move1_audio:
-		_move1_audio.stop()
-		_move1_audio.play()
+	AudioManager.play_sfx(MOVE1_SOUND, -5.0)
 
 
 func register_successful_tree(tree: Node, spot: Node, table_position: Vector2):
@@ -622,9 +594,7 @@ func register_successful_tree(tree: Node, spot: Node, table_position: Vector2):
 			data["tree"] = tree
 			_active_challenges[rock_id] = data
 
-	if _plant_audio:
-		_plant_audio.stop()
-		_plant_audio.play()
+	AudioManager.play_sfx(MOVE2_SOUND, -4.0)
 
 
 func register_failed_drop(_tree: Node):
@@ -637,9 +607,8 @@ func register_failed_drop(_tree: Node):
 	_update_lives_ui()
 	_play_damage_effect()
 
-	if _error_audio:
-		_error_audio.stop()
-		_error_audio.play()
+	if _error_audio and _error_audio.stream:
+		AudioManager.play_sfx(_error_audio.stream, -6.0)
 
 	if _lives <= 0:
 		_lose_game()
@@ -740,8 +709,6 @@ func _resolve_rock_challenge(rock: Node, collided_tree: Node):
 	if _wave_active_rocks <= 0:
 		_round_active = false
 
-		if _rocks_audio:
-			_rocks_audio.stop()
 
 
 # =========================================================
@@ -792,9 +759,6 @@ func _on_time_up():
 # AUDIO METHODS
 # =========================================================
 
-func _on_background_audio_finished():
-	if not _game_finished and _background_audio:
-		_background_audio.play()
 
 
 # =========================================================
@@ -808,15 +772,10 @@ func _win_game():
 	_game_finished = true
 	_round_active = false
 
-	if _rocks_audio:
-		_rocks_audio.stop()
-
 	_stop_timer_ui()
 	_clear_children(_planting_spots)
 	_clear_children(_rocks)
-
-	if _background_audio:
-		_background_audio.stop()
+	AudioManager.stop_music()
 
 	if _game_result:
 		if _game_result.has_method("show_win"):
@@ -834,19 +793,13 @@ func _lose_game():
 	_game_finished = true
 	_round_active = false
 
-	if _rocks_audio:
-		_rocks_audio.stop()
-
 	_stop_timer_ui()
 	_clear_children(_planting_spots)
 	_clear_children(_rocks)
+	AudioManager.stop_music()
 
-	if _background_audio:
-		_background_audio.stop()
-
-	if _landslide_audio:
-		_landslide_audio.stop()
-		_landslide_audio.play()
+	if _landslide_audio and _landslide_audio.stream:
+		AudioManager.play_sfx(_landslide_audio.stream, -3.0)
 
 	if _game_result:
 		if _game_result.has_method("show_lose"):

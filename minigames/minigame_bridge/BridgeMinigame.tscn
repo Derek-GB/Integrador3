@@ -26,9 +26,12 @@ offset_bottom = 23.0
 
 [node name="BackgroundSound" type="AudioStreamPlayer" parent="." unique_id=1701655977]
 stream = ExtResource("2_vua0n")
+bus = &"Music"
 
 [node name="WoodSound" type="AudioStreamPlayer" parent="." unique_id=1159446622]
 stream = ExtResource("3_3afe2")
+bus = &"SFX"
 
 [node name="HammerSound" type="AudioStreamPlayer" parent="." unique_id=36857677]
 stream = ExtResource("4_3v2xv")
+bus = &"SFX"

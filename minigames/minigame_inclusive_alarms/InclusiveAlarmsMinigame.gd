@@ -55,15 +55,6 @@ func _process(_delta: float) -> void:
 # =========================================================
 
 func _setup_sound_volumes() -> void:
-	if music_player and music_player is AudioStreamPlayer:
-		music_player.volume_db = GLOBAL_SOUND_VOLUME
-
-	if success_player and success_player is AudioStreamPlayer:
-		success_player.volume_db = GLOBAL_SOUND_VOLUME
-
-	if error_player and error_player is AudioStreamPlayer:
-		error_player.volume_db = GLOBAL_SOUND_VOLUME
-
 	_set_game_result_sound_volume()
 
 
@@ -91,15 +82,8 @@ func _set_game_result_sound_volume() -> void:
 
 
 func _play_sound(sound: AudioStreamPlayer) -> void:
-	if sound == null:
-		return
-
-	if sound.stream == null:
-		return
-
-	sound.volume_db = GLOBAL_SOUND_VOLUME
-	sound.stop()
-	sound.play()
+	if sound and sound.stream:
+		AudioManager.play_sfx(sound.stream, GLOBAL_SOUND_VOLUME)
 
 
 # =========================================================

@@ -187,15 +187,6 @@ func _play_damage_effect():
 # SONIDOS
 # =========================================================
 func _setup_sound_volumes() -> void:
-	if background_sound and background_sound is AudioStreamPlayer:
-		background_sound.volume_db = GLOBAL_SOUND_VOLUME
-
-	if collision_sound and collision_sound is AudioStreamPlayer:
-		collision_sound.volume_db = GLOBAL_SOUND_VOLUME
-
-	if jump_sound and jump_sound is AudioStreamPlayer:
-		jump_sound.volume_db = GLOBAL_SOUND_VOLUME
-
 	_set_game_result_sound_volume()
 
 
@@ -222,52 +213,31 @@ func _set_game_result_sound_volume() -> void:
 			sound.process_mode = Node.PROCESS_MODE_ALWAYS
 
 
-func _play_sound(sound: AudioStreamPlayer) -> void:
-	if sound == null:
-		return
-
-	if sound.stream == null:
-		return
-
-	sound.volume_db = GLOBAL_SOUND_VOLUME
-	sound.stop()
-	sound.play()
 
 
 # =========================================================
 # SONIDO DE FONDO
 # =========================================================
 func _setup_background_sound():
-	if background_sound == null:
-		return
-
-	background_sound.volume_db = GLOBAL_SOUND_VOLUME
-	background_sound.play()
-
-	if not background_sound.finished.is_connected(_on_background_sound_finished):
-		background_sound.finished.connect(_on_background_sound_finished)
-
-
-func _on_background_sound_finished():
-	if not game_over and background_sound:
-		background_sound.volume_db = GLOBAL_SOUND_VOLUME
-		background_sound.play()
+	if background_sound and background_sound.stream:
+		AudioManager.play_music(background_sound.stream, 0.5, GLOBAL_SOUND_VOLUME)
 
 
 func _stop_background_sound():
-	if background_sound and background_sound.playing:
-		background_sound.stop()
+	AudioManager.stop_music()
 
 
 # =========================================================
 # SONIDOS PUNTUALES
 # =========================================================
 func play_collision_sound():
-	_play_sound(collision_sound)
+	if collision_sound and collision_sound.stream:
+		AudioManager.play_sfx(collision_sound.stream, GLOBAL_SOUND_VOLUME)
 
 
 func play_jump_sound():
-	_play_sound(jump_sound)
+	if jump_sound and jump_sound.stream:
+		AudioManager.play_sfx(jump_sound.stream, GLOBAL_SOUND_VOLUME)
 
 
 # =========================================================

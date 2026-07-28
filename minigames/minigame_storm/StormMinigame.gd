@@ -208,15 +208,8 @@ func _play_damage_effect():
 # =========================================================
 
 func _setup_audio():
-	if _rain_audio:
-		_rain_audio.volume_db = GLOBAL_SOUND_VOLUME
-		_rain_audio.play()
-
-		if not _rain_audio.finished.is_connected(_on_rain_audio_finished):
-			_rain_audio.finished.connect(_on_rain_audio_finished)
-
-	if _thunder_audio:
-		_thunder_audio.volume_db = GLOBAL_SOUND_VOLUME
+	if _rain_audio and _rain_audio.stream:
+		AudioManager.play_music(_rain_audio.stream, 0.5, GLOBAL_SOUND_VOLUME)
 
 	_set_game_result_sound_volume()
 
@@ -244,16 +237,6 @@ func _set_game_result_sound_volume() -> void:
 			sound.process_mode = Node.PROCESS_MODE_ALWAYS
 
 
-func _play_sound(sound: AudioStreamPlayer) -> void:
-	if sound == null:
-		return
-
-	if sound.stream == null:
-		return
-
-	sound.volume_db = GLOBAL_SOUND_VOLUME
-	sound.stop()
-	sound.play()
 
 
 # =========================================================
@@ -354,15 +337,10 @@ func _play_thunder_sound():
 	if _game_finished:
 		return
 
-	if _thunder_audio == null:
-		print("ERROR: No se encontró el nodo ThunderAudio")
+	if _thunder_audio == null or _thunder_audio.stream == null:
 		return
 
-	if _thunder_audio.stream == null:
-		print("ERROR: ThunderAudio no tiene sonido asignado en el Inspector")
-		return
-
-	_play_sound(_thunder_audio)
+	AudioManager.play_sfx(_thunder_audio.stream, GLOBAL_SOUND_VOLUME)
 
 
 func _on_background_lightning_flashes():
@@ -370,12 +348,6 @@ func _on_background_lightning_flashes():
 		return
 
 	_play_thunder_sound()
-
-
-func _on_rain_audio_finished():
-	if not _game_finished and _rain_audio:
-		_rain_audio.volume_db = GLOBAL_SOUND_VOLUME
-		_rain_audio.play()
 
 
 # =========================================================
@@ -393,12 +365,7 @@ func _win_game():
 
 	_stop_timer_ui()
 
-	if _rain_audio:
-		_rain_audio.stop()
-
-	if _thunder_audio:
-		_thunder_audio.stop()
-
+	AudioManager.stop_music()
 	_set_game_result_sound_volume()
 
 	if _game_result:
@@ -420,12 +387,7 @@ func _lose_game():
 		_lightning_spawn_timer.stop()
 
 	_stop_timer_ui()
-
-	if _rain_audio:
-		_rain_audio.stop()
-
-	if _thunder_audio:
-		_thunder_audio.stop()
+	AudioManager.stop_music()
 
 	_set_game_result_sound_volume()
 

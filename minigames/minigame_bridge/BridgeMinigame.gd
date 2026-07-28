@@ -108,7 +108,6 @@ var damage_layer: CanvasLayer = null
 var damage_rect: ColorRect = null
 
 # --- Control del loop de sonido de fondo ---
-var _background_sound_active: bool = false
 
 
 # =========================================================
@@ -203,11 +202,7 @@ func _remove_old_bridge_layers():
 # =========================================================
 
 func _setup_sound_volumes() -> void:
-	if background_sound:
-		background_sound.volume_db -= 15.0
-	
-	if hammer_sound:
-		hammer_sound.volume_db -= 5.0
+	pass
 
 
 func _set_result_sound_volume() -> void:
@@ -242,43 +237,22 @@ func _set_result_sound_volume() -> void:
 
 
 func _start_background_sound() -> void:
-	_background_sound_active = true
-	
-	if not background_sound:
-		return
-	
-	if background_sound.stream:
-		if background_sound.stream is AudioStreamWAV:
-			background_sound.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
-		elif background_sound.stream is AudioStreamOggVorbis:
-			background_sound.stream.loop = true
-	
-	if not background_sound.finished.is_connected(_on_background_sound_finished):
-		background_sound.finished.connect(_on_background_sound_finished)
-	
-	background_sound.play()
-
-
-func _on_background_sound_finished() -> void:
-	if _background_sound_active and background_sound:
-		background_sound.play()
+	if background_sound and background_sound.stream:
+		AudioManager.play_music(background_sound.stream, 0.5, -15.0)
 
 
 func _stop_background_sound() -> void:
-	_background_sound_active = false
-	
-	if background_sound:
-		background_sound.stop()
+	AudioManager.stop_music()
 
 
 func _play_wood_sound() -> void:
-	if wood_sound:
-		wood_sound.play()
+	if wood_sound and wood_sound.stream:
+		AudioManager.play_sfx(wood_sound.stream, 0.0)
 
 
 func _play_hammer_sound() -> void:
-	if hammer_sound:
-		hammer_sound.play()
+	if hammer_sound and hammer_sound.stream:
+		AudioManager.play_sfx(hammer_sound.stream, -5.0)
 
 
 # =========================================================

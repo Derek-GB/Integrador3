@@ -151,9 +151,11 @@ texture = ExtResource("9_p63nh")
 stream = ExtResource("10_hx8n7")
 volume_db = -10.0
 autoplay = true
+bus = &"Music"
 
 [node name="CleanSound" type="AudioStreamPlayer2D" parent="." unique_id=2139897978]
 stream = ExtResource("11_k8wwk")
+bus = &"SFX"
 
 [node name="TimerUI" parent="." unique_id=1042888595 instance=ExtResource("12_ne8od")]
 
@@ -162,6 +164,7 @@ stream = ExtResource("11_k8wwk")
 [node name="ErrorPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1275809191]
 stream = ExtResource("20_4ujdx")
 volume_db = 15.0
+bus = &"SFX"
 
 [connection signal="area_entered" from="TrashBottle" to="." method="_on_trash_bottle_area_entered"]
 [connection signal="area_entered" from="TrashPaper" to="." method="_on_trash_paper_area_entered"]

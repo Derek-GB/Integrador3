@@ -26,11 +26,16 @@ position = Vector2(1450, 980)
 [node name="TimeSound" type="AudioStreamPlayer" parent="." unique_id=2013248923]
 
 [node name="BackgroundAudio" type="AudioStreamPlayer" parent="." unique_id=531716317]
+bus = &"Music"
 
 [node name="Move1Audio" type="AudioStreamPlayer" parent="." unique_id=867437794]
+bus = &"SFX"
 
 [node name="PlantAudio" type="AudioStreamPlayer" parent="." unique_id=902359879]
+bus = &"SFX"
 
 [node name="ErrorAudio" type="AudioStreamPlayer" parent="." unique_id=1580588395]
+bus = &"SFX"
 
 [node name="LandslideAudio" type="AudioStreamPlayer" parent="." unique_id=148550725]
+bus = &"SFX"

@@ -559,9 +559,11 @@ texture = ExtResource("11_jo43r")
 
 [node name="BackgroundSound" type="AudioStreamPlayer" parent="." unique_id=408804251]
 stream = ExtResource("12_yrtyv")
+bus = &"Music"
 
 [node name="PieceSound" type="AudioStreamPlayer" parent="." unique_id=1513124696]
 stream = ExtResource("13_j0ypk")
+bus = &"SFX"
 
 [node name="Error" type="Sprite2D" parent="." unique_id=2038112465]
 visible = false

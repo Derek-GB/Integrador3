@@ -79,11 +79,11 @@ var damage_rect: ColorRect = null
 
 var items_tray: Panel = null
 
-var background_music: AudioStreamPlayer = null
-var pick_audio: AudioStreamPlayer = null
-var correct_audio: AudioStreamPlayer = null
-var wrong_audio: AudioStreamPlayer = null
-var lose_life_audio: AudioStreamPlayer = null
+var _background_stream: AudioStream = null
+var _pick_stream: AudioStream = null
+var _correct_stream: AudioStream = null
+var _wrong_stream: AudioStream = null
+var _lose_life_stream: AudioStream = null
 
 var roles: Array = []
 var items: Array = []
@@ -124,8 +124,7 @@ func _process(_delta):
 	if game_over:
 		return
 	
-	if background_music and not background_music.playing:
-		background_music.play()
+	pass
 	
 	_update_hud()
 
@@ -335,42 +334,30 @@ func _setup_background():
 # =========================================================
 
 func _setup_audio():
-	background_music = _create_audio_player("BackgroundMusic", MUSIC_BACKGROUND_PATH, GLOBAL_SOUND_VOLUME)
-	pick_audio = _create_audio_player("PickAudio", MUSIC_PICK_PATH, GLOBAL_SOUND_VOLUME)
-	correct_audio = _create_audio_player("CorrectAudio", MUSIC_CORRECT_PATH, GLOBAL_SOUND_VOLUME)
-	wrong_audio = _create_audio_player("WrongAudio", MUSIC_WRONG_PATH, GLOBAL_SOUND_VOLUME)
-	lose_life_audio = _create_audio_player("LoseLifeAudio", MUSIC_LOSE_LIFE_PATH, GLOBAL_SOUND_VOLUME)
+	_background_stream = _load_audio_stream(MUSIC_BACKGROUND_PATH)
+	_pick_stream = _load_audio_stream(MUSIC_PICK_PATH)
+	_correct_stream = _load_audio_stream(MUSIC_CORRECT_PATH)
+	_wrong_stream = _load_audio_stream(MUSIC_WRONG_PATH)
+	_lose_life_stream = _load_audio_stream(MUSIC_LOSE_LIFE_PATH)
 
 
-func _create_audio_player(player_name: String, path: String, volume_db: float) -> AudioStreamPlayer:
-	var player := AudioStreamPlayer.new()
-	player.name = player_name
-	player.volume_db = volume_db
-	add_child(player)
-	
+func _load_audio_stream(path: String) -> AudioStream:
 	if ResourceLoader.exists(path):
-		player.stream = load(path)
-	else:
-		push_warning("No se encontró audio: " + path)
-	
-	return player
+		return load(path)
+	push_warning("No se encontró audio: " + path)
+	return null
 
 
 func _start_background_music():
-	if background_music and background_music.stream:
-		background_music.play()
+	AudioManager.play_music(_background_stream, 0.5, GLOBAL_SOUND_VOLUME)
 
 
 func _stop_background_music():
-	if background_music:
-		background_music.stop()
+	AudioManager.stop_music()
 
 
-func _play_sound(player: AudioStreamPlayer):
-	if player and player.stream:
-		player.volume_db = GLOBAL_SOUND_VOLUME
-		player.stop()
-		player.play()
+func _play_sound(stream: AudioStream):
+	AudioManager.play_sfx(stream, GLOBAL_SOUND_VOLUME)
 
 
 # =========================================================
@@ -807,7 +794,7 @@ func _create_items():
 # =========================================================
 
 func _on_item_picked(_item):
-	_play_sound(pick_audio)
+	_play_sound(_pick_stream)
 
 
 func _on_item_dropped(item):
@@ -817,7 +804,7 @@ func _on_item_dropped(item):
 	var target_role = _get_matching_role_for_item(item)
 	
 	if target_role:
-		_play_sound(correct_audio)
+		_play_sound(_correct_stream)
 		
 		var snap_position: Vector2 = target_role.get_next_item_position()
 		target_role.register_item()
@@ -831,7 +818,7 @@ func _on_item_dropped(item):
 			await get_tree().create_timer(0.35).timeout
 			_win_game()
 	else:
-		_play_sound(wrong_audio)
+		_play_sound(_wrong_stream)
 		
 		item.set_wrong_feedback()
 		item.return_to_start()
@@ -860,7 +847,7 @@ func _lose_life():
 	current_lives = max(current_lives, 0)
 	
 	_update_lives_ui()
-	_play_sound(lose_life_audio)
+	_play_sound(_lose_life_stream)
 	_play_damage_effect()
 	
 	if current_lives <= 0:

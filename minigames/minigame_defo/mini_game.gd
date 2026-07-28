@@ -23,11 +23,6 @@ const GLOBAL_SOUND_VOLUME := -10.0
 var timer_hud: CanvasLayer
 var game_result_panel: CanvasLayer
 
-var background_music: AudioStreamPlayer
-var plant_sound: AudioStreamPlayer
-var water_sound: AudioStreamPlayer
-var win_sound: AudioStreamPlayer
-var lose_sound: AudioStreamPlayer
 
 var health_layer: CanvasLayer
 var health_ui: HealthBarUi
@@ -107,43 +102,7 @@ func randomize_bad_holes():
 # =========================================================
 
 func create_audio():
-	background_music = AudioStreamPlayer.new()
-	background_music.stream = BACKGROUND_MUSIC
-	background_music.volume_db = GLOBAL_SOUND_VOLUME
-	add_child(background_music)
-	background_music.play()
-
-	plant_sound = AudioStreamPlayer.new()
-	plant_sound.stream = PLANT_SOUND
-	plant_sound.volume_db = GLOBAL_SOUND_VOLUME
-	add_child(plant_sound)
-
-	water_sound = AudioStreamPlayer.new()
-	water_sound.stream = WATER_SOUND
-	water_sound.volume_db = GLOBAL_SOUND_VOLUME
-	add_child(water_sound)
-
-	win_sound = AudioStreamPlayer.new()
-	win_sound.stream = WIN_SOUND
-	win_sound.volume_db = GLOBAL_SOUND_VOLUME
-	add_child(win_sound)
-
-	lose_sound = AudioStreamPlayer.new()
-	lose_sound.stream = LOSE_SOUND
-	lose_sound.volume_db = GLOBAL_SOUND_VOLUME
-	add_child(lose_sound)
-
-
-func _play_sound(sound: AudioStreamPlayer) -> void:
-	if sound == null:
-		return
-
-	if sound.stream == null:
-		return
-
-	sound.volume_db = GLOBAL_SOUND_VOLUME
-	sound.stop()
-	sound.play()
+	AudioManager.play_music(BACKGROUND_MUSIC, 0.5, GLOBAL_SOUND_VOLUME)
 
 
 func _set_game_result_sound_volume() -> void:
@@ -342,12 +301,8 @@ func win_game():
 
 	timer_hud.detener()
 
-	if background_music != null:
-		background_music.stop()
-
+	AudioManager.stop_music()
 	_set_game_result_sound_volume()
-	_play_sound(win_sound)
-
 	game_result_panel.mostrar_ganaste()
 
 
@@ -359,13 +314,8 @@ func lose_game():
 	game_active = false
 
 	timer_hud.detener()
-
-	if background_music != null:
-		background_music.stop()
-
+	AudioManager.stop_music()
 	_set_game_result_sound_volume()
-	_play_sound(lose_sound)
-
 	game_result_panel.mostrar_perdiste()
 
 
@@ -374,11 +324,11 @@ func lose_game():
 # =========================================================
 
 func play_plant_sound():
-	_play_sound(plant_sound)
+	AudioManager.play_sfx(PLANT_SOUND, GLOBAL_SOUND_VOLUME)
 
 
 func play_water_sound():
-	_play_sound(water_sound)
+	AudioManager.play_sfx(WATER_SOUND, GLOBAL_SOUND_VOLUME)
 
 
 func _on_back_pressed():

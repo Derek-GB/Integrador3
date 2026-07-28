@@ -53,7 +53,7 @@ const BASE_BURN_DURATION := 2.0
 
 var timer_ui = null
 var game_result = null
-var fire_background_sound: AudioStreamPlayer = null
+var _fire_stream: AudioStream = null
 
 var trees: Array = []
 var rng := RandomNumberGenerator.new()
@@ -149,19 +149,8 @@ func _setup_background():
 # =========================================================
 
 func _setup_background_sound():
-	fire_background_sound = AudioStreamPlayer.new()
-	fire_background_sound.name = "FireBackgroundSound"
-	fire_background_sound.volume_db = GLOBAL_SOUND_VOLUME
-	fire_background_sound.bus = "Master"
-	
 	if ResourceLoader.exists(FIRE_BACKGROUND_SOUND_PATH):
-		var fire_stream = load(FIRE_BACKGROUND_SOUND_PATH)
-		
-		if fire_stream is AudioStreamMP3:
-			fire_stream.loop = true
-		
-		fire_background_sound.stream = fire_stream
-		add_child(fire_background_sound)
+		_fire_stream = load(FIRE_BACKGROUND_SOUND_PATH)
 	else:
 		push_error("No se encontró el sonido de fondo en: " + FIRE_BACKGROUND_SOUND_PATH)
 
@@ -190,23 +179,11 @@ func _set_game_result_sound_volume() -> void:
 
 
 func _play_background_sound():
-	if not fire_background_sound:
-		return
-	
-	if fire_background_sound.stream == null:
-		return
-	
-	fire_background_sound.volume_db = GLOBAL_SOUND_VOLUME
-	
-	if not fire_background_sound.playing:
-		fire_background_sound.play()
+	AudioManager.play_music(_fire_stream, 0.5, GLOBAL_SOUND_VOLUME)
 
 
 func _stop_background_sound():
-	if not fire_background_sound:
-		return
-	
-	fire_background_sound.stop()
+	AudioManager.stop_music()
 
 
 # =========================================================

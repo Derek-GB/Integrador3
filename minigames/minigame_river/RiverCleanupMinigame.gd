@@ -208,8 +208,8 @@ func _setup_fish_items():
 
 
 func _play_river_sound():
-	if river_sound != null:
-		river_sound.play()
+	if river_sound and river_sound.stream:
+		AudioManager.play_music(river_sound.stream, 0.5, 0.0)
 
 
 func _on_trash_dropped(trash_item):
@@ -250,9 +250,8 @@ func _on_fish_dropped(fish_item):
 func _collect_trash(trash_item):
 	trash_collected += 1
 
-	if trash_sound != null:
-		trash_sound.stop()
-		trash_sound.play()
+	if trash_sound and trash_sound.stream:
+		AudioManager.play_sfx(trash_sound.stream, 0.0)
 
 	trash_item.queue_free()
 
@@ -285,8 +284,7 @@ func _win_game():
 	if timer_hud != null:
 		timer_hud.detener()
 
-	if river_sound != null:
-		river_sound.stop()
+	AudioManager.stop_music()
 
 	_lock_all_items()
 
@@ -299,8 +297,7 @@ func _lose_game():
 	if timer_hud != null:
 		timer_hud.detener()
 
-	if river_sound != null:
-		river_sound.stop()
+	AudioManager.stop_music()
 
 	_lock_all_items()
 
@@ -322,8 +319,7 @@ func _lock_all_items():
 func _on_back_button_pressed():
 	game_active = false
 
-	if river_sound != null:
-		river_sound.stop()
+	AudioManager.stop_music()
 
 	if timer_hud != null:
 		timer_hud.detener()

@@ -19,9 +19,12 @@ script = ExtResource("1_yuua3")
 
 [node name="AudioMusic" type="AudioStreamPlayer" parent="." unique_id=1741263299]
 stream = ExtResource("5_e7s46")
+bus = &"Music"
 
 [node name="AudioWarning" type="AudioStreamPlayer" parent="." unique_id=265511290]
 stream = ExtResource("6_k6jtc")
+bus = &"SFX"
 
 [node name="AudioEQ" type="AudioStreamPlayer" parent="." unique_id=1865897417]
 stream = ExtResource("7_4x4hf")
+bus = &"SFX"

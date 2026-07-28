@@ -32,9 +32,6 @@ var lives_layer: CanvasLayer
 
 var score_panel: Panel
 
-var background_music_player: AudioStreamPlayer
-var correct_sound_player: AudioStreamPlayer
-var incorrect_sound_player: AudioStreamPlayer
 
 var damage_layer: CanvasLayer = null
 var damage_rect: ColorRect = null
@@ -395,20 +392,7 @@ func _notification(what):
 # =========================================================
 
 func create_audio() -> void:
-	background_music_player = AudioStreamPlayer.new()
-	background_music_player.stream = BACKGROUND_MUSIC
-	background_music_player.volume_db = GLOBAL_SOUND_VOLUME
-	add_child(background_music_player)
-
-	correct_sound_player = AudioStreamPlayer.new()
-	correct_sound_player.stream = CORRECT_SOUND
-	correct_sound_player.volume_db = GLOBAL_SOUND_VOLUME
-	add_child(correct_sound_player)
-
-	incorrect_sound_player = AudioStreamPlayer.new()
-	incorrect_sound_player.stream = INCORRECT_SOUND
-	incorrect_sound_player.volume_db = GLOBAL_SOUND_VOLUME
-	add_child(incorrect_sound_player)
+	pass
 
 
 func _set_game_result_sound_volume() -> void:
@@ -434,37 +418,20 @@ func _set_game_result_sound_volume() -> void:
 			sound.process_mode = Node.PROCESS_MODE_ALWAYS
 
 
-func _play_sound(sound: AudioStreamPlayer) -> void:
-	if sound == null:
-		return
-
-	if sound.stream == null:
-		return
-
-	sound.volume_db = GLOBAL_SOUND_VOLUME
-	sound.stop()
-	sound.play()
-
-
 func play_background_music() -> void:
-	if background_music_player != null:
-		background_music_player.volume_db = GLOBAL_SOUND_VOLUME
-
-		if not background_music_player.playing:
-			background_music_player.play()
+	AudioManager.play_music(BACKGROUND_MUSIC, 0.5, GLOBAL_SOUND_VOLUME)
 
 
 func stop_background_music() -> void:
-	if background_music_player != null:
-		background_music_player.stop()
+	AudioManager.stop_music()
 
 
 func play_correct_sound() -> void:
-	_play_sound(correct_sound_player)
+	AudioManager.play_sfx(CORRECT_SOUND, GLOBAL_SOUND_VOLUME)
 
 
 func play_incorrect_sound() -> void:
-	_play_sound(incorrect_sound_player)
+	AudioManager.play_sfx(INCORRECT_SOUND, GLOBAL_SOUND_VOLUME)
 
 
 # =========================================================

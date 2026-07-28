@@ -256,12 +256,15 @@ texture = ExtResource("17_lyp1v")
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1171625949]
 stream = ExtResource("18_ulfnk")
+bus = &"Music"
 
 [node name="CorrectPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1222415252]
 stream = ExtResource("19_gh8sr")
+bus = &"SFX"
 
 [node name="ErrorPlayer" type="AudioStreamPlayer2D" parent="." unique_id=939082853]
 stream = ExtResource("20_lx1v7")
+bus = &"SFX"
 
 [node name="GameResult" parent="." unique_id=2106536257 instance=ExtResource("21_gh8sr")]
 
@@ -274,9 +277,11 @@ texture = ExtResource("23_5r067")
 
 [node name="Success" type="AudioStreamPlayer" parent="." unique_id=859522234]
 stream = ExtResource("24_upe86")
+bus = &"SFX"
 
 [node name="Error" type="AudioStreamPlayer" parent="." unique_id=1589731832]
 stream = ExtResource("25_nge18")
+bus = &"SFX"
 
 [connection signal="area_entered" from="Categories/FlashingLightsArea" to="." method="_on_flashing_lights_area_area_entered"]
 [connection signal="area_entered" from="Categories/VibrationDevicesArea" to="." method="_on_vibration_devices_area_area_entered"]

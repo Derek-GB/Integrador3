@@ -297,10 +297,12 @@ shape = SubResource("SegmentShape2D_wwodg")
 [node name="CorrectPlayer" type="AudioStreamPlayer2D" parent="." unique_id=683415252]
 stream = ExtResource("14_5igj4")
 volume_db = -5.0
+bus = &"SFX"
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="." unique_id=999357755]
 stream = ExtResource("15_1ol4d")
 volume_db = -10.0
+bus = &"Music"
 
 [node name="SafeZone" type="Area2D" parent="." unique_id=1681057856]
 
@@ -343,6 +345,7 @@ texture = ExtResource("7_7kjlo")
 
 [node name="FootstepsPlayer" type="AudioStreamPlayer2D" parent="Player" unique_id=1989051822]
 volume_db = 10.0
+bus = &"SFX"
 
 [node name="GameResult" parent="." unique_id=2106536257 instance=ExtResource("16_7kjlo")]
 
