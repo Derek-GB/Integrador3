@@ -28,6 +28,7 @@ extends Node3D
 @onready var camera: Camera3D               = $Camera_rig/CameraFreeBody/MainCamera
 @onready var marker_iso: Marker3D           = $Camera_rig/Marker_Iso
 @onready var default_cam_position: Marker3D = $Camera_rig/DefaultPosition
+@onready var info_panel                     = $UI/InfoPanel
 @onready var dice_label: Label              = $UI/InfoPanel/DiceLabel
 @onready var turn_label: Label              = $UI/InfoPanel/TurnLabel
 @onready var position_label: Label          = $UI/InfoPanel/PositionLabel
@@ -40,6 +41,7 @@ extends Node3D
 @onready var btn_bind_cam: Button           = $UI/BindCam
 @onready var pause_menu                     = $UI/PauseMenu
 @onready var btn_minigame: Button           = $UI/Test_MG
+@onready var game_complet_panel             = $UI/GameCompletionPanel
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
 const STOP_MENU          = preload("res://scenes/UX/PauseMenu.tscn")
@@ -270,7 +272,7 @@ func _on_throw_3() -> void:
 	
 	AudioManager.play_sfx(dice_sound)
 	dice_label.text = "Tiraste un 3"						
-	await GameManager.on_dice_rolled(25)
+	await GameManager.on_dice_rolled(80)
 
 
 func _on_restart() -> void:
@@ -444,7 +446,15 @@ func _declare_winner(player_index: int) -> void:
 		GameManager.message_label.text    = message
 		get_tree().create_timer(5.5).timeout.connect(
 				func ():GameManager.message_label.visible = false)
+	visible_components([info_panel, btn_pause, btn_bind_cam,btn_throw, btn_throw_3], false)
+	game_complet_panel.text_name_player("Jugador %d!" % (player_index + 1))
+	game_complet_panel.visible = true
 	print("Main:", message)
+
+func visible_components (array: Array, value: bool) -> void:
+	for com in array:
+		com.visible = value
+
 
 func _update_turn_label(player_index: int) -> void:
 	if turn_label == null:
