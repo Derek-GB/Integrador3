@@ -337,7 +337,7 @@ func _spawn_table_tree(table_position: Vector2, start_on_cooldown := false):
 
 
 func _setup_audio():
-	AudioManager.play_music(BACKGROUND_SOUND, 0.5, -14.0)
+	AudioManager.play_music(BACKGROUND_SOUND, 0.5, -3.0)
 
 
 # =========================================================
@@ -549,7 +549,7 @@ func _spawn_rock(start_position: Vector2, end_position: Vector2, rock_speed: flo
 		print("ERROR: No existe el nodo Rocks")
 		return null
 
-	AudioManager.play_sfx(ROCKS_SOUND, -2.0)
+	AudioManager.play_sfx(ROCKS_SOUND, -3.0)
 
 	var rock = ROLLING_ROCK_SCENE.instantiate()
 	rock.z_index = 35

@@ -18,7 +18,7 @@ const WATER_SOUND = preload("res://Minigames/minigame_defo/Music/Regadera.mp3")
 const WIN_SOUND = preload("res://Minigames/minigame_defo/Music/MusicaVictoria.mp3")
 const LOSE_SOUND = preload("res://Minigames/minigame_defo/Music/JuegoPerdido.mp3")
 
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME := -5.0
 
 var timer_hud: CanvasLayer
 var game_result_panel: CanvasLayer

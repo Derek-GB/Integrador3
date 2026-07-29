@@ -31,7 +31,7 @@ const MONTH_NAMES = [
 	"julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
 ]
 
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME: float = -5.0
 
 
 # =========================================================

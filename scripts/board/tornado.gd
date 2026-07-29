@@ -51,7 +51,9 @@ func _process(delta: float) -> void:
 
 	# Hace que el tornado mire hacia donde se mueve
 	var future := _get_arc_position(start, end, min(_t + 0.02, 1.0))
-	look_at(future, Vector3.UP)
+	# Evita error si origen y destino son virtualmente iguales
+	if not global_position.is_equal_approx(future):
+		look_at(future, Vector3.UP)
 
 
 func _next_segment() -> void:

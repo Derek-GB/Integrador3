@@ -31,7 +31,7 @@ signal earthquake_ended
 @export var screen_shake_strength: float = 10.0
 @export var screen_shake_speed: float = 45.0
 
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME: float = -5.0
 
 
 # ---- Estado interno --------------------------------------------------------

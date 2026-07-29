@@ -24,7 +24,7 @@ const DEFAULT_LIGHTNING_SCENE := preload("res://Minigames/minigame_storm/Lightni
 # CONSTANTS
 # =========================================================
 
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME: float = -5.0
 const BASE_TIME := 28.0
 const LIGHTNING_SPAWN_MARGIN := 80
 

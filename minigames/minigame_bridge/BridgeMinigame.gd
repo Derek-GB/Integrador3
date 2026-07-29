@@ -238,7 +238,7 @@ func _set_result_sound_volume() -> void:
 
 func _start_background_sound() -> void:
 	if background_sound and background_sound.stream:
-		AudioManager.play_music(background_sound.stream, 0.5, -15.0)
+		AudioManager.play_music(background_sound.stream, 0.5, -5.0)
 
 
 func _stop_background_sound() -> void:
@@ -247,7 +247,7 @@ func _stop_background_sound() -> void:
 
 func _play_wood_sound() -> void:
 	if wood_sound and wood_sound.stream:
-		AudioManager.play_sfx(wood_sound.stream, 0.0)
+		AudioManager.play_sfx(wood_sound.stream, -5.0)
 
 
 func _play_hammer_sound() -> void:

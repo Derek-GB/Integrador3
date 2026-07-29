@@ -35,7 +35,7 @@ const BACKGROUND_MUSIC = preload("res://Minigames/minigame_evacuation/music/Fon.
 const CORRECT_SOUND = preload("res://Minigames/minigame_evacuation/music/Correct.mp3")
 const ERROR_SOUND = preload("res://Minigames/minigame_evacuation/music/Error.mp3")
 
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME: float = -5.0
 
 const C_BEIGE := Color("#E5C89E")
 const C_ORANGE := Color("#E0B080")

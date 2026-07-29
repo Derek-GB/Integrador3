@@ -40,7 +40,7 @@ const CARDINAL_DIRECTIONS: Array[Vector2i] = [
 ]
 
 
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME: float = -5.0
 
 
 @export var path_piece_scene: PackedScene

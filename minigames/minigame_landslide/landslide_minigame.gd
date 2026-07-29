@@ -12,7 +12,7 @@ const LIVES_UI_SCENE = preload("res://Minigames/ui_global/LivesUi.tscn")
 const MUSIC_DIR := "res://Minigames/minigame_landslide/Music/"
 const FIRE_TRUCK_PATH := "res://Minigames/minigame_landslide/assets/fire_truck.png"
 
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME: float = -5.0
 
 @export var spawn_interval := 1.05
 @export var spawn_interval_fast := 0.72

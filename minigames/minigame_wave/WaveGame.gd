@@ -10,7 +10,7 @@ const LIVES_UI_SCENE := preload("res://Minigames/ui_global/LivesUi.tscn")
 # =========================================================
 # CONSTANTS
 # =========================================================
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME: float = -5.0
 
 var TOTAL_TIME: float = 40.0
 

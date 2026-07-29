@@ -123,7 +123,7 @@ func _start_game() -> void:
 
 	# Música de fondo suave en loop
 	if audio_background and audio_background.stream:
-		AudioManager.play_music(audio_background.stream, 0.5, -15.0)
+		AudioManager.play_music(audio_background.stream, 0.5, -5.0)
 
 	if player_age < 12:
 		TOTAL_TIME = 30.0 + _get_time_bonus(player_age)
@@ -284,7 +284,7 @@ func _swap_pieces(a: int, b: int) -> void:
 
 	# Sonido al intercambiar piezas
 	if audio_slide and audio_slide.stream:
-		AudioManager.play_sfx(audio_slide.stream, -10.0)
+		AudioManager.play_sfx(audio_slide.stream, -5.0)
 
 # =========================================================
 # REFRESH HIGHLIGHTS

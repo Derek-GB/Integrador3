@@ -13,7 +13,7 @@ const BACKGROUND_MUSIC = preload("res://Minigames/minigame_Question/Music/Music1
 const CORRECT_SOUND = preload("res://Minigames/minigame_Question/Music/Correct.mp3")
 const INCORRECT_SOUND = preload("res://Minigames/minigame_Question/Music/Incorrect.mp3")
 
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME: float = -5.0
 
 var game_active := false
 var already_finished := false

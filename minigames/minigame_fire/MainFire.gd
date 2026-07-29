@@ -11,7 +11,7 @@ const FIRE_BACKGROUND_SOUND_PATH := "res://Minigames/minigame_fire/assets/sound/
 const TIMER_UI_SCENE_PATH := "res://Minigames/ui_global/TimerUI.tscn"
 const GAME_RESULT_SCENE_PATH := "res://Minigames/ui_global/GameResult.tscn"
 
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME: float = -5.0
 
 var TOTAL_TIME: float = 35.0
 

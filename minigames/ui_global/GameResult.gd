@@ -80,7 +80,7 @@ func show_win():
 	visible = true
 
 	if win_audio and win_audio.stream:
-		AudioManager.play_sfx(win_audio.stream, -20.0)
+		AudioManager.play_sfx(win_audio.stream, -7.0)
 
 
 func show_lose():
@@ -92,7 +92,7 @@ func show_lose():
 	visible = true
 
 	if lose_audio and lose_audio.stream:
-		AudioManager.play_sfx(lose_audio.stream, -10.0)
+		AudioManager.play_sfx(lose_audio.stream, -2.0)
 
 
 func hide_result():

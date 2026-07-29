@@ -13,7 +13,7 @@ const PIECE_SCENE = preload("res://Minigames/minigame_house/Piece.tscn")
 const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
 const PANEL_RESULTADO_SCENE = preload("res://Minigames/ui_global/GameResult.tscn")
 
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME: float = -5.0
 
 var TOTAL_TIME: float = 45.0
 var total_pieces: int = 0

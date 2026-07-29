@@ -12,7 +12,7 @@ const FOREST_MUSIC = preload("res://Minigames/minigame_identify_river/assets/for
 const CORRECT_SOUND = preload("res://Minigames/minigame_identify_river/assets/Correct.mp3")
 const LOSER_SOUND = preload("res://Minigames/minigame_identify_river/assets/Loser.mp3")
 
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME: float = -5.0
 
 var game_active := false
 var already_finished := false

@@ -2,7 +2,7 @@ extends Node2D
 
 const TOTAL_OBJECTS := 6
 const MAX_ERRORS := 3
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME: float = -5.0
 
 var classified_objects := 0
 var errors := 0

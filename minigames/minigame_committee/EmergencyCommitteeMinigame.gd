@@ -36,7 +36,7 @@ const PLACED_ITEM_SCALE := Vector2(52, 52)
 
 const DROP_DISTANCE := 230.0
 
-const GLOBAL_SOUND_VOLUME := -10.0
+const GLOBAL_SOUND_VOLUME := -5.0
 
 var TOTAL_TIME: float = BASE_TIME
 

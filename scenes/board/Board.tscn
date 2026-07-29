@@ -4,9 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://l7yehtkd42qe" path="res://scenes/board/CardAnimation.tscn" id="2_wjfn2"]
 [ext_resource type="PackedScene" uid="uid://i528un3jtxhd" path="res://scenes/board/CardAnimationBlue.tscn" id="3_v01b6"]
 [ext_resource type="PackedScene" uid="uid://dmiympugo4r4x" path="res://scenes/board/Token.tscn" id="4_chwsj"]
-[ext_resource type="PackedScene" uid="uid://b4sfxq4o4o5tg" path="res://scenes/board/mapa.tscn" id="4_l0jo7"]
+[ext_resource type="PackedScene" uid="uid://dgl46kdokj861" path="res://scenes/board/mapa_v2.tscn" id="4_l0jo7"]
 [ext_resource type="PackedScene" uid="uid://dp0m1dj31ud0u" path="res://scenes/board/Tornado.tscn" id="7_l0jo7"]
-[ext_resource type="Texture2D" uid="uid://ph6ytry5q45e" path="res://images/texturas/TexturaFuego.png" id="8_0kj62"]
+[ext_resource type="Texture2D" uid="uid://bverm1ai0mkwd" path="res://images/texturas/TexturaFuego.png" id="8_0kj62"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lew3n"]
 transparency = 1
