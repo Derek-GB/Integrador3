@@ -13,10 +13,11 @@ extends Node3D
 @export var move_sound: AudioStream
 @export var board_sound: AudioStream
 @export var time_over_sound: AudioStream
+@export var earthquake_sound: AudioStream
 # Separación lateral entre fichas cuando comparten casilla
 @export var lane_split_offset: float = 1.75
-@export var earthquake_duration: float = 1.4
-@export var earthquake_strength: float = 0.2
+@export var earthquake_duration: float = 3.0
+@export var earthquake_strength: float = 1.0
 
 # =========================================================
 # NODOS DE LA ESCENA
@@ -270,7 +271,7 @@ func _on_throw_3() -> void:
 	
 	AudioManager.play_sfx(dice_sound)
 	dice_label.text = "Tiraste un 3"						
-	await GameManager.on_dice_rolled(25)
+	await GameManager.on_dice_rolled(28)
 
 
 func _on_restart() -> void:
@@ -470,7 +471,9 @@ func _update_position_label() -> void:
 		position_label.text = "Jugador: casilla %d     CPU: casilla %d" % [pos1, pos2]
 
 func _on_earthquake_triggered() -> void:
+	AudioManager.play_sfx(earthquake_sound)
 	await _shake_camera(earthquake_duration, earthquake_strength)
+	await get_tree().create_timer(0.5).timeout
 	Events.earthquake_finished.emit()
 
 func _shake_camera(duration: float, strength: float) -> void:
