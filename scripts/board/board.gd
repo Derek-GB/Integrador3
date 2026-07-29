@@ -24,6 +24,7 @@ func _ready() -> void:
 	Events.visible_pointer.connect(_set_pointer_visible)
 	Events.forced_visible_pointer.connect(_set_pointer_visible_forced)
 	$Tornado/AnimationTree.play("spinnig")
+	$Mapa/Casa3DespuesVolcan.tornado_node = $Tornado
 	print("Board: waypoints cargados =", waypoints.size())
 
 func _build_waypoints() -> void:
