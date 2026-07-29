@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cgdkn0qo0drho"]
 
-[ext_resource type="Script" uid="uid://dshms2m10iev1" path="res://minigame_house/HouseMinigame.gd" id="1_dhsa5"]
+[ext_resource type="Script" uid="uid://dshms2m10iev1" path="res://minigames/minigame_house/HouseMinigame.gd" id="1_dhsa5"]
 
 [node name="HouseMinigame" type="Node2D" unique_id=285727490]
 script = ExtResource("1_dhsa5")

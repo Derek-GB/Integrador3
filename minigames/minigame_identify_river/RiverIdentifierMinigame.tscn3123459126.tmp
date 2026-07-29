@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b1u64o16cdvik"]
 
-[ext_resource type="Script" uid="uid://deo6oi0jpaciy" path="res://minigame_identify_river/river_identifier_minigame.gd" id="1_ojhdp"]
+[ext_resource type="Script" uid="uid://deo6oi0jpaciy" path="res://minigames/minigame_identify_river/river_identifier_minigame.gd" id="1_ojhdp"]
 
 [node name="RiverIdentifierMinigame" type="Node2D" unique_id=2103604326]
 script = ExtResource("1_ojhdp")
