@@ -30,8 +30,9 @@ texture_mode = 1
 curve = SubResource("Curve_ket53")
 
 [sub_resource type="Gradient" id="Gradient_80p0r"]
-offsets = PackedFloat32Array(0.10030864, 0.37191358, 0.8441358)
-colors = PackedColorArray(1, 1, 1, 1, 0.62, 0.4836, 0.4836, 1, 0.080783345, 0.080783345, 0.080783345, 1)
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.28716215, 0.4087838, 0.8885135)
+colors = PackedColorArray(0.8666667, 0.36862746, 0.08235294, 1, 0.11415807, 0.11415809, 0.11415807, 1, 0.10524041, 0.10524041, 0.1052404, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_u3syr"]
 gradient = SubResource("Gradient_80p0r")
@@ -69,7 +70,32 @@ alpha_curve = SubResource("CurveTexture_1i37t")
 [sub_resource type="QuadMesh" id="QuadMesh_vnc5i"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_0kj62"]
-size = Vector2(3, 3)
+size = Vector2(5, 5)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0kj62"]
+lifetime_randomness = 0.01
+particle_flag_rotate_y = true
+emission_shape = 2
+emission_sphere_radius = 0.3
+angle_min = -179.99998
+angle_max = 180.00002
+inherit_velocity_ratio = 0.053
+direction = Vector3(0, 1, 0)
+spread = 15.469
+initial_velocity_min = 1.0
+initial_velocity_max = 1.1999999
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 0.49997765
+gravity = Vector3(0, 0.1, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = 0.49999776
+radial_accel_min = -2.2351742e-06
+radial_accel_max = 0.49999776
+scale_min = 0.9
+scale_max = 1.4
+scale_curve = SubResource("CurveTexture_twsej")
+color_ramp = SubResource("GradientTexture1D_u3syr")
+alpha_curve = SubResource("CurveTexture_1i37t")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0mxs0"]
 lifetime_randomness = 0.08
@@ -451,11 +477,12 @@ process_material = SubResource("ParticleProcessMaterial_l0jo7")
 draw_pass_1 = SubResource("QuadMesh_0kj62")
 
 [node name="Fuego4" type="GPUParticles3D" parent="." unique_id=823708642]
-transform = Transform3D(-0.09953323, -0.66617715, 2.9234056, -0.022668215, 2.9250996, 0.6657914, -2.9982626, -6.9849193e-09, -0.102081895, -40.304146, 27.524963, -55.270107)
+transform = Transform3D(-0.10469839, 0, 2.9981725, 0, 3, 0, -2.9981725, 0, -0.10469839, -41.458977, 32.477856, -56.529922)
 material_override = SubResource("StandardMaterial3D_lew3n")
 amount = 50
-lifetime = 1.87
-process_material = SubResource("ParticleProcessMaterial_l0jo7")
+lifetime = 5.0
+trail_lifetime = 1.0
+process_material = SubResource("ParticleProcessMaterial_0kj62")
 draw_pass_1 = SubResource("QuadMesh_0kj62")
 
 [node name="Fuego2" type="GPUParticles3D" parent="." unique_id=1072585699]
