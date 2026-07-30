@@ -3,7 +3,7 @@ extends Node2D
 # =========================================================
 # SCENES
 # =========================================================
-const LIVES_UI_SCENE := preload("res://Minigames/ui_global/LivesUi.tscn")
+const LIVES_UI_SCENE := preload("res://minigames/ui_global/LivesUi.tscn")
 
 @onready var clean_effect = $CleanEffect
 @onready var cleaning_glove = $CleaningGlove

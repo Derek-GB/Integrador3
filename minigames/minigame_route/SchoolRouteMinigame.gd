@@ -25,11 +25,11 @@ enum PathType {
 
 
 const TIMER_UI_SCENE: PackedScene = preload(
-	"res://Minigames/ui_global/TimerUi.tscn"
+	"res://minigames/ui_global/TimerUi.tscn"
 )
 
 const GAME_RESULT_SCENE: PackedScene = preload(
-	"res://Minigames/ui_global/GameResult.tscn"
+	"res://minigames/ui_global/GameResult.tscn"
 )
 
 const CARDINAL_DIRECTIONS: Array[Vector2i] = [

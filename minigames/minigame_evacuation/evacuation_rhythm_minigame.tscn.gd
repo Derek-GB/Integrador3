@@ -24,16 +24,16 @@ class_name EvacuationRhythmMinigame
 @export_range(0.0, 60.0, 1.0) var extra_time_age_9_plus := 0.0
 
 
-const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
-const GAME_RESULT_SCENE = preload("res://Minigames/ui_global/GameResult.tscn")
-const LIVES_UI_SCENE = preload("res://Minigames/ui_global/LivesUi.tscn")
+const TIMER_HUD_SCENE = preload("res://minigames/ui_global/TimerUi.tscn")
+const GAME_RESULT_SCENE = preload("res://minigames/ui_global/GameResult.tscn")
+const LIVES_UI_SCENE = preload("res://minigames/ui_global/LivesUi.tscn")
 
-const KIDS_TEXTURE = preload("res://Minigames/minigame_evacuation/assets/Kids.png")
-const SCHOOL_TEXTURE = preload("res://Minigames/minigame_evacuation/assets/School.png")
+const KIDS_TEXTURE = preload("res://minigames/minigame_evacuation/assets/Kids.png")
+const SCHOOL_TEXTURE = preload("res://minigames/minigame_evacuation/assets/School.png")
 
-const BACKGROUND_MUSIC = preload("res://Minigames/minigame_evacuation/music/Fon.mp3")
-const CORRECT_SOUND = preload("res://Minigames/minigame_evacuation/music/Correct.mp3")
-const ERROR_SOUND = preload("res://Minigames/minigame_evacuation/music/Error.mp3")
+const BACKGROUND_MUSIC = preload("res://minigames/minigame_evacuation/music/Fon.mp3")
+const CORRECT_SOUND = preload("res://minigames/minigame_evacuation/music/Correct.mp3")
+const ERROR_SOUND = preload("res://minigames/minigame_evacuation/music/Error.mp3")
 
 const GLOBAL_SOUND_VOLUME: float = -5.0
 

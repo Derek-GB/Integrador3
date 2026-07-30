@@ -9,14 +9,14 @@ var already_finished := false
 var health := 100
 var current_damage := 10
 
-const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
-const GAME_RESULT_SCENE = preload("res://Minigames/ui_global/GameResult.tscn")
+const TIMER_HUD_SCENE = preload("res://minigames/ui_global/TimerUi.tscn")
+const GAME_RESULT_SCENE = preload("res://minigames/ui_global/GameResult.tscn")
 
-const BACKGROUND_MUSIC = preload("res://Minigames/minigame_defo/Music/Fondo.mp3")
-const PLANT_SOUND = preload("res://Minigames/minigame_defo/Music/Plantar.mp3")
-const WATER_SOUND = preload("res://Minigames/minigame_defo/Music/Regadera.mp3")
-const WIN_SOUND = preload("res://Minigames/minigame_defo/Music/MusicaVictoria.mp3")
-const LOSE_SOUND = preload("res://Minigames/minigame_defo/Music/JuegoPerdido.mp3")
+const BACKGROUND_MUSIC = preload("res://minigames/minigame_defo/Music/Fondo.mp3")
+const PLANT_SOUND = preload("res://minigames/minigame_defo/Music/Plantar.mp3")
+const WATER_SOUND = preload("res://minigames/minigame_defo/Music/Regadera.mp3")
+const WIN_SOUND = preload("res://minigames/minigame_defo/Music/MusicaVictoria.mp3")
+const LOSE_SOUND = preload("res://minigames/minigame_defo/Music/JuegoPerdido.mp3")
 
 const GLOBAL_SOUND_VOLUME := -5.0
 

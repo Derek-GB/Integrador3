@@ -108,23 +108,23 @@ func _ready() -> void:
 	if _player:
 		_player_base_position = _player.position
 
-	var lives_scene = load("res://Minigames/ui_global/LivesUi.tscn")
+	var lives_scene = load("res://minigames/ui_global/LivesUi.tscn")
 	if lives_scene:
 		_lives_ui = lives_scene.instantiate()
 		add_child(_lives_ui)
 		_lives_ui.set_max_lives(max_lives)
 		_lives_ui.actualizar_vidas(_current_lives)
 	else:
-		push_error("Main.gd: No se encontró res://Minigames/ui_global/LivesUi.tscn")
+		push_error("Main.gd: No se encontró res://minigames/ui_global/LivesUi.tscn")
 
-	var result_scene = load("res://Minigames/ui_global/GameResult.tscn")
+	var result_scene = load("res://minigames/ui_global/GameResult.tscn")
 	if result_scene:
 		_game_result = result_scene.instantiate()
 		add_child(_game_result)
 		_game_result.process_mode = Node.PROCESS_MODE_ALWAYS
 		_set_result_sound_volume()
 	else:
-		push_error("Main.gd: No se encontró res://Minigames/ui_global/GameResult.tscn")
+		push_error("Main.gd: No se encontró res://minigames/ui_global/GameResult.tscn")
 
 	_setup_damage_effect()
 

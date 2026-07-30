@@ -3,14 +3,14 @@ extends Node2D
 @export var TOTAL_TIME: float = 30.0
 @export var lives_limit := 3
 
-const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
-const GAME_RESULT_SCENE = preload("res://Minigames/ui_global/GameResult.tscn")
-const LIVES_UI_SCENE = preload("res://Minigames/ui_global/LivesUi.tscn")
+const TIMER_HUD_SCENE = preload("res://minigames/ui_global/TimerUi.tscn")
+const GAME_RESULT_SCENE = preload("res://minigames/ui_global/GameResult.tscn")
+const LIVES_UI_SCENE = preload("res://minigames/ui_global/LivesUi.tscn")
 
-const BASS_MUSIC = preload("res://Minigames/minigame_identify_river/assets/bass.mp3")
-const FOREST_MUSIC = preload("res://Minigames/minigame_identify_river/assets/forest.mp3")
-const CORRECT_SOUND = preload("res://Minigames/minigame_identify_river/assets/Correct.mp3")
-const LOSER_SOUND = preload("res://Minigames/minigame_identify_river/assets/Loser.mp3")
+const BASS_MUSIC = preload("res://minigames/minigame_identify_river/assets/bass.mp3")
+const FOREST_MUSIC = preload("res://minigames/minigame_identify_river/assets/forest.mp3")
+const CORRECT_SOUND = preload("res://minigames/minigame_identify_river/assets/Correct.mp3")
+const LOSER_SOUND = preload("res://minigames/minigame_identify_river/assets/Loser.mp3")
 
 const GLOBAL_SOUND_VOLUME: float = -5.0
 

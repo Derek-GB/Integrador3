@@ -9,20 +9,20 @@ extends CharacterBody2D
 @onready var son_follower := $SonFollower
 @onready var daughter_follower := $DaughterFollower
 
-var player_front = preload("res://Minigames/minigame_FamilyMeeting/assets/objects/Player.png")
-var player_back = preload("res://Minigames/minigame_FamilyMeeting/assets/objects/player_espalda.png")
+var player_front = preload("res://minigames/minigame_FamilyMeeting/assets/objects/Player.png")
+var player_back = preload("res://minigames/minigame_FamilyMeeting/assets/objects/player_espalda.png")
 
-var father_front = preload("res://Minigames/minigame_FamilyMeeting/assets/objects/Father_Happy.png")
-var father_back = preload("res://Minigames/minigame_FamilyMeeting/assets/objects/papa_espalda.png")
+var father_front = preload("res://minigames/minigame_FamilyMeeting/assets/objects/Father_Happy.png")
+var father_back = preload("res://minigames/minigame_FamilyMeeting/assets/objects/papa_espalda.png")
 
-var mother_front = preload("res://Minigames/minigame_FamilyMeeting/assets/objects/Mother_Happy.png")
-var mother_back = preload("res://Minigames/minigame_FamilyMeeting/assets/objects/mama_espalda.png")
+var mother_front = preload("res://minigames/minigame_FamilyMeeting/assets/objects/Mother_Happy.png")
+var mother_back = preload("res://minigames/minigame_FamilyMeeting/assets/objects/mama_espalda.png")
 
-var son_front = preload("res://Minigames/minigame_FamilyMeeting/assets/objects/Son_Happy.png")
-var son_back = preload("res://Minigames/minigame_FamilyMeeting/assets/objects/hijo_espalda.png")
+var son_front = preload("res://minigames/minigame_FamilyMeeting/assets/objects/Son_Happy.png")
+var son_back = preload("res://minigames/minigame_FamilyMeeting/assets/objects/hijo_espalda.png")
 
-var daughter_front = preload("res://Minigames/minigame_FamilyMeeting/assets/objects/Daughter_Happy.png")
-var daughter_back = preload("res://Minigames/minigame_FamilyMeeting/assets/objects/hija_espalda.png")
+var daughter_front = preload("res://minigames/minigame_FamilyMeeting/assets/objects/Daughter_Happy.png")
+var daughter_back = preload("res://minigames/minigame_FamilyMeeting/assets/objects/hija_espalda.png")
 
 var can_move := true
 

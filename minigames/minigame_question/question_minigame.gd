@@ -5,13 +5,13 @@ extends Node2D
 @export var max_rounds := 8
 @export var required_correct_answers := 8
 
-const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
-const GAME_RESULT_SCENE = preload("res://Minigames/ui_global/GameResult.tscn")
-const LIVES_UI_SCENE = preload("res://Minigames/ui_global/LivesUi.tscn")
+const TIMER_HUD_SCENE = preload("res://minigames/ui_global/TimerUi.tscn")
+const GAME_RESULT_SCENE = preload("res://minigames/ui_global/GameResult.tscn")
+const LIVES_UI_SCENE = preload("res://minigames/ui_global/LivesUi.tscn")
 
-const BACKGROUND_MUSIC = preload("res://Minigames/minigame_Question/Music/Music1.mp3")
-const CORRECT_SOUND = preload("res://Minigames/minigame_Question/Music/Correct.mp3")
-const INCORRECT_SOUND = preload("res://Minigames/minigame_Question/Music/Incorrect.mp3")
+const BACKGROUND_MUSIC = preload("res://minigames/minigame_Question/Music/Music1.mp3")
+const CORRECT_SOUND = preload("res://minigames/minigame_Question/Music/Correct.mp3")
+const INCORRECT_SOUND = preload("res://minigames/minigame_Question/Music/Incorrect.mp3")
 
 const GLOBAL_SOUND_VOLUME: float = -5.0
 

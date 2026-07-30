@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://28cy3ns25qkn"]
 
-[ext_resource type="Script" uid="uid://dsrcb3iqomr73" path="res://Minigames/minigame_identify_river/main.gd" id="1_fosne"]
-[ext_resource type="Texture2D" uid="uid://53xpu6jo6ii1" path="res://Minigames/minigame_identify_river/assets/BackgroundRiver.png" id="1_osiry"]
-[ext_resource type="PackedScene" uid="uid://bwr0e6jsk7mnx" path="res://Minigames/minigame_identify_river/RiverOption.tscn" id="2_fosne"]
+[ext_resource type="Script" uid="uid://dsrcb3iqomr73" path="res://minigames/minigame_identify_river/main.gd" id="1_fosne"]
+[ext_resource type="Texture2D" uid="uid://53xpu6jo6ii1" path="res://minigames/minigame_identify_river/assets/BackgroundRiver.png" id="1_osiry"]
+[ext_resource type="PackedScene" uid="uid://bwr0e6jsk7mnx" path="res://minigames/minigame_identify_river/RiverOption.tscn" id="2_fosne"]
 
 [node name="Main" type="Node2D" unique_id=2086178937]
 script = ExtResource("1_fosne")

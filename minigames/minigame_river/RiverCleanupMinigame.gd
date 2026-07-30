@@ -2,9 +2,9 @@ extends Node2D
 class_name RiverCleanupMinigame
 
 
-const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
-const PANEL_RESULTADO_SCENE = preload("res://Minigames/ui_global/GameResult.tscn")
-const LIVES_UI_SCENE = preload("res://Minigames/ui_global/LivesUi.tscn")
+const TIMER_HUD_SCENE = preload("res://minigames/ui_global/TimerUi.tscn")
+const PANEL_RESULTADO_SCENE = preload("res://minigames/ui_global/GameResult.tscn")
+const LIVES_UI_SCENE = preload("res://minigames/ui_global/LivesUi.tscn")
 
 
 @export var time_limit := 30.0

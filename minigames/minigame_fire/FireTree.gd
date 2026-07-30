@@ -14,11 +14,11 @@ signal burned_out(tree)
 # ASSET PATHS
 # =========================================================
 
-const TREE_PATH := "res://Minigames/minigame_fire/assets/tree.png"
-const BURNED_TREE_PATH := "res://Minigames/minigame_fire/assets/tree_burned.png"
-const FIRE_TOP_PATH := "res://Minigames/minigame_fire/assets/fire_1.png"
-const FIRE_ROOT_PATH := "res://Minigames/minigame_fire/assets/fire_2.png"
-const SMOKE_PATH := "res://Minigames/minigame_fire/assets/smoke.png"
+const TREE_PATH := "res://minigames/minigame_fire/assets/tree.png"
+const BURNED_TREE_PATH := "res://minigames/minigame_fire/assets/tree_burned.png"
+const FIRE_TOP_PATH := "res://minigames/minigame_fire/assets/fire_1.png"
+const FIRE_ROOT_PATH := "res://minigames/minigame_fire/assets/fire_2.png"
+const SMOKE_PATH := "res://minigames/minigame_fire/assets/smoke.png"
 
 
 # =========================================================

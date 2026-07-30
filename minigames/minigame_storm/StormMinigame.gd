@@ -14,10 +14,10 @@ signal puzzle_failed
 # SCENES
 # =========================================================
 
-const TIMER_UI_SCENE := preload("res://Minigames/ui_global/TimerUi.tscn")
-const GAME_RESULT_SCENE := preload("res://Minigames/ui_global/GameResult.tscn")
-const LIVES_UI_SCENE := preload("res://Minigames/ui_global/LivesUi.tscn")
-const DEFAULT_LIGHTNING_SCENE := preload("res://Minigames/minigame_storm/Lightning.tscn")
+const TIMER_UI_SCENE := preload("res://minigames/ui_global/TimerUi.tscn")
+const GAME_RESULT_SCENE := preload("res://minigames/ui_global/GameResult.tscn")
+const LIVES_UI_SCENE := preload("res://minigames/ui_global/LivesUi.tscn")
+const DEFAULT_LIGHTNING_SCENE := preload("res://minigames/minigame_storm/Lightning.tscn")
 
 
 # =========================================================

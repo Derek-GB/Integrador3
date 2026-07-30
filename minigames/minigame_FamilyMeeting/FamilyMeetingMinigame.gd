@@ -39,10 +39,10 @@ var daughter_rescued := false
 var damage_layer: CanvasLayer = null
 var damage_rect: ColorRect = null
 
-var father_happy_texture := preload("res://Minigames/minigame_FamilyMeeting/assets/objects/Father_Happy.png")
-var mother_happy_texture := preload("res://Minigames/minigame_FamilyMeeting/assets/objects/Mother_Happy.png")
-var son_happy_texture := preload("res://Minigames/minigame_FamilyMeeting/assets/objects/Son_Happy.png")
-var daughter_happy_texture := preload("res://Minigames/minigame_FamilyMeeting/assets/objects/Daughter_Happy.png")
+var father_happy_texture := preload("res://minigames/minigame_FamilyMeeting/assets/objects/Father_Happy.png")
+var mother_happy_texture := preload("res://minigames/minigame_FamilyMeeting/assets/objects/Mother_Happy.png")
+var son_happy_texture := preload("res://minigames/minigame_FamilyMeeting/assets/objects/Son_Happy.png")
+var daughter_happy_texture := preload("res://minigames/minigame_FamilyMeeting/assets/objects/Daughter_Happy.png")
 
 func _ready() -> void:
 	var player_age: int = MinigameData.player_age

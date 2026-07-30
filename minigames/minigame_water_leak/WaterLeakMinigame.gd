@@ -4,7 +4,7 @@ class_name WaterLeakMinigame
 signal game_won
 signal game_lost
 
-const GAME_RESULT_SCENE: PackedScene = preload("res://Minigames/ui_global/GameResult.tscn")
+const GAME_RESULT_SCENE: PackedScene = preload("res://minigames/ui_global/GameResult.tscn")
 
 const PIPE_ROUTES: Array = [
 	[

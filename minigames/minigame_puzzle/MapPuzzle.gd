@@ -21,8 +21,8 @@ var TOTAL_TIME: float = 30.0
 # =========================================================
 # GLOBAL SCENES
 # =========================================================
-const TIMER_HUD_SCENE       = preload("res://Minigames/ui_global/TimerUi.tscn")
-const RESULT_PANEL_SCENE    = preload("res://Minigames/ui_global/GameResult.tscn")
+const TIMER_HUD_SCENE       = preload("res://minigames/ui_global/TimerUi.tscn")
+const RESULT_PANEL_SCENE    = preload("res://minigames/ui_global/GameResult.tscn")
 
 # =========================================================
 # RESOLUTION

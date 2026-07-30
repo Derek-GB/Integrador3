@@ -8,10 +8,10 @@ extends Node2D
 @onready var audio_tornillo  = $ScrewSound
 @onready var audio_caida     = $FallSound
 
-const SCREW_SCENE = preload("res://Minigames/minigame_house/Screw.tscn")
-const PIECE_SCENE = preload("res://Minigames/minigame_house/Piece.tscn")
-const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
-const PANEL_RESULTADO_SCENE = preload("res://Minigames/ui_global/GameResult.tscn")
+const SCREW_SCENE = preload("res://minigames/minigame_house/Screw.tscn")
+const PIECE_SCENE = preload("res://minigames/minigame_house/Piece.tscn")
+const TIMER_HUD_SCENE = preload("res://minigames/ui_global/TimerUi.tscn")
+const PANEL_RESULTADO_SCENE = preload("res://minigames/ui_global/GameResult.tscn")
 
 const GLOBAL_SOUND_VOLUME: float = -5.0
 
@@ -31,7 +31,7 @@ var damage_rect: ColorRect = null
 var house_data = [
 	{
 		"id": "wall_main",
-		"texture": "res://Minigames/minigame_house/assets/wall_main.png",
+		"texture": "res://minigames/minigame_house/assets/wall_main.png",
 		"position": Vector2(0, 120),
 		"piece_scale": Vector2(1.3, 1.3),
 		"screws": [
@@ -45,7 +45,7 @@ var house_data = [
 	},
 	{
 		"id": "wall_windows",
-		"texture": "res://Minigames/minigame_house/assets/wall_windows.png",
+		"texture": "res://minigames/minigame_house/assets/wall_windows.png",
 		"position": Vector2(5, -395),
 		"piece_scale": Vector2(3.2, 3.2),
 		"screws": [
@@ -59,7 +59,7 @@ var house_data = [
 	},
 	{
 		"id": "roof",
-		"texture": "res://Minigames/minigame_house/assets/roof.png",
+		"texture": "res://minigames/minigame_house/assets/roof.png",
 		"position": Vector2(5, -620),
 		"piece_scale": Vector2(3.5, 3.5),
 		"screws": [
@@ -73,7 +73,7 @@ var house_data = [
 	},
 	{
 		"id": "door",
-		"texture": "res://Minigames/minigame_house/assets/door.png",
+		"texture": "res://minigames/minigame_house/assets/door.png",
 		"position": Vector2(-90, 170),
 		"piece_scale": Vector2(3.3, 3.3),
 		"screws": [
@@ -82,7 +82,7 @@ var house_data = [
 	},
 	{
 		"id": "fence_left",
-		"texture": "res://Minigames/minigame_house/assets/fence.png",
+		"texture": "res://minigames/minigame_house/assets/fence.png",
 		"position": Vector2(-370, 290),
 		"piece_scale": Vector2(2.0, 2.0),
 		"screws": [
@@ -94,7 +94,7 @@ var house_data = [
 	},
 	{
 		"id": "fence_right",
-		"texture": "res://Minigames/minigame_house/assets/fence.png",
+		"texture": "res://minigames/minigame_house/assets/fence.png",
 		"position": Vector2(370, 290),
 		"piece_scale": Vector2(2.0, 2.0),
 		"screws": [
@@ -106,7 +106,7 @@ var house_data = [
 	},
 	{
 		"id": "magnet_lantch",
-		"texture": "res://Minigames/minigame_house/assets/magnet_latch.png",
+		"texture": "res://minigames/minigame_house/assets/magnet_latch.png",
 		"position": Vector2(-90, 390),
 		"piece_scale": Vector2(2.3, 2.3),
 		"screws": [
@@ -116,7 +116,7 @@ var house_data = [
 	},
 	{
 		"id": "windows_frame_1",
-		"texture": "res://Minigames/minigame_house/assets/windows_frame.png",
+		"texture": "res://minigames/minigame_house/assets/windows_frame.png",
 		"position": Vector2(-145, -360),
 		"piece_scale": Vector2(2.3, 2.3),
 		"screws": [
@@ -125,7 +125,7 @@ var house_data = [
 	},
 	{
 		"id": "windows_frame_2",
-		"texture": "res://Minigames/minigame_house/assets/windows_frame.png",
+		"texture": "res://minigames/minigame_house/assets/windows_frame.png",
 		"position": Vector2(155, -360),
 		"piece_scale": Vector2(2.3, 2.3),
 		"screws": [
@@ -134,7 +134,7 @@ var house_data = [
 	},
 	{
 		"id": "windows_frame_3",
-		"texture": "res://Minigames/minigame_house/assets/windows_frame.png",
+		"texture": "res://minigames/minigame_house/assets/windows_frame.png",
 		"position": Vector2(178, 100),
 		"piece_scale": Vector2(2.1, 2.8),
 		"screws": [
@@ -144,11 +144,11 @@ var house_data = [
 ]
 
 var screw_textures = {
-	"red":    "res://Minigames/minigame_house/screws/screw_red.png",
-	"green":  "res://Minigames/minigame_house/screws/screw_green.png",
-	"yellow": "res://Minigames/minigame_house/screws/screw_yellow.png",
-	"orange": "res://Minigames/minigame_house/screws/screw_orange.png",
-	"purple": "res://Minigames/minigame_house/screws/screw_purple.png",
+	"red":    "res://minigames/minigame_house/screws/screw_red.png",
+	"green":  "res://minigames/minigame_house/screws/screw_green.png",
+	"yellow": "res://minigames/minigame_house/screws/screw_yellow.png",
+	"orange": "res://minigames/minigame_house/screws/screw_orange.png",
+	"purple": "res://minigames/minigame_house/screws/screw_purple.png",
 }
 
 

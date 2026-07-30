@@ -134,7 +134,7 @@ func _on_viewport_resized() -> void:
 # ── Banner de terremoto ───────────────────────────────────────────────────────
 
 func _build_earthquake_banner() -> void:
-	var tex = load("res://Minigames/minigame_earthquake/assets/ui/earthquake_banner.png") as Texture2D
+	var tex = load("res://minigames/minigame_earthquake/assets/ui/earthquake_banner.png") as Texture2D
 
 	if tex:
 		var spr = Sprite2D.new()
@@ -189,7 +189,7 @@ func _build_progress_bar() -> void:
 	var bar_x = _bar_margin_side
 	var bar_y = _sh - _bar_margin_bottom - _bar_h
 
-	var icon_start_tex = load("res://Minigames/minigame_earthquake/assets/ui/start.png") as Texture2D
+	var icon_start_tex = load("res://minigames/minigame_earthquake/assets/ui/start.png") as Texture2D
 
 	if icon_start_tex:
 		var icon_start = TextureRect.new()
@@ -212,7 +212,7 @@ func _build_progress_bar() -> void:
 
 		add_child(lbl_left)
 
-	var icon_goal_tex = load("res://Minigames/minigame_earthquake/assets/ui/goal.png") as Texture2D
+	var icon_goal_tex = load("res://minigames/minigame_earthquake/assets/ui/goal.png") as Texture2D
 
 	if icon_goal_tex:
 		var icon_goal = TextureRect.new()
@@ -327,7 +327,7 @@ func _build_hold_button() -> void:
 	_hold_vbox.add_theme_constant_override("separation", 2)
 	_hold_vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	var push_tex = load("res://Minigames/minigame_earthquake/assets/ui/push.png") as Texture2D
+	var push_tex = load("res://minigames/minigame_earthquake/assets/ui/push.png") as Texture2D
 
 	var icon_rect = TextureRect.new()
 
