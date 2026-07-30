@@ -431,10 +431,10 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -4.2
 transform = Transform3D(0.34202015, 0, -0.9396926, 0, 1, 0, 0.9396926, 0, 0.34202015, 0.89085865, 0, 42.025352)
 
 [node name="C29" type="Marker3D" parent="AltPath" unique_id=1738589284]
-transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 5.212126, 0, 40.914925)
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 4.874819, 0, 40.352745)
 
 [node name="C30" type="Marker3D" parent="AltPath" unique_id=485646808]
-transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 8.26573, 0, 37.676254)
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 8.06464, 0, 37.616497)
 
 [node name="TornadoPath" type="Node3D" parent="." unique_id=1430294777]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.201286, 0)
@@ -466,7 +466,6 @@ material_override = SubResource("StandardMaterial3D_lew3n")
 amount = 50
 lifetime = 1.87
 process_material = SubResource("ParticleProcessMaterial_l0jo7")
-draw_passes = 1
 draw_pass_1 = SubResource("QuadMesh_vnc5i")
 
 [node name="Fuego3" type="GPUParticles3D" parent="." unique_id=1124658199]
@@ -475,7 +474,6 @@ material_override = SubResource("StandardMaterial3D_lew3n")
 amount = 50
 lifetime = 1.87
 process_material = SubResource("ParticleProcessMaterial_l0jo7")
-draw_passes = 1
 draw_pass_1 = SubResource("QuadMesh_0kj62")
 
 [node name="Fuego4" type="GPUParticles3D" parent="." unique_id=823708642]
@@ -485,7 +483,6 @@ amount = 50
 lifetime = 5.0
 trail_lifetime = 1.0
 process_material = SubResource("ParticleProcessMaterial_0kj62")
-draw_passes = 1
 draw_pass_1 = SubResource("QuadMesh_0kj62")
 
 [node name="Fuego2" type="GPUParticles3D" parent="." unique_id=1072585699]
@@ -494,7 +491,6 @@ material_override = SubResource("StandardMaterial3D_lew3n")
 amount = 50
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_0mxs0")
-draw_passes = 1
 draw_pass_1 = SubResource("QuadMesh_4qi0h")
 
 [node name="Collitions" type="Node3D" parent="." unique_id=1421623433]

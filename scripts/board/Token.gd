@@ -73,7 +73,7 @@ func move_to_alt_path(target_index: int) -> void:
 	if steps <= 0:
 		return
 
-	var meta_index: int = waypoints.size() - 1
+	var meta_index: int = waypoints.size()
 
 	if alt_waypoints.is_empty():
 		push_warning("Ficha: no hay ruta alterna configurada, usando ruta normal")
