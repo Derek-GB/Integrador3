@@ -51,7 +51,7 @@ const MINIGAMES: Dictionary = {
 	9: {
 		"title":          "¡Limpia el río!",
 		"description":    "Ayuda a limpiar el río",
-		"instructions":   "Selecciona una basura y arrástrala al basurero",
+		"instructions":   "Selecciona una basura y arrástrala al basurero. No agarres los peces porque ellos viven en el río",
 		"video_path":     "res://minigames/minigame_river/assets/River_Instruction.ogv",
 		"minigame_scene": "res://minigames/minigame_river/RiverCleanupMinigame.tscn",
 		"controls": [
