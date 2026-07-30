@@ -18,6 +18,10 @@ var correct_answers := 0
 var wrong_answers := 0
 var game_finished := false
 
+# Escala base del operador tal como está definida en la escena (.tscn).
+# Se guarda en _ready() para no perderla cada vez que se resetea en generate_question().
+var operator_base_scale: Vector2 = Vector2.ONE
+
 const REQUIRED_ANSWERS := 10
 const MAX_ERRORS := 3
 const SYMBOL_PATH := "res://minigames/minigame_mathChallenge/assets/objects/math_symbols/"
@@ -29,6 +33,7 @@ var damage_rect: ColorRect = null
 
 func _ready() -> void:
 	_setup_damage_effect()
+	operator_base_scale = operator.scale
 	update_hud()
 
 	var player_age: int = MinigameData.player_age
@@ -53,7 +58,7 @@ func generate_question() -> void:
 
 	# Reinicia la rotación y el tamaño por defecto (suma/resta usan el símbolo tal cual)
 	operator.rotation_degrees = 0
-	operator.scale = Vector2(1.0, 1.0)
+	operator.scale = operator_base_scale
 
 	if player_age >= 10:
 		# A partir de los 10 años: se mezclan suma, resta y multiplicación.
@@ -87,7 +92,7 @@ func generate_question() -> void:
 				a = b * q
 				current_answer = q
 				operator.texture = load(SYMBOL_PATH + "division.png")
-				operator.scale = Vector2(0.5, 0.5)
+				operator.scale = operator_base_scale * 0.7  # el símbolo de ÷ se ve más "ancho" que + o -, se reduce un poco manteniendo proporción
 	else:
 		var is_addition := randi_range(0, 1) == 0
 		if is_addition:
