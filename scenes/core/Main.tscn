@@ -181,7 +181,7 @@ visible = false
 offset_left = 24.0
 offset_top = 24.0
 offset_right = 408.0
-offset_bottom = 187.0
+offset_bottom = 207.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_e72lg")
 
 [node name="TurnLabel" type="Label" parent="UI/InfoPanel" unique_id=1321744029]
@@ -224,6 +224,17 @@ offset_left = 24.0
 offset_top = 120.0
 offset_right = 360.0
 offset_bottom = 147.0
+theme_override_fonts/font = ExtResource("16_tyork")
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Time" type="Label" parent="UI/InfoPanel" unique_id=3604818]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 148.0
+offset_right = 360.0
+offset_bottom = 175.0
 theme_override_fonts/font = ExtResource("16_tyork")
 theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1

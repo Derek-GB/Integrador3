@@ -25,9 +25,14 @@ func exit_game() -> void:
 	Events.notify_pause.emit(false)
 	AudioManager.stop_all_sfx()
 	get_tree().change_scene_to_file(MAIN_MENU)
+	GlobalStopwatch.reset()
 	
 func reload_game() -> void:
 	get_tree().change_scene_to_file("res://scenes/core/Main.tscn")
-	
+	GlobalStopwatch.reset()
+
 func text_name_player(text: String) -> void:
 	lb_name_player.text = text
+
+func text_total_time(text: String) -> void:
+	lb_time.text = text

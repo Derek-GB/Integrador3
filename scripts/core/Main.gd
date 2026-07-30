@@ -32,6 +32,7 @@ extends Node3D
 @onready var dice_label: Label              = $UI/InfoPanel/DiceLabel
 @onready var turn_label: Label              = $UI/InfoPanel/TurnLabel
 @onready var position_label: Label          = $UI/InfoPanel/PositionLabel
+@onready var time_label: Label              = $UI/InfoPanel/Time
 @onready var btn_pause: Button              = $UI/Pause
 @onready var btn_throw: Button              = $UI/BtnThrow
 @onready var btn_throw_3: Button            = $UI/Throw_3
@@ -62,6 +63,7 @@ var _camera_delay_timer: float  = 0.0
 var _camera_delay_active: bool  = false
 var _dice_overlay_instance: Node = null
 var piece2 = null
+var time: int = 0
 
 # =========================================================
 # CICLO DE VIDA
@@ -105,6 +107,8 @@ func _ready() -> void:
 	AudioManager.play_music(board_sound)
 	GameManager.instantiate_message_lbl()
 	_start_game()
+	GlobalStopwatch.reset()
+	GlobalStopwatch.start()
 
 func _process(delta: float) -> void:
 	if GameManager.tokens.is_empty():
@@ -131,6 +135,9 @@ func _process(delta: float) -> void:
 	camera_rig.rotation.y = fmod(camera_rig.rotation.y + TAU, TAU)
 	if camera_rig.rotation.y < 0.0:
 		camera_rig.rotation.y += TAU
+	
+	time = GlobalStopwatch.elapsed_time
+	time_label.text = time_format(time)
 
 # =========================================================
 # MÉTODOS PÚBLICOS
@@ -259,6 +266,7 @@ func card_index (index: int, vector: Array ) -> bool:
 
 func _on_pause() -> void:
 	pause_menu.open_window()
+	GlobalStopwatch.stop()
 
 func _on_minigame_test() -> void:
 	Events.set_minigame.emit(15)
@@ -447,8 +455,10 @@ func _declare_winner(player_index: int) -> void:
 		get_tree().create_timer(5.5).timeout.connect(
 				func ():GameManager.message_label.visible = false)
 	visible_components([info_panel, btn_pause, btn_bind_cam,btn_throw, btn_throw_3], false)
-	game_complet_panel.text_name_player("Jugador %d!" % (player_index + 1))
+	game_complet_panel.text_name_player("¡Jugador %d!" % (player_index + 1))
+	game_complet_panel.text_total_time("Tiempo total: " + time_format(time))
 	game_complet_panel.visible = true
+	GlobalStopwatch.stop()
 	print("Main:", message)
 
 func visible_components (array: Array, value: bool) -> void:
@@ -498,5 +508,9 @@ func _shake_camera(duration: float, strength: float) -> void:
 			randf_range(-strength, strength) * falloff,
 			0.0
 		)
-
 	camera.position = original_position
+
+func time_format(total_seconds: float) -> String:
+	var min: int = int(total_seconds) / 60
+	var sec: int = int(total_seconds) % 60
+	return "%02d:%02d" % [min, sec]
