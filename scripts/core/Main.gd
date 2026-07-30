@@ -54,10 +54,13 @@ var game_mode: int  = 1
 var _waypoints: Array[Vector3]        = []
 var _waypoint_rotations: Array[float] = []
 var _waypoint_bases: Array[Basis]     = []
-var _alt_waypoints: Array[Vector3]        = []
-var _alt_waypoint_rotations: Array[float] = []
-var _alt_waypoint_bases: Array[Basis]     = []
-var _camera_delay_timer: float  = 0.0
+var _alt_waypoints: Array[Vector3]              = []
+var _alt_waypoint_rotations: Array[float]       = []
+var _alt_waypoint_bases: Array[Basis]           = []
+var _special_waypoints: Dictionary              = {}
+var _special_waypoint_rotations: Dictionary     = {}
+var _special_waypoint_bases: Dictionary         = {}
+var _camera_delay_timer: float                  = 0.0
 var _camera_delay_active: bool  = false
 var _dice_overlay_instance: Node = null
 var piece2 = null
@@ -66,12 +69,15 @@ var piece2 = null
 # CICLO DE VIDA
 # =========================================================
 func _ready() -> void:
-	_waypoints          = map.get_waypoints()
-	_waypoint_rotations = map.get_waypoint_rotations()
-	_waypoint_bases     = map.get_waypoint_bases()
-	_alt_waypoints          = map.get_alt_waypoints()
-	_alt_waypoint_rotations = map.get_alt_rotations()
-	_alt_waypoint_bases     = map.get_alt_bases()
+	_waypoints                  = map.get_waypoints()
+	_waypoint_rotations         = map.get_waypoint_rotations()
+	_waypoint_bases             = map.get_waypoint_bases()
+	_alt_waypoints              = map.get_alt_waypoints()
+	_alt_waypoint_rotations     = map.get_alt_rotations()
+	_alt_waypoint_bases         = map.get_alt_bases()
+	_special_waypoints          = map.get_special_waypoints()
+	_special_waypoint_rotations = map.get_special_rotations()
+	_special_waypoint_bases     = map.get_special_bases()
 	print("Main: waypoints =", _waypoints.size(), " rotaciones =", _waypoint_rotations.size(), " bases =", _waypoint_bases.size())
 
 	camera.make_current()
@@ -160,7 +166,8 @@ func _start_game() -> void:
 	else:
 		GameManager.player_names = ["Jugador", "Maquina"]
 
-	piece.setup(_waypoints, _waypoint_rotations, _waypoint_bases)
+	piece.setup(_waypoints, _waypoint_rotations, _waypoint_bases,
+		_special_waypoints, _special_waypoint_rotations, _special_waypoint_bases)
 	piece.setup_alt_path(_alt_waypoints, _alt_waypoint_rotations, _alt_waypoint_bases)
 	GameManager.register_token(piece)
 	piece.reached_end.connect(_on_ficha1_reached_end)
@@ -171,7 +178,8 @@ func _start_game() -> void:
 	piece2 = PIECE_SCENE.instantiate()
 	piece2.name = "Ficha2"
 	map.add_child(piece2)
-	piece2.setup(_waypoints, _waypoint_rotations, _waypoint_bases)
+	piece2.setup(_waypoints, _waypoint_rotations, _waypoint_bases,
+		_special_waypoints, _special_waypoint_rotations, _special_waypoint_bases)
 	piece2.setup_alt_path(_alt_waypoints, _alt_waypoint_rotations, _alt_waypoint_bases)
 	GameManager.register_token(piece2)
 	piece2.reached_end.connect(_on_ficha2_reached_end)
@@ -270,8 +278,8 @@ func _on_throw_3() -> void:
 		return
 	
 	AudioManager.play_sfx(dice_sound)
-	dice_label.text = "Tiraste un 3"						
-	await GameManager.on_dice_rolled(80)
+	dice_label.text = "Tiraste un 3"
+	await GameManager.on_dice_rolled(25)
 
 
 func _on_restart() -> void:

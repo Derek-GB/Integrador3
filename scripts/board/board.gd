@@ -13,6 +13,9 @@ var ordered_markers: Array[Node3D] = []
 var alt_waypoints: Array[Vector3] = []
 var alt_rotations: Array[float] = []
 var alt_bases: Array[Basis] = []
+var special_waypoints: Dictionary = {}
+var special_rotations: Dictionary = {}
+var special_bases: Dictionary = {}
 
 @export var path_node: Node3D # Arrastra aquí el nodo "Camino" desde el Inspector
 @export var alt_path_node: Node3D
@@ -43,6 +46,13 @@ func _build_waypoints() -> void:
 			waypoint_rotations.append(child.rotation_degrees.y)
 			waypoint_bases.append(child.global_transform.basis)
 			print("Board: waypoint[", waypoints.size() - 1, "] =", child.global_position, " rotation_y=", child.rotation_degrees.y)
+
+			var nested_marker := _find_nested_marker(child)
+			if nested_marker != null:
+				special_waypoints[c] = nested_marker.global_position
+				special_rotations[c] = nested_marker.rotation_degrees.y
+				special_bases[c] = nested_marker.global_transform.basis
+				print("Board: special waypoint[", c, "] =", nested_marker.global_position)
 			
 			if c in GameManager.RED_TILE_INDICES:
 				_add_pointer(red_pointer_scene, child, "rojo", c)
@@ -104,12 +114,27 @@ func _set_pointer_visible_forced(pointer: int, can_visible: bool):
 	print("Visibilidad despues de ", pointer, ": ", pointer_card.visible, " / modo: ", pointer_card.process_mode)
 
 
+func _find_nested_marker(node: Node) -> Marker3D:
+	for nested in node.get_children():
+		if nested is Marker3D:
+			return nested
+	return null
+
 func _build_ordered_markers() -> void:
 	ordered_markers.clear()
 	for child in path_node.get_children():
 		if child is Marker3D:
 			ordered_markers.append(child)
 	print("Board: markers ordenados =", ordered_markers.size())
+
+func get_special_waypoints() -> Dictionary:
+	return special_waypoints
+
+func get_special_rotations() -> Dictionary:
+	return special_rotations
+
+func get_special_bases() -> Dictionary:
+	return special_bases
 
 func get_waypoints() -> Array[Vector3]:
 	return waypoints

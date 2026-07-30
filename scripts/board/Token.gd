@@ -5,6 +5,9 @@ var waypoint_bases: Array[Basis] = []
 var alt_waypoints: Array[Vector3] = []
 var alt_waypoint_rotations: Array[float] = []
 var alt_waypoint_bases: Array[Basis] = []
+var special_waypoints: Dictionary = {}
+var special_rotations: Dictionary = {}
+var special_bases: Dictionary = {}
 var current_index: int = 0
 @export var speed: float = 8.0
 @export var jump_height: float = 1.2
@@ -20,12 +23,15 @@ signal stepped_on(index: int)
 # =========================================================
 # SETUP
 # =========================================================
-func setup(board_waypoints: Array[Vector3], board_rotations: Array[float] = [], board_bases: Array[Basis] = []) -> void:
+func setup(board_waypoints: Array[Vector3], board_rotations: Array[float] = [], board_bases: Array[Basis] = [], board_special_waypoints: Dictionary = {}, board_special_rotations: Dictionary = {}, board_special_bases: Dictionary = {}) -> void:
 	waypoints = board_waypoints
 	waypoint_rotations = board_rotations
 	waypoint_bases = board_bases
+	special_waypoints = board_special_waypoints
+	special_rotations = board_special_rotations
+	special_bases = board_special_bases
 	current_index = 0
-	print("Ficha: setup - recibiendo waypoints:", waypoints.size(), " rotaciones:", waypoint_rotations.size())
+	print("Ficha: setup - recibiendo waypoints:", waypoints.size(), " rotaciones:", waypoint_rotations.size(), " special:", special_waypoints.size())
 	if waypoints.size() > 0:
 		var start_offset: Vector3 = lane_offset
 		if waypoint_bases.size() > 0:
@@ -130,7 +136,12 @@ func move_steps(steps: int) -> void:
 	if target_index <= meta_index:
 
 		for i in range(steps):
-			current_index += 1
+			var next_index: int = current_index + 1
+			if special_waypoints.has(current_index) and next_index == current_index + 1:
+				await _move_to_special(current_index)
+				stepped_on.emit(current_index)
+
+			current_index = next_index
 
 			# Resolver ocupación de la casilla destino
 			lane_offset = _resolve_lane_offset(current_index)
@@ -212,27 +223,37 @@ func move_back(steps: int) -> void:
 # Aplica lane_offset al destino para mantener el carril
 # =========================================================
 func _move_to(target: Vector3) -> void:
-	var basis: Basis = Basis.IDENTITY
+	var target_basis: Basis = Basis.IDENTITY
 	if current_index < waypoint_bases.size():
-		basis = waypoint_bases[current_index]
+		target_basis = waypoint_bases[current_index]
 	var target_rotation_y: float = rotation.y
 	if current_index < waypoint_rotations.size():
 		target_rotation_y = deg_to_rad(waypoint_rotations[current_index])
-	await _move_to_point(target, target_rotation_y, basis)
+	await _move_to_point(target, target_rotation_y, target_basis)
 
 func _move_to_alt(target: Vector3, alt_index: int) -> void:
-	var basis: Basis = Basis.IDENTITY
+	var target_basis: Basis = Basis.IDENTITY
 	if alt_index < alt_waypoint_bases.size():
-		basis = alt_waypoint_bases[alt_index]
+		target_basis = alt_waypoint_bases[alt_index]
 	var target_rotation_y: float = rotation.y
 	if alt_index < alt_waypoint_rotations.size():
 		target_rotation_y = deg_to_rad(alt_waypoint_rotations[alt_index])
-	await _move_to_point(target, target_rotation_y, basis)
+	await _move_to_point(target, target_rotation_y, target_basis)
 
-func _move_to_point(target: Vector3, target_rotation_y: float, basis: Basis) -> void:
+func _move_to_special(tile_index: int) -> void:
+	var target: Vector3 = special_waypoints[tile_index]
+	var target_basis: Basis = Basis.IDENTITY
+	if special_bases.has(tile_index):
+		target_basis = special_bases[tile_index]
+	var target_rotation_y: float = rotation.y
+	if special_rotations.has(tile_index):
+		target_rotation_y = deg_to_rad(special_rotations[tile_index])
+	await _move_to_point(target, target_rotation_y, target_basis)
+
+func _move_to_point(target: Vector3, target_rotation_y: float, target_basis: Basis) -> void:
 	if _lane_tween and _lane_tween.is_valid():
 		_lane_tween.kill()
-	var offset: Vector3 = basis * lane_offset
+	var offset: Vector3 = target_basis * lane_offset
 	var actual_target: Vector3 = target + offset
 	var start_rotation_y: float = rotation.y
 
