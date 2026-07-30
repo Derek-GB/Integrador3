@@ -66,6 +66,8 @@ func setup_alt_path(
 # real de esa casilla.
 # =========================================================
 func move_to_alt_path(target_index: int) -> void:
+	if not is_inside_tree():
+		return
 	var steps: int = target_index - current_index
 
 	if steps <= 0:
@@ -83,24 +85,32 @@ func move_to_alt_path(target_index: int) -> void:
 	var alt_steps: int = min(steps - 1, alt_waypoints.size())
 
 	for i in range(alt_steps):
+		if not is_inside_tree():
+			return
 		current_index += 1
 		lane_offset = _resolve_lane_offset(current_index)
 
 		print("Ficha: atajo -> índice", current_index, " posición alterna:", alt_waypoints[i])
 
 		await _move_to_alt(alt_waypoints[i], i)
+		if not is_inside_tree():
+			return
 
 		stepped_on.emit(current_index)
 
 	# Aterrizaje final: siempre usa la posición/rotación/base REAL
 	# de la casilla destino en el camino principal.
 	if current_index < target_index:
+		if not is_inside_tree():
+			return
 		current_index = target_index
 		lane_offset = _resolve_lane_offset(current_index)
 
 		print("Ficha: atajo -> aterrizaje final en índice real", current_index)
 
 		await _move_to(waypoints[current_index])
+		if not is_inside_tree():
+			return
 
 		stepped_on.emit(current_index)
 
@@ -113,7 +123,7 @@ func move_to_alt_path(target_index: int) -> void:
 # de carril lateral antes de cada movimiento.
 # =========================================================
 func move_steps(steps: int) -> void:
-	if waypoints.is_empty():
+	if not is_inside_tree() or waypoints.is_empty():
 		push_warning("Ficha: no hay waypoints para moverse")
 		return
 
@@ -139,9 +149,13 @@ func move_steps(steps: int) -> void:
 	if target_index <= meta_index:
 
 		for i in range(steps):
+			if not is_inside_tree():
+				return
 			var next_index: int = current_index + 1
 			if special_waypoints.has(current_index) and next_index == current_index + 1:
 				await _move_to_special(current_index)
+				if not is_inside_tree():
+					return
 				stepped_on.emit(current_index)
 
 			current_index = next_index
@@ -157,6 +171,8 @@ func move_steps(steps: int) -> void:
 			)
 
 			await _move_to(waypoints[current_index])
+			if not is_inside_tree():
+				return
 
 			stepped_on.emit(current_index)
 
@@ -180,6 +196,8 @@ func move_steps(steps: int) -> void:
 
 		# Llegar hasta la meta
 		for i in range(steps_to_meta):
+			if not is_inside_tree():
+				return
 			current_index += 1
 
 			lane_offset = _resolve_lane_offset(current_index)
@@ -192,11 +210,15 @@ func move_steps(steps: int) -> void:
 			)
 
 			await _move_to(waypoints[current_index])
+			if not is_inside_tree():
+				return
 
 			stepped_on.emit(current_index)
 
 		# Rebotar hacia atrás
 		for i in range(excess):
+			if not is_inside_tree():
+				return
 			current_index -= 1
 
 			lane_offset = _resolve_lane_offset(current_index)
@@ -204,6 +226,8 @@ func move_steps(steps: int) -> void:
 			print("Ficha: rebotando, índice", current_index)
 
 			await _move_to(waypoints[current_index])
+			if not is_inside_tree():
+				return
 
 			stepped_on.emit(current_index)
 
@@ -211,21 +235,25 @@ func move_steps(steps: int) -> void:
 # MOVER PASOS HACIA ATRÁS
 # =========================================================
 func move_back(steps: int) -> void:
-	if waypoints.is_empty():
+	if not is_inside_tree() or waypoints.is_empty():
 		return
 	for i in range(steps):
-		if current_index <= 0:
+		if not is_inside_tree() or current_index <= 0:
 			return
 		current_index -= 1
 		lane_offset = _resolve_lane_offset(current_index)
 		print("Ficha: retrocediendo a índice", current_index)
 		await _move_to(waypoints[current_index])
+		if not is_inside_tree():
+			return
 		stepped_on.emit(current_index)
 # =========================================================
 # MOVER A POSICIÓN CON SALTO
 # Aplica lane_offset al destino para mantener el carril
 # =========================================================
 func _move_to(target: Vector3) -> void:
+	if not is_inside_tree():
+		return
 	var target_basis: Basis = Basis.IDENTITY
 	if current_index < waypoint_bases.size():
 		target_basis = waypoint_bases[current_index]
@@ -235,6 +263,8 @@ func _move_to(target: Vector3) -> void:
 	await _move_to_point(target, target_rotation_y, target_basis)
 
 func _move_to_alt(target: Vector3, alt_index: int) -> void:
+	if not is_inside_tree():
+		return
 	var target_basis: Basis = Basis.IDENTITY
 	if alt_index < alt_waypoint_bases.size():
 		target_basis = alt_waypoint_bases[alt_index]
@@ -244,6 +274,8 @@ func _move_to_alt(target: Vector3, alt_index: int) -> void:
 	await _move_to_point(target, target_rotation_y, target_basis)
 
 func _move_to_special(tile_index: int) -> void:
+	if not is_inside_tree():
+		return
 	var target: Vector3 = special_waypoints[tile_index]
 	var target_basis: Basis = Basis.IDENTITY
 	if special_bases.has(tile_index):
@@ -254,6 +286,8 @@ func _move_to_special(tile_index: int) -> void:
 	await _move_to_point(target, target_rotation_y, target_basis)
 
 func _move_to_point(target: Vector3, target_rotation_y: float, target_basis: Basis) -> void:
+	if not is_inside_tree():
+		return
 	if _lane_tween and _lane_tween.is_valid():
 		_lane_tween.kill()
 	var offset: Vector3 = target_basis * lane_offset
@@ -261,11 +295,12 @@ func _move_to_point(target: Vector3, target_rotation_y: float, target_basis: Bas
 	var start_rotation_y: float = rotation.y
 
 	if speed <= 0:
-		global_position = actual_target
+		if is_inside_tree():
+			global_position = actual_target
 		rotation.y = target_rotation_y
 		return
 
-	var start: Vector3 = global_position
+	var start: Vector3 = global_position if is_inside_tree() else position
 	var distance: float = start.distance_to(actual_target)
 	var duration: float = max(0.09, distance / speed)
 	var elapsed: float = 0.0
@@ -284,6 +319,9 @@ func _move_to_point(target: Vector3, target_rotation_y: float, target_basis: Bas
 		var arc: float = sin(t * PI) * jump_height
 		global_position = Vector3(horizontal.x, horizontal.y + arc, horizontal.z)
 		rotation.y = lerp_angle(start_rotation_y, target_rotation_y, t)
+
+	if not is_inside_tree():
+		return
 
 	global_position = actual_target
 	rotation.y = target_rotation_y
@@ -304,7 +342,8 @@ func update_lane_offset(new_offset: Vector3, animate: bool = true) -> void:
 		base = waypoint_bases[current_index]
 	var target_pos: Vector3 = waypoints[current_index] + base * lane_offset
 	if not animate or speed <= 0:
-		global_position = target_pos
+		if is_inside_tree():
+			global_position = target_pos
 		return
 	if _lane_tween and _lane_tween.is_valid():
 		_lane_tween.kill()
@@ -339,6 +378,8 @@ func travel_alt_path(
 ) -> void:
 
 	for i in range(path_points.size()):
+		if not is_inside_tree():
+			return
 		var save_rotations := waypoint_rotations
 		var save_bases := waypoint_bases
 
@@ -346,9 +387,14 @@ func travel_alt_path(
 		waypoint_bases = path_bases
 
 		await _move_to(path_points[i])
+		if not is_inside_tree():
+			return
 
 		waypoint_rotations = save_rotations
 		waypoint_bases = save_bases
+
+	if not is_inside_tree():
+		return
 
 	var old_rotations := waypoint_rotations
 	var old_bases := waypoint_bases
@@ -357,6 +403,8 @@ func travel_alt_path(
 	waypoint_bases = [Basis.IDENTITY]
 
 	await _move_to(exit_position)
+	if not is_inside_tree():
+		return
 
 	waypoint_rotations = old_rotations
 	waypoint_bases = old_bases

@@ -165,7 +165,7 @@ func switch_camera(marker: Marker3D, free_move: bool = true) -> void:
 # MÉTODOS PRIVADOS
 # =========================================================
 func _start_game() -> void:
-	var mode := GameManager.game_mode
+	var mode: int = GameManager.game_mode
 	game_mode = mode
 	GameManager.tokens.clear()
 	GameManager.current_player = 0
@@ -243,7 +243,7 @@ func _on_ficha_stepped(_index: int) -> void:
 	AudioManager.play_sfx(move_sound)
 	_update_position_label()
 	_update_lane_offsets()
-	var type := GameManager.last_action_type
+	var type : String = GameManager.last_action_type
 	if type == "advance":
 		AudioManager.play_sfx(move_forward_sound)
 		GameManager.last_action_type = ""
@@ -461,8 +461,10 @@ func _declare_winner(player_index: int) -> void:
 	if GameManager.message_label:
 		GameManager.message_label.visible = true
 		GameManager.message_label.text    = message
-		get_tree().create_timer(5.5).timeout.connect(
-				func ():GameManager.message_label.visible = false)
+		if get_tree() != null:
+			get_tree().create_timer(5.5).timeout.connect(
+				func ():GameManager.message_label.visible = false
+			)
 	visible_components([info_panel, btn_pause, btn_bind_cam,btn_throw, btn_throw_3], false)
 	game_complet_panel.text_name_player("¡Jugador %d!" % (player_index + 1))
 	game_complet_panel.text_total_time("Tiempo total: " + time_format(time))
