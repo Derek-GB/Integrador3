@@ -29,9 +29,11 @@ extends Node3D
 @onready var camera: Camera3D               = $Camera_rig/CameraFreeBody/MainCamera
 @onready var marker_iso: Marker3D           = $Camera_rig/Marker_Iso
 @onready var default_cam_position: Marker3D = $Camera_rig/DefaultPosition
+@onready var info_panel                     = $UI/InfoPanel
 @onready var dice_label: Label              = $UI/InfoPanel/DiceLabel
 @onready var turn_label: Label              = $UI/InfoPanel/TurnLabel
 @onready var position_label: Label          = $UI/InfoPanel/PositionLabel
+@onready var time_label: Label              = $UI/InfoPanel/Time
 @onready var btn_pause: Button              = $UI/Pause
 @onready var btn_throw: Button              = $UI/BtnThrow
 @onready var btn_throw_3: Button            = $UI/Throw_3
@@ -41,6 +43,7 @@ extends Node3D
 @onready var btn_bind_cam: Button           = $UI/BindCam
 @onready var pause_menu                     = $UI/PauseMenu
 @onready var btn_minigame: Button           = $UI/Test_MG
+@onready var game_complet_panel             = $UI/GameCompletionPanel
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
 const STOP_MENU          = preload("res://scenes/UX/PauseMenu.tscn")
@@ -64,6 +67,7 @@ var _camera_delay_timer: float                  = 0.0
 var _camera_delay_active: bool  = false
 var _dice_overlay_instance: Node = null
 var piece2 = null
+var time: int = 0
 
 # =========================================================
 # CICLO DE VIDA
@@ -110,6 +114,8 @@ func _ready() -> void:
 	AudioManager.play_music(board_sound)
 	GameManager.instantiate_message_lbl()
 	_start_game()
+	GlobalStopwatch.reset()
+	GlobalStopwatch.start()
 
 func _process(delta: float) -> void:
 	if GameManager.tokens.is_empty():
@@ -136,6 +142,9 @@ func _process(delta: float) -> void:
 	camera_rig.rotation.y = fmod(camera_rig.rotation.y + TAU, TAU)
 	if camera_rig.rotation.y < 0.0:
 		camera_rig.rotation.y += TAU
+	
+	time = GlobalStopwatch.elapsed_time
+	time_label.text = time_format(time)
 
 # =========================================================
 # MÉTODOS PÚBLICOS
@@ -266,6 +275,7 @@ func card_index (index: int, vector: Array ) -> bool:
 
 func _on_pause() -> void:
 	pause_menu.open_window()
+	GlobalStopwatch.stop()
 
 func _on_minigame_test() -> void:
 	Events.set_minigame.emit(15)
@@ -278,8 +288,8 @@ func _on_throw_3() -> void:
 		return
 	
 	AudioManager.play_sfx(dice_sound)
-	dice_label.text = "Tiraste un 3"
-	await GameManager.on_dice_rolled(25)
+	dice_label.text = "Tiraste un 3"						
+	await GameManager.on_dice_rolled(80)
 
 
 func _on_restart() -> void:
@@ -453,7 +463,17 @@ func _declare_winner(player_index: int) -> void:
 		GameManager.message_label.text    = message
 		get_tree().create_timer(5.5).timeout.connect(
 				func ():GameManager.message_label.visible = false)
+	visible_components([info_panel, btn_pause, btn_bind_cam,btn_throw, btn_throw_3], false)
+	game_complet_panel.text_name_player("¡Jugador %d!" % (player_index + 1))
+	game_complet_panel.text_total_time("Tiempo total: " + time_format(time))
+	game_complet_panel.visible = true
+	GlobalStopwatch.stop()
 	print("Main:", message)
+
+func visible_components (array: Array, value: bool) -> void:
+	for com in array:
+		com.visible = value
+
 
 func _update_turn_label(player_index: int) -> void:
 	if turn_label == null:
@@ -499,5 +519,9 @@ func _shake_camera(duration: float, strength: float) -> void:
 			randf_range(-strength, strength) * falloff,
 			0.0
 		)
-
 	camera.position = original_position
+
+func time_format(total_seconds: float) -> String:
+	var min: int = int(total_seconds) / 60
+	var sec: int = int(total_seconds) % 60
+	return "%02d:%02d" % [min, sec]

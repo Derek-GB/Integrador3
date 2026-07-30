@@ -23,6 +23,7 @@ AudioManager="*uid://ckwomrh6ox668"
 MinigameData="*uid://s4piojkgml42"
 MainMenuMinigamePrueba="*uid://c1pp0h7e3ccct"
 SettingsManager="*uid://0ugvjhbep64g"
+GlobalStopwatch="*uid://ds6y7d6pvumn8"
 
 [display]
 

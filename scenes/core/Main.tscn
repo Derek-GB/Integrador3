@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://dvsy43c78cdvq" path="res://images/icons/dice.png" id="14_founp"]
 [ext_resource type="FontFile" uid="uid://cio7qi20ts7pg" path="res://fonts/Montserrat-SemiBold.ttf" id="14_wpo1s"]
 [ext_resource type="Shader" uid="uid://bqedxetv7f6y0" path="res://data/procedural_clouds.gdshader" id="15_founp"]
+[ext_resource type="PackedScene" uid="uid://ciw8xm1nw7m06" path="res://scenes/UX/GameCompletionPanel.tscn" id="15_je01s"]
 [ext_resource type="Shader" uid="uid://ccvbyn6k27jam" path="res://data/iconos_blancos.gdshader" id="15_ship8"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="15_ujn3e"]
 [ext_resource type="FontFile" uid="uid://ejplvwbekxuj" path="res://fonts/Montserrat-Regular.ttf" id="16_tyork"]
@@ -175,11 +176,14 @@ script = ExtResource("13_1yraq")
 [node name="UI" type="CanvasLayer" parent="." unique_id=1134567890]
 layer = 10
 
+[node name="GameCompletionPanel" parent="UI" unique_id=153873019 instance=ExtResource("15_je01s")]
+visible = false
+
 [node name="InfoPanel" type="Panel" parent="UI" unique_id=1322807768]
 offset_left = 24.0
 offset_top = 24.0
 offset_right = 408.0
-offset_bottom = 187.0
+offset_bottom = 207.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_e72lg")
 
 [node name="TurnLabel" type="Label" parent="UI/InfoPanel" unique_id=1321744029]
@@ -222,6 +226,17 @@ offset_left = 24.0
 offset_top = 120.0
 offset_right = 360.0
 offset_bottom = 147.0
+theme_override_fonts/font = ExtResource("16_tyork")
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Time" type="Label" parent="UI/InfoPanel" unique_id=3604818]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 148.0
+offset_right = 360.0
+offset_bottom = 175.0
 theme_override_fonts/font = ExtResource("16_tyork")
 theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1
