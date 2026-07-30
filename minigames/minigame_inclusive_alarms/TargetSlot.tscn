@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://yq4lw7xgay7t"]
 
-[ext_resource type="Texture2D" uid="uid://e5k06y8wrgn8" path="res://minigames/minigame_inclusive_alarms/assets/ui/FlashingLightsPane.png" id="1_he4dl"]
+[ext_resource type="Texture2D" uid="uid://d3ho74um7q3s4" path="res://minigames/minigame_inclusive_alarms/assets/ui/panel.png" id="1_he4dl"]
 
 [node name="TargetSlot" type="Panel" unique_id=626386558]
 

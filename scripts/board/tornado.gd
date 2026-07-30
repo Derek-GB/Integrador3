@@ -16,17 +16,23 @@ func _ready() -> void:
 
 	for child in route.get_children():
 		if child is Marker3D:
-			_points.append(child.global_position)
+			if child.is_inside_tree():
+				_points.append(child.global_position)
+			else:
+				_points.append(child.position)
 
 	if _points.size() < 2:
 		push_error("La ruta necesita al menos 2 Marker3D.")
 		return
 
-	global_position = _points[0]
+	if is_inside_tree():
+		global_position = _points[0]
+	else:
+		position = _points[0]
 
 
 func _process(delta: float) -> void:
-	if _points.size() < 2:
+	if not is_inside_tree() or _points.size() < 2:
 		return
 
 	var start := _points[_current_segment]

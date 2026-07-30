@@ -148,6 +148,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03351307, -0.10976887, 0)
 material_override = SubResource("ShaderMaterial_h0rub")
 cast_shadow = 0
 process_material = SubResource("ParticleProcessMaterial_b2yph")
+draw_passes = 1
 draw_pass_1 = ExtResource("5_b2yph")
 
 [node name="GPUParticles3D2" type="GPUParticles3D" parent="." unique_id=2079304464]
@@ -156,4 +157,5 @@ material_override = SubResource("ShaderMaterial_h0rub")
 cast_shadow = 0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_e03ot")
+draw_passes = 1
 draw_pass_1 = ExtResource("5_b2yph")

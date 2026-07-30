@@ -466,6 +466,7 @@ material_override = SubResource("StandardMaterial3D_lew3n")
 amount = 50
 lifetime = 1.87
 process_material = SubResource("ParticleProcessMaterial_l0jo7")
+draw_passes = 1
 draw_pass_1 = SubResource("QuadMesh_vnc5i")
 
 [node name="Fuego3" type="GPUParticles3D" parent="." unique_id=1124658199]
@@ -474,6 +475,7 @@ material_override = SubResource("StandardMaterial3D_lew3n")
 amount = 50
 lifetime = 1.87
 process_material = SubResource("ParticleProcessMaterial_l0jo7")
+draw_passes = 1
 draw_pass_1 = SubResource("QuadMesh_0kj62")
 
 [node name="Fuego4" type="GPUParticles3D" parent="." unique_id=823708642]
@@ -483,6 +485,7 @@ amount = 50
 lifetime = 5.0
 trail_lifetime = 1.0
 process_material = SubResource("ParticleProcessMaterial_0kj62")
+draw_passes = 1
 draw_pass_1 = SubResource("QuadMesh_0kj62")
 
 [node name="Fuego2" type="GPUParticles3D" parent="." unique_id=1072585699]
@@ -491,6 +494,7 @@ material_override = SubResource("StandardMaterial3D_lew3n")
 amount = 50
 lifetime = 3.0
 process_material = SubResource("ParticleProcessMaterial_0mxs0")
+draw_passes = 1
 draw_pass_1 = SubResource("QuadMesh_4qi0h")
 
 [node name="Collitions" type="Node3D" parent="." unique_id=1421623433]

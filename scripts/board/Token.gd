@@ -36,7 +36,10 @@ func setup(board_waypoints: Array[Vector3], board_rotations: Array[float] = [], 
 		var start_offset: Vector3 = lane_offset
 		if waypoint_bases.size() > 0:
 			start_offset = waypoint_bases[0] * lane_offset
-		global_position = waypoints[0] + start_offset
+		if is_inside_tree():
+			global_position = waypoints[0] + start_offset
+		else:
+			position = waypoints[0] + start_offset
 		if waypoint_rotations.size() > 0:
 			rotation.y = deg_to_rad(waypoint_rotations[0])
 	else:

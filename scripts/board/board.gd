@@ -42,17 +42,21 @@ func _build_waypoints() -> void:
 	var c: int = 0
 	for child in path_node.get_children():
 		if child is Marker3D:
-			waypoints.append(child.global_position)
+			var pos: Vector3 = child.global_position if child.is_inside_tree() else child.position
+			var basis: Basis = child.global_transform.basis if child.is_inside_tree() else child.transform.basis
+			waypoints.append(pos)
 			waypoint_rotations.append(child.rotation_degrees.y)
-			waypoint_bases.append(child.global_transform.basis)
-			print("Board: waypoint[", waypoints.size() - 1, "] =", child.global_position, " rotation_y=", child.rotation_degrees.y)
+			waypoint_bases.append(basis)
+			print("Board: waypoint[", waypoints.size() - 1, "] =", pos, " rotation_y=", child.rotation_degrees.y)
 
 			var nested_marker := _find_nested_marker(child)
 			if nested_marker != null:
-				special_waypoints[c] = nested_marker.global_position
+				var npos: Vector3 = nested_marker.global_position if nested_marker.is_inside_tree() else nested_marker.position
+				var nbasis: Basis = nested_marker.global_transform.basis if nested_marker.is_inside_tree() else nested_marker.transform.basis
+				special_waypoints[c] = npos
 				special_rotations[c] = nested_marker.rotation_degrees.y
-				special_bases[c] = nested_marker.global_transform.basis
-				print("Board: special waypoint[", c, "] =", nested_marker.global_position)
+				special_bases[c] = nbasis
+				print("Board: special waypoint[", c, "] =", npos)
 			
 			if c in GameManager.RED_TILE_INDICES:
 				_add_pointer(red_pointer_scene, child, "rojo", c)
@@ -73,9 +77,11 @@ func _build_alt_waypoints() -> void:
 
 	for child in alt_path_node.get_children():
 		if child is Marker3D:
-			alt_waypoints.append(child.global_position)
+			var pos: Vector3 = child.global_position if child.is_inside_tree() else child.position
+			var basis: Basis = child.global_transform.basis if child.is_inside_tree() else child.transform.basis
+			alt_waypoints.append(pos)
 			alt_rotations.append(child.rotation_degrees.y)
-			alt_bases.append(child.global_transform.basis)
+			alt_bases.append(basis)
 	print("AltPath Completo con: ", alt_waypoints.size())
 
 func _add_pointer(pointer_scene: PackedScene, child: Node3D, color: String, c: int) -> void:

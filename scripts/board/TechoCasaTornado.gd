@@ -16,8 +16,10 @@ func _ready() -> void:
 	for child in get_children():
 		if child is Node3D and child.name.contains("_"):
 			raw_children.append(child)
-			sum_x += child.global_position.x
-			sum_z += child.global_position.z
+			var pos_x: float = child.global_position.x if child.is_inside_tree() else child.position.x
+			var pos_z: float = child.global_position.z if child.is_inside_tree() else child.position.z
+			sum_x += pos_x
+			sum_z += pos_z
 			count += 1
 
 	if count == 0:
@@ -26,7 +28,7 @@ func _ready() -> void:
 	var center_xz := Vector3(sum_x / count, 0.0, sum_z / count)
 
 	for child in raw_children:
-		var pos: Vector3 = child.global_position
+		var pos: Vector3 = child.global_position if child.is_inside_tree() else child.position
 		var offset := Vector3(pos.x - center_xz.x, 0.0, pos.z - center_xz.z)
 		orbit_data.append({
 			"node": child,
@@ -35,7 +37,7 @@ func _ready() -> void:
 		})
 
 func _process(delta: float) -> void:
-	if tornado_node == null or orbit_data.is_empty():
+	if not is_inside_tree() or tornado_node == null or not tornado_node.is_inside_tree() or orbit_data.is_empty():
 		return
 
 	var tornado_center: Vector3 = tornado_node.global_position
