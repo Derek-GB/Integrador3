@@ -59,6 +59,42 @@ corner_radius_bottom_left = 25
 shader = ExtResource("4_iscev")
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c1b5t"]
+content_margin_right = 10.0
+bg_color = Color(0.9411765, 0.1254902, 0.1254902, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nlaik"]
+content_margin_right = 10.0
+bg_color = Color(1.2747362, 0.18592551, 0.18592551, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iscev"]
+content_margin_right = 10.0
+bg_color = Color(0.735357, 0.08902844, 0.08902844, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uhp4i"]
+content_margin_right = 10.0
+bg_color = Color(0.5040852, 0.046296705, 0.046296705, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1qhis"]
+shader = ExtResource("4_iscev")
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vd0rk"]
 bg_color = Color(0.81960785, 0.4117647, 0.09803922, 1)
 corner_radius_top_left = 10
@@ -159,33 +195,33 @@ position = Vector2(33.99999, 29)
 scale = Vector2(0.72812504, 0.7211254)
 texture = ExtResource("5_uhp4i")
 
-[node name="Exit" type="Button" parent="Panel/Panel" unique_id=471121236]
+[node name="Exit" type="Button" parent="Panel/Panel" unique_id=433552399]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
+anchor_bottom = 0.5
 offset_left = 24.0
-offset_top = -82.0
+offset_top = 180.0
 offset_right = 284.0
-offset_bottom = -22.0
+offset_bottom = 240.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 pivot_offset = Vector2(115, 35)
 theme_override_fonts/font = ExtResource("3_nlaik")
 theme_override_font_sizes/font_size = 25
-theme_override_styles/normal = SubResource("StyleBoxFlat_tyhrt")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_deibc")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6w7qv")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_rs6bg")
-text = "Volver al inicio"
+theme_override_styles/normal = SubResource("StyleBoxFlat_c1b5t")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_nlaik")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iscev")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_uhp4i")
+text = "Volver al menu"
 alignment = 2
 
-[node name="exit" type="Sprite2D" parent="Panel/Panel/Exit" unique_id=1353615839]
-material = SubResource("ShaderMaterial_j25lc")
-position = Vector2(32.00005, 30.000015)
-scale = Vector2(0.65000004, 0.67424995)
+[node name="ExitI" type="Sprite2D" parent="Panel/Panel/Exit" unique_id=694515587]
+material = SubResource("ShaderMaterial_1qhis")
+position = Vector2(32, 30)
+scale = Vector2(0.65, 0.67)
 texture = ExtResource("6_1qhis")
 
 [node name="Label" type="Label" parent="Panel/Panel" unique_id=363197236]
