@@ -5,12 +5,12 @@ var is_locked: bool = false
 var _result: int = 0
 
 const FACE_ROTATIONS: Dictionary = {
-	1: Vector3(-90,  0,   0),
-	2: Vector3(0,    0,  90),
-	3: Vector3(180,  0,   0),
-	4: Vector3(0,    0,   0),
-	5: Vector3(0,    0, -90),
-	6: Vector3(90,   0,   0),
+	1: Vector3(0,    0,  90),
+	2: Vector3(90,   0,   0),
+	3: Vector3(0,    0,   0),
+	4: Vector3(180,  0,   0),
+	5: Vector3(-90,  0,   0),
+	6: Vector3(0,    0, -90),
 }
 
 signal dice_rolled(n: int)
@@ -108,12 +108,12 @@ func _get_spawn_position() -> Vector3:
 func _get_face_up() -> int:
 	# Normales locales de cada cara (hacia afuera)
 	var face_normals: Dictionary = {
-		1: Vector3(0,   0,  1),  # era 3
-		2: Vector3(1,   0,  0),
-		3: Vector3(0,  -1,  0),  # era 1
-		4: Vector3(0,   1,  0),
-		5: Vector3(-1,  0,  0),
-		6: Vector3(0,   0, -1),
+		1: Vector3(1,   0,  0),
+		2: Vector3(0,   0, -1),
+		3: Vector3(0,   1,  0),
+		4: Vector3(0,  -1,  0),
+		5: Vector3(0,   0,  1),
+		6: Vector3(-1,  0,  0),
 	}
 	var best_face := 1
 	var best_dot := -INF

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cf0lt2ras06so"]
 
 [ext_resource type="Script" uid="uid://4tpok4v4tp0w" path="res://scripts/board/Dice.gd" id="1_o0ie7"]
-[ext_resource type="PackedScene" uid="uid://binnmhdqouwrr" path="res://models/map/dice.glb" id="2_uh75w"]
+[ext_resource type="PackedScene" uid="uid://qdxon2ihjtbd" path="res://models/map/dado6Caras.glb" id="2_uh75w"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_tbv0i"]
 bounce = 0.4
@@ -16,6 +16,7 @@ gravity_scale = 8.0
 script = ExtResource("1_o0ie7")
 
 [node name="MeshDice" parent="." unique_id=2119051948 instance=ExtResource("2_uh75w")]
+transform = Transform3D(14, 0, 0, 0, 14, 0, 0, 0, 14, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=-1293967295]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2888184e-05, 0.022460938, -0.017425537)

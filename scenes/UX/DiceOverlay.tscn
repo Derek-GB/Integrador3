@@ -65,6 +65,7 @@ directional_shadow_mode = 0
 transform = Transform3D(1, 0, 0, 0, 0.64278764, 0.76604444, 0, -0.76604444, 0.64278764, 0, 22, 18)
 
 [node name="Dado" parent="CanvasLayer/Control/ViewportContainer/DiceViewport" unique_id=1959150561 instance=ExtResource("2_lr3sx")]
+transform = Transform3D(0.23, 0, 0, 0, 0.23, 0, 0, 0, 0.23, 0, 0, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="CanvasLayer/Control/ViewportContainer/DiceViewport" unique_id=972137070]
 
