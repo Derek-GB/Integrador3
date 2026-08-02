@@ -23,6 +23,7 @@ func change_volume(name_bus: String, linear_value: float) -> void:
 		return
 	if linear_value <= 0.0:
 		AudioServer.set_bus_mute(bus_index, true)
+		AudioServer.set_bus_volume_db(bus_index, -80.0)
 	else:
 		AudioServer.set_bus_mute(bus_index, false)
 		AudioServer.set_bus_volume_db(bus_index, linear_to_db(linear_value))

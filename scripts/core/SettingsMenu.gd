@@ -33,6 +33,12 @@ signal closed
 @onready var chk_shadows      := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaSombras/ChkSombras
 @onready var opt_shadow_quality := $Panel/MarginContainer/VBox/ScrollContainer/Opciones/FilaCalidadSombras/OptCalidadSombras
 
+@onready var confirm_overlay   := $ConfirmVideoOverlay
+@onready var lbl_confirm_msg   := $ConfirmVideoOverlay/ConfirmPanel/Margin/VBox/LblConfirmMsg
+@onready var btn_confirm_video := $ConfirmVideoOverlay/ConfirmPanel/Margin/VBox/ConfirmBtns/BtnConfirmarVideo
+@onready var btn_revert_video  := $ConfirmVideoOverlay/ConfirmPanel/Margin/VBox/ConfirmBtns/BtnRevertirVideo
+@onready var confirm_timer     := $ConfirmTimer
+
 # ── Temporary state (what the user selected but has not applied yet) ─────────
 
 var _temp_mode           : int
@@ -43,31 +49,26 @@ var _temp_aa             : bool
 var _temp_shadows        : bool
 var _temp_shadow_quality : int  # index of the ShadowQuality enum
 
+var _old_mode            : int
+var _old_resolution      : Vector2i
+
 # ── Option constants ─────────────────────────────────────────────────────────
 
-const SCREEN_MODES   := ["Pantalla Completa", "Sin Bordes", "Ventana"]
-const RESOLUTIONS    := [
+const SCREEN_MODES: Array[String] = ["Pantalla Completa", "Sin Bordes", "Ventana"]
+const RESOLUTIONS: Array[Vector2i] = [
 	Vector2i(1280, 720),
 	Vector2i(1600, 900),
 	Vector2i(1920, 1080),
 	Vector2i(2560, 1440),
 ]
-const FPS_OPTIONS    := [30, 60, 120]
-const SHADOW_QUALITY := ["Baja", "Media", "Alta"]
+const FPS_OPTIONS: Array[int] = [30, 60, 120]
+const SHADOW_QUALITY: Array[String] = ["Baja", "Media", "Alta"]
 
 # =============================================================================
 # GODOT
 # =============================================================================
 
 func _ready() -> void:
-	#process_mode = Node.PROCESS_MODE_ALWAYS
-	print("opt_res: ", opt_resolution)
-	print("opt_modo: ", opt_mode)
-	print("opt_fps: ", opt_fps)
-	print("opt_calidad_somb: ", opt_shadow_quality)
-	print("chk_vsync: ", chk_vsync)
-	print("chk_aa: ", chk_aa)
-	print("chk_sombras: ", chk_shadows)
 	_populate_options()
 	_connect_signals()
 	hide_timer.timeout.connect(
@@ -75,9 +76,18 @@ func _ready() -> void:
 	)
 	panel.scale = Vector2.ONE  # quitamos el scale por transform, causaba el blur
 	scale_ui(panel, UI_SCALE)
+	scale_ui(confirm_overlay, UI_SCALE)
 	change_size_panel()
 	get_viewport().size_changed.connect(change_size_panel)
 	visible = false
+	confirm_overlay.visible = false
+
+
+func _process(_delta: float) -> void:
+	if confirm_overlay.visible and not confirm_timer.is_stopped():
+		var remaining := int(ceil(confirm_timer.time_left))
+		lbl_confirm_msg.text = "Revirtiendo en %d segundos..." % remaining
+
 
 func scale_ui(node: Node, factor: float) -> void:
 	if node is Label or node is Button or node is CheckButton or node is OptionButton:
@@ -109,7 +119,10 @@ func change_size_panel() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if visible and event.is_action_pressed("ui_cancel"):
-		close()
+		if confirm_overlay.visible:
+			_revert_video_changes()
+		else:
+			close()
 		get_viewport().set_input_as_handled()
 
 # =============================================================================
@@ -119,6 +132,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func open() -> void:
 	_load_current_values()
 	lbl_restart.visible = false
+	confirm_overlay.visible = false
 	visible = true
 	# If the game is running, pause it
 	if get_tree().current_scene != null:
@@ -126,6 +140,8 @@ func open() -> void:
 
 
 func close() -> void:
+	if confirm_overlay.visible:
+		_revert_video_changes()
 	visible = false
 	Events.notify_pause.emit(false)
 	closed.emit()
@@ -135,15 +151,27 @@ func close() -> void:
 # =============================================================================
 
 func _populate_options() -> void:
+	opt_mode.clear()
 	for m in SCREEN_MODES:
 		opt_mode.add_item(m)
 
-	for r in RESOLUTIONS:
-		opt_resolution.add_item("%d x %d" % [r.x, r.y])
+	opt_resolution.clear()
+	var screen_size: Vector2i = DisplayServer.screen_get_size()
+	for i in RESOLUTIONS.size():
+		var r: Vector2i = RESOLUTIONS[i]
+		var label: String = "%d x %d" % [r.x, r.y]
+		if r.x > screen_size.x or r.y > screen_size.y:
+			label += " (no soportada)"
+		opt_resolution.add_item(label)
+		if r.x > screen_size.x or r.y > screen_size.y:
+			opt_resolution.set_item_disabled(i, true)
 
+
+	opt_fps.clear()
 	for f in FPS_OPTIONS:
 		opt_fps.add_item("%d FPS" % f)
 
+	opt_shadow_quality.clear()
 	for c in SHADOW_QUALITY:
 		opt_shadow_quality.add_item(c)
 
@@ -163,6 +191,10 @@ func _connect_signals() -> void:
 	chk_vsync.toggled.connect(func(v): _temp_vsync = v)
 	opt_fps.item_selected.connect(func(i): _temp_fps = FPS_OPTIONS[i])
 	chk_shadows.toggled.connect(func(v): _temp_shadows = v)
+
+	btn_confirm_video.pressed.connect(_confirm_video_changes)
+	btn_revert_video.pressed.connect(_revert_video_changes)
+	confirm_timer.timeout.connect(_revert_video_changes)
 
 # =============================================================================
 # LOAD CURRENT VALUES
@@ -193,7 +225,11 @@ func _get_resolution_index(res: Vector2i) -> int:
 	for i in RESOLUTIONS.size():
 		if RESOLUTIONS[i] == res:
 			return i
-	return 2  # default 1080p
+	var screen_size: Vector2i = DisplayServer.screen_get_size()
+	for i in range(RESOLUTIONS.size() - 1, -1, -1):
+		if RESOLUTIONS[i].x <= screen_size.x and RESOLUTIONS[i].y <= screen_size.y:
+			return i
+	return 0
 
 
 func _get_fps_index(fps: int) -> int:
@@ -208,12 +244,10 @@ func _get_fps_index(fps: int) -> int:
 
 func _on_aa_toggled(value: bool) -> void:
 	_temp_aa = value
-	# _check_restart()
 
 
 func _on_shadow_quality_selected(index: int) -> void:
 	_temp_shadow_quality = index
-	# _check_restart()
 
 
 func _check_restart() -> void:
@@ -225,11 +259,16 @@ func _check_restart() -> void:
 	lbl_restart.visible = needs_restart
 
 # =============================================================================
-# APPLY
+# APPLY & VIDEO CONFIRMATION
 # =============================================================================
 
 func _apply() -> void:
 	var sm := SettingsManager
+	var video_changed := (_temp_mode != sm.window_mode or _temp_resolution != sm.resolution)
+
+	if video_changed:
+		_old_mode = sm.window_mode
+		_old_resolution = sm.resolution
 
 	sm.set_window_settings(_temp_mode, _temp_resolution)
 	sm.set_vsync(_temp_vsync)
@@ -238,8 +277,27 @@ func _apply() -> void:
 	sm.set_antialiasing_enabled(_temp_aa)
 	sm.set_shadow_quality(_temp_shadow_quality)
 
-	# The restart warning is already handled by SettingsManager via restart_required_changed,
-	# but we also display it locally if applicable.
-	#lbl_restart.add_theme_color_override("font_color",Color.GREEN)
 	lbl_restart.visible = true
 	hide_timer.start()
+
+	if video_changed:
+		_start_confirm_timer()
+
+
+func _start_confirm_timer() -> void:
+	confirm_overlay.visible = true
+	confirm_timer.start(15.0)
+
+
+func _confirm_video_changes() -> void:
+	confirm_timer.stop()
+	confirm_overlay.visible = false
+	SettingsManager.save_settings()
+
+
+func _revert_video_changes() -> void:
+	confirm_timer.stop()
+	confirm_overlay.visible = false
+	var sm := SettingsManager
+	sm.set_window_settings(_old_mode, _old_resolution)
+	_load_current_values()

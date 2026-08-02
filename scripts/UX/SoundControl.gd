@@ -11,10 +11,14 @@ const MASTER_BUS = "Master"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_refresh_sliders()
-	
+	visibility_changed.connect(func():
+		if visible:
+			_refresh_sliders()
+	)
+
 	btn_music_control.value_changed.connect(
-	func(value):
-		SettingsManager.preview_music_volume(value)
+		func(value: float):
+			SettingsManager.preview_music_volume(value)
 	)
 
 	btn_music_control.drag_ended.connect(
@@ -22,10 +26,10 @@ func _ready() -> void:
 			if _changed:
 				SettingsManager.save_settings()
 	)
-	
+
 	btn_sfx_control.value_changed.connect(
-	func(value):
-		SettingsManager.preview_sfx_volume(value)
+		func(value: float):
+			SettingsManager.preview_sfx_volume(value)
 	)
 
 	btn_sfx_control.drag_ended.connect(
@@ -34,14 +38,15 @@ func _ready() -> void:
 				SettingsManager.save_settings()
 	)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-func synchronize_slider(name_bus: String, slider:HSlider) -> void:
-	var bus_idx = AudioServer.get_bus_index(name_bus)
-	var linear_vol = db_to_linear(AudioServer.get_bus_volume_db(bus_idx))
-	slider.value = linear_vol
+func synchronize_slider(name_bus: String, slider: HSlider) -> void:
+	var bus_idx := AudioServer.get_bus_index(name_bus)
+	if bus_idx == -1:
+		return
+	if AudioServer.is_bus_mute(bus_idx):
+		slider.value = 0.0
+	else:
+		var linear_vol := db_to_linear(AudioServer.get_bus_volume_db(bus_idx))
+		slider.value = linear_vol
 
 func visible_panel(option: bool) -> void:
 	panel.visible = option
@@ -49,5 +54,5 @@ func visible_panel(option: bool) -> void:
 	leaf2.visible = option
 
 func _refresh_sliders() -> void:
-	synchronize_slider(MUSIC_BUS, btn_music_control)
-	synchronize_slider(SFX_BUS, btn_sfx_control)
+	btn_music_control.value = SettingsManager.music_volume
+	btn_sfx_control.value = SettingsManager.sfx_volume

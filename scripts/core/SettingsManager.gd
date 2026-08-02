@@ -76,13 +76,13 @@ var max_fps: int = 60
 # =============================================================================
 
 # Requiere reinicio
-var antialiasing_enabled: bool = true
+var antialiasing_enabled: bool = false
 
 # Se puede aplicar inmediatamente
 var shadows_enabled: bool = true
 
 # Requiere reinicio
-var shadow_quality: ShadowQuality = ShadowQuality.MEDIUM
+var shadow_quality: ShadowQuality = ShadowQuality.LOW
 
 # =============================================================================
 # INTERNAL
@@ -172,7 +172,7 @@ func apply_loaded_values(config: ConfigFile) -> void:
 	antialiasing_enabled = config.get_value(
 		"graphics",
 		"antialiasing_enabled",
-		true
+		false
 	)
 
 	shadows_enabled = config.get_value(
@@ -184,7 +184,7 @@ func apply_loaded_values(config: ConfigFile) -> void:
 	shadow_quality = config.get_value(
 		"graphics",
 		"shadow_quality",
-		ShadowQuality.MEDIUM
+		ShadowQuality.LOW
 	)
 
 
@@ -337,10 +337,13 @@ func apply_window() -> void:
 
 	if window_mode != WindowMode.FULLSCREEN:
 		await get_tree().process_frame
-		get_window().size = resolution
-
-		var screen_size := DisplayServer.screen_get_size()
-		get_window().position = (screen_size - resolution) / 2
+		var screen_size: Vector2i = DisplayServer.screen_get_size()
+		var safe_res: Vector2i = Vector2i(
+			mini(resolution.x, screen_size.x),
+			mini(resolution.y, screen_size.y)
+		)
+		get_window().size = safe_res
+		get_window().position = (screen_size - safe_res) / 2
 
 
 func apply_vsync() -> void:
@@ -532,10 +535,10 @@ func reset_to_defaults() -> void:
 	vsync_enabled = true
 	max_fps = 60
 
-	antialiasing_enabled = true
+	antialiasing_enabled = false
 
 	shadows_enabled = true
-	shadow_quality = ShadowQuality.MEDIUM
+	shadow_quality = ShadowQuality.LOW
 
 	restart_required = true
 
