@@ -553,7 +553,13 @@ func _apply_minigame_effect(tile_index: int, won: bool) -> void:
 		action_result[1] = val
 	)
 	
-	# CONGELAR LOGICA: Esperamos pacientemente a que el niño cierre la ventana informativa
+	var waiting_time := 3
+	var auto_close_timer := get_tree().create_timer(waiting_time)
+	
+	auto_close_timer.timeout.connect(func():
+		if game_mode == 2 && current_player == 1:
+			minigame_action_dialog.accept_button.pressed.emit()
+	)
 	await minigame_action_dialog.tree_exited
 	
 	if action == "spin_again":

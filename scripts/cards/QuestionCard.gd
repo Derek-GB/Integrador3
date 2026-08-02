@@ -18,8 +18,6 @@ var selected_question: Dictionary = {}
 @onready var feedback_description: Label = $FeedbackPanel/DescriptionLabel
 @onready var playing_button: Button = $FeedbackPanel/PlayingButton
 
-#@onready var cpu_feedback_background: ColorRect = $CardContainer/BackPanel/CpuFeedbackBackground
-#@onready var _cpu_feedback_label: Label = $CardContainer/BackPanel/CpuFeedbackBackground/CpuFeedbackLabel
 
 var card_animator = CARD_ANIMATOR.new()
 
@@ -137,15 +135,9 @@ func _cpu_auto_play() -> void:
 	_highlight_cpu_choice(random_option)
 	await get_tree().create_timer(0.5).timeout
 	var is_correct := random_option == int(selected_question["correct"])
-	if is_correct:
-		_set_cpu_status("Respuesta correcta ✅", Color("#4CAF50"))
-	else:
-		_set_cpu_status("Respuesta incorrecta ❌", Color("#F44336"))
-	await get_tree().create_timer(1).timeout
-	await card_animator.animate_exit(card_container, _option_buttons)
-	answer_result.emit(is_correct)
-	await get_tree().create_timer(1).timeout
-	queue_free()
+	_on_option_selected(random_option)
+	await get_tree().create_timer(3).timeout
+	_on_continuar_pressed(is_correct)
 
 
 # =========================================================
