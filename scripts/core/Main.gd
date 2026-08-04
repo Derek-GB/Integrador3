@@ -167,22 +167,25 @@ func switch_camera(marker: Marker3D, free_move: bool = true) -> void:
 	tween.tween_property(camera_free_body, "transform", marker.transform, 0.6)
 	tween.tween_property(camera_rig, "rotation:y", target_yaw, 0.6)
 	tween.set_parallel(false)
-	tween.tween_callback(func():
-		camera_rig.rotation.y = fmod(camera_rig.rotation.y + TAU, TAU)
-		if camera_rig.rotation.y < 0.0:
-			camera_rig.rotation.y += TAU
-		if not GameManager.is_player_moving:
-			camera_free_body.can_free_move = free_move
-		else:
-			camera_free_body.can_free_move = false
-	)
+	tween.tween_callback(_on_camera_switch_completed.bind(free_move))
 
+func _on_camera_switch_completed(free_move: bool) -> void:
+	if camera_rig == null or camera_free_body == null:
+		return
+	camera_rig.rotation.y = fmod(camera_rig.rotation.y + TAU, TAU)
+	if camera_rig.rotation.y < 0.0:
+		camera_rig.rotation.y += TAU
+	if not GameManager.is_player_moving:
+		camera_free_body.can_free_move = free_move
+	else:
+		camera_free_body.can_free_move = false
 
 func _on_player_movement_started() -> void:
 	switch_camera(default_cam_position, false)
 
 func _on_player_movement_ended() -> void:
 	camera_free_body.can_free_move = true
+
 
 # =========================================================
 # MÉTODOS PRIVADOS
