@@ -33,9 +33,9 @@ func _physics_process(delta: float) -> void:
 	_correct_ground_high()
 
 	var rot_dir := 0.0
-	if Input.is_key_pressed(KEY_Q) or Input.is_action_pressed("rotate_left"):
+	if Input.is_key_pressed(KEY_Q): # or Input.is_action_pressed("rotate_left"):
 		rot_dir += 1.0
-	if Input.is_key_pressed(KEY_E) or Input.is_action_pressed("rotate_right"):
+	if Input.is_key_pressed(KEY_E): # or Input.is_action_pressed("rotate_right"):
 		rot_dir -= 1.0
 
 	if rot_dir != 0.0:

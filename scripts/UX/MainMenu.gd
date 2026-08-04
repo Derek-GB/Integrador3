@@ -11,10 +11,13 @@ const DURATION = 1.3
 @export var lobby1: AudioStream
 
 var current_menu: Control = null
+var credits_scroll_pos: float = 0.0
+const AUTO_SCROLL_SPEED: float = 60.0
 
 @onready var button_menu: Control = $ButtonMenu
 @onready var game_selection: Control = $GameSelection
 @onready var game_rules: Control = $GameRules
+@onready var game_credits: Control = $GameCredits
 @onready var settings_panel: Control = $SoundControlPanel
 @onready var settings_menu := $SettingsMenu  # instancia como hijo
 
@@ -27,6 +30,8 @@ var current_menu: Control = null
 @onready var btn_1vsbot: Button = $"GameSelection/1VsBot"
 @onready var btn_close_selection: Button = $GameSelection/Label/CloseSelection
 @onready var btn_close_rules: Button = $GameRules/Label/CloseRules
+@onready var btn_close_credits: Button = $GameCredits/Label/CloseCredits
+@onready var credits_scroll: ScrollContainer = $GameCredits/ScrollContainer
 @onready var btn_settings: Button = $Settings
 
 # Called when the node enters the scene tree for the first time.
@@ -58,6 +63,16 @@ func _ready() -> void:
 			close_all()
 	)
 
+	btn_credits_menu.pressed.connect(
+		func():
+			open_menu(game_credits)
+	)
+
+	btn_close_credits.pressed.connect(
+		func():
+			close_all()
+	)
+
 	btn_1vs1.pressed.connect(
 		func():
 			GameManager.game_mode = 1
@@ -82,10 +97,23 @@ func _ready() -> void:
 			)
 	settings_menu.closed.connect(visible_settings_menu)
 
+	if credits_scroll:
+		credits_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+		credits_scroll.get_v_scroll_bar().visible = false
+
 	for i in $ButtonMenu.get_children():
 		if i is Button:
 			connect_hover(i)
 			i.pivot_offset = i.position
+
+func _process(delta: float) -> void:
+	if current_menu == game_credits and credits_scroll:
+		credits_scroll_pos += AUTO_SCROLL_SPEED * delta
+		var v_bar = credits_scroll.get_v_scroll_bar()
+		var max_scroll = v_bar.max_value - v_bar.page
+		if max_scroll > 0 and credits_scroll_pos >= max_scroll:
+			credits_scroll_pos = 0.0
+		credits_scroll.scroll_vertical = int(credits_scroll_pos)
 
 func exit_game() -> void:
 	get_tree().quit()
@@ -108,6 +136,9 @@ func open_menu(new_menu: Control) -> void:
 	new_menu.position.x = POS_OUTSIDE_RIGHT
 	tween.tween_property(new_menu, "position:x", POS_CENTER, DURATION)
 	current_menu = new_menu
+	if new_menu == game_credits and credits_scroll:
+		credits_scroll_pos = 0.0
+		credits_scroll.scroll_vertical = 0
 
 func _open_general_settings() -> void:
 	settings_menu.open()
@@ -120,6 +151,6 @@ func close_all() -> void:
 		current_menu = null
 	
 func visible_settings_menu() -> void:
-	var menus: Array = [button_menu, game_selection, game_rules, settings_panel]
+	var menus: Array = [button_menu, game_selection, game_rules, game_credits, settings_panel]
 	for menu in menus:
 		menu.visible = !menu.visible
