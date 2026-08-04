@@ -325,6 +325,14 @@ func register_token(token: Node) -> void:
 	print("GameManager: registrando token:", token)
 	tokens.append(token)
 
+func _start_player_movement() -> void:
+	is_player_moving = true
+	Events.player_movement_started.emit()
+
+func _end_player_movement() -> void:
+	is_player_moving = false
+	Events.player_movement_ended.emit()
+
 func on_dice_rolled(n: int) -> void:
 	if minigame_active:
 		print("GameManager: minijuego activo, ignorando dado")
@@ -338,7 +346,7 @@ func on_dice_rolled(n: int) -> void:
 	if current_player >= tokens.size():
 		current_player = 0
 
-	is_player_moving = true
+	_start_player_movement()
 	var active_token: Node = tokens[current_player]
 	
 	# Esperar a que la ficha termine de moverse
@@ -346,7 +354,7 @@ func on_dice_rolled(n: int) -> void:
 	
 	# COMPROBACIÓN DE SEGURIDAD: ¿Sigue la ficha en el árbol de escena activa?
 	if not is_instance_valid(active_token) or not active_token.is_inside_tree():
-		is_player_moving = false
+		_end_player_movement()
 		return
 
 	print("GameManager: movimiento completado, casilla:", active_token.current_index)
@@ -356,10 +364,10 @@ func on_dice_rolled(n: int) -> void:
 
 	# COMPROBACIÓN DE SEGURIDAD: Re-comprobación por si el chequeo especial destruyó la escena
 	if not is_instance_valid(active_token) or not active_token.is_inside_tree():
-		is_player_moving = false
+		_end_player_movement()
 		return
 
-	is_player_moving = false
+	_end_player_movement()
 	_unlock_dice()
 	_next_turn()
 
@@ -371,30 +379,31 @@ func check_special_tile(active_token: Node) -> bool:
 		return true
 		
 	if index in MINIGAME_TILE_INDICES:
+		_end_player_movement()
 		await _launch_minigame_for_tile(index)
-		is_player_moving = false
 		return true
 
 	if index in BLUE_TILE_INDICES:
+		_end_player_movement()
 		var hit: bool = await show_blue_card()
 		if hit:
 			print("GameManager: respuesta correcta, mismo jugador tira otra vez")
-			is_player_moving = false
 			_unlock_dice()
 			Events.turn_changed.emit(current_player)
 		else:
 			print("GameManager: respuesta incorrecta, pierde próximo turno")
 			skip_player_index = current_player
-			is_player_moving = false
 			_unlock_dice()
 			_next_turn()
 		return true
 
 	if index in RED_TILE_INDICES:
+		_end_player_movement()
 		await show_red_card(active_token)
 		return true
 
 	return false
+
 
 func show_blue_card() -> bool:
 	print("GameManager: carta azul activada")
@@ -463,7 +472,7 @@ func _trigger_earthquake_tile() -> void:
 	print("GameManager: casilla 28 -> activando terremoto")
 	Events.earthquake_triggered.emit()
 	await Events.earthquake_finished
-	is_player_moving = false
+	_end_player_movement()
 	_unlock_dice()
 	_next_turn()
 
@@ -471,16 +480,19 @@ func _apply_red_card_action(active_token: Node, action: String, value: int) -> v
 	print("GameManager: carta cerrada, acción:", action, " valor:", value)
 
 	if action == "advance":
+		_start_player_movement()
 		await active_token.move_steps(value)
 		if await check_special_tile(active_token):
 			return
 
 	elif action == "go_back":
+		_start_player_movement()
 		await active_token.move_back(value)
 		if await check_special_tile(active_token):
 			return
 
 	elif action == "go_to_space":
+		_start_player_movement()
 		var steps_needed: int = value - active_token.current_index
 		if steps_needed > 0:
 			await active_token.move_steps(steps_needed)
@@ -501,13 +513,13 @@ func _apply_red_card_action(active_token: Node, action: String, value: int) -> v
 
 	elif action == "spin_again":
 		minigame_active = false
-		is_player_moving = false
+		_end_player_movement()
 		_unlock_dice()
 		Events.turn_changed.emit(current_player)
 		return
 
 	minigame_active = false
-	is_player_moving = false
+	_end_player_movement()
 	_unlock_dice()
 	_next_turn()
 
@@ -563,24 +575,27 @@ func _apply_minigame_effect(tile_index: int, won: bool) -> void:
 	await minigame_action_dialog.tree_exited
 	
 	if action == "spin_again":
-		is_player_moving = false
+		_end_player_movement()
 		_unlock_dice()
 		Events.turn_changed.emit(current_player)
 		return
 
 	elif action == "advance":
 		Events.play_sound.emit("avanzar")
+		_start_player_movement()
 		await active_token.move_steps(value)
 		if await check_special_tile(active_token):
 			return
 
 	elif action == "go_back":
 		Events.play_sound.emit("retroceder")
+		_start_player_movement()
 		await active_token.move_back(value)
 		if await check_special_tile(active_token):
 			return
 
 	elif action == "go_to_space":
+		_start_player_movement()
 		if tile_index == 25:
 			await active_token.move_to_alt_path(value)
 		else:
@@ -593,9 +608,10 @@ func _apply_minigame_effect(tile_index: int, won: bool) -> void:
 			return
 
 	# "nothing" y cualquier otro caso: solo pasar turno
-	is_player_moving = false
+	_end_player_movement()
 	_unlock_dice()
 	_next_turn()
+
 
 func _unlock_dice() -> void:
 	var tree := get_tree()

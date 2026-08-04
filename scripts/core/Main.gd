@@ -104,6 +104,8 @@ func _ready() -> void:
 	Events.minigame_confirmed.connect(_on_minigame_confirmed)
 	Events.minigame_finished.connect(_on_minigame_finished)
 	Events.earthquake_triggered.connect(_on_earthquake_triggered)
+	Events.player_movement_started.connect(_on_player_movement_started)
+	Events.player_movement_ended.connect(_on_player_movement_ended)
 
 	_dice_overlay_instance = DICE_OVERLAY_SCENE.instantiate()
 	_dice_overlay_instance.visible = false
@@ -156,11 +158,32 @@ func switch_camera(marker: Marker3D, free_move: bool = true) -> void:
 		active = GameManager.tokens[GameManager.current_player]
 	else:
 		active = piece
+
+	var start_yaw: float = camera_rig.rotation.y
+	var dest_yaw: float = deg_to_rad(active.rotation_degrees.y)
+	var target_yaw: float = start_yaw + angle_difference(start_yaw, dest_yaw)
+
 	var tween: Tween = create_tween().set_parallel(true)
 	tween.tween_property(camera_free_body, "transform", marker.transform, 0.6)
-	tween.tween_property(camera_rig, "rotation:y", deg_to_rad(active.rotation_degrees.y), 0.6)
+	tween.tween_property(camera_rig, "rotation:y", target_yaw, 0.6)
 	tween.set_parallel(false)
-	tween.tween_callback(func(): camera_free_body.can_free_move = free_move)
+	tween.tween_callback(func():
+		camera_rig.rotation.y = fmod(camera_rig.rotation.y + TAU, TAU)
+		if camera_rig.rotation.y < 0.0:
+			camera_rig.rotation.y += TAU
+		if not GameManager.is_player_moving:
+			camera_free_body.can_free_move = free_move
+		else:
+			camera_free_body.can_free_move = false
+	)
+
+
+func _on_player_movement_started() -> void:
+	switch_camera(default_cam_position, false)
+
+func _on_player_movement_ended() -> void:
+	camera_free_body.can_free_move = true
+
 # =========================================================
 # MÉTODOS PRIVADOS
 # =========================================================

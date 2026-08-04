@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 @export var speed := 5.0
 @export var min_high := 1.0  # metros sobre el suelo (regla propia, no física)
+@export var rotation_speed := 2.0
 @onready var raycast_ground: RayCast3D = $GroundCast3D
 
 var can_free_move := true
@@ -13,7 +14,7 @@ func _ready() -> void:
 	# necesitás para una cámara que rota y se mueve en cualquier dirección.
 	motion_mode = CharacterBody3D.MOTION_MODE_FLOATING
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not can_free_move:
 		velocity = Vector3.ZERO
 		return
@@ -30,6 +31,16 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()  # resuelve paredes, techo y piso físico, con deslizamiento suave
 
 	_correct_ground_high()
+
+	var rot_dir := 0.0
+	if Input.is_key_pressed(KEY_Q) or Input.is_action_pressed("rotate_left"):
+		rot_dir += 1.0
+	if Input.is_key_pressed(KEY_E) or Input.is_action_pressed("rotate_right"):
+		rot_dir -= 1.0
+
+	if rot_dir != 0.0:
+		rotate_y(rot_dir * rotation_speed * delta)
+
 
 func _correct_ground_high() -> void:
 	# La posición ya la heredó solo por ser hijo del body.

@@ -13,10 +13,9 @@ config_version=5
 config/name="Riesgolandia"
 run/main_scene="uid://nbfpyaylc4ys"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/icon="res://images/icon.png"
+boot_splash/stretch_mode=0
 boot_splash/image="res://images/icon.png"
-boot_splash/fullsize=false
-boot_splash/use_filter=true
+config/icon="res://images/icon.png"
 
 [autoload]
 

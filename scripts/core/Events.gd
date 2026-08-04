@@ -21,4 +21,8 @@ signal notify_pause_for_minigame(on_pause: bool)
 signal earthquake_triggered
 signal earthquake_finished
 
+signal player_movement_started
+signal player_movement_ended
+
 func _ready(): process_mode = Node.PROCESS_MODE_ALWAYS
+

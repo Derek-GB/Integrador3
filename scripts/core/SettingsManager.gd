@@ -337,13 +337,20 @@ func apply_window() -> void:
 
 	if window_mode != WindowMode.FULLSCREEN:
 		await get_tree().process_frame
-		var screen_size: Vector2i = DisplayServer.screen_get_size()
-		var safe_res: Vector2i = Vector2i(
-			mini(resolution.x, screen_size.x),
-			mini(resolution.y, screen_size.y)
-		)
-		get_window().size = safe_res
-		get_window().position = (screen_size - safe_res) / 2
+		var current_screen: int = get_window().current_screen
+		var screen_size: Vector2i = DisplayServer.screen_get_size(current_screen)
+		var screen_origin: Vector2i = DisplayServer.screen_get_position(current_screen)
+
+		if window_mode == WindowMode.BORDERLESS:
+			get_window().size = screen_size
+			get_window().position = screen_origin
+		else:
+			var safe_res: Vector2i = Vector2i(
+				mini(resolution.x, screen_size.x),
+				mini(resolution.y, screen_size.y)
+			)
+			get_window().size = safe_res
+			get_window().position = screen_origin + (screen_size - safe_res) / 2
 
 
 func apply_vsync() -> void:

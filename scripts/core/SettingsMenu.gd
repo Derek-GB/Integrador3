@@ -156,7 +156,8 @@ func _populate_options() -> void:
 		opt_mode.add_item(m)
 
 	opt_resolution.clear()
-	var screen_size: Vector2i = DisplayServer.screen_get_size()
+	var current_screen: int = get_window().current_screen
+	var screen_size: Vector2i = DisplayServer.screen_get_size(current_screen)
 	for i in RESOLUTIONS.size():
 		var r: Vector2i = RESOLUTIONS[i]
 		var label: String = "%d x %d" % [r.x, r.y]
@@ -186,7 +187,10 @@ func _connect_signals() -> void:
 	opt_shadow_quality.item_selected.connect(_on_shadow_quality_selected)
 
 	# The rest only updates the temporary state
-	opt_mode.item_selected.connect(func(i): _temp_mode = i)
+	opt_mode.item_selected.connect(func(i):
+		_temp_mode = i
+		_update_resolution_enabled_state()
+	)
 	opt_resolution.item_selected.connect(func(i): _temp_resolution = RESOLUTIONS[i])
 	chk_vsync.toggled.connect(func(v): _temp_vsync = v)
 	opt_fps.item_selected.connect(func(i): _temp_fps = FPS_OPTIONS[i])
@@ -219,13 +223,20 @@ func _load_current_values() -> void:
 	chk_aa.button_pressed = _temp_aa
 	chk_shadows.button_pressed = _temp_shadows
 	opt_shadow_quality.select(_temp_shadow_quality)
+	_update_resolution_enabled_state()
+
+
+func _update_resolution_enabled_state() -> void:
+	opt_resolution.disabled = (_temp_mode != SettingsManager.WindowMode.WINDOWED)
+
 
 
 func _get_resolution_index(res: Vector2i) -> int:
 	for i in RESOLUTIONS.size():
 		if RESOLUTIONS[i] == res:
 			return i
-	var screen_size: Vector2i = DisplayServer.screen_get_size()
+	var current_screen: int = get_window().current_screen
+	var screen_size: Vector2i = DisplayServer.screen_get_size(current_screen)
 	for i in range(RESOLUTIONS.size() - 1, -1, -1):
 		if RESOLUTIONS[i].x <= screen_size.x and RESOLUTIONS[i].y <= screen_size.y:
 			return i
