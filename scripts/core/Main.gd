@@ -33,6 +33,7 @@ extends Node3D
 @onready var dice_label: Label              = $UI/InfoPanel/DiceLabel
 @onready var turn_label: Label              = $UI/InfoPanel/TurnLabel
 @onready var position_label: Label          = $UI/InfoPanel/PositionLabel
+@onready var position_label2: Label         = $UI/InfoPanel/PositionLabel2
 @onready var time_label: Label              = $UI/InfoPanel/Time
 @onready var btn_pause: Button              = $UI/Pause
 @onready var btn_throw: Button              = $UI/BtnThrow
@@ -570,10 +571,14 @@ func _update_position_label() -> void:
 		return
 	var pos1: int = piece.current_index
 	var pos2: int = piece2.current_index if piece2 != null else 0
-	if game_mode == 1:
-		position_label.text = "J1: casilla %d     J2: casilla %d" % [pos1, pos2]
-	else:
-		position_label.text = "Jugador 1: casilla %d     Contrincante: casilla %d" % [pos1, pos2]
+
+	position_label.text = "Jugador 1:\ncasilla %d" % pos1
+
+	if position_label2 != null:
+		if game_mode == 1:
+			position_label2.text = "Jugador 2:\ncasilla %d" % pos2
+		else:
+			position_label2.text = "Contrincante:\ncasilla %d" % pos2
 
 func _on_earthquake_triggered() -> void:
 	AudioManager.play_sfx(earthquake_sound)

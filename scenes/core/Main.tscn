@@ -183,7 +183,7 @@ visible = false
 offset_left = 24.0
 offset_top = 24.0
 offset_right = 408.0
-offset_bottom = 207.0
+offset_bottom = 230.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_e72lg")
 
 [node name="TurnLabel" type="Label" parent="UI/InfoPanel" unique_id=1321744029]
@@ -201,20 +201,31 @@ vertical_alignment = 1
 [node name="PositionLabel" type="Label" parent="UI/InfoPanel" unique_id=769401322]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 56.0
-offset_right = 360.0
-offset_bottom = 80.0
+offset_top = 54.0
+offset_right = 186.0
+offset_bottom = 106.0
 theme_override_fonts/font = ExtResource("14_wpo1s")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PositionLabel2" type="Label" parent="UI/InfoPanel" unique_id=769401323]
+layout_mode = 0
+offset_left = 198.0
+offset_top = 54.0
+offset_right = 360.0
+offset_bottom = 106.0
+theme_override_fonts/font = ExtResource("14_wpo1s")
+theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DiceLabel" type="Label" parent="UI/InfoPanel" unique_id=2132000153]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 88.0
+offset_top = 112.0
 offset_right = 360.0
-offset_bottom = 112.0
+offset_bottom = 136.0
 theme_override_fonts/font = ExtResource("16_tyork")
 theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
@@ -223,9 +234,9 @@ vertical_alignment = 1
 [node name="MessageLabel" type="Label" parent="UI/InfoPanel" unique_id=2021150658]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 120.0
+offset_top = 142.0
 offset_right = 360.0
-offset_bottom = 147.0
+offset_bottom = 169.0
 theme_override_fonts/font = ExtResource("16_tyork")
 theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1
@@ -234,19 +245,20 @@ vertical_alignment = 1
 [node name="Time" type="Label" parent="UI/InfoPanel" unique_id=3604818]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 148.0
+offset_top = 172.0
 offset_right = 360.0
-offset_bottom = 175.0
+offset_bottom = 199.0
 theme_override_fonts/font = ExtResource("16_tyork")
 theme_override_font_sizes/font_size = 17
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BtnThrow" type="Button" parent="UI" unique_id=1394427016]
-offset_left = 1673.0
-offset_top = 920.0
-offset_right = 1879.0
-offset_bottom = 987.0
+offset_left = 1573.0
+offset_top = 941.00006
+offset_right = 1779.0
+offset_bottom = 1008.00006
+scale = Vector2(1.5, 1.5)
 theme_override_fonts/font = ExtResource("14_wpo1s")
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_tupnw")
@@ -263,10 +275,11 @@ scale = Vector2(0.8750008, 0.87500006)
 texture = ExtResource("14_founp")
 
 [node name="Pause" type="Button" parent="UI" unique_id=394568099]
-offset_left = 1808.0
-offset_top = 39.0
-offset_right = 1872.0
-offset_bottom = 106.0
+offset_left = 1801.0001
+offset_top = 28.000002
+offset_right = 1865.0001
+offset_bottom = 95.0
+scale = Vector2(1.3, 1.3)
 theme_override_fonts/font = ExtResource("14_wpo1s")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_1yraq")
@@ -281,10 +294,11 @@ position = Vector2(32, 33)
 texture = ExtResource("18_d7485")
 
 [node name="BindCam" type="Button" parent="UI" unique_id=740133672]
-offset_left = 1673.0
-offset_top = 38.0
-offset_right = 1737.0
-offset_bottom = 105.0
+offset_left = 1673.0001
+offset_top = 26.000002
+offset_right = 1737.0001
+offset_bottom = 93.0
+scale = Vector2(1.3, 1.3)
 theme_override_fonts/font = ExtResource("14_wpo1s")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_1yraq")
@@ -318,14 +332,14 @@ text = "Isometrico"
 [node name="Throw_3" type="Button" parent="UI" unique_id=182608097]
 offset_left = 1673.0
 offset_top = 130.0
-offset_right = 1879.0
+offset_right = 1889.0
 offset_bottom = 197.0
 text = "Tirar 3"
 
 [node name="QA_Input" type="LineEdit" parent="UI" unique_id=198273645]
 offset_left = 1673.0
 offset_top = 201.0
-offset_right = 1879.0
+offset_right = 1891.0
 offset_bottom = 232.0
 theme_override_fonts/font = ExtResource("14_wpo1s")
 theme_override_font_sizes/font_size = 16
