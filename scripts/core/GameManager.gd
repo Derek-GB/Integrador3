@@ -426,12 +426,16 @@ func show_blue_card() -> bool:
 	var result: Array = [false]
 	card.answer_result.connect(func(correct: bool):
 		result[0] = correct
-		if message_label && !correct:
+		if is_instance_valid(message_label) and not correct:
 			var nombre := player_names[current_player] if current_player < player_names.size() else "Jugador"
 			message_label.visible = true
 			message_label.text = "¡%s pierde el siguiente turno!" % nombre
-			get_tree().create_timer(5.5).timeout.connect(
-				func ():message_label.visible = false)
+			if get_tree() != null:
+				get_tree().create_timer(5.5).timeout.connect(
+					func():
+						if is_instance_valid(message_label):
+							message_label.visible = false
+				)
 	)
 	await card.tree_exited
 	print("GameManager: resultado carta azul =", result[0])
@@ -503,12 +507,16 @@ func _apply_red_card_action(active_token: Node, action: String, value: int) -> v
 
 	elif action == "skip_turn":
 		skip_player_index = current_player
-		if message_label:
+		if is_instance_valid(message_label):
 			var nombre := player_names[current_player] if current_player < player_names.size() else "Jugador"
 			message_label.visible = true
 			message_label.text = "¡%s pierde el siguiente turno!" % nombre
-			get_tree().create_timer(5.5).timeout.connect(
-				func ():message_label.visible = false)
+			if get_tree() != null:
+				get_tree().create_timer(5.5).timeout.connect(
+					func():
+						if is_instance_valid(message_label):
+							message_label.visible = false
+				)
 			
 
 	elif action == "spin_again":

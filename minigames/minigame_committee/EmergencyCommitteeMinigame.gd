@@ -10,7 +10,7 @@ const BACKGROUND_PATH := "res://minigames/minigame_committee/assets/background.p
 const EMERGENCY_ROLE_SCENE_PATH := "res://minigames/minigame_committee/EmergencyRole.tscn"
 const EMERGENCY_ITEM_SCENE_PATH := "res://minigames/minigame_committee/EmergencyItem.tscn"
 
-const TIMER_UI_SCENE_PATH := "res://minigames/ui_global/TimerUI.tscn"
+const TIMER_UI_SCENE_PATH := "res://minigames/ui_global/TimerUi.tscn"
 const GAME_RESULT_SCENE_PATH := "res://minigames/ui_global/GameResult.tscn"
 
 const LIVES_UI_SCENE_PATH := "res://minigames/ui_global/LivesUi.tscn"

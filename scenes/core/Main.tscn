@@ -316,27 +316,37 @@ offset_bottom = 116.0
 text = "Isometrico"
 
 [node name="Throw_3" type="Button" parent="UI" unique_id=182608097]
-visible = false
 offset_left = 1673.0
 offset_top = 130.0
 offset_right = 1879.0
 offset_bottom = 197.0
 text = "Tirar 3"
 
+[node name="QA_Input" type="LineEdit" parent="UI" unique_id=198273645]
+offset_left = 1673.0
+offset_top = 201.0
+offset_right = 1879.0
+offset_bottom = 232.0
+theme_override_fonts/font = ExtResource("14_wpo1s")
+theme_override_font_sizes/font_size = 16
+placeholder_text = "Pasos QA"
+alignment = 1
+max_length = 4
+
 [node name="Test_MG" type="Button" parent="UI" unique_id=1496248800]
 visible = false
 offset_left = 1447.0
-offset_top = 232.0
+offset_top = 236.0
 offset_right = 1653.0
-offset_bottom = 299.0
+offset_bottom = 303.0
 text = "Prubar minijuego"
 
 [node name="Restart" type="Button" parent="UI" unique_id=1238330896]
 visible = false
 offset_left = 1673.0
-offset_top = 232.0
+offset_top = 236.0
 offset_right = 1879.0
-offset_bottom = 299.0
+offset_bottom = 303.0
 text = "Reiniciar"
 
 [node name="PauseMenu" parent="UI" unique_id=578483314 instance=ExtResource("5_choun")]

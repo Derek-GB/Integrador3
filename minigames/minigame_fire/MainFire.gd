@@ -8,7 +8,7 @@ extends Node2D
 const BACKGROUND_PATH := "res://minigames/minigame_fire/assets/background.png"
 const FIRE_BACKGROUND_SOUND_PATH := "res://minigames/minigame_fire/assets/sound/fire.mp3"
 
-const TIMER_UI_SCENE_PATH := "res://minigames/ui_global/TimerUI.tscn"
+const TIMER_UI_SCENE_PATH := "res://minigames/ui_global/TimerUi.tscn"
 const GAME_RESULT_SCENE_PATH := "res://minigames/ui_global/GameResult.tscn"
 
 const GLOBAL_SOUND_VOLUME: float = -5.0

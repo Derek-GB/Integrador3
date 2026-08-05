@@ -37,6 +37,7 @@ extends Node3D
 @onready var btn_pause: Button              = $UI/Pause
 @onready var btn_throw: Button              = $UI/BtnThrow
 @onready var btn_throw_3: Button            = $UI/Throw_3
+@onready var qa_input: LineEdit             = $UI/QA_Input
 @onready var btn_restart: Button            = $UI/Restart
 @onready var btn_third: Button              = $UI/Third_person
 @onready var btn_iso: Button                = $UI/Iso
@@ -69,6 +70,8 @@ var _dice_overlay_instance: Node = null
 var piece2 = null
 var time: int = 0
 
+var QA_throw_value: int = 74
+
 # =========================================================
 # CICLO DE VIDA
 # =========================================================
@@ -91,6 +94,9 @@ func _ready() -> void:
 	btn_throw.disabled = true
 	btn_pause.pressed.connect(_on_pause)
 	btn_throw_3.pressed.connect(_on_throw_3)
+	if qa_input:
+		qa_input.text = str(QA_throw_value)
+		qa_input.text_changed.connect(_on_qa_input_text_changed)
 	btn_restart.pressed.connect(_on_restart)
 	btn_third.pressed.connect(switch_camera.bind(default_cam_position))
 	btn_iso.pressed.connect(switch_camera.bind(marker_iso))
@@ -226,11 +232,11 @@ func _start_game() -> void:
 	# de una vez, sin animación, antes de que el jugador vea el tablero.
 	_update_lane_offsets(false)
 
-	_add_tag(piece, "J1")
+	_add_tag(piece, "Jugador 1", Color(1.0, 0.92, 0.3))
 	if mode == 2:
-		_add_tag(piece2, "CPU")
+		_add_tag(piece2, "Contrincante", Color(0.35, 0.85, 1.0))
 	else:
-		_add_tag(piece2, "J2")
+		_add_tag(piece2, "Jugador 2", Color(0.35, 0.85, 1.0))
 
 	btn_throw.disabled = false
 	dice_label.text = "Tira el dado"
@@ -240,12 +246,17 @@ func _start_game() -> void:
 		Events.visible_pointer.emit(i,true)
 	print("Main: juego iniciado modo", mode)
 
-func _add_tag(f: Node3D, texto: String) -> void:
+func _add_tag(f: Node3D, texto: String, text_color: Color = Color(1.0, 0.95, 0.4)) -> void:
+	if f == null:
+		return
 	var lbl := Label3D.new()
 	lbl.text = texto
-	lbl.position = Vector3(0, 8, 0)
-	lbl.font_size = 64
-	lbl.outline_size = 8
+	lbl.font = preload("res://fonts/Montserrat-Bold.ttf")
+	lbl.font_size = 120
+	lbl.outline_size = 20
+	lbl.outline_modulate = Color(0.08, 0.08, 0.12, 1.0)
+	lbl.modulate = text_color
+	lbl.position = Vector3(0, 8.5, 0)
 	lbl.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	lbl.no_depth_test = true
 	f.add_child(lbl)
@@ -306,6 +317,20 @@ func _on_pause() -> void:
 func _on_minigame_test() -> void:
 	Events.set_minigame.emit(15)
 
+func _on_qa_input_text_changed(new_text: String) -> void:
+	var clean_text := ""
+	for c in new_text:
+		if c >= "0" and c <= "9":
+			clean_text += c
+	if clean_text != new_text:
+		qa_input.text = clean_text
+		qa_input.caret_column = clean_text.length()
+	
+	if clean_text.is_valid_int():
+		var val := clean_text.to_int()
+		if val > 0:
+			QA_throw_value = val
+
 func _on_throw_3() -> void:
 	if game_over:
 		return
@@ -314,8 +339,8 @@ func _on_throw_3() -> void:
 		return
 	
 	AudioManager.play_sfx(dice_sound)
-	dice_label.text = "Tiraste un 3"						
-	await GameManager.on_dice_rolled(60)
+	dice_label.text = "Tiraste un " + str(QA_throw_value)
+	await GameManager.on_dice_rolled(QA_throw_value)
 
 
 func _on_restart() -> void:
@@ -357,13 +382,31 @@ func _on_turn_changed(player_index: int) -> void:
 	btn_throw.disabled = true
 	print("Main: turn_changed recibido =", player_index)
 
+	var target_name: String
+	if game_mode == 1:
+		target_name = "Jugador %d" % (player_index + 1)
+	elif player_index == 0:
+		target_name = "Jugador 1"
+	else:
+		target_name = "Contrincante"
+
+	if is_instance_valid(GameManager.message_label):
+		GameManager.message_label.visible = true
+		GameManager.message_label.text = "¡Tu turno de tirar el dado, %s!" % target_name
+		if get_tree() != null:
+			get_tree().create_timer(2.5).timeout.connect(
+				func():
+					if is_instance_valid(GameManager.message_label):
+						GameManager.message_label.visible = false
+			)
+
 	if GameManager.skip_player_index == player_index:
 		GameManager.skip_player_index = -1
 		_apply_skip(player_index)
 		return
 
 	if game_mode == 2 and player_index == 1:
-		dice_label.text = "Turno de la Maquina..."
+		dice_label.text = "Turno del Contrincante..."
 		print("Main: ejecutando turno CPU")
 		_machine_turn()
 	else:
@@ -430,16 +473,20 @@ func _apply_skip(player_index: int) -> void:
 	if game_mode == 1:
 		_name = "Jugador %d" % (player_index + 1)
 	elif player_index == 0:
-		_name = "el Jugador"
+		_name = "el Jugador 1"
 	else:
-		_name = "la Maquina"
+		_name = "el Contrincante"
 
 	dice_label.text = "%s pierde este turno" % _name
-	if GameManager.message_label:
+	if is_instance_valid(GameManager.message_label):
 		GameManager.message_label.visible = true
 		GameManager.message_label.text    = "¡%s pierde este turno!" % _name
-		get_tree().create_timer(5.5).timeout.connect(
-				func ():GameManager.message_label.visible = false)
+		if get_tree() != null:
+			get_tree().create_timer(5.5).timeout.connect(
+				func():
+					if is_instance_valid(GameManager.message_label):
+						GameManager.message_label.visible = false
+			)
 
 	if not game_over:
 		GameManager._next_turn()
@@ -448,13 +495,13 @@ func _machine_turn() -> void:
 	await get_tree().create_timer(1).timeout
 	if game_over:
 		return
-	dice_label.text = "La Maquina esta tirando el dado..."
+	dice_label.text = "El Contrincante esta tirando el dado..."
 	get_tree().create_timer(0.5).timeout.connect(AudioManager.play_sfx.bind(dice_sound), CONNECT_ONE_SHOT)
 	await _dice_overlay_instance._show()
 	if game_over:
 		return
 	var n: int = _dice_overlay_instance.ultimo_resultado
-	dice_label.text = "La Maquina obtuvo un %d" % n
+	dice_label.text = "El Contrincante obtuvo un %d" % n
 
 func _on_ficha1_reached_end() -> void:
 	_declare_winner(0)
@@ -472,24 +519,26 @@ func _declare_winner(player_index: int) -> void:
 	var message: String
 	if game_mode == 1:
 		AudioManager.play_sfx(victory_sound)
-		message = "Gano el Jugador %d!" % (player_index + 1)
+		message = "¡Gano el Jugador %d!" % (player_index + 1)
 	elif player_index == 0:
 		AudioManager.play_sfx(victory_sound)
-		message = "Gano el Jugador!"
+		message = "¡Gano el Jugador 1!"
 	else:
 		AudioManager.play_sfx(game_over_sound)
-		message = "Gano la Maquina!"
+		message = "¡Gano el Contrincante!"
 
 	dice_label.text = message
 	if turn_label:
 		turn_label.text = message
 		turn_label.add_theme_color_override("font_color", Color(0.3, 1.0, 0.4))
-	if GameManager.message_label:
+	if is_instance_valid(GameManager.message_label):
 		GameManager.message_label.visible = true
 		GameManager.message_label.text    = message
 		if get_tree() != null:
 			get_tree().create_timer(5.5).timeout.connect(
-				func ():GameManager.message_label.visible = false
+				func():
+					if is_instance_valid(GameManager.message_label):
+						GameManager.message_label.visible = false
 			)
 	visible_components([info_panel, btn_pause, btn_bind_cam,btn_throw, btn_throw_3], false)
 	game_complet_panel.text_name_player("¡Jugador %d!" % (player_index + 1))
@@ -510,9 +559,9 @@ func _update_turn_label(player_index: int) -> void:
 	if game_mode == 1:
 		_name = "Turno del Jugador %d" % (player_index + 1)
 	elif player_index == 0:
-		_name = "Turno del Jugador"
+		_name = "Turno del Jugador 1"
 	else:
-		_name = "Turno de la Maquina"
+		_name = "Turno del Contrincante"
 	turn_label.text = _name
 	turn_label.add_theme_color_override("font_color", Color(1.0, 0.95, 0.4))
 
@@ -524,7 +573,7 @@ func _update_position_label() -> void:
 	if game_mode == 1:
 		position_label.text = "J1: casilla %d     J2: casilla %d" % [pos1, pos2]
 	else:
-		position_label.text = "Jugador: casilla %d     CPU: casilla %d" % [pos1, pos2]
+		position_label.text = "Jugador 1: casilla %d     Contrincante: casilla %d" % [pos1, pos2]
 
 func _on_earthquake_triggered() -> void:
 	AudioManager.play_sfx(earthquake_sound)
