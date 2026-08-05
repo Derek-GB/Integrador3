@@ -315,7 +315,7 @@ func _on_throw_3() -> void:
 	
 	AudioManager.play_sfx(dice_sound)
 	dice_label.text = "Tiraste un 3"						
-	await GameManager.on_dice_rolled(70)
+	await GameManager.on_dice_rolled(60)
 
 
 func _on_restart() -> void:
