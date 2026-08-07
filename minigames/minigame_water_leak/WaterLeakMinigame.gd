@@ -6,6 +6,10 @@ signal game_lost
 
 const GAME_RESULT_SCENE: PackedScene = preload("res://minigames/ui_global/GameResult.tscn")
 
+const GLOBAL_SOUND_VOLUME := -10.0
+# Redibuja a 30 FPS: se siente fluido sin forzar 60 redibujos pesados.
+const REDRAW_INTERVAL := 0.033
+
 const PIPE_ROUTES: Array = [
 	[
 		Vector2(0.05, 0.16), Vector2(0.34, 0.16), Vector2(0.34, 0.31),
@@ -74,7 +78,7 @@ const LEAK_CANDIDATES: Array[Vector2] = [
 @export var leak_frame_01: Texture2D
 @export var leak_frame_02: Texture2D
 @export var leak_frame_03: Texture2D
-@export_range(1.0, 20.0, 0.5) var leak_frame_fps: float = 8.0
+@export_range(1.0, 20.0, 0.5) var leak_frame_fps: float = 4.0
 @export_range(50.0, 300.0, 5.0) var leak_sprite_height: float = 155.0
 @export_range(-100.0, 100.0, 1.0) var leak_sprite_vertical_offset: float = 0.0
 
@@ -82,9 +86,9 @@ const LEAK_CANDIDATES: Array[Vector2] = [
 @export var background_music_stream: AudioStream
 @export var leak_sound_stream: AudioStream
 @export var patch_sound_stream: AudioStream
-@export_range(-40.0, 6.0, 0.5) var background_music_volume_db: float = -8.0
-@export_range(-40.0, 6.0, 0.5) var leak_sound_volume_db: float = -14.0
-@export_range(-40.0, 6.0, 0.5) var patch_sound_volume_db: float = 0.0
+@export_range(-40.0, 6.0, 0.5) var background_music_volume_db: float = GLOBAL_SOUND_VOLUME
+@export_range(-40.0, 6.0, 0.5) var leak_sound_volume_db: float = GLOBAL_SOUND_VOLUME
+@export_range(-40.0, 6.0, 0.5) var patch_sound_volume_db: float = GLOBAL_SOUND_VOLUME
 
 var _water_level: float = 100.0
 var _leaks: Array[Dictionary] = []
@@ -103,12 +107,13 @@ var _random: RandomNumberGenerator = RandomNumberGenerator.new()
 
 var _background_music_player: AudioStreamPlayer = null
 var _patch_sound_player: AudioStreamPlayer = null
-var _leak_sound_players: Array[AudioStreamPlayer] = []
+var _leak_sound_player: AudioStreamPlayer = null
 
 var _leak_frames: Array[Texture2D] = []
 var _leak_sprites: Array[Sprite2D] = []
 var _leak_visuals_root: Node2D = null
 var _current_leak_frame: int = -1
+var _redraw_timer: float = 0.0
 
 
 
@@ -146,7 +151,13 @@ func _process(delta: float) -> void:
 		_update_water_level(delta)
 
 	_update_leak_animation()
-	queue_redraw()
+
+	# Se redibuja a 30 FPS para que se sienta fluido,
+	# pero sin obligar a la computadora a redibujar 60 veces por segundo.
+	_redraw_timer += delta
+	if _redraw_timer >= REDRAW_INTERVAL:
+		_redraw_timer = 0.0
+		queue_redraw()
 
 
 func _input(event: InputEvent) -> void:
@@ -292,64 +303,44 @@ func _update_leak_animation(force_update: bool = false) -> void:
 		if repaired:
 			continue
 
-		# Desfase por fuga para que no todas cambien exactamente al mismo tiempo.
+		# Solo cambiamos la textura de la fuga.
+		# El tamaño/posición se recalcula únicamente al crear o cambiar tamaño de ventana.
 		var local_frame: int = (
 			frame_index + leak_index
 		) % _leak_frames.size()
 		sprite.texture = _leak_frames[local_frame]
 
-	_update_leak_sprite_transforms()
-
 
 func _create_audio_players() -> void:
-	# Esta versión reutiliza los AudioStreamPlayer que ya colocaste
-	# manualmente en la escena. Si falta alguno, lo crea por código.
+	# Optimizado: usa música de fondo, un sonido de parche
+	# y un único sonido continuo de fuga para todas las fugas.
 	_background_music_player = _get_or_create_audio_player("BackgroundMusic")
 	_patch_sound_player = _get_or_create_audio_player("PatchSound")
+	_leak_sound_player = _get_or_create_audio_player("LeakSound01")
 
-	# Si asignaste los audios desde las variables exportadas, tienen prioridad.
-	# Si no, se conserva el Stream colocado directamente en cada nodo.
 	if background_music_stream != null:
 		_background_music_player.stream = background_music_stream
 	if patch_sound_stream != null:
 		_patch_sound_player.stream = patch_sound_stream
+	if leak_sound_stream != null:
+		_leak_sound_player.stream = leak_sound_stream
 
-	_background_music_player.volume_db = maxf(background_music_volume_db, -16.0)
+	_background_music_player.bus = "Master"
+	_background_music_player.volume_db = GLOBAL_SOUND_VOLUME
 	_background_music_player.max_polyphony = 1
 
-	_patch_sound_player.volume_db = maxf(patch_sound_volume_db, -8.0)
-	_patch_sound_player.max_polyphony = 2
+	_patch_sound_player.bus = "Master"
+	_patch_sound_player.volume_db = GLOBAL_SOUND_VOLUME
+	_patch_sound_player.max_polyphony = 1
 
-	# LeakSound01 funciona como plantilla para todas las fugas.
-	var leak_template: AudioStreamPlayer = _get_or_create_audio_player("LeakSound01")
-	if leak_sound_stream != null:
-		leak_template.stream = leak_sound_stream
+	_leak_sound_player.bus = "Master"
+	_leak_sound_player.volume_db = GLOBAL_SOUND_VOLUME
+	_leak_sound_player.pitch_scale = 1.0
+	_leak_sound_player.max_polyphony = 1
 
-	var shared_leak_stream: AudioStream = leak_template.stream
-	_leak_sound_players.clear()
-
-	for leak_index: int in range(_leaks.size()):
-		var player_name: String = "LeakSound%02d" % (leak_index + 1)
-		var leak_player: AudioStreamPlayer = _get_or_create_audio_player(player_name)
-
-		if leak_sound_stream != null:
-			leak_player.stream = leak_sound_stream
-		elif leak_player.stream == null:
-			leak_player.stream = shared_leak_stream
-
-		leak_player.bus = &"SFX"
-		leak_player.volume_db = maxf(leak_sound_volume_db, -18.0)
-		leak_player.pitch_scale = _random.randf_range(0.94, 1.06)
-		leak_player.max_polyphony = 1
-
-		var finished_callable: Callable = Callable(
-			self,
-			"_on_leak_sound_finished"
-		).bind(leak_index)
-		if not leak_player.finished.is_connected(finished_callable):
-			leak_player.finished.connect(finished_callable)
-
-		_leak_sound_players.append(leak_player)
+	var leak_finished_callable: Callable = Callable(self, "_on_single_leak_sound_finished")
+	if not _leak_sound_player.finished.is_connected(leak_finished_callable):
+		_leak_sound_player.finished.connect(leak_finished_callable)
 
 	if _background_music_player.stream == null:
 		push_warning(
@@ -357,7 +348,7 @@ func _create_audio_players() -> void:
 			+ "Coloca la música en el Stream del nodo BackgroundMusic."
 		)
 
-	if shared_leak_stream == null and leak_sound_stream == null:
+	if _leak_sound_player.stream == null:
 		push_warning(
 			"LeakSound01 no tiene un audio asignado. "
 			+ "Coloca el sonido de fuga en el Stream de LeakSound01."
@@ -369,8 +360,6 @@ func _create_audio_players() -> void:
 			+ "Coloca el sonido del parche en el Stream del nodo PatchSound."
 		)
 
-	# Se inicia de forma diferida para garantizar que todos los nodos
-	# de audio ya estén completamente dentro del árbol.
 	call_deferred("_start_audio_after_ready")
 
 
@@ -394,69 +383,93 @@ func _start_audio_after_ready() -> void:
 
 func _start_background_music() -> void:
 	if _background_music_player and _background_music_player.stream:
-		AudioManager.play_music(_background_music_player.stream, 0.5, _background_music_player.volume_db)
+		_background_music_player.volume_db = GLOBAL_SOUND_VOLUME
+		AudioManager.play_music(_background_music_player.stream, 0.5, GLOBAL_SOUND_VOLUME)
 
 
 func _start_all_leak_sounds() -> void:
-	for leak_index: int in range(_leak_sound_players.size()):
-		_start_leak_sound(leak_index)
+	_start_single_leak_sound()
 
 
-func _start_leak_sound(leak_index: int) -> void:
+func _start_single_leak_sound() -> void:
 	if _game_finished:
 		return
-	if leak_index < 0 or leak_index >= _leak_sound_players.size():
+	if _count_active_leaks() <= 0:
 		return
-	if leak_index >= _leaks.size():
+	if _leak_sound_player == null:
 		return
-	if bool(_leaks[leak_index].get("repaired", false)):
+	if _leak_sound_player.stream == null:
 		return
-
-	var leak_player: AudioStreamPlayer = _leak_sound_players[leak_index]
-	if leak_player == null or leak_player.stream == null:
-		return
-	if leak_player.playing:
+	if _leak_sound_player.playing:
 		return
 
-	var start_position: float = 0.0
-	var stream_length: float = leak_player.stream.get_length()
-	if stream_length > 1.0:
-		# Cada fuga empieza en un punto distinto para evitar que todas
-		# suenen exactamente iguales al mismo tiempo.
-		start_position = _random.randf_range(0.0, stream_length * 0.65)
-
-	leak_player.play(start_position)
+	_leak_sound_player.volume_db = GLOBAL_SOUND_VOLUME
+	_leak_sound_player.play(0.0)
 
 
-func _on_leak_sound_finished(leak_index: int) -> void:
-	_start_leak_sound(leak_index)
+func _on_single_leak_sound_finished() -> void:
+	_start_single_leak_sound()
 
 
-func _stop_leak_sound(leak_index: int) -> void:
-	if leak_index < 0 or leak_index >= _leak_sound_players.size():
-		return
-
-	var leak_player: AudioStreamPlayer = _leak_sound_players[leak_index]
-	if leak_player != null:
-		leak_player.stop()
+func _stop_leak_sound(_leak_index: int) -> void:
+	# Ya no hay un sonido por fuga. Solo apagamos el sonido continuo
+	# cuando no quedan fugas activas después de reparar una.
+	if _count_active_leaks() <= 0:
+		if _leak_sound_player != null:
+			_leak_sound_player.stop()
 
 
 func _play_patch_sound() -> void:
-	if _patch_sound_player and _patch_sound_player.stream:
-		AudioManager.play_sfx(_patch_sound_player.stream, _patch_sound_player.volume_db)
+	if _patch_sound_player == null:
+		return
+	if _patch_sound_player.stream == null:
+		return
+
+	_patch_sound_player.volume_db = GLOBAL_SOUND_VOLUME
+	_patch_sound_player.stop()
+	_patch_sound_player.pitch_scale = 1.0
+	_patch_sound_player.play(0.0)
 
 
 func _stop_continuous_audio() -> void:
 	AudioManager.stop_music()
 
-	for leak_player: AudioStreamPlayer in _leak_sound_players:
-		if leak_player != null:
-			leak_player.stop()
+	if _leak_sound_player != null:
+		_leak_sound_player.stop()
 
 
 func _create_game_result() -> void:
 	_game_result = GAME_RESULT_SCENE.instantiate()
 	add_child(_game_result)
+
+	if _game_result is CanvasLayer:
+		_game_result.layer = 60
+
+	_game_result.process_mode = Node.PROCESS_MODE_ALWAYS
+	_set_game_result_sound_volume()
+
+
+func _set_game_result_sound_volume() -> void:
+	if _game_result == null:
+		return
+
+	var result_sounds := [
+		"WinSound",
+		"win_sound",
+		"AudioWin",
+		"WinAudio",
+		"LoseSound",
+		"lose_sound",
+		"AudioLose",
+		"LoseAudio"
+	]
+
+	for sound_name in result_sounds:
+		var sound = _game_result.find_child(sound_name, true, false)
+
+		if sound and sound is AudioStreamPlayer:
+			sound.volume_db = GLOBAL_SOUND_VOLUME
+			sound.process_mode = Node.PROCESS_MODE_ALWAYS
 
 
 func _update_water_level(delta: float) -> void:
@@ -582,6 +595,7 @@ func _finish_game(did_win: bool) -> void:
 	_game_finished = true
 	_dragging_patch = false
 	_stop_continuous_audio()
+	_set_game_result_sound_volume()
 
 	if did_win:
 		game_won.emit()
@@ -600,7 +614,8 @@ func _draw() -> void:
 	_draw_leaks()
 	_draw_water_panel()
 	_draw_patch_panel()
-	_draw_water_mascot()
+	# Optimización: mascota desactivada para reducir dibujo manual por frame.
+	# _draw_water_mascot()
 	_draw_feedback_effects()
 
 	if _dragging_patch:
@@ -622,7 +637,7 @@ func _draw_background() -> void:
 		viewport_rect,
 		Color8(20, 132, 142),
 		Color8(6, 67, 84),
-		54
+		24
 	)
 
 	for index: int in range(18):
@@ -639,7 +654,8 @@ func _draw_background() -> void:
 			Color(0.24, 0.78, 0.79, 0.075)
 		)
 
-	_draw_corner_foliage()
+	# Optimización: decoraciones de follaje desactivadas para evitar lag.
+	# _draw_corner_foliage()
 
 
 func _draw_corner_foliage() -> void:
@@ -701,12 +717,13 @@ func _draw_board_surface() -> void:
 
 	var inner_rect: Rect2 = board_rect.grow(-15.0 * visual_scale)
 	_draw_wall_gradient(inner_rect)
-	_draw_wall_texture(inner_rect)
+	# Optimización: textura de pared desactivada para reducir dibujo manual.
+	# _draw_wall_texture(inner_rect)
 
 
 func _draw_wall_gradient(rect: Rect2) -> void:
 	var visual_scale: float = _get_visual_scale()
-	var steps: int = 42
+	var steps: int = 22
 	var strip_height: float = rect.size.y / float(steps)
 
 	for index: int in range(steps):
@@ -1114,7 +1131,7 @@ func _draw_water_panel() -> void:
 			water_rect,
 			water_color.lightened(0.18),
 			water_color.darkened(0.18),
-			28
+			14
 		)
 		_draw_water_surface(
 			inner_tank,
