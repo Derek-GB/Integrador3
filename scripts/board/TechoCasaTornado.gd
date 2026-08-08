@@ -25,6 +25,8 @@ func _ready() -> void:
 	if count == 0:
 		return
 
+	_disable_shadows(raw_children)
+
 	var center_xz := Vector3(sum_x / count, 0.0, sum_z / count)
 
 	for child in raw_children:
@@ -35,6 +37,11 @@ func _ready() -> void:
 			"offset": offset,
 			"y": pos.y
 		})
+
+func _disable_shadows(targets: Array[Node3D]) -> void:
+	for node in targets:
+		if node is GeometryInstance3D:
+			node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 func _process(delta: float) -> void:
 	if not is_inside_tree() or tornado_node == null or not tornado_node.is_inside_tree() or orbit_data.is_empty():
