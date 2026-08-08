@@ -2,6 +2,11 @@ extends Node2D
 
 signal relampago_aparecio
 
+
+# =========================================================
+# CONFIGURACIÓN GENERAL
+# =========================================================
+
 var ANCHO := 1280.0
 var ALTO := 720.0
 
@@ -11,8 +16,45 @@ var intensidad_flash := 0.0
 var tiempo_para_siguiente_relampago := 1.5
 
 
+# =========================================================
+# OPTIMIZACIÓN VISUAL
+# =========================================================
+
+# Antes se redibujaba todo en cada frame.
+# Ahora se redibuja máximo 30 veces por segundo.
+# Si en algunas computadoras sigue lento, baja esto a 24.0.
+const FPS_VISUAL := 30.0
+const INTERVALO_REDIBUJO := 1.0 / FPS_VISUAL
+
+var tiempo_redibujo := 0.0
+
+
+# =========================================================
+# CANTIDAD DE ELEMENTOS VISUALES
+# =========================================================
+
+# Lluvia optimizada.
+const LLUVIA_SUAVE := 80
+const LLUVIA_MEDIA := 65
+const LLUVIA_FUERTE := 28
+
+# Detalles del suelo optimizados.
+const PASTO_SUAVE := 65
+const PASTO_ALTO := 50
+
+
+# =========================================================
+# LIFECYCLE
+# =========================================================
+
+func _ready():
+	randomize()
+	queue_redraw()
+
+
 func _process(delta):
 	tiempo += delta
+	tiempo_redibujo += delta
 
 	if tiempo_para_siguiente_relampago > 0:
 		tiempo_para_siguiente_relampago -= delta
@@ -22,16 +64,17 @@ func _process(delta):
 			flash = 0.28
 			intensidad_flash = randf_range(0.35, 0.75)
 
-			# Señal para que StormMinigame reproduzca el trueno
 			relampago_aparecio.emit()
 
-			# Espera entre relámpagos decorativos
 			tiempo_para_siguiente_relampago = randf_range(4.0, 8.0)
 
 	if flash > 0:
 		flash -= delta
+		flash = max(flash, 0.0)
 
-	queue_redraw()
+	if tiempo_redibujo >= INTERVALO_REDIBUJO:
+		tiempo_redibujo = 0.0
+		queue_redraw()
 
 
 func _draw():
@@ -55,14 +98,14 @@ func _draw():
 # =========================================================
 
 func dibujar_cielo():
-	for i in range(45):
-		var t := float(i) / 45.0
+	for i in range(36):
+		var t := float(i) / 36.0
 		var color_arriba := Color(0.012, 0.014, 0.045)
 		var color_abajo := Color(0.055, 0.075, 0.15)
 		var color := color_arriba.lerp(color_abajo, t)
 
 		draw_rect(
-			Rect2(0, i * (ALTO / 45.0), ANCHO, (ALTO / 45.0) + 2),
+			Rect2(0, i * (ALTO / 36.0), ANCHO, (ALTO / 36.0) + 2),
 			color
 		)
 
@@ -158,7 +201,7 @@ func dibujar_nube(pos: Vector2, escala: float, color_nube: Color):
 # =========================================================
 
 func dibujar_lluvia():
-	for i in range(160):
+	for i in range(LLUVIA_SUAVE):
 		var x = fmod(i * 71 + tiempo * 165, ANCHO + 100) - 50
 		var y = fmod(i * 43 + tiempo * 410, ALTO + 120)
 
@@ -169,7 +212,7 @@ func dibujar_lluvia():
 			1
 		)
 
-	for i in range(130):
+	for i in range(LLUVIA_MEDIA):
 		var x = fmod(i * 91 + tiempo * 260, ANCHO + 100) - 50
 		var y = fmod(i * 59 + tiempo * 560, ALTO + 130)
 
@@ -180,7 +223,7 @@ func dibujar_lluvia():
 			2
 		)
 
-	for i in range(55):
+	for i in range(LLUVIA_FUERTE):
 		var x = fmod(i * 127 + tiempo * 390, ANCHO + 120) - 60
 		var y = fmod(i * 83 + tiempo * 720, ALTO + 140)
 
@@ -218,8 +261,8 @@ func dibujar_suelo():
 	draw_rect(Rect2(0, suelo_inicio, ANCHO, 5), Color(0.16, 0.34, 0.16, 0.95))
 	draw_rect(Rect2(0, suelo_inicio + 5, ANCHO, 7), Color(0.06, 0.17, 0.08, 0.90))
 
-	for i in range(50):
-		var x := i * 30
+	for i in range(35):
+		var x := i * 38
 		var y := suelo_inicio + 30 + int(abs(sin(i * 2.4)) * 34)
 
 		draw_circle(
@@ -238,8 +281,8 @@ func dibujar_suelo():
 func dibujar_detalles_suelo():
 	var suelo_inicio := ALTO * 0.85
 
-	for i in range(110):
-		var x := i * 13 + int(sin(i * 1.7) * 5)
+	for i in range(PASTO_SUAVE):
+		var x := i * 20 + int(sin(i * 1.7) * 5)
 		var alto := 10 + int(abs(sin(i * 2.3)) * 17)
 
 		draw_line(
@@ -256,8 +299,8 @@ func dibujar_detalles_suelo():
 			2
 		)
 
-	for i in range(85):
-		var x := i * 18 + int(cos(i * 1.3) * 7)
+	for i in range(PASTO_ALTO):
+		var x := i * 28 + int(cos(i * 1.3) * 7)
 		var alto := 18 + int(abs(cos(i * 1.9)) * 22)
 
 		draw_line(
@@ -322,8 +365,8 @@ func dibujar_charco(center: Vector2, radius: Vector2, color: Color):
 func dibujar_ovalo(center: Vector2, radius: Vector2, color: Color):
 	var puntos := PackedVector2Array()
 
-	for i in range(36):
-		var angulo := TAU * float(i) / 36.0
+	for i in range(32):
+		var angulo := TAU * float(i) / 32.0
 
 		puntos.append(Vector2(
 			center.x + cos(angulo) * radius.x,
