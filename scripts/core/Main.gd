@@ -46,6 +46,7 @@ extends Node3D
 @onready var pause_menu                     = $UI/PauseMenu
 @onready var btn_minigame: Button           = $UI/Test_MG
 @onready var game_complet_panel             = $UI/GameCompletionPanel
+@onready var turn_banner_label: Label       = $UI/TurnBannerLabel
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
 const STOP_MENU          = preload("res://scenes/UX/PauseMenu.tscn")
@@ -68,6 +69,7 @@ var _special_waypoint_bases: Dictionary         = {}
 var _camera_delay_timer: float                  = 0.0
 var _camera_delay_active: bool  = false
 var _dice_overlay_instance: Node = null
+var _turn_banner_tween: Tween   = null
 var piece2 = null
 var time: int = 0
 
@@ -175,6 +177,7 @@ func switch_camera(marker: Marker3D, free_move: bool = true) -> void:
 	tween.tween_property(camera_rig, "rotation:y", target_yaw, 0.6)
 	tween.set_parallel(false)
 	tween.tween_callback(_on_camera_switch_completed.bind(free_move))
+	await tween.finished
 
 func _on_camera_switch_completed(free_move: bool) -> void:
 	if camera_rig == null or camera_free_body == null:
@@ -243,9 +246,32 @@ func _start_game() -> void:
 	dice_label.text = "Tira el dado"
 	_update_turn_label(0)
 	_update_position_label()
+	_show_turn_banner("Jugador 1")
 	for i in range(1,7):
 		Events.visible_pointer.emit(i,true)
 	print("Main: juego iniciado modo", mode)
+
+func _show_turn_banner(player_name: String) -> void:
+	if turn_banner_label == null:
+		return
+
+	if _turn_banner_tween and _turn_banner_tween.is_running():
+		_turn_banner_tween.kill()
+
+	turn_banner_label.text = "Turno de: %s" % player_name
+	turn_banner_label.visible = true
+	turn_banner_label.modulate.a = 1.0
+	turn_banner_label.scale = Vector2(1.15, 1.15)
+
+	_turn_banner_tween = create_tween().set_parallel(true)
+	_turn_banner_tween.tween_property(turn_banner_label, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_turn_banner_tween.tween_property(turn_banner_label, "modulate:a", 0.0, 1.5).set_ease(Tween.EASE_IN)
+
+	_turn_banner_tween.chain().tween_callback(func():
+		if is_instance_valid(turn_banner_label):
+			turn_banner_label.visible = false
+	)
+	await _turn_banner_tween.finished
 
 func _add_tag(f: Node3D, texto: String, text_color: Color = Color(1.0, 0.95, 0.4)) -> void:
 	if f == null:
@@ -391,21 +417,22 @@ func _on_turn_changed(player_index: int) -> void:
 	else:
 		target_name = "Contrincante"
 
-	if is_instance_valid(GameManager.message_label):
-		GameManager.message_label.visible = true
-		GameManager.message_label.text = "¡Tu turno de tirar el dado, %s!" % target_name
-		if get_tree() != null:
-			get_tree().create_timer(2.5).timeout.connect(
-				func():
-					if is_instance_valid(GameManager.message_label):
-						GameManager.message_label.visible = false
-			)
+	# 1. Esperar a que la cámara cambie de posición hacia el personaje del turno
+	await switch_camera(default_cam_position, true)
+	if game_over:
+		return
+
+	# 2. Mostrar la pancarta y esperar a que finalice su animación de 1.5s
+	await _show_turn_banner(target_name)
+	if game_over:
+		return
 
 	if GameManager.skip_player_index == player_index:
 		GameManager.skip_player_index = -1
 		_apply_skip(player_index)
 		return
 
+	# 3. Si es la IA (Contrincante), tira el dado SÓLO después de que la pancarta desaparece
 	if game_mode == 2 and player_index == 1:
 		dice_label.text = "Turno del Contrincante..."
 		print("Main: ejecutando turno CPU")
