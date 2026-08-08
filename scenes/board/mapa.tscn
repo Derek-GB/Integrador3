@@ -154,6 +154,7 @@
 [ext_resource type="PackedScene" uid="uid://d18vt8ogj3fi7" path="res://models/map/Panga(bote).glb" id="151_c3idu"]
 [ext_resource type="PackedScene" uid="uid://iyg51wsjpphf" path="res://models/map/Elementos-pequeños/castillo.glb" id="152_wi1r1"]
 [ext_resource type="PackedScene" uid="uid://2rwxs740glmm" path="res://models/map/Personas/SeñoraC2.glb" id="153_gi0a5"]
+[ext_resource type="PackedScene" uid="uid://b8ksq7f51uhyd" path="res://models/map/Alcantarilla.glb" id="154_c34bf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x5s45"]
 albedo_texture = ExtResource("2_fjkfe")
@@ -908,10 +909,10 @@ transform = Transform3D(0.46055117, 0, -0.45157233, 0, 0.6449999, 0, 0.45157233,
 transform = Transform3D(-0.39134026, 0, -0.5888139, 0, 0.707, 0, 0.5888139, 0, -0.39134026, 19.40738, 3.550694, -1.4575822)
 
 [node name="TroncoConRama" parent="." index="217" unique_id=1981443048 instance=ExtResource("120_ihn3i")]
-transform = Transform3D(0.46859616, 0.005348837, 0.70914686, -0.021553278, 0.8496907, 0.007833258, -0.7088394, -0.022300083, 0.46856123, -31.276228, 4.9960613, 6.5345073)
+transform = Transform3D(1.127606, 0.014735529, 1.5042232, -0.047670763, 1.8793154, 0.01732531, -1.50354, -0.04853384, 1.1275692, -31.061705, 5.106419, 6.467926)
 
 [node name="Tronco" parent="." index="218" unique_id=1887926547 instance=ExtResource("121_554dm")]
-transform = Transform3D(-0.18536654, 0, -0.7060731, 0, 0.73, 0, 0.7060731, 0, -0.18536654, 6.4743958, 5.0607505, 0.12613684)
+transform = Transform3D(-0.28820693, 0, -1.0977986, 0, 1.135, 0, 1.0977986, 0, -0.28820693, 6.4165797, 5.0607505, 0.12613684)
 
 [node name="LlantaPintada4" parent="." index="219" unique_id=119420802 instance=ExtResource("60_hhee3")]
 transform = Transform3D(0.15211368, -0.15917389, 0.3809529, 0.024259562, 0.40873024, 0.16109334, -0.4121564, -0.034688074, 0.15007943, 7.015761, 4.788988, 0.041710734)
@@ -1130,3 +1131,6 @@ transform = Transform3D(0.195, 0, 0, 0, 0.195, 0, 0, 0, 0.195, 25.009659, 5.3570
 
 [node name="SeñoraC2" parent="." index="291" unique_id=582113166 instance=ExtResource("153_gi0a5")]
 transform = Transform3D(0.11520819, 0, 0.8583024, 0, 0.866, 0, -0.8583024, 0, 0.11520819, -32.313354, 5.3588853, 17.894741)
+
+[node name="Alcantarilla" parent="." index="292" unique_id=966804096 instance=ExtResource("154_c34bf")]
+transform = Transform3D(0.38909766, -0.03743751, 0.08486125, 0.022377683, 0.3930489, 0.07079402, -0.09001244, -0.06411698, 0.38443044, 3.1245027, 5.0476265, -0.8353921)
