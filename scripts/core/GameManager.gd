@@ -196,8 +196,8 @@ const MINIGAMES: Dictionary = {
 		"video_path":     "res://minigames/minigame_landslide/assets/MiniGame13.ogv",
 		"minigame_scene": "res://minigames/minigame_landslide/LandslideMinigame.tscn",
 		"controls": [
-			{ "action": "Mover personaje",           "icon": "res://minigames/ui_global/assets/ArrowKeys.png" },
-			{ "action": "Usar teléfono / marcar 911","icon": "res://minigames/ui_global/assets/KeyE.png"      },
+			{ "action": "Mover personaje",           "icon": "res://minigames/ui_global/assets/Movement.png" },
+			{ "action": "Usar teléfono / marcar 911","icon": "res://minigames/minigame_landslide/assets/09_key_e_icon.png" },
 		]
 	},
 		60: {

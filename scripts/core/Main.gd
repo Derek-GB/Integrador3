@@ -46,7 +46,7 @@ extends Node3D
 @onready var pause_menu                     = $UI/PauseMenu
 @onready var btn_minigame: Button           = $UI/Test_MG
 @onready var game_complet_panel             = $UI/GameCompletionPanel
-@onready var turn_banner_label: Label       = $UI/TurnBannerLabel
+@onready var turn_banner_label: RichTextLabel = $UI/TurnBannerLabel
 
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
 const STOP_MENU          = preload("res://scenes/UX/PauseMenu.tscn")
@@ -70,7 +70,7 @@ var _dice_overlay_instance: Node = null
 var _turn_banner_tween: Tween   = null
 var _camera_tween: Tween        = null
 var _last_turn_player_index: int = -1
-var _is_first_turn: bool         = true
+var _is_first_turn_p1: bool      = true
 var piece2 = null
 var time: int = 0
 
@@ -231,19 +231,57 @@ func _start_game() -> void:
 	dice_label.text = "Tira el dado"
 	_update_turn_label(0)
 	_update_position_label()
-	_last_turn_player_index = -1
-	_is_first_turn          = true
+	_last_turn_player_index = 0
 	for i in range(1,7):
 		Events.visible_pointer.emit(i,true)
 	print("Main: juego iniciado modo", mode)
 
-func _show_turn_banner(text_to_show: String, fade_duration: float = 1.5) -> void:
-	if turn_banner_label == null or game_over:
+func _create_borderless_banner_style(bg_color: Color) -> StyleBoxTexture:
+	var style := StyleBoxTexture.new()
+	var grad_tex := GradientTexture2D.new()
+	var grad := Gradient.new()
+
+	grad.colors = PackedColorArray([
+		Color(bg_color.r, bg_color.g, bg_color.b, 0.0),
+		Color(bg_color.r, bg_color.g, bg_color.b, bg_color.a),
+		Color(bg_color.r, bg_color.g, bg_color.b, bg_color.a),
+		Color(bg_color.r, bg_color.g, bg_color.b, 0.0)
+	])
+	grad.offsets = PackedFloat32Array([0.0, 0.18, 0.82, 1.0])
+
+	grad_tex.gradient = grad
+	grad_tex.fill = GradientTexture2D.FILL_LINEAR
+	grad_tex.fill_from = Vector2(0.0, 0.5)
+	grad_tex.fill_to = Vector2(1.0, 0.5)
+	grad_tex.width = 600
+	grad_tex.height = 90
+
+	style.texture = grad_tex
+	style.content_margin_left = 20.0
+	style.content_margin_right = 20.0
+	style.content_margin_top = 10.0
+	style.content_margin_bottom = 10.0
+	return style
+
+func _show_turn_banner(text_to_show: String, message_type: String = "new_turn", fade_duration: float = 1.5) -> void:
+	if turn_banner_label == null or game_over or not is_inside_tree() or get_tree() == null:
 		return
 
 	if _turn_banner_tween and _turn_banner_tween.is_running():
 		_turn_banner_tween.kill()
 
+	var bg_color: Color
+	match message_type:
+		"new_turn":
+			bg_color = Color(0.16, 0.10, 0.06, 0.88)
+		"repeat":
+			bg_color = Color(0.26, 0.14, 0.03, 0.90)
+		"skip":
+			bg_color = Color(0.24, 0.04, 0.06, 0.92)
+		_:
+			bg_color = Color(0.16, 0.10, 0.06, 0.88)
+
+	turn_banner_label.add_theme_stylebox_override("normal", _create_borderless_banner_style(bg_color))
 	turn_banner_label.text = text_to_show
 	turn_banner_label.visible = true
 	turn_banner_label.modulate.a = 1.0
@@ -388,42 +426,58 @@ func _on_dice_rolled(n: int) -> void:
 	await GameManager.on_dice_rolled(n)
 
 func _on_turn_changed(player_index: int) -> void:
-	if game_over:
+	if game_over or not is_inside_tree() or get_tree() == null:
 		return
 	_update_turn_label(player_index)
 	btn_throw.disabled = true
 	print("Main: turn_changed recibido =", player_index)
 
-	var is_first: bool = _is_first_turn
-	_is_first_turn = false
-
 	var is_repeat_turn: bool = (_last_turn_player_index == player_index)
 	_last_turn_player_index = player_index
 
-	var target_name: String
+	var formatted_name: String
 	if game_mode == 1:
-		target_name = "Jugador %d" % (player_index + 1)
-	elif player_index == 0:
-		target_name = "Jugador 1"
-	else:
-		target_name = "Contrincante"
-
-	# No mostrar la pancarta en el primer turno del juego
-	if not is_first:
-		if is_repeat_turn:
-			await _show_turn_banner("¡Repites turno!", 0.6)
+		if player_index == 0:
+			formatted_name = "[color=#ffe042]Jugador 1[/color]"
 		else:
-			await _show_turn_banner("Turno de: %s" % target_name, 1.5)
+			formatted_name = "[color=#59d9ff]Jugador 2[/color]"
+	elif player_index == 0:
+		formatted_name = "[color=#ffe042]Jugador 1[/color]"
+	else:
+		formatted_name = "[color=#59d9ff]Contrincante[/color]"
+
+	var is_skipping: bool = (GameManager.skip_player_index == player_index)
+
+	# 1. Iniciar animación de cambio de cámara (duración 0.6s)
+	switch_camera(default_cam_position, true)
+
+	# 2. Esperar 0.4s para que la pancarta aparezca antes de que la cámara se asiente del todo
+	if not is_inside_tree() or get_tree() == null:
+		return
+	await get_tree().create_timer(0.4).timeout
+	if game_over or not is_inside_tree() or get_tree() == null:
+		return
+
+	# 3. Mostrar la pancarta correspondiente con su estilo y colores temáticos
+	if is_skipping:
+		GameManager.skip_player_index = -1
+		var bb_text := "[center]¡%s pierde este turno![/center]" % formatted_name
+		await _show_turn_banner(bb_text, "skip", 0.8)
+	elif is_repeat_turn:
+		var bb_text := "[center][color=#ffb03b]¡Repites turno![/color][/center]"
+		await _show_turn_banner(bb_text, "repeat", 0.6)
+	else:
+		var bb_text := "[center][color=#fffdf0]Turno de: [/color]%s[/center]" % formatted_name
+		await _show_turn_banner(bb_text, "new_turn", 0.9)
 
 	if game_over:
 		return
 
-	if GameManager.skip_player_index == player_index:
-		GameManager.skip_player_index = -1
+	if is_skipping:
 		_apply_skip(player_index)
 		return
 
-	# Si es la IA (Contrincante), tira el dado SÓLO después de la pancarta
+	# 4. Si es la IA (Contrincante), tira el dado SÓLO después de la pancarta
 	if game_mode == 2 and player_index == 1:
 		dice_label.text = "Turno del Contrincante..."
 		print("Main: ejecutando turno CPU")

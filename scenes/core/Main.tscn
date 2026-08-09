@@ -107,18 +107,6 @@ corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_banner"]
-bg_color = Color(0.12, 0.12, 0.18, 0.82)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.95, 0.75, 0.25, 0.9)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tyork"]
 shader = ExtResource("15_ship8")
 shader_parameter/tint_color = Color(1, 1, 1, 1)
@@ -188,28 +176,29 @@ script = ExtResource("13_1yraq")
 [node name="UI" type="CanvasLayer" parent="." unique_id=1134567890]
 layer = 10
 
-[node name="TurnBannerLabel" type="Label" parent="UI" unique_id=987612345]
+[node name="TurnBannerLabel" type="RichTextLabel" parent="UI" unique_id=987612345]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -320.0
-offset_top = -50.0
-offset_right = 320.0
-offset_bottom = 50.0
+offset_left = -360.0
+offset_top = -45.0
+offset_right = 360.0
+offset_bottom = 45.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(320, 50)
-theme_override_colors/font_color = Color(1, 0.94, 0.35, 1)
-theme_override_colors/font_outline_color = Color(0.05, 0.05, 0.1, 1)
+pivot_offset = Vector2(360, 45)
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.04, 0.08, 1)
 theme_override_constants/outline_size = 14
-theme_override_fonts/font = ExtResource("15_ujn3e")
-theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_banner")
-text = "Turno de: Jugador 1"
-horizontal_alignment = 1
+theme_override_fonts/normal_font = ExtResource("15_ujn3e")
+theme_override_font_sizes/normal_font_size = 34
+bbcode_enabled = true
+text = "[center]Turno de: Jugador 1[/center]"
+scroll_active = false
+autowrap_mode = 0
 vertical_alignment = 1
 
 [node name="GameCompletionPanel" parent="UI" unique_id=153873019 instance=ExtResource("15_je01s")]
