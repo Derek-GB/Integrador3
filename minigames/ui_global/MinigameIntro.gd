@@ -102,12 +102,27 @@ func _build_scene():
 	var spacer_top = Control.new()
 	spacer_top.custom_minimum_size = Vector2(0, video_top_offset - 15)
 	vbox_right.add_child(spacer_top)
+	# ── Bloque Controles + Instrucciones, con altura FIJA igual a la del
+	# video (video_height). Así, sin importar cuánto crezca o encoja el
+	# texto interno, este bloque siempre mide lo mismo y queda al mismo
+	# nivel que el video — nunca se corre hacia abajo. Los dos paneles
+	# internos se reparten ese alto fijo por proporción (CONTROLES_RATIO /
+	# DESC_RATIO), en vez de crecer según su contenido.
+	const CONTROLES_RATIO := 0.32
+	const DESC_RATIO := 0.68
+	var vbox_right_content = VBoxContainer.new()
+	vbox_right_content.custom_minimum_size = Vector2(0, video_height)
+	vbox_right_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox_right_content.add_theme_constant_override("separation", 18)
+	vbox_right.add_child(vbox_right_content)
 	# ── Panel controles ────────────────────────────────────
 	var panel_controles = PanelContainer.new()
-	panel_controles.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	panel_controles.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	panel_controles.size_flags_stretch_ratio = CONTROLES_RATIO
+	panel_controles.clip_contents = true
 	panel_controles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_set_panel_color(panel_controles, Color("#D4621A"))
-	vbox_right.add_child(panel_controles)
+	vbox_right_content.add_child(panel_controles)
 	var vbox_controles = VBoxContainer.new()
 	vbox_controles.add_theme_constant_override("separation", 10)
 	vbox_controles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -115,7 +130,7 @@ func _build_scene():
 	var lbl_controles_title = Label.new()
 	lbl_controles_title.text = "Controles"
 	lbl_controles_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	lbl_controles_title.add_theme_font_size_override("font_size", 36)
+	lbl_controles_title.add_theme_font_size_override("font_size", 40)
 	lbl_controles_title.add_theme_color_override("font_color", Color("#FFFFFF"))
 	lbl_controles_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	vbox_controles.add_child(lbl_controles_title)
@@ -125,30 +140,39 @@ func _build_scene():
 	grid.add_theme_constant_override("h_separation", 12)
 	grid.add_theme_constant_override("v_separation", 8)
 	vbox_controles.add_child(grid)
+	# Tamaño fijo para TODOS los íconos de controles, sin importar el tamaño
+	# real del PNG que se envíe (chico o grande). EXPAND_IGNORE_SIZE hace que
+	# el ícono ignore su tamaño original para efectos de layout, y
+	# STRETCH_KEEP_ASPECT_CENTERED lo escala manteniendo proporción dentro
+	# de esa caja fija, centrado. Cambia ICON_BOX_SIZE si quieres otro tamaño.
+	const ICON_BOX_SIZE := Vector2(80, 80)
 	for control in minigame_data.controls:
 		var tex = load(control["icon"])
 		print("Cargando ícono:", control["icon"], " resultado:", tex)
 		var icon = TextureRect.new()
 		icon.texture = tex
-		icon.custom_minimum_size = Vector2(50, 50)
+		icon.custom_minimum_size = ICON_BOX_SIZE
+		icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		grid.add_child(icon)
 		var lbl_control = Label.new()
 		lbl_control.text = control["action"]
 		lbl_control.add_theme_color_override("font_color", Color("#FFFFFF"))
-		lbl_control.add_theme_font_size_override("font_size", 26)
+		lbl_control.add_theme_font_size_override("font_size", 30)
 		lbl_control.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		lbl_control.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		lbl_control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		grid.add_child(lbl_control)
 	# ── Panel descripción ──────────────────────────────────
 	var panel_desc = PanelContainer.new()
-	panel_desc.custom_minimum_size = Vector2(0, video_height * 0.77)
-	panel_desc.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	panel_desc.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	panel_desc.size_flags_stretch_ratio = DESC_RATIO
+	panel_desc.clip_contents = true
 	panel_desc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_set_panel_color(panel_desc, Color("#D4621A"))
-	vbox_right.add_child(panel_desc)
+	vbox_right_content.add_child(panel_desc)
 	var vbox_desc = VBoxContainer.new()
 	vbox_desc.add_theme_constant_override("separation", 16)
 	vbox_desc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -156,7 +180,7 @@ func _build_scene():
 	var lbl_desc = Label.new()
 	lbl_desc.text = minigame_data.description
 	lbl_desc.add_theme_color_override("font_color", Color("#FFFFFF"))
-	lbl_desc.add_theme_font_size_override("font_size", 26)
+	lbl_desc.add_theme_font_size_override("font_size", 30)
 	lbl_desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	lbl_desc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	vbox_desc.add_child(lbl_desc)
@@ -164,14 +188,14 @@ func _build_scene():
 	var lbl_instr_title = Label.new()
 	lbl_instr_title.text = "Instrucciones"
 	lbl_instr_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	lbl_instr_title.add_theme_font_size_override("font_size", 36)
+	lbl_instr_title.add_theme_font_size_override("font_size", 40)
 	lbl_instr_title.add_theme_color_override("font_color", Color("#FFFFFF"))
 	lbl_instr_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	vbox_desc.add_child(lbl_instr_title)
 	var lbl_instr = Label.new()
 	lbl_instr.text = minigame_data.instructions
 	lbl_instr.add_theme_color_override("font_color", Color("#FFFFFF"))
-	lbl_instr.add_theme_font_size_override("font_size", 23)
+	lbl_instr.add_theme_font_size_override("font_size", 28)
 	lbl_instr.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	lbl_instr.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	vbox_desc.add_child(lbl_instr)
