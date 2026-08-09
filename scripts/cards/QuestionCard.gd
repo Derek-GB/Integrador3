@@ -64,17 +64,55 @@ func _build_question() -> void:
 	for child in options_container.get_children():
 		child.queue_free()
 	_option_buttons.clear()
-	
-	for option_index in range(selected_question["options"].size()):
+
+	var option_count: int = selected_question["options"].size()
+	var separation: int = _get_separation_for_count(option_count)
+	var button_height: float = _get_button_height_for_count(option_count, separation)
+	var base_font_size: int = _get_base_font_size_for_count(option_count)
+
+	options_container.add_theme_constant_override("separation", separation)
+
+	for option_index in range(option_count):
 		var option_button := Button.new()
 		option_button.text = selected_question["options"][option_index]
-		option_button.custom_minimum_size = Vector2(290, 48)
-		option_button.add_theme_font_size_override("font_size", 15)
+		option_button.custom_minimum_size = Vector2(290, button_height)
 		option_button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		_adjust_font_size(option_button,selected_question["options"][option_index])
+		_adjust_font_size(option_button, selected_question["options"][option_index], base_font_size)
 		option_button.pressed.connect(_on_option_selected.bind(option_index))
 		options_container.add_child(option_button)
 		_option_buttons.append(option_button)
+
+
+# =========================================================
+# Ajuste dinámico de tamaño de botones según cantidad de opciones
+# =========================================================
+const OPTIONS_AVAILABLE_HEIGHT := 190.0
+const BASE_BUTTON_HEIGHT := 48.0
+const MIN_BUTTON_HEIGHT := 32.0
+const BASE_SEPARATION := 8
+const MIN_SEPARATION := 4
+
+func _get_button_height_for_count(count: int, separation: int) -> float:
+	if count <= 0:
+		return BASE_BUTTON_HEIGHT
+	var total_separation: float = float(separation) * max(count - 1, 0)
+	var available_for_buttons: float = OPTIONS_AVAILABLE_HEIGHT - total_separation
+	var height: float = available_for_buttons / float(count)
+	return clamp(height, MIN_BUTTON_HEIGHT, BASE_BUTTON_HEIGHT)
+
+
+func _get_separation_for_count(count: int) -> int:
+	if count >= 4:
+		return MIN_SEPARATION
+	return BASE_SEPARATION
+
+
+func _get_base_font_size_for_count(count: int) -> int:
+	if count >= 4:
+		return 13
+	elif count == 3:
+		return 15
+	return 16
 
 
 # =========================================================
@@ -184,15 +222,15 @@ func _highlight_cpu_choice(chosen_index: int) -> void:
 # =========================================================
 # Ajustes del Texto para los botones y explicación de la card
 # =========================================================
-func _adjust_font_size(btn: Button, text: String) -> void:
+func _adjust_font_size(btn: Button, text: String, base_font_size: int = 16) -> void:
 	var long = text.length()
-	var font_size := 16
+	var font_size := base_font_size
 	if long > 80:
-		font_size = 12
+		font_size = min(font_size, 12)
 	elif long > 50:
-		font_size = 13
+		font_size = min(font_size, 13)
 	elif long > 30:
-			font_size = 14
+		font_size = min(font_size, 14)
 	btn.add_theme_font_size_override("font_size", font_size)
 
 func _adjust_font_description(label: Label, text: String) -> void:
