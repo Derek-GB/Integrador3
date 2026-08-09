@@ -66,10 +66,11 @@ var _alt_waypoint_bases: Array[Basis]           = []
 var _special_waypoints: Dictionary              = {}
 var _special_waypoint_rotations: Dictionary     = {}
 var _special_waypoint_bases: Dictionary         = {}
-var _camera_delay_timer: float                  = 0.0
-var _camera_delay_active: bool  = false
 var _dice_overlay_instance: Node = null
 var _turn_banner_tween: Tween   = null
+var _camera_tween: Tween        = null
+var _last_turn_player_index: int = -1
+var _is_first_turn: bool         = true
 var piece2 = null
 var time: int = 0
 
@@ -132,13 +133,6 @@ func _process(delta: float) -> void:
 	if GameManager.tokens.is_empty():
 		return
 
-	if _camera_delay_active:
-		_camera_delay_timer -= delta
-		if _camera_delay_timer <= 0.0:
-			_camera_delay_active = false
-		else:
-			return
-
 	var active: Node3D
 	if GameManager.current_player < GameManager.tokens.size():
 		active = GameManager.tokens[GameManager.current_player]
@@ -161,23 +155,14 @@ func _process(delta: float) -> void:
 # MÉTODOS PÚBLICOS
 # =========================================================
 func switch_camera(marker: Marker3D, free_move: bool = true) -> void:
+	if _camera_tween and _camera_tween.is_running():
+		_camera_tween.kill()
+
 	camera_free_body.can_free_move = false
-	var active: Node3D
-	if GameManager.current_player < GameManager.tokens.size():
-		active = GameManager.tokens[GameManager.current_player]
-	else:
-		active = piece
-
-	var start_yaw: float = camera_rig.rotation.y
-	var dest_yaw: float = deg_to_rad(active.rotation_degrees.y)
-	var target_yaw: float = start_yaw + angle_difference(start_yaw, dest_yaw)
-
-	var tween: Tween = create_tween().set_parallel(true)
-	tween.tween_property(camera_free_body, "transform", marker.transform, 0.6)
-	tween.tween_property(camera_rig, "rotation:y", target_yaw, 0.6)
-	tween.set_parallel(false)
-	tween.tween_callback(_on_camera_switch_completed.bind(free_move))
-	await tween.finished
+	_camera_tween = create_tween()
+	_camera_tween.tween_property(camera_free_body, "transform", marker.transform, 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	_camera_tween.tween_callback(_on_camera_switch_completed.bind(free_move))
+	await _camera_tween.finished
 
 func _on_camera_switch_completed(free_move: bool) -> void:
 	if camera_rig == null or camera_free_body == null:
@@ -246,26 +231,27 @@ func _start_game() -> void:
 	dice_label.text = "Tira el dado"
 	_update_turn_label(0)
 	_update_position_label()
-	_show_turn_banner("Jugador 1")
+	_last_turn_player_index = -1
+	_is_first_turn          = true
 	for i in range(1,7):
 		Events.visible_pointer.emit(i,true)
 	print("Main: juego iniciado modo", mode)
 
-func _show_turn_banner(player_name: String) -> void:
-	if turn_banner_label == null:
+func _show_turn_banner(text_to_show: String, fade_duration: float = 1.5) -> void:
+	if turn_banner_label == null or game_over:
 		return
 
 	if _turn_banner_tween and _turn_banner_tween.is_running():
 		_turn_banner_tween.kill()
 
-	turn_banner_label.text = "Turno de: %s" % player_name
+	turn_banner_label.text = text_to_show
 	turn_banner_label.visible = true
 	turn_banner_label.modulate.a = 1.0
 	turn_banner_label.scale = Vector2(1.15, 1.15)
 
 	_turn_banner_tween = create_tween().set_parallel(true)
-	_turn_banner_tween.tween_property(turn_banner_label, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	_turn_banner_tween.tween_property(turn_banner_label, "modulate:a", 0.0, 1.5).set_ease(Tween.EASE_IN)
+	_turn_banner_tween.tween_property(turn_banner_label, "scale", Vector2(1.0, 1.0), 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_turn_banner_tween.tween_property(turn_banner_label, "modulate:a", 0.0, fade_duration).set_ease(Tween.EASE_IN)
 
 	_turn_banner_tween.chain().tween_callback(func():
 		if is_instance_valid(turn_banner_label):
@@ -382,6 +368,7 @@ func _on_restart() -> void:
 	GameManager.minigame_active   = false
 	GameManager.skip_player_index = -1
 	GameManager.last_action_type  = ""
+	_last_turn_player_index       = -1
 	get_tree().reload_current_scene()
 	for i in range(1,7):
 		Events.visible_pointer.emit(i,true)
@@ -403,11 +390,15 @@ func _on_dice_rolled(n: int) -> void:
 func _on_turn_changed(player_index: int) -> void:
 	if game_over:
 		return
-	_camera_delay_timer  = turn_camera_delay
-	_camera_delay_active = true
 	_update_turn_label(player_index)
 	btn_throw.disabled = true
 	print("Main: turn_changed recibido =", player_index)
+
+	var is_first: bool = _is_first_turn
+	_is_first_turn = false
+
+	var is_repeat_turn: bool = (_last_turn_player_index == player_index)
+	_last_turn_player_index = player_index
 
 	var target_name: String
 	if game_mode == 1:
@@ -417,13 +408,13 @@ func _on_turn_changed(player_index: int) -> void:
 	else:
 		target_name = "Contrincante"
 
-	# 1. Esperar a que la cámara cambie de posición hacia el personaje del turno
-	await switch_camera(default_cam_position, true)
-	if game_over:
-		return
+	# No mostrar la pancarta en el primer turno del juego
+	if not is_first:
+		if is_repeat_turn:
+			await _show_turn_banner("¡Repites turno!", 0.6)
+		else:
+			await _show_turn_banner("Turno de: %s" % target_name, 1.5)
 
-	# 2. Mostrar la pancarta y esperar a que finalice su animación de 1.5s
-	await _show_turn_banner(target_name)
 	if game_over:
 		return
 
@@ -432,7 +423,7 @@ func _on_turn_changed(player_index: int) -> void:
 		_apply_skip(player_index)
 		return
 
-	# 3. Si es la IA (Contrincante), tira el dado SÓLO después de que la pancarta desaparece
+	# Si es la IA (Contrincante), tira el dado SÓLO después de la pancarta
 	if game_mode == 2 and player_index == 1:
 		dice_label.text = "Turno del Contrincante..."
 		print("Main: ejecutando turno CPU")
@@ -541,6 +532,10 @@ func _declare_winner(player_index: int) -> void:
 	if game_over:
 		return
 	game_over = true
+	if is_instance_valid(turn_banner_label):
+		turn_banner_label.visible = false
+	if _turn_banner_tween and _turn_banner_tween.is_running():
+		_turn_banner_tween.kill()
 	AudioManager.stop_music()
 	btn_throw.disabled = true
 
