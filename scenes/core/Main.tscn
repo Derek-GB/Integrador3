@@ -355,6 +355,7 @@ offset_bottom = 116.0
 text = "Isometrico"
 
 [node name="Throw_3" type="Button" parent="UI" unique_id=182608097]
+visible = false
 offset_left = 1673.0
 offset_top = 130.0
 offset_right = 1889.0
@@ -362,6 +363,7 @@ offset_bottom = 197.0
 text = "Tirar 3"
 
 [node name="QA_Input" type="LineEdit" parent="UI" unique_id=198273645]
+visible = false
 offset_left = 1673.0
 offset_top = 201.0
 offset_right = 1891.0

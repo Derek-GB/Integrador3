@@ -194,7 +194,7 @@ func _start_game() -> void:
 	if mode == 1:
 		GameManager.player_names = ["Jugador 1", "Jugador 2"]
 	else:
-		GameManager.player_names = ["Jugador", "Maquina"]
+		GameManager.player_names = ["Jugador", "Contrincante"]
 
 	piece.setup(_waypoints, _waypoint_rotations, _waypoint_bases,
 		_special_waypoints, _special_waypoint_rotations, _special_waypoint_bases)
@@ -565,7 +565,7 @@ func _apply_skip(player_index: int) -> void:
 		GameManager._next_turn()
 
 func _machine_turn() -> void:
-	await get_tree().create_timer(1).timeout
+	#await get_tree().create_timer(1).timeout
 	if game_over:
 		return
 	dice_label.text = "El Contrincante esta tirando el dado..."

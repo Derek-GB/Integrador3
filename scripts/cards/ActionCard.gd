@@ -410,9 +410,9 @@ func _cpu_auto_play() -> void:
 
 	await get_tree().create_timer(2.0).timeout
 	await card_animator.flip_card(card_container, front_side, back_panel, [click_button, action_button])
-	await get_tree().create_timer(2.5).timeout
+	await get_tree().create_timer(2.0).timeout
 	action_button.disabled = true
 	await card_animator.animate_exit(card_container, [action_button])
 	action_completed.emit(selected_card["type"], selected_card["value"])
-	await get_tree().create_timer(1.5).timeout
+	await get_tree().create_timer(0.5).timeout
 	queue_free()

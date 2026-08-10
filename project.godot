@@ -36,8 +36,12 @@ window/stretch/mode="canvas_items"
 
 [editor]
 
+movie_writer/video_quality=0.5
+movie_writer/ogv/encoding_speed=2
+movie_writer/ogv/keyframe_interval=60
 movie_writer/movie_file="C:/Users/d2tod/Documents/Proyectos de Godot/riegolandia/export/test.avi"
 movie_writer/disable_vsync=true
+movie_writer/fps=30
 
 [filesystem]
 

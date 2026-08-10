@@ -448,6 +448,7 @@ func show_red_card(active_token: Node) -> void:
 	last_action_type = ""
 	var card := ACTION_CARD.instantiate()
 	card.cpu_mode = is_cpu_turn()
+	if (not is_inside_tree()) and get_tree() == null: return
 	get_tree().current_scene.add_child(card)
 	var action_result := [last_action_type, 0]
 	card.action_completed.connect(func(type: String, value: int) -> void:
