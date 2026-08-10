@@ -18,7 +18,7 @@ func animate_entry(card_container: Control, btn: Button) -> void:
 		.set_trans(Tween.TRANS_CUBIC)\
 		.set_ease(Tween.EASE_OUT)
 		
-	tween.tween_property(card_container, "scale", Vector2.ONE, ENTRY_TIME)\
+	tween.tween_property(card_container, "scale", Vector2(1.5, 1.5), ENTRY_TIME)\
 		.set_trans(Tween.TRANS_BACK)\
 		.set_ease(Tween.EASE_OUT)
 		
@@ -54,11 +54,11 @@ func flip_card(card_container: Control, front_side: Control, back_panel: Control
 		back_panel.visible = true
 	)
 	
-	tween.parallel().tween_property(card_container, "scale:x", 1.0, TURNING_TIME)\
+	tween.parallel().tween_property(card_container, "scale:x", 1.5, TURNING_TIME)\
 		.set_trans(Tween.TRANS_CUBIC)\
 		.set_ease(Tween.EASE_OUT)
 		
-	tween.parallel().tween_property(card_container, "scale:y", 1.0, TURNING_TIME)\
+	tween.parallel().tween_property(card_container, "scale:y", 1.5, TURNING_TIME)\
 		.set_trans(Tween.TRANS_BOUNCE)\
 		.set_ease(Tween.EASE_OUT)
 		
