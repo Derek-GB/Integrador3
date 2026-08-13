@@ -34,5 +34,9 @@ func reload_game() -> void:
 func text_name_player(text: String) -> void:
 	lb_name_player.text = text
 
+func set_player_color(color: Color) -> void:
+	if lb_name_player:
+		lb_name_player.add_theme_color_override("font_color", color)
+
 func text_total_time(text: String) -> void:
 	lb_time.text = text

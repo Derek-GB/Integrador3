@@ -295,8 +295,20 @@ var last_action_type: String = ""
 var message_label: Label     = null
 
 var game_mode: int             = 1
-var player_names: Array[String] = ["Jugador", "Jugador 2"]
+var player_names: Array[String] = ["Jugador 1", "Jugador 2"]
+const COLOR_PALETTE: Array[Color] = [
+	Color(1.0, 0.92, 0.3),   # Amarillo (J1 default)
+	Color(0.35, 0.85, 1.0),  # Celeste (J2/Bot default)
+	Color(0.3, 0.9, 0.35),   # Verde
+	Color(1.0, 0.35, 0.35),  # Rojo
+	Color(0.7, 0.4, 1.0),    # Púrpura
+	Color(1.0, 0.6, 0.2),    # Naranja
+	Color(1.0, 0.4, 0.8),    # Rosa
+	Color(0.95, 0.95, 0.95)  # Blanco
+]
+var player_colors: Array[Color] = [Color(1.0, 0.92, 0.3), Color(0.35, 0.85, 1.0)]
 var pausers: int = 0
+
 
 # =========================================================
 # CICLO DE VIDA
@@ -574,12 +586,13 @@ func _apply_minigame_effect(tile_index: int, won: bool) -> void:
 		action_result[1] = val
 	)
 	
-	var waiting_time := 3
-	var auto_close_timer := get_tree().create_timer(waiting_time)
+	var auto_close_timer := get_tree().create_timer(3.0)
 	
 	auto_close_timer.timeout.connect(func():
-		if game_mode == 2 && current_player == 1:
-			minigame_action_dialog.accept_button.pressed.emit()
+		if is_instance_valid(minigame_action_dialog) and not minigame_action_dialog.is_queued_for_deletion():
+			if game_mode == 2 and current_player == 1:
+				if is_instance_valid(minigame_action_dialog.accept_button):
+					minigame_action_dialog.accept_button.pressed.emit()
 	)
 	await minigame_action_dialog.tree_exited
 	

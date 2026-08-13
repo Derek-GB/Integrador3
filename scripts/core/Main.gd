@@ -60,7 +60,7 @@ const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
 const STOP_MENU          = preload("res://scenes/UX/PauseMenu.tscn")
 const PIECE_SCENE        = preload("res://scenes/board/Token2.tscn")
 ##Tiempo que se mostrará el mensaje en el banner central, desde su inicio hasta su desaparición.
-const BANNER_TIME: float = 1.5
+const BANNER_TIME: float = 1.7
 
 # =========================================================
 # VARIABLES
@@ -201,10 +201,13 @@ func _start_game() -> void:
 	GameManager.tokens.clear()
 	GameManager.current_player = 0
 
-	if mode == 1:
-		GameManager.player_names = ["Jugador 1", "Jugador 2"]
-	else:
-		GameManager.player_names = ["Jugador", "Contrincante"]
+	if GameManager.player_names.size() < 2:
+		if mode == 1:
+			GameManager.player_names = ["Jugador 1", "Jugador 2"]
+		else:
+			GameManager.player_names = ["Jugador 1", "Contrincante"]
+	if GameManager.player_colors.size() < 2:
+		GameManager.player_colors = [Color(1.0, 0.92, 0.3), Color(0.35, 0.85, 1.0)]
 
 	piece.setup(_waypoints, _waypoint_rotations, _waypoint_bases,
 		_special_waypoints, _special_waypoint_rotations, _special_waypoint_bases)
@@ -231,11 +234,8 @@ func _start_game() -> void:
 	# de una vez, sin animación, antes de que el jugador vea el tablero.
 	_update_lane_offsets(false)
 
-	_add_tag(piece, "Jugador 1", Color(1.0, 0.92, 0.3))
-	if mode == 2:
-		_add_tag(piece2, "Contrincante", Color(0.35, 0.85, 1.0))
-	else:
-		_add_tag(piece2, "Jugador 2", Color(0.35, 0.85, 1.0))
+	_add_tag(piece, GameManager.player_names[0], GameManager.player_colors[0])
+	_add_tag(piece2, GameManager.player_names[1], GameManager.player_colors[1])
 
 	btn_throw.disabled = false
 	dice_label.text = "Tira el dado"
@@ -445,16 +445,9 @@ func _on_turn_changed(player_index: int) -> void:
 	var is_repeat_turn: bool = (_last_turn_player_index == player_index)
 	_last_turn_player_index = player_index
 
-	var formatted_name: String
-	if game_mode == 1:
-		if player_index == 0:
-			formatted_name = "[color=#ffe042]Jugador 1[/color]"
-		else:
-			formatted_name = "[color=#59d9ff]Jugador 2[/color]"
-	elif player_index == 0:
-		formatted_name = "[color=#ffe042]Jugador 1[/color]"
-	else:
-		formatted_name = "[color=#59d9ff]Contrincante[/color]"
+	var name_str: String = GameManager.player_names[player_index] if player_index < GameManager.player_names.size() else "Jugador %d" % (player_index + 1)
+	var color_hex: String = GameManager.player_colors[player_index].to_html(false) if player_index < GameManager.player_colors.size() else "ffe042"
+	var formatted_name: String = "[color=#%s]%s[/color]" % [color_hex, name_str]
 
 	var is_skipping: bool = (GameManager.skip_player_index == player_index)
 
@@ -604,21 +597,21 @@ func _declare_winner(player_index: int) -> void:
 	AudioManager.stop_music()
 	btn_throw.disabled = true
 
+	var winner_name: String = GameManager.player_names[player_index] if player_index < GameManager.player_names.size() else "Jugador %d" % (player_index + 1)
+	var winner_color: Color = GameManager.player_colors[player_index] if player_index < GameManager.player_colors.size() else Color(0.3, 1.0, 0.4)
+
 	var message: String
-	if game_mode == 1:
+	if player_index == 0 or game_mode == 1:
 		AudioManager.play_sfx(victory_sound)
-		message = "¡Gano el Jugador %d!" % (player_index + 1)
-	elif player_index == 0:
-		AudioManager.play_sfx(victory_sound)
-		message = "¡Gano el Jugador 1!"
+		message = "¡Ganó %s!" % winner_name
 	else:
 		AudioManager.play_sfx(game_over_sound)
-		message = "¡Gano el Contrincante!"
+		message = "¡Ganó %s!" % winner_name
 
 	dice_label.text = message
 	if turn_label:
 		turn_label.text = message
-		turn_label.add_theme_color_override("font_color", Color(0.3, 1.0, 0.4))
+		turn_label.add_theme_color_override("font_color", winner_color)
 	if is_instance_valid(GameManager.message_label):
 		GameManager.message_label.visible = true
 		GameManager.message_label.text    = message
@@ -629,7 +622,8 @@ func _declare_winner(player_index: int) -> void:
 						GameManager.message_label.visible = false
 			)
 	visible_components([info_panel, btn_pause, btn_bind_cam,btn_throw, btn_throw_3], false)
-	game_complet_panel.text_name_player("¡Jugador %d!" % (player_index + 1))
+	game_complet_panel.text_name_player("¡%s!" % winner_name)
+	game_complet_panel.set_player_color(winner_color)
 	game_complet_panel.text_total_time("Tiempo total: " + time_format(time))
 	game_complet_panel.visible = true
 	GlobalStopwatch.stop()
@@ -643,15 +637,10 @@ func visible_components (array: Array, value: bool) -> void:
 func _update_turn_label(player_index: int) -> void:
 	if turn_label == null:
 		return
-	var _name: String
-	if game_mode == 1:
-		_name = "Turno del Jugador %d" % (player_index + 1)
-	elif player_index == 0:
-		_name = "Turno del Jugador 1"
-	else:
-		_name = "Turno del Contrincante"
-	turn_label.text = _name
-	turn_label.add_theme_color_override("font_color", Color(1.0, 0.95, 0.4))
+	var pname: String = GameManager.player_names[player_index] if player_index < GameManager.player_names.size() else "Jugador %d" % (player_index + 1)
+	var pcolor: Color = GameManager.player_colors[player_index] if player_index < GameManager.player_colors.size() else Color(1.0, 0.95, 0.4)
+	turn_label.text = "Turno de %s" % pname
+	turn_label.add_theme_color_override("font_color", pcolor)
 
 func _update_position_label() -> void:
 	if position_label == null:
