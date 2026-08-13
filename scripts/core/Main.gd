@@ -1,7 +1,11 @@
 extends Node3D
 
+@export_category("Camera")
+@export_group("Speed")
 @export var camera_smooth_speed: float = 5.0
 @export var turn_camera_delay: float = 0.7
+@export_category("Audio")
+@export_group("Streams")
 @export var dice_sound: AudioStream
 @export var move_sound_old: AudioStream
 @export var move_forward_sound: AudioStream
@@ -15,9 +19,13 @@ extends Node3D
 @export var time_over_sound: AudioStream
 @export var earthquake_sound: AudioStream
 # Separación lateral entre fichas cuando comparten casilla
+@export_category("Earthquake")
+@export_group("Power")
 @export var lane_split_offset: float = 1.75
-@export var earthquake_duration: float = 3.0
 @export var earthquake_strength: float = 1.0
+@export_group("Time")
+@export var earthquake_duration: float = 3.0
+
 
 # =========================================================
 # NODOS DE LA ESCENA
@@ -51,6 +59,8 @@ extends Node3D
 const DICE_OVERLAY_SCENE = preload("res://scenes/UX/DiceOverlay.tscn")
 const STOP_MENU          = preload("res://scenes/UX/PauseMenu.tscn")
 const PIECE_SCENE        = preload("res://scenes/board/Token2.tscn")
+##Tiempo que se mostrará el mensaje en el banner central, desde su inicio hasta su desaparición.
+const BANNER_TIME: float = 1.5
 
 # =========================================================
 # VARIABLES
@@ -459,16 +469,17 @@ func _on_turn_changed(player_index: int) -> void:
 		return
 
 	# 3. Mostrar la pancarta correspondiente con su estilo y colores temáticos
+	var bb_text : String
 	if is_skipping:
 		GameManager.skip_player_index = -1
-		var bb_text := "[center]¡%s pierde este turno![/center]" % formatted_name
-		await _show_turn_banner(bb_text, "skip", 0.8)
+		bb_text = "[center]¡%s pierde este turno![/center]" % formatted_name
+		await _show_turn_banner(bb_text, "skip", BANNER_TIME)
 	elif is_repeat_turn:
-		var bb_text := "[center][color=#ffb03b]¡Repites turno![/color][/center]"
-		await _show_turn_banner(bb_text, "repeat", 0.6)
+		bb_text = "[center][color=#ffb03b]¡Repites turno![/color][/center]"
+		await _show_turn_banner(bb_text, "repeat", BANNER_TIME)
 	else:
-		var bb_text := "[center][color=#fffdf0]Turno de: [/color]%s[/center]" % formatted_name
-		await _show_turn_banner(bb_text, "new_turn", 0.9)
+		bb_text = "[center][color=#fffdf0]Turno de: [/color]%s[/center]" % formatted_name
+		await _show_turn_banner(bb_text, "new_turn", BANNER_TIME)
 
 	if game_over:
 		return
