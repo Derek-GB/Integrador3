@@ -1,5 +1,10 @@
 extends Node2D
 
+
+const FPS_HUD := 24.0
+const INTERVALO_HUD := 1.0 / FPS_HUD
+
+var _tiempo_redibujo_hud := 0.0
 var ANCHO := 1280.0
 var ALTO := 720.0
 
@@ -12,7 +17,11 @@ var pulso := 0.0
 
 func _process(delta):
 	pulso += delta
-	queue_redraw()
+	_tiempo_redibujo_hud += delta
+
+	if _tiempo_redibujo_hud >= INTERVALO_HUD:
+		_tiempo_redibujo_hud -= INTERVALO_HUD
+		queue_redraw()
 
 
 func actualizar_hud(tiempo: int, vidas: int, nuevo_mensaje: String = ""):

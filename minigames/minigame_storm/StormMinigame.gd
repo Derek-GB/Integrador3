@@ -95,15 +95,21 @@ func _process(_delta):
 	if _game_finished:
 		return
 
-	_update_lives_ui()
+	if _player == null:
+		return
 
-	if _player:
-		if _player.lives < _last_player_lives:
+	var current_lives: int = _player.lives
+
+	# Actualiza el HUD solamente cuando cambia una vida.
+	if current_lives != _last_player_lives:
+		_update_lives_ui()
+
+		if current_lives < _last_player_lives:
 			_play_damage_effect()
 
-		_last_player_lives = _player.lives
+		_last_player_lives = current_lives
 
-	if _player and _player.lives <= 0:
+	if current_lives <= 0:
 		_lose_game()
 
 
