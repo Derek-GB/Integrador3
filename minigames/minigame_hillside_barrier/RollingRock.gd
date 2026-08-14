@@ -31,6 +31,8 @@ var _distance := 1.0
 var _progress := 0.0
 var _active := false
 
+var _resolved := false
+
 var _animation_time := 0.0
 var _current_frame := 0
 
@@ -68,6 +70,7 @@ func setup(p_start: Vector2, p_end: Vector2, p_speed: float, p_minigame: Node):
 	_distance = max(_start_position.distance_to(_end_position), 1.0)
 	_progress = 0.0
 	_active = true
+	_resolved = false
 
 	_randomize_rock_variant()
 	_setup_sprite()
@@ -83,7 +86,7 @@ func _ready():
 
 
 func _process(delta):
-	if not _active:
+	if not _active or _resolved:
 		return
 
 	_previous_global_position = global_position
@@ -96,16 +99,19 @@ func _process(delta):
 	rotation += _rotation_speed * _rotation_direction * delta
 
 	_update_animation(delta)
-	_check_tree_collision()
+
+	# Si chocó, termina inmediatamente este fotograma.
+	if _check_tree_collision():
+		return
 
 	if _progress >= 1.0:
+		_resolved = true
 		_active = false
 
 		if _minigame and _minigame.has_method("register_rock_reached_bottom"):
 			_minigame.register_rock_reached_bottom(self)
 
 		queue_free()
-
 
 # =========================================================
 # ROCK VARIANTS
@@ -175,13 +181,25 @@ func _update_animation(delta):
 # COLLISION METHODS
 # =========================================================
 
-func _check_tree_collision():
+func _check_tree_collision() -> bool:
+	if not _active or _resolved:
+		return false
+
+	var current_rock_id: int = get_instance_id()
+
 	for tree in get_tree().get_nodes_in_group("planted_trees"):
-		if tree == null:
+		if tree == null or not is_instance_valid(tree):
 			continue
 
-		if not is_instance_valid(tree):
+		if tree.is_queued_for_deletion():
 			continue
+
+		# Cada árbol solamente puede detener la roca de su propio punto.
+		if tree.has_method("get_target_rock_id"):
+			var target_rock_id: int = int(tree.get_target_rock_id())
+
+			if target_rock_id != -1 and target_rock_id != current_rock_id:
+				continue
 
 		var tree_hit_position: Vector2 = tree.global_position
 
@@ -193,16 +211,25 @@ func _check_tree_collision():
 		if tree.has_method("get_rock_hit_radius"):
 			hit_radius = tree.get_rock_hit_radius()
 
-		var distance_to_tree: float = global_position.distance_to(tree_hit_position)
+		# Revisa todo el recorrido realizado durante el fotograma.
+		# Esto evita que la roca atraviese el árbol cuando hay pocos FPS.
+		var distance_to_path := _distance_point_to_segment(
+			tree_hit_position,
+			_previous_global_position,
+			global_position
+		)
 
-		if distance_to_tree <= hit_radius:
+		if distance_to_path <= hit_radius:
+			_resolved = true
 			_active = false
 
 			if _minigame and _minigame.has_method("register_rock_blocked"):
 				_minigame.register_rock_blocked(self, tree)
 
 			queue_free()
-			return
+			return true
+
+	return false
 
 
 func _distance_point_to_segment(point: Vector2, segment_start: Vector2, segment_end: Vector2) -> float:

@@ -43,6 +43,8 @@ var _placed := false
 var _drag_offset := Vector2.ZERO
 var _returning := false
 
+var _target_rock_id := -1
+
 var _time_elapsed := 0.0
 var _base_sprite_position := Vector2.ZERO
 var _base_sprite_scale := Vector2.ONE
@@ -180,15 +182,20 @@ func _get_target_spot() -> Area2D:
 
 func _place_on_spot(spot: Area2D):
 	_placed = true
-	add_to_group("planted_trees")
 	_returning = false
 
-	# Guardamos el punto exacto donde la roca debe chocar.
+	_target_rock_id = -1
+
+	if spot.has_meta("rock_id"):
+		_target_rock_id = int(spot.get_meta("rock_id"))
+
 	_rock_hit_position = spot.global_position
 
 	global_position = spot.global_position + PLANTED_POSITION_OFFSET
 	scale = PLANTED_SCALE
 	z_index = 45
+
+	add_to_group("planted_trees")
 
 	spot.place_tree()
 
@@ -203,7 +210,9 @@ func _place_on_spot(spot: Area2D):
 	if minigame and minigame.has_method("register_successful_tree"):
 		minigame.register_successful_tree(self, spot, _start_position)
 
-
+func get_target_rock_id() -> int:
+	return _target_rock_id
+	
 func _return_to_start():
 	_returning = true
 
