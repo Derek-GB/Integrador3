@@ -297,14 +297,15 @@ var message_label: Label     = null
 var game_mode: int             = 1
 var player_names: Array[String] = ["Jugador 1", "Jugador 2"]
 const COLOR_PALETTE: Array[Color] = [
+	Color(1.0, 1.0, 1.0, 1.0), # Blanco
 	Color(1.0, 0.92, 0.3),   # Amarillo (J1 default)
 	Color(0.35, 0.85, 1.0),  # Celeste (J2/Bot default)
 	Color(0.3, 0.9, 0.35),   # Verde
 	Color(1.0, 0.35, 0.35),  # Rojo
 	Color(0.7, 0.4, 1.0),    # Púrpura
 	Color(1.0, 0.6, 0.2),    # Naranja
-	Color(1.0, 0.4, 0.8),    # Rosa
-	Color(0.95, 0.95, 0.95)  # Blanco
+	Color(1.0, 0.4, 0.8)    # Rosa
+	 
 ]
 var player_colors: Array[Color] = [Color(1.0, 0.92, 0.3), Color(0.35, 0.85, 1.0)]
 var pausers: int = 0
