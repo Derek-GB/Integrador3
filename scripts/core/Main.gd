@@ -84,7 +84,7 @@ var _is_first_turn_p1: bool      = true
 var piece2 = null
 var time: int = 0
 
-var QA_throw_value: int = 3
+var QA_throw_value: int = 9
 
 # =========================================================
 # CICLO DE VIDA
