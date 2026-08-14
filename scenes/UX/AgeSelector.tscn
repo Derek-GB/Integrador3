@@ -5,9 +5,24 @@
 [ext_resource type="Texture2D" uid="uid://dw77j8va8y8iu" path="res://images/UX/Barra.png" id="2_ta6bi"]
 [ext_resource type="Texture2D" uid="uid://dst0rh8lueq3v" path="res://images/UX/Etapa1.png" id="3_5bp0f"]
 [ext_resource type="Texture2D" uid="uid://cg8knkrftyogk" path="res://images/UX/PiedraSelectora.png" id="4_okh50"]
-[ext_resource type="Texture2D" uid="uid://w638puqrtvgf" path="res://images/UX/Boton_continuar.png" id="5_vtiug"]
+[ext_resource type="Texture2D" uid="uid://c5n2t3ow6nju6" path="res://images/UX/Boton_continuar.png" id="5_vtiug"]
 [ext_resource type="Texture2D" uid="uid://bw4badylkc2wk" path="res://images/UX/Boton_continuar_gris.png" id="7_3e0ey"]
-[ext_resource type="FontFile" uid="uid://cbg3qvhlyo6n7" path="res://fonts/Montserrat-Bold.ttf" id="8_font_bold"]
+[ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="8_font_bold"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tuh54"]
+bg_color = Color(0.7372549, 0.49803922, 0.3137255, 0.6862745)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_detail = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b5yx3"]
+bg_color = Color(0.7372549, 0.49803922, 0.3137255, 0.6862745)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
 
 [node name="AgeSelector" type="Control" unique_id=2085806543]
 layout_mode = 3
@@ -26,10 +41,11 @@ texture = ExtResource("2_5bp0f")
 
 [node name="PlayerStepLabel" type="Label" parent="." unique_id=4001001]
 layout_mode = 0
-offset_left = 460.0
-offset_top = 35.0
-offset_right = 1460.0
-offset_bottom = 100.0
+offset_left = 492.0
+offset_top = 32.0
+offset_right = 1492.0
+offset_bottom = 97.0
+pivot_offset = Vector2(500, 0)
 theme_override_fonts/font = ExtResource("8_font_bold")
 theme_override_font_sizes/font_size = 52
 text = "DATOS DEL JUGADOR 1"
@@ -37,10 +53,11 @@ horizontal_alignment = 1
 
 [node name="NameLabel" type="Label" parent="." unique_id=4001002]
 layout_mode = 0
-offset_left = 460.0
-offset_top = 115.0
-offset_right = 1460.0
-offset_bottom = 155.0
+offset_left = 792.0
+offset_top = 128.0
+offset_right = 1192.0
+offset_bottom = 168.0
+pivot_offset = Vector2(200, 0)
 theme_override_fonts/font = ExtResource("8_font_bold")
 theme_override_font_sizes/font_size = 32
 text = "Nombre:"
@@ -48,22 +65,27 @@ horizontal_alignment = 1
 
 [node name="NameInput" type="LineEdit" parent="." unique_id=4001003]
 layout_mode = 0
-offset_left = 660.0
-offset_top = 160.0
-offset_right = 1260.0
-offset_bottom = 225.0
+offset_left = 692.0
+offset_top = 184.0
+offset_right = 1292.0
+offset_bottom = 249.0
+pivot_offset = Vector2(300, 0)
+theme_override_colors/font_color = Color(0.9682575, 0.9682575, 0.9682575, 1)
 theme_override_fonts/font = ExtResource("8_font_bold")
 theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_tuh54")
 placeholder_text = "Ingresa tu nombre..."
 alignment = 1
 max_length = 20
 
 [node name="InstructionLabel" type="Label" parent="." unique_id=902567860]
 layout_mode = 0
-offset_left = 460.0
-offset_top = 245.0
-offset_right = 1460.0
-offset_bottom = 310.0
+offset_left = 492.0
+offset_top = 408.0
+offset_right = 1492.0
+offset_bottom = 473.0
+scale = Vector2(0.8, 0.8)
+pivot_offset = Vector2(500, 0)
 theme_override_fonts/font = ExtResource("8_font_bold")
 theme_override_font_sizes/font_size = 42
 text = "¿Cuántos años tienes?"
@@ -71,64 +93,85 @@ horizontal_alignment = 1
 
 [node name="Bar" type="TextureRect" parent="." unique_id=304513519]
 layout_mode = 0
-offset_left = 76.0
-offset_top = 354.0
-offset_right = 1855.0
-offset_bottom = 494.0
+offset_left = 53.999985
+offset_top = 490.0
+offset_right = 1900.2498
+offset_bottom = 630.0
+scale = Vector2(0.8, 0.8)
+pivot_offset = Vector2(890, 0)
 texture = ExtResource("2_ta6bi")
 
 [node name="PandaDisplay" type="TextureRect" parent="." unique_id=1116512730]
 layout_mode = 0
-offset_left = 837.0
-offset_top = 475.0
-offset_right = 1090.0
-offset_bottom = 720.0
+offset_left = 865.0
+offset_top = 611.0
+offset_right = 1119.0
+offset_bottom = 950.0
+scale = Vector2(0.8, 0.8)
+pivot_offset = Vector2(127, 0)
 texture = ExtResource("3_5bp0f")
 stretch_mode = 5
 
 [node name="StoneSlider" type="TextureButton" parent="." unique_id=1691107195]
 layout_mode = 0
-offset_left = 40.0
-offset_top = 330.0
-offset_right = 257.0
-offset_bottom = 525.0
+offset_left = 189.0
+offset_top = 466.0
+offset_right = 407.0
+offset_bottom = 661.0
+scale = Vector2(0.8, 0.8)
+pivot_offset = Vector2(109, 0)
 texture_normal = ExtResource("4_okh50")
 
 [node name="AgeLabel" type="Label" parent="." unique_id=5999252]
 layout_mode = 0
-offset_left = 930.0
-offset_top = 396.0
-offset_right = 1066.0
-offset_bottom = 508.0
+offset_left = 924.0
+offset_top = 528.0
+offset_right = 1060.0
+offset_bottom = 603.0
+scale = Vector2(0.8, 0.8)
+pivot_offset = Vector2(68, 0)
 theme_override_font_sizes/font_size = 52
 text = "0"
+horizontal_alignment = 1
 
 [node name="ColorLabel" type="Label" parent="." unique_id=4001004]
 layout_mode = 0
-offset_left = 460.0
-offset_top = 710.0
-offset_right = 1460.0
-offset_bottom = 750.0
+offset_left = 752.0
+offset_top = 272.0
+offset_right = 1232.0
+offset_bottom = 312.0
+pivot_offset = Vector2(240, 0)
 theme_override_fonts/font = ExtResource("8_font_bold")
 theme_override_font_sizes/font_size = 32
 text = "Elige tu color:"
 horizontal_alignment = 1
 
+[node name="Panel" type="Panel" parent="." unique_id=1883704847]
+layout_mode = 0
+offset_left = 592.0
+offset_top = 316.0
+offset_right = 1392.0
+offset_bottom = 405.0
+pivot_offset = Vector2(400, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_b5yx3")
+
 [node name="ColorGrid" type="HBoxContainer" parent="." unique_id=4001005]
 layout_mode = 0
-offset_left = 560.0
-offset_top = 755.0
-offset_right = 1360.0
-offset_bottom = 835.0
+offset_left = 592.0
+offset_top = 320.0
+offset_right = 1392.0
+offset_bottom = 400.0
+pivot_offset = Vector2(400, 0)
 theme_override_constants/separation = 20
 alignment = 1
 
 [node name="BtnContinuar" type="TextureButton" parent="." unique_id=266149419]
 layout_mode = 0
-offset_left = 643.0
-offset_top = 840.0
-offset_right = 1243.0
-offset_bottom = 1240.0
+offset_left = 693.0
+offset_top = 791.0
+offset_right = 1293.0
+offset_bottom = 1191.0
+pivot_offset = Vector2(300, 0)
 texture_normal = ExtResource("5_vtiug")
 texture_pressed = ExtResource("7_3e0ey")
 texture_hover = ExtResource("7_3e0ey")

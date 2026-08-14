@@ -92,7 +92,6 @@ func _build_color_swatches() -> void:
 	for child in color_grid.get_children():
 		child.queue_free()
 	color_buttons.clear()
-	
 	var palette = GameManager.COLOR_PALETTE
 	for i in range(palette.size()):
 		var btn = Button.new()
@@ -211,13 +210,19 @@ func _input(event: InputEvent) -> void:
 		_move_stone(event.position.x - drag_offset)
 
 func _is_over_stone(pos: Vector2) -> bool:
-	var rect = Rect2(stone.global_position, stone.size)
+	# El tamaño visual real de la piedra incluye su escala
+	var stone_size := stone.size * stone.scale
+	var rect = Rect2(stone.global_position, stone_size)
 	return rect.has_point(pos)
 
 func _move_stone(target_x: float) -> void:
+	# Anchos visuales reales (tamaño local * escala), no el tamaño sin escalar
+	var bar_width_visual: float   = bar.size.x * bar.scale.x
+	var stone_width_visual: float = stone.size.x * stone.scale.x
+
 	# Límites de la barra (en coordenadas globales)
 	var bar_left: float  = bar.global_position.x
-	var bar_right: float = bar.global_position.x + bar.size.x - stone.size.x
+	var bar_right: float = bar.global_position.x + bar_width_visual - stone_width_visual
 	
 	# Clampear dentro de la barra
 	var new_x = clamp(target_x, bar_left, bar_right)
