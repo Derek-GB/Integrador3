@@ -315,9 +315,9 @@ func _start_game() -> void:
 	var player_age: int = MinigameData.player_age
 
 	if player_age < 12:
-		TOTAL_TIME = 90.0 + _get_time_bonus(player_age)
+		TOTAL_TIME = 110.0 + _get_time_bonus(player_age)
 	else:
-		TOTAL_TIME = 90.0
+		TOTAL_TIME = 110.0
 
 	if (
 		_timer_ui != null
@@ -2108,14 +2108,14 @@ func _disable_piece_interaction() -> void:
 func _get_time_bonus(age: int) -> float:
 	match age:
 		11:
-			return 2.0
+			return 15.0
 		10:
-			return 3.0
+			return 30.0
 		9:
-			return 5.0
+			return 40.0
 		8:
-			return 7.0
+			return 45.0
 		7:
-			return 10.0
+			return 60.0
 		_:
 			return 10.0 if age < 7 else 0.0
