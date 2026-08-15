@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var TOTAL_TIME: float = 45.0
+@export var TOTAL_TIME: float = 60.0
 @export var max_lives := 3
 
 @export var rock_scene: PackedScene = preload("res://Minigames/minigame_landslide/FallingRock.tscn")
@@ -986,9 +986,9 @@ func start_game() -> void:
 	var player_age: int = MinigameData.player_age
 
 	if player_age < 12:
-		TOTAL_TIME = 45.0 + _get_time_bonus(player_age)
+		TOTAL_TIME = 60.0 + _get_time_bonus(player_age)
 	else:
-		TOTAL_TIME = 45.0
+		TOTAL_TIME = 60.0
 
 	if timer_hud.has_method("iniciar"):
 		timer_hud.iniciar(TOTAL_TIME, "Tiempo", "para evacuar")
@@ -1492,14 +1492,14 @@ func _show_prompt(message: String) -> void:
 func _get_time_bonus(age: int) -> float:
 	match age:
 		11:
-			return 2.0
+			return 15.0
 		10:
-			return 3.0
+			return 30.0
 		9:
-			return 5.0
+			return 40.0
 		8:
-			return 7.0
+			return 45.0
 		7:
-			return 10.0
+			return 60.0
 		_:
 			return 10.0 if age < 7 else 0.0

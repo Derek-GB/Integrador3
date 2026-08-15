@@ -10,7 +10,7 @@ class_name EvacuationRhythmMinigame
 
 @export var beat_interval := 1.05
 @export var note_speed := 340.0
-@export var hit_window := 60.0
+@export var hit_window := 90.0
 
 @export_group("Dificultad según edad")
 @export_range(0.3, 1.5, 0.05) var note_speed_multiplier_age_under_7 := 0.60
@@ -52,7 +52,7 @@ const NOTE_SIZE := Vector2(90, 62)
 const BUTTON_SIZE := Vector2(130, 78)
 const COLUMN_GAP := 82.0
 
-const COLOR_IDS: Array[String] = ["red", "blue", "yellow", "green"]
+const COLOR_IDS: Array[String] = ["red", "green"]
 
 const COLOR_DATA := {
 	"red": {
@@ -358,7 +358,7 @@ func _create_ui() -> void:
 	)
 
 	instruction_label = _make_label(
-		"Usa las flechas del teclado y presiona el color correcto en la zona de ritmo.",
+		"Usa solamente ← y →. Presiona cuando la nota entre en la zona grande.",
 		Vector2(0, 64),
 		Vector2(screen_size.x, 32),
 		20,
@@ -377,8 +377,8 @@ func _create_ui() -> void:
 	var hit_zone_y: float = _get_hit_zone_y()
 
 	hit_zone_rect = Panel.new()
-	hit_zone_rect.position = Vector2(70, hit_zone_y - 55)
-	hit_zone_rect.size = Vector2(screen_size.x - 140, 110)
+	hit_zone_rect.position = Vector2(45, hit_zone_y - 85)
+	hit_zone_rect.size = Vector2(screen_size.x - 90, 170)
 	hit_zone_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hit_zone_rect.add_theme_stylebox_override("panel", _make_hit_zone_stylebox())
 	ui_layer.add_child(hit_zone_rect)
@@ -387,9 +387,9 @@ func _create_ui() -> void:
 
 	hit_zone_label = _make_label(
 		"PRESIONA AQUÍ",
-		Vector2(0, hit_zone_y - 22),
-		Vector2(screen_size.x, 44),
-		25,
+		Vector2(0, hit_zone_y - 28),
+		Vector2(screen_size.x, 56),
+		30,
 		C_WHITE
 	)
 
@@ -437,7 +437,7 @@ func _make_hit_zone_stylebox() -> StyleBoxFlat:
 	var style: StyleBoxFlat = StyleBoxFlat.new()
 	style.bg_color = Color(0.08, 0.18, 0.30, 0.38)
 	style.border_color = C_CYAN
-	style.set_border_width_all(5)
+	style.set_border_width_all(8)
 	style.set_corner_radius_all(24)
 	style.shadow_color = Color(0, 0, 0, 0.35)
 	style.shadow_size = 8
