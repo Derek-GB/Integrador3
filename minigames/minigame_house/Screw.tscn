@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ca1625yumtfe6" path="res://minigames/minigame_house/Screw.gd" id="1_fagc0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fagc0"]
-radius = 50.0
+radius = 130.0
 
 [node name="Screw" type="Area2D" unique_id=494444542]
 script = ExtResource("1_fagc0")
