@@ -3,16 +3,16 @@ extends Node2D
 @export var TOTAL_TIME: float = 45.0
 @export var max_lives := 3
 
-@export var rock_scene: PackedScene = preload("res://minigames/minigame_landslide/FallingRock.tscn")
+@export var rock_scene: PackedScene = preload("res://Minigames/minigame_landslide/FallingRock.tscn")
 
-const TIMER_HUD_SCENE = preload("res://minigames/ui_global/TimerUi.tscn")
-const GAME_RESULT_SCENE = preload("res://minigames/ui_global/GameResult.tscn")
-const LIVES_UI_SCENE = preload("res://minigames/ui_global/LivesUi.tscn")
+const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
+const GAME_RESULT_SCENE = preload("res://Minigames/ui_global/GameResult.tscn")
+const LIVES_UI_SCENE = preload("res://Minigames/ui_global/LivesUi.tscn")
 
-const MUSIC_DIR := "res://minigames/minigame_landslide/Music/"
-const FIRE_TRUCK_PATH := "res://minigames/minigame_landslide/assets/fire_truck.png"
+const MUSIC_DIR := "res://Minigames/minigame_landslide/Music/"
+const FIRE_TRUCK_PATH := "res://Minigames/minigame_landslide/assets/fire_truck.png"
 
-const GLOBAL_SOUND_VOLUME: float = -5.0
+const GLOBAL_SOUND_VOLUME := -10.0
 
 @export var spawn_interval := 1.05
 @export var spawn_interval_fast := 0.72
@@ -23,9 +23,6 @@ const GLOBAL_SOUND_VOLUME: float = -5.0
 @export var rescue_truck_speed_to_player := 2.0
 @export var rescue_truck_speed_to_safe := 2.6
 
-# Tiempo de protección para que un tronco no quite varias vidas de golpe.
-@export var trunk_damage_cooldown := 0.80
-
 var game_active := false
 var already_finished := false
 var rescue_started := false
@@ -35,7 +32,6 @@ var has_called_911 := false
 var player_in_phone_zone := false
 var spawn_counter := 0.0
 var current_spawn_interval := 1.05
-var trunk_damage_cooldown_remaining := 0.0
 
 var keypad_open := false
 var dialed_number := ""
@@ -76,7 +72,6 @@ func _ready() -> void:
 	_create_audio()
 	_setup_main_nodes()
 	_setup_collisions()
-	_setup_manual_trunks()
 	_create_ui()
 	_create_timer()
 	_create_result_panel()
@@ -89,9 +84,6 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if trunk_damage_cooldown_remaining > 0.0:
-		trunk_damage_cooldown_remaining = maxf(0.0, trunk_damage_cooldown_remaining - delta)
-
 	if not game_active or already_finished:
 		return
 
@@ -337,150 +329,9 @@ func _set_area_collision(node: Area2D, size: Vector2, offset: Vector2) -> void:
 	node.monitorable = true
 
 
-
-# =========================================================
-# TRONCOS COLOCADOS MANUALMENTE
-# =========================================================
-
-func _setup_manual_trunks() -> void:
-	var found_trunks := 0
-
-	for node in find_children("*", "Node2D", true, false):
-		if node == self:
-			continue
-
-		var node_name := str(node.name).to_lower()
-		var is_trunk_name := (
-			node_name.begins_with("trunk")
-			or node_name.begins_with("tronco")
-		)
-
-		var is_trunk_scene := false
-
-		if node.scene_file_path != "":
-			is_trunk_scene = node.scene_file_path.to_lower().ends_with("trunk.tscn")
-
-		if not is_trunk_name and not is_trunk_scene:
-			continue
-
-		var trunk := node as Node2D
-
-		if trunk == null:
-			continue
-
-		_prepare_manual_trunk(trunk)
-		found_trunks += 1
-
-	if found_trunks == 0:
-		push_warning("No se encontraron troncos. Usa instancias de Trunk.tscn o nombres como Trunk, Trunk2, Trunk3.")
-
-
-func _prepare_manual_trunk(trunk: Node2D) -> void:
-	if trunk.is_in_group("configured_landslide_trunk"):
-		return
-
-	trunk.add_to_group("configured_landslide_trunk")
-	trunk.set_meta("player_inside", false)
-
-	var damage_area := trunk.get_node_or_null("DamageArea") as Area2D
-
-	if damage_area == null:
-		damage_area = Area2D.new()
-		damage_area.name = "DamageArea"
-		trunk.add_child(damage_area)
-
-	damage_area.position = Vector2.ZERO
-	damage_area.rotation = 0.0
-	damage_area.scale = Vector2.ONE
-	damage_area.collision_layer = 2
-	damage_area.collision_mask = 1
-	damage_area.monitoring = true
-	damage_area.monitorable = true
-
-	var collision := trunk.get_node_or_null("CollisionShape2D") as CollisionShape2D
-
-	if collision == null:
-		collision = trunk.find_child("CollisionShape2D", true, false) as CollisionShape2D
-
-	if collision == null:
-		collision = CollisionShape2D.new()
-		collision.name = "CollisionShape2D"
-
-		var rectangle := RectangleShape2D.new()
-		rectangle.size = Vector2(170, 65)
-
-		collision.shape = rectangle
-		damage_area.add_child(collision)
-
-	elif collision.get_parent() != damage_area:
-		collision.reparent(damage_area, true)
-
-	if collision.shape == null:
-		var rectangle := RectangleShape2D.new()
-		rectangle.size = Vector2(170, 65)
-		collision.shape = rectangle
-
-	collision.disabled = false
-
-	var entered_callable := Callable(self, "_on_trunk_body_entered").bind(trunk)
-	var exited_callable := Callable(self, "_on_trunk_body_exited").bind(trunk)
-
-	if not damage_area.body_entered.is_connected(entered_callable):
-		damage_area.body_entered.connect(entered_callable)
-
-	if not damage_area.body_exited.is_connected(exited_callable):
-		damage_area.body_exited.connect(exited_callable)
-
-
-func _on_trunk_body_entered(body: Node, trunk: Node2D) -> void:
-	if body == null or not body.is_in_group("player"):
-		return
-
-	if trunk == null or not is_instance_valid(trunk):
-		return
-
-	if bool(trunk.get_meta("player_inside", false)):
-		return
-
-	trunk.set_meta("player_inside", true)
-	_damage_player_with_trunk()
-
-
-func _on_trunk_body_exited(body: Node, trunk: Node2D) -> void:
-	if body == null or not body.is_in_group("player"):
-		return
-
-	if trunk and is_instance_valid(trunk):
-		trunk.set_meta("player_inside", false)
-
-
-func _damage_player_with_trunk() -> void:
-	if not game_active or already_finished:
-		return
-
-	if player_in_phone_zone or keypad_open or rescue_started:
-		return
-
-	if trunk_damage_cooldown_remaining > 0.0:
-		return
-
-	trunk_damage_cooldown_remaining = trunk_damage_cooldown
-
-	lives -= 1
-	lives = maxi(lives, 0)
-
-	update_lives_ui()
-	_play_damage_effect()
-
-	if lives <= 0:
-		lose_game()
-		return
-
-	_show_prompt("¡Cuidado! Tocaste un tronco y perdiste una vida.")
-
 func _create_audio() -> void:
 	var alarm_stream: AudioStream = _load_audio(["Alarm.mp3", "alarm.mp3"])
-	var rocks_stream: AudioStream = _load_audio(["Rocks.mp3", "rocks.mp3"])
+	var rocks_stream: AudioStream = _load_audio(["rocks.mp3"])
 	var keyboard_stream: AudioStream = _load_audio(["Keyboard.mp3", "keyboard.mp3"])
 	var firetruck_siren_stream: AudioStream = _load_audio(["Firetrucksiren.mp3", "firetrucksiren.mp3", "FireTruckSiren.mp3"])
 	var call_911_stream: AudioStream = _load_audio(["911.mp3"])
@@ -490,7 +341,6 @@ func _create_audio() -> void:
 		alarm_sound.name = "AlarmSound"
 		alarm_sound.stream = alarm_stream
 		alarm_sound.volume_db = GLOBAL_SOUND_VOLUME
-		alarm_sound.bus = &"Music"
 		add_child(alarm_sound)
 		alarm_sound.finished.connect(_loop_alarm_sound)
 	else:
@@ -501,7 +351,6 @@ func _create_audio() -> void:
 		rocks_sound.name = "RocksSound"
 		rocks_sound.stream = rocks_stream
 		rocks_sound.volume_db = GLOBAL_SOUND_VOLUME
-		rocks_sound.bus = &"Music"
 		add_child(rocks_sound)
 		rocks_sound.finished.connect(_loop_rocks_sound)
 	else:
@@ -521,7 +370,6 @@ func _create_audio() -> void:
 		firetruck_siren_sound.name = "FireTruckSirenSound"
 		firetruck_siren_sound.stream = firetruck_siren_stream
 		firetruck_siren_sound.volume_db = GLOBAL_SOUND_VOLUME
-		firetruck_siren_sound.bus = &"SFX"
 		add_child(firetruck_siren_sound)
 		firetruck_siren_sound.finished.connect(_loop_firetruck_siren_sound)
 	else:
@@ -593,17 +441,22 @@ func _start_rocks_sound() -> void:
 
 
 func _play_keyboard_sound() -> void:
-	if keyboard_sound and keyboard_sound.stream:
-		AudioManager.play_sfx(keyboard_sound.stream, GLOBAL_SOUND_VOLUME)
+	if keyboard_sound:
+		keyboard_sound.volume_db = GLOBAL_SOUND_VOLUME
+		keyboard_sound.stop()
+		keyboard_sound.play()
 
 
 func _stop_keyboard_sound() -> void:
-	pass
+	if keyboard_sound:
+		keyboard_sound.stop()
 
 
 func _play_911_sound() -> void:
-	if call_911_sound and call_911_sound.stream:
-		AudioManager.play_sfx(call_911_sound.stream, GLOBAL_SOUND_VOLUME)
+	if call_911_sound:
+		call_911_sound.volume_db = GLOBAL_SOUND_VOLUME
+		call_911_sound.stop()
+		call_911_sound.play()
 
 
 func _play_firetruck_siren_sound() -> void:
@@ -1111,7 +964,6 @@ func start_game() -> void:
 	player_in_phone_zone = false
 	spawn_counter = 0.0
 	current_spawn_interval = spawn_interval
-	trunk_damage_cooldown_remaining = 0.0
 	keypad_open = false
 	dialed_number = ""
 
@@ -1134,9 +986,9 @@ func start_game() -> void:
 	var player_age: int = MinigameData.player_age
 
 	if player_age < 12:
-		TOTAL_TIME = 60.0 + _get_time_bonus(player_age)
+		TOTAL_TIME = 45.0 + _get_time_bonus(player_age)
 	else:
-		TOTAL_TIME = 60.0
+		TOTAL_TIME = 45.0
 
 	if timer_hud.has_method("iniciar"):
 		timer_hud.iniciar(TOTAL_TIME, "Tiempo", "para evacuar")
@@ -1640,14 +1492,14 @@ func _show_prompt(message: String) -> void:
 func _get_time_bonus(age: int) -> float:
 	match age:
 		11:
-			return 15.0
+			return 2.0
 		10:
-			return 30.0
+			return 3.0
 		9:
-			return 40.0
+			return 5.0
 		8:
-			return 45.0
+			return 7.0
 		7:
-			return 60.0
+			return 10.0
 		_:
 			return 10.0 if age < 7 else 0.0
