@@ -55,11 +55,11 @@ const GLOBAL_SOUND_VOLUME: float = -5.0
 
 @export_group("Panel de caminos")
 
-@export var panel_width: float = 190.0
+@export var panel_width: float = 230.0
 @export var panel_height_margin: float = 30.0
-@export var panel_right_margin: float = 20.0
-@export var panel_inner_margin: float = 18.0
-@export var palette_piece_size: Vector2 = Vector2(82.0, 82.0)
+@export var panel_right_margin: float = 30.0
+@export var panel_inner_margin: float = 35.0
+@export var palette_piece_size: Vector2 = Vector2(125.0, 125.0)
 
 
 @export_group("Piezas del tablero")
@@ -1268,7 +1268,7 @@ func _position_palette_pieces(
 
 		piece.rotation = 0.0
 		piece.scale = Vector2.ONE
-		piece.z_index = 1
+		piece.z_index = 5
 
 		piece.set(
 			"palette_visual_size",
