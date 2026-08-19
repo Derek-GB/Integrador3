@@ -9,6 +9,7 @@ var btn: Button
 
 var tutorial_overlay: ColorRect
 var tutorial_focus: Panel
+var tutorial_text_bg: Panel
 var tutorial_arrow: Label
 var tutorial_title: Label
 var tutorial_message: Label
@@ -421,6 +422,58 @@ func _iniciar_tutorial_guiado() -> void:
 
 	tutorial_overlay.add_child(
 		tutorial_focus
+	)
+
+
+	# =====================================================
+	# FONDO PARA EL TEXTO (título + mensaje)
+	# =====================================================
+	# Se agrega ANTES del título y el mensaje para que quede
+	# detrás de ellos y les dé contraste, sin importar qué
+	# haya de fondo (video, paneles claros, etc).
+
+	tutorial_text_bg = Panel.new()
+
+	tutorial_text_bg.name = "TutorialTextBg"
+
+	tutorial_text_bg.position = Vector2(
+		0,
+		8
+	)
+
+	tutorial_text_bg.size = Vector2(
+		get_viewport_rect().size.x,
+		120
+	)
+
+	tutorial_text_bg.mouse_filter = (
+		Control.MOUSE_FILTER_IGNORE
+	)
+
+
+	var text_bg_style = StyleBoxFlat.new()
+
+	text_bg_style.bg_color = Color(
+		0,
+		0,
+		0,
+		0.78
+	)
+
+	text_bg_style.corner_radius_top_left = 14
+	text_bg_style.corner_radius_top_right = 14
+	text_bg_style.corner_radius_bottom_left = 18
+	text_bg_style.corner_radius_bottom_right = 18
+
+
+	tutorial_text_bg.add_theme_stylebox_override(
+		"panel",
+		text_bg_style
+	)
+
+
+	tutorial_overlay.add_child(
+		tutorial_text_bg
 	)
 
 
@@ -900,6 +953,8 @@ func _finalizar_tutorial() -> void:
 		tutorial_overlay.queue_free()
 
 		tutorial_overlay = null
+
+		tutorial_text_bg = null
 
 
 	# Ahora sí habilitamos EMPEZAR.
