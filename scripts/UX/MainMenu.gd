@@ -29,7 +29,7 @@ const AUTO_SCROLL_SPEED: float = 60.0
 @onready var btn_exit_menu: Button = $ButtonMenu/Panel/Exit
 @onready var btn_1vs1: Button = $"GameSelection/1Vs1"
 @onready var btn_1vsbot: Button = $"GameSelection/1VsBot"
-@onready var btn_adventure: Button = $ButtonMenu/Adventure
+@onready var btn_adventure: Button = $ButtonMenu/Panel/Adventure
 @onready var btn_close_selection: Button = $GameSelection/Label/CloseSelection
 @onready var btn_close_rules: Button = $GameRules/Label/CloseRules
 @onready var btn_close_credits: Button = $GameCredits/Label/CloseCredits
@@ -110,10 +110,10 @@ func _ready() -> void:
 		credits_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 		credits_scroll.get_v_scroll_bar().visible = false
 
-	for i in $ButtonMenu.get_children():
-		if i is Button:
-			connect_hover(i)
-			i.pivot_offset = i.position
+	for btn in [btn_play_menu, btn_adventure, btn_rule_menu, btn_credits_menu, btn_exit_menu]:
+		if btn:
+			connect_hover(btn)
+			btn.pivot_offset = btn.size / 2.0
 
 func _process(delta: float) -> void:
 	if current_menu == game_credits and credits_scroll:

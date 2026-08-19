@@ -13,11 +13,12 @@
 [ext_resource type="Texture2D" uid="uid://t7hdo20ul1h1" path="res://images/icons/exit.png" id="9_n3d7r"]
 [ext_resource type="FontFile" uid="uid://ddbyj50cvkgwf" path="res://fonts/Montserrat-Bold.ttf" id="11_iqafl"]
 [ext_resource type="PackedScene" uid="uid://ccpydjb6bax7m" path="res://scenes/UX/SoundControlPanel.tscn" id="13_f03nn"]
-[ext_resource type="Texture2D" uid="uid://c1cywra6ykqq1" path="res://images/UX/Panda.png" id="13_hm7mn"]
+[ext_resource type="Texture2D" uid="uid://0t36s7ipufqw" path="res://images/UX/Panda.png" id="13_hm7mn"]
 [ext_resource type="Texture2D" uid="uid://dfjud6iaptce2" path="res://images/UX/Monkey.png" id="14_31ns2"]
-[ext_resource type="AudioStream" uid="uid://u1s7vcv8icfq" path="res://sounds/UX/Lobby1.mp3" id="14_f03nn"]
+[ext_resource type="AudioStream" uid="uid://bet0cu5q65l54" path="res://sounds/UX/Lobby1.mp3" id="14_f03nn"]
 [ext_resource type="Texture2D" uid="uid://8f6u5n8vq8jb" path="res://images/UX/Robot.png" id="15_6c0a5"]
 [ext_resource type="PackedScene" uid="uid://cfwhpb3ymvrgb" path="res://scenes/core/SettingsMenu.tscn" id="17_xey2k"]
+[ext_resource type="Texture2D" uid="uid://dvsy43c78cdvq" path="res://images/icons/dice.png" id="18_adv_dice"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f03nn"]
 
@@ -64,6 +65,34 @@ corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vglpm"]
+shader = ExtResource("5_6c0a5")
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_adv_normal"]
+content_margin_right = 24.0
+bg_color = Color(0.53333336, 0.20392157, 0.78039217, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_adv_pressed"]
+content_margin_right = 24.0
+bg_color = Color(0.38039216, 0.12156863, 0.5803922, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_adv_hover"]
+content_margin_right = 24.0
+bg_color = Color(0.6784314, 0.28235295, 0.9607843, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_adv"]
 shader = ExtResource("5_6c0a5")
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 
@@ -286,16 +315,16 @@ texture = ExtResource("6_boqd0")
 [node name="ButtonMenu" type="Control" parent="." unique_id=2049274251]
 anchors_preset = 0
 offset_left = 178.0
-offset_top = 414.0
+offset_top = 350.0
 offset_right = 506.0
-offset_bottom = 786.0
+offset_bottom = 810.0
 scale = Vector2(1.4, 1.4)
 pivot_offset = Vector2(15.857101, 4.142853)
 
 [node name="Panel" type="Panel" parent="ButtonMenu" unique_id=794401309]
 layout_mode = 0
 offset_right = 328.0
-offset_bottom = 372.0
+offset_bottom = 457.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_31ns2")
 
 [node name="Leaf" type="Sprite2D" parent="ButtonMenu/Panel" unique_id=409105258]
@@ -329,12 +358,32 @@ position = Vector2(60, 36)
 scale = Vector2(0.8, 0.786)
 texture = ExtResource("6_xey2k")
 
-[node name="Rules" type="Button" parent="ButtonMenu/Panel" unique_id=1145299079]
+[node name="Adventure" type="Button" parent="ButtonMenu/Panel" unique_id=2110064963]
 layout_mode = 0
-offset_left = 45.999992
+offset_left = 46.0
 offset_top = 107.0
 offset_right = 276.0
 offset_bottom = 177.0
+theme_override_fonts/font = ExtResource("4_31ns2")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_adv_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_adv_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_adv_hover")
+text = "Aventura"
+alignment = 2
+
+[node name="AdventureI" type="Sprite2D" parent="ButtonMenu/Panel/Adventure" unique_id=2110064964]
+material = SubResource("ShaderMaterial_adv")
+position = Vector2(58, 35)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("18_adv_dice")
+
+[node name="Rules" type="Button" parent="ButtonMenu/Panel" unique_id=1145299079]
+layout_mode = 0
+offset_left = 45.999992
+offset_top = 192.0
+offset_right = 276.0
+offset_bottom = 262.0
 theme_override_fonts/font = ExtResource("4_31ns2")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_l3ot1")
@@ -352,9 +401,9 @@ texture = ExtResource("7_boqd0")
 [node name="Credits" type="Button" parent="ButtonMenu/Panel" unique_id=362266432]
 layout_mode = 0
 offset_left = 45.999992
-offset_top = 191.99994
+offset_top = 277.0
 offset_right = 276.0
-offset_bottom = 261.99994
+offset_bottom = 347.0
 theme_override_fonts/font = ExtResource("4_31ns2")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_vys0q")
@@ -372,9 +421,9 @@ texture = ExtResource("8_q63e5")
 [node name="Exit" type="Button" parent="ButtonMenu/Panel" unique_id=1496089872]
 layout_mode = 0
 offset_left = 45.999992
-offset_top = 276.99997
+offset_top = 362.0
 offset_right = 276.0
-offset_bottom = 346.99997
+offset_bottom = 432.0
 theme_override_fonts/font = ExtResource("4_31ns2")
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_6jbn4")
@@ -388,20 +437,6 @@ material = SubResource("ShaderMaterial_ac2fr")
 position = Vector2(60, 36)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("9_n3d7r")
-
-[node name="Adventure" type="Button" parent="ButtonMenu" unique_id=2110064963]
-layout_mode = 0
-offset_left = 46.0
-offset_top = 392.0
-offset_right = 276.0
-offset_bottom = 462.0
-theme_override_fonts/font = ExtResource("4_31ns2")
-theme_override_font_sizes/font_size = 25
-theme_override_styles/normal = SubResource("StyleBoxFlat_boqd0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_q63e5")
-theme_override_styles/hover = SubResource("StyleBoxFlat_n3d7r")
-text = "Modo Aventura"
-alignment = 2
 
 [node name="GameSelection" type="Control" parent="." unique_id=1490314884]
 anchors_preset = 0
