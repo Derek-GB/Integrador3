@@ -20,27 +20,34 @@ var tiempo_para_siguiente_relampago := 1.5
 # OPTIMIZACIÓN VISUAL
 # =========================================================
 
-# Antes se redibujaba todo en cada frame.
-# Ahora se redibuja máximo 30 veces por segundo.
-# Si en algunas computadoras sigue lento, baja esto a 24.0.
-const FPS_VISUAL := 30.0
+# Solo los efectos animados se actualizan a 24 FPS.
+const FPS_VISUAL := 24.0
 const INTERVALO_REDIBUJO := 1.0 / FPS_VISUAL
 
 var tiempo_redibujo := 0.0
 
 
 # =========================================================
-# CANTIDAD DE ELEMENTOS VISUALES
+# CANTIDAD DE ELEMENTOS
 # =========================================================
 
-# Lluvia optimizada.
 const LLUVIA_SUAVE := 80
 const LLUVIA_MEDIA := 65
 const LLUVIA_FUERTE := 28
 
-# Detalles del suelo optimizados.
 const PASTO_SUAVE := 65
 const PASTO_ALTO := 50
+
+
+# =========================================================
+# FONDO ESTÁTICO CACHEADO
+# =========================================================
+
+var _es_renderizador_estatico := false
+
+var _static_viewport: SubViewport
+var _static_sprite: Sprite2D
+var _static_renderer: Node2D
 
 
 # =========================================================
@@ -48,7 +55,22 @@ const PASTO_ALTO := 50
 # =========================================================
 
 func _ready():
+	# Esta instancia únicamente dibuja el fondo una vez.
+	if _es_renderizador_estatico:
+		set_process(false)
+		queue_redraw()
+		return
+
 	randomize()
+
+	_crear_fondo_cacheado()
+
+	var viewport := get_viewport()
+
+	if viewport:
+		if not viewport.size_changed.is_connected(_on_viewport_size_changed):
+			viewport.size_changed.connect(_on_viewport_size_changed)
+
 	queue_redraw()
 
 
@@ -56,24 +78,23 @@ func _process(delta):
 	tiempo += delta
 	tiempo_redibujo += delta
 
-	if tiempo_para_siguiente_relampago > 0:
-		tiempo_para_siguiente_relampago -= delta
+	tiempo_para_siguiente_relampago -= delta
 
-	if tiempo_para_siguiente_relampago <= 0:
-		if randf() < 0.015:
-			flash = 0.28
-			intensidad_flash = randf_range(0.35, 0.75)
+	if tiempo_para_siguiente_relampago <= 0.0:
+		flash = 0.28
+		intensidad_flash = randf_range(0.35, 0.75)
 
-			relampago_aparecio.emit()
+		relampago_aparecio.emit()
 
-			tiempo_para_siguiente_relampago = randf_range(4.0, 8.0)
+		tiempo_para_siguiente_relampago = randf_range(4.0, 8.0)
 
-	if flash > 0:
+	if flash > 0.0:
 		flash -= delta
 		flash = max(flash, 0.0)
 
+	# Solamente redibuja lluvia, nubes, neblina y flash.
 	if tiempo_redibujo >= INTERVALO_REDIBUJO:
-		tiempo_redibujo = 0.0
+		tiempo_redibujo -= INTERVALO_REDIBUJO
 		queue_redraw()
 
 
@@ -81,17 +102,85 @@ func _draw():
 	ANCHO = get_viewport_rect().size.x
 	ALTO = get_viewport_rect().size.y
 
-	dibujar_cielo()
-	dibujar_luna_oculta()
-	dibujar_montanas()
+	if _es_renderizador_estatico:
+		# Estos elementos se dibujan una sola vez.
+		dibujar_cielo()
+		dibujar_luna_oculta()
+		dibujar_montanas()
+		dibujar_suelo()
+		dibujar_detalles_suelo()
+		return
+
+	# Estos son los únicos elementos que cambian.
 	dibujar_nubes()
 	dibujar_neblina()
 	dibujar_lluvia()
-	dibujar_suelo()
-	dibujar_detalles_suelo()
 	dibujar_relamapago_decorativo()
 	dibujar_flash()
 
+
+# =========================================================
+# CREACIÓN DEL FONDO CACHEADO
+# =========================================================
+
+func _crear_fondo_cacheado():
+	var viewport_size := get_viewport_rect().size
+	var texture_size := Vector2i(
+		max(1, int(ceil(viewport_size.x))),
+		max(1, int(ceil(viewport_size.y)))
+	)
+
+	_static_viewport = SubViewport.new()
+	_static_viewport.name = "StaticBackgroundViewport"
+	_static_viewport.size = texture_size
+	_static_viewport.disable_3d = true
+	_static_viewport.transparent_bg = false
+	_static_viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ALWAYS
+	_static_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+
+	add_child(_static_viewport)
+
+	# Crea otra instancia del mismo script exclusivamente
+	# para dibujar la parte estática.
+	_static_renderer = Node2D.new()
+	_static_renderer.name = "StaticBackgroundRenderer"
+	_static_renderer.set_script(get_script())
+	_static_renderer.set("_es_renderizador_estatico", true)
+
+	_static_viewport.add_child(_static_renderer)
+
+	# El resultado se muestra como una sola textura generada en memoria.
+	_static_sprite = Sprite2D.new()
+	_static_sprite.name = "StaticBackgroundSprite"
+	_static_sprite.centered = false
+	_static_sprite.position = Vector2.ZERO
+	_static_sprite.texture = _static_viewport.get_texture()
+	_static_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	_static_sprite.show_behind_parent = true
+
+	add_child(_static_sprite)
+
+
+func _on_viewport_size_changed():
+	if _static_viewport == null or _static_renderer == null:
+		return
+
+	var viewport_size := get_viewport_rect().size
+	var new_size := Vector2i(
+		max(1, int(ceil(viewport_size.x))),
+		max(1, int(ceil(viewport_size.y)))
+	)
+
+	if _static_viewport.size == new_size:
+		return
+
+	_static_viewport.size = new_size
+
+	# Solo vuelve a generar el fondo cuando cambia la resolución.
+	_static_renderer.queue_redraw()
+	_static_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+
+	queue_redraw()
 
 # =========================================================
 # CIELO

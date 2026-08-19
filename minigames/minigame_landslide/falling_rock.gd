@@ -2,7 +2,7 @@ extends Area2D
 # =========================================================
 # CONFIGURACIÓN DE ROCA
 # =========================================================
-const ASSETS_DIR := "res://minigames/minigame_landslide/assets/"
+const ASSETS_DIR := "res://Minigames/minigame_landslide/assets/"
 const ROTATION_SPEED := 7.5
 const ROCK_SCALE := Vector2(0.16, 0.16)
 # Si tu roca es sprite sheet de 3 frames, esto lo anima.

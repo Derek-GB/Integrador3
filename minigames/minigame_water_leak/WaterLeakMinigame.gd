@@ -114,6 +114,7 @@ var _leak_sprites: Array[Sprite2D] = []
 var _leak_visuals_root: Node2D = null
 var _current_leak_frame: int = -1
 var _redraw_timer: float = 0.0
+var _static_layer: Node2D = null
 
 
 
@@ -127,6 +128,8 @@ func _ready() -> void:
 	leak_count = _get_leak_count_for_age(player_age)
 
 	
+	
+	_create_static_layer()
 	
 	_generate_leaks()
 	_setup_leak_frames()
@@ -180,8 +183,23 @@ func _input(event: InputEvent) -> void:
 
 
 func _on_viewport_resized() -> void:
+	if _static_layer != null and _static_layer.has_method("force_static_redraw"):
+		_static_layer.call("force_static_redraw")
+
 	_update_leak_sprite_transforms()
 	queue_redraw()
+
+
+func _create_static_layer() -> void:
+	var static_script := load("res://minigames/minigame_water_leak/WaterLeakStaticLayer.gd")
+	_static_layer = static_script.new()
+	_static_layer.name = "StaticLayer"
+	_static_layer.z_index = -100
+	add_child(_static_layer)
+	move_child(_static_layer, 0)
+
+	if _static_layer.has_method("force_static_redraw"):
+		_static_layer.call("force_static_redraw")
 
 
 func _generate_leaks() -> void:
@@ -608,14 +626,11 @@ func _finish_game(did_win: bool) -> void:
 
 
 func _draw() -> void:
-	_draw_background()
-	_draw_board_surface()
-	_draw_pipe_network()
+	# Solo se redibuja lo dinámico.
+	# El fondo, pared y tuberías los dibuja WaterLeakStaticLayer una sola vez.
 	_draw_leaks()
 	_draw_water_panel()
 	_draw_patch_panel()
-	# Optimización: mascota desactivada para reducir dibujo manual por frame.
-	# _draw_water_mascot()
 	_draw_feedback_effects()
 
 	if _dragging_patch:
@@ -628,6 +643,7 @@ func _draw() -> void:
 		)
 
 
+# Estas funciones estáticas se dejan como respaldo, pero ya no se llaman desde _draw().
 func _draw_background() -> void:
 	var viewport_size: Vector2 = get_viewport_rect().size
 	var viewport_rect: Rect2 = Rect2(Vector2.ZERO, viewport_size)

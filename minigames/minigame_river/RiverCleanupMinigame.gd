@@ -7,7 +7,7 @@ const PANEL_RESULTADO_SCENE = preload("res://minigames/ui_global/GameResult.tscn
 const LIVES_UI_SCENE = preload("res://minigames/ui_global/LivesUi.tscn")
 
 
-@export var time_limit := 30.0
+@export var time_limit := 60.0
 @export var drop_distance := 170.0
 @export var max_lives := 3
 
@@ -55,9 +55,9 @@ func _start_game():
 	var player_age: int = MinigameData.player_age
 
 	if player_age < 12:
-		time_limit = 30.0 + _get_time_bonus(player_age)
+		time_limit = 60.0 + _get_time_bonus(player_age)
 	else:
-		time_limit = 30.0
+		time_limit = 60.0
 
 	if timer_hud != null:
 		timer_hud.iniciar(time_limit, "Tiempo restante", "para limpiar el río")
@@ -69,15 +69,15 @@ func _start_game():
 func _get_time_bonus(age: int) -> float:
 	match age:
 		11:
-			return 2.0
+			return 15.0
 		10:
-			return 3.0
+			return 30.0
 		9:
-			return 5.0
+			return 40.0
 		8:
-			return 7.0
+			return 50.0
 		7:
-			return 10.0
+			return 60.0
 		_:
 			return 10.0 if age < 7 else 0.0
 

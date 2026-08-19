@@ -27,7 +27,7 @@ enum PathType {
 var dragging: bool = false
 var placed: bool = false
 
-var palette_visual_size: Vector2 = Vector2(82.0, 82.0)
+var palette_visual_size: Vector2 = Vector2(125.0, 125.0)
 var board_visual_size: Vector2 = Vector2(105.0, 105.0)
 
 var _mouse_offset: Vector2 = Vector2.ZERO

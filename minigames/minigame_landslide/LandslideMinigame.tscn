@@ -1,10 +1,9 @@
 [gd_scene format=3 uid="uid://cdpukfixusqi1"]
 
 [ext_resource type="Script" uid="uid://evgg31un0xo" path="res://minigames/minigame_landslide/landslide_minigame.gd" id="1_xrwn7"]
-[ext_resource type="Texture2D" uid="uid://dkpmlqcdsq1ya" path="res://minigames/minigame_landslide/assets/01_background_landslide.png" id="2_xrwn7"]
+[ext_resource type="Texture2D" uid="uid://df4a25nvprk21" path="res://minigames/minigame_landslide/assets/01_background_landslide.png" id="2_xrwn7"]
 [ext_resource type="PackedScene" uid="uid://baspr7yo4qutn" path="res://minigames/minigame_landslide/PlayerLandslide.tscn" id="5_3ukm6"]
 [ext_resource type="PackedScene" uid="uid://cf4skwm7ohn6a" path="res://minigames/minigame_landslide/SafeCabin.tscn" id="7_du55d"]
-[ext_resource type="PackedScene" uid="uid://b6gh71oryvhkw" path="res://minigames/minigame_landslide/Trunk.tscn" id="7_telab"]
 [ext_resource type="PackedScene" uid="uid://dwg5a3dxrnsvp" path="res://minigames/minigame_landslide/PhoneCabin.tscn" id="8_1ik8k"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_telab"]
@@ -114,21 +113,3 @@ position = Vector2(1609.9998, 445)
 rotation = 1.5498525
 scale = Vector2(0.97, 0.97)
 shape = SubResource("CapsuleShape2D_telab")
-
-[node name="Trunk" parent="." unique_id=1153305049 instance=ExtResource("7_telab")]
-position = Vector2(780, 1015)
-
-[node name="Trunk2" parent="." unique_id=1427088758 instance=ExtResource("7_telab")]
-position = Vector2(262, 998)
-
-[node name="Trunk3" parent="." unique_id=438404651 instance=ExtResource("7_telab")]
-position = Vector2(1329, 870)
-
-[node name="Trunk6" parent="." unique_id=1843814437 instance=ExtResource("7_telab")]
-position = Vector2(1524, 1010)
-
-[node name="Trunk4" parent="." unique_id=1160763592 instance=ExtResource("7_telab")]
-position = Vector2(1782, 716)
-
-[node name="Trunk5" parent="." unique_id=2144439511 instance=ExtResource("7_telab")]
-position = Vector2(976, 882)

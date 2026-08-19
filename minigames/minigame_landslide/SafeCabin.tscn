@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cf4skwm7ohn6a"]
 
-[ext_resource type="Texture2D" uid="uid://dex2f7uyx6kh1" path="res://minigames/minigame_landslide/assets/04_safe_cabin_refuge.png" id="1_ehxra"]
-[ext_resource type="Texture2D" uid="uid://cc3q4c4v5sgko" path="res://minigames/minigame_landslide/assets/safe.png" id="2_3cwyw"]
+[ext_resource type="Texture2D" uid="uid://dex2f7uyx6kh1" path="res://Minigames/minigame_landslide/assets/04_safe_cabin_refuge.png" id="1_ehxra"]
+[ext_resource type="Texture2D" uid="uid://cc3q4c4v5sgko" path="res://Minigames/minigame_landslide/assets/safe.png" id="2_3cwyw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ehxra"]
 size = Vector2(394.41406, 332.70313)

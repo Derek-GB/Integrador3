@@ -27,7 +27,7 @@ const MUSIC_LOSE_LIFE_PATH := "res://minigames/minigame_committee/music/lose_lif
 # GAME SETTINGS
 # =========================================================
 
-const BASE_TIME := 45.0
+const BASE_TIME := 60.0
 const MAX_LIVES := 3
 
 const ROLE_SCALE := Vector2(310, 310)
@@ -141,15 +141,15 @@ func _apply_age_difficulty() -> void:
 func _get_time_bonus_for_age(age: int) -> float:
 	match age:
 		11:
-			return 2.0
+			return 15.0
 		10:
-			return 3.0
+			return 30.0
 		9:
-			return 5.0
+			return 40.0
 		8:
-			return 7.0
+			return 45.0
 		7:
-			return 10.0
+			return 60.0
 		_:
 			return 10.0 if age < 7 else 0.0
 

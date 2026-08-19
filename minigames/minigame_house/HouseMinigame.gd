@@ -15,7 +15,7 @@ const PANEL_RESULTADO_SCENE = preload("res://minigames/ui_global/GameResult.tscn
 
 const GLOBAL_SOUND_VOLUME: float = -5.0
 
-var TOTAL_TIME: float = 45.0
+var TOTAL_TIME: float = 60.0
 var total_pieces: int = 0
 var detached_pieces: int = 0
 var game_active: bool = false
@@ -261,15 +261,15 @@ func _play_damage_effect():
 func _get_time_bonus(age: int) -> float:
 	match age:
 		11:
-			return 5.0
-		10:
-			return 5.0
-		9:
-			return 7.0
-		8:
-			return 10.0
-		7:
 			return 15.0
+		10:
+			return 30.0
+		9:
+			return 40.0
+		8:
+			return 45.0
+		7:
+			return 60.0
 		_:
 			return 15.0 if age < 7 else 0.0
 
@@ -318,9 +318,9 @@ func _start_game():
 	var player_age: int = MinigameData.player_age
 
 	if player_age < 12:
-		TOTAL_TIME = 45.0 + _get_time_bonus(player_age)
+		TOTAL_TIME = 60.0 + _get_time_bonus(player_age)
 	else:
-		TOTAL_TIME = 45.0
+		TOTAL_TIME = 60.0
 
 	timer_hud.iniciar(TOTAL_TIME, "Tiempo restante", "para la erupción")
 

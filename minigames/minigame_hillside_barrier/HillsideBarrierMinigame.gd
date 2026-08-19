@@ -601,17 +601,10 @@ func register_failed_drop(_tree: Node):
 	if _game_finished:
 		return
 
-	_lives -= 1
-	_lives = max(_lives, 0)
-
-	_update_lives_ui()
-	_play_damage_effect()
-
+	# No quita vida por colocar el árbol incorrectamente.
+	# La vida se pierde únicamente cuando una roca llega abajo.
 	if _error_audio and _error_audio.stream:
 		AudioManager.play_sfx(_error_audio.stream, -6.0)
-
-	if _lives <= 0:
-		_lose_game()
 
 
 # =========================================================
