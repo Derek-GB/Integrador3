@@ -2,6 +2,7 @@ extends Control
 
 const MAIN          = preload("res://scenes/core/Main.tscn")
 const AGE_SELECTION_PATH = "res://scenes/UX/AgeSelector.tscn"
+const DELUXE_MAP_PATH = "res://minigames/minigame_deluxe/minigame_deluxe/Map.tscn"
 const POS_CENTER = 910.0
 const POS_OUTSIDE_RIGHT = 3000.0
 const HOME_BUTTONS = 178.0
@@ -28,6 +29,7 @@ const AUTO_SCROLL_SPEED: float = 60.0
 @onready var btn_exit_menu: Button = $ButtonMenu/Panel/Exit
 @onready var btn_1vs1: Button = $"GameSelection/1Vs1"
 @onready var btn_1vsbot: Button = $"GameSelection/1VsBot"
+@onready var btn_adventure: Button = $ButtonMenu/Panel/Adventure
 @onready var btn_close_selection: Button = $GameSelection/Label/CloseSelection
 @onready var btn_close_rules: Button = $GameRules/Label/CloseRules
 @onready var btn_close_credits: Button = $GameCredits/Label/CloseCredits
@@ -84,6 +86,13 @@ func _ready() -> void:
 			GameManager.game_mode = 2
 			get_tree().change_scene_to_file(AGE_SELECTION_PATH)
 	)
+
+	btn_adventure.pressed.connect(
+		func():
+			AudioManager.stop_music()
+			GameState.reiniciar_progreso()
+			get_tree().change_scene_to_file(DELUXE_MAP_PATH)
+	)
 	
 	btn_settings.pressed.connect(
 		func(): 
@@ -101,10 +110,25 @@ func _ready() -> void:
 		credits_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 		credits_scroll.get_v_scroll_bar().visible = false
 
-	for i in $ButtonMenu.get_children():
-		if i is Button:
-			connect_hover(i)
-			i.pivot_offset = i.position
+	for btn in [btn_play_menu, btn_adventure, btn_rule_menu, btn_credits_menu, btn_exit_menu]:
+		if btn:
+			connect_hover(btn)
+			btn.pivot_offset = btn.size / 2.0
+
+	_check_adventure_unlock()
+
+func _check_adventure_unlock() -> void:
+	var achievements_script = load("res://scripts/core/AchievementsManager.gd")
+	var is_unlocked: bool = false
+	if achievements_script and achievements_script.has_method("is_game_completed"):
+		is_unlocked = achievements_script.is_game_completed()
+
+	if btn_adventure:
+		btn_adventure.disabled = not is_unlocked
+		if not is_unlocked:
+			btn_adventure.tooltip_text = "Completa el juego al menos una vez para desbloquear el modo Aventura."
+		else:
+			btn_adventure.tooltip_text = ""
 
 func _process(delta: float) -> void:
 	if current_menu == game_credits and credits_scroll:
@@ -123,6 +147,8 @@ func connect_hover(btn: Control) -> void:
 	btn.mouse_exited.connect(resize_down.bind(btn))
 
 func resize_up(btn: Control) -> void:
+	if btn is Button and btn.disabled:
+		return
 	btn.scale = Vector2(1.05, 1.05)
 
 func resize_down(btn: Control) -> void:
