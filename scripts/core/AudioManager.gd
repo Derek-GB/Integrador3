@@ -69,6 +69,37 @@ func play_music(stream: AudioStream, crossfade: float = 1.0, volume_db: float = 
 func stop_music() -> void:
 	_music_player.stop()
 
+# =========================================================
+# REGISTRO DE PLAYERS EXTERNOS
+# Regla oficial del proyecto (ver docs/AUDIO_MANAGER.md):
+# todo AudioStreamPlayer de cualquier minijuego debe registrarse
+# o crearse por aquí para respetar los buses Music/SFX.
+# =========================================================
+
+func register_sfx_player(player: AudioStreamPlayer) -> void:
+	if player == null:
+		return
+	player.bus = "SFX"
+
+func register_music_player(player: AudioStreamPlayer) -> void:
+	if player == null:
+		return
+	player.bus = "Music"
+
+func create_sfx_player(stream: AudioStream, volume_db := 0.0) -> AudioStreamPlayer:
+	var player := AudioStreamPlayer.new()
+	player.bus = "SFX"
+	player.stream = stream
+	player.volume_db = volume_db
+	return player
+
+func create_music_player(stream: AudioStream, volume_db := 0.0) -> AudioStreamPlayer:
+	var player := AudioStreamPlayer.new()
+	player.bus = "Music"
+	player.stream = stream
+	player.volume_db = volume_db
+	return player
+
 func _get_free_player() -> AudioStreamPlayer:
 	for p in _sfx_pool:
 		if not p.playing:

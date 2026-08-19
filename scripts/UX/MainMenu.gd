@@ -2,6 +2,7 @@ extends Control
 
 const MAIN          = preload("res://scenes/core/Main.tscn")
 const AGE_SELECTION_PATH = "res://scenes/UX/AgeSelector.tscn"
+const DELUXE_MAP_PATH = "res://minigames/minigame_deluxe/minigame_deluxe/Map.tscn"
 const POS_CENTER = 910.0
 const POS_OUTSIDE_RIGHT = 3000.0
 const HOME_BUTTONS = 178.0
@@ -28,6 +29,7 @@ const AUTO_SCROLL_SPEED: float = 60.0
 @onready var btn_exit_menu: Button = $ButtonMenu/Panel/Exit
 @onready var btn_1vs1: Button = $"GameSelection/1Vs1"
 @onready var btn_1vsbot: Button = $"GameSelection/1VsBot"
+@onready var btn_adventure: Button = $ButtonMenu/Adventure
 @onready var btn_close_selection: Button = $GameSelection/Label/CloseSelection
 @onready var btn_close_rules: Button = $GameRules/Label/CloseRules
 @onready var btn_close_credits: Button = $GameCredits/Label/CloseCredits
@@ -83,6 +85,13 @@ func _ready() -> void:
 		func():
 			GameManager.game_mode = 2
 			get_tree().change_scene_to_file(AGE_SELECTION_PATH)
+	)
+
+	btn_adventure.pressed.connect(
+		func():
+			AudioManager.stop_music()
+			GameState.reiniciar_progreso()
+			get_tree().change_scene_to_file(DELUXE_MAP_PATH)
 	)
 	
 	btn_settings.pressed.connect(

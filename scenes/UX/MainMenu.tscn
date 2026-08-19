@@ -389,6 +389,20 @@ position = Vector2(60, 36)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("9_n3d7r")
 
+[node name="Adventure" type="Button" parent="ButtonMenu" unique_id=2110064963]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 392.0
+offset_right = 276.0
+offset_bottom = 462.0
+theme_override_fonts/font = ExtResource("4_31ns2")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_boqd0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_q63e5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_n3d7r")
+text = "Modo Aventura"
+alignment = 2
+
 [node name="GameSelection" type="Control" parent="." unique_id=1490314884]
 anchors_preset = 0
 offset_left = 2000.0
