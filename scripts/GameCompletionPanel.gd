@@ -15,6 +15,13 @@ func _ready() -> void:
 		reload_game
 	)
 	
+	_save_game_completed_achievement()
+
+func _save_game_completed_achievement() -> void:
+	var achievements_script = load("res://scripts/core/AchievementsManager.gd")
+	if achievements_script and achievements_script.has_method("unlock_game_completed"):
+		achievements_script.unlock_game_completed()
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -115,6 +115,21 @@ func _ready() -> void:
 			connect_hover(btn)
 			btn.pivot_offset = btn.size / 2.0
 
+	_check_adventure_unlock()
+
+func _check_adventure_unlock() -> void:
+	var achievements_script = load("res://scripts/core/AchievementsManager.gd")
+	var is_unlocked: bool = false
+	if achievements_script and achievements_script.has_method("is_game_completed"):
+		is_unlocked = achievements_script.is_game_completed()
+
+	if btn_adventure:
+		btn_adventure.disabled = not is_unlocked
+		if not is_unlocked:
+			btn_adventure.tooltip_text = "Completa el juego al menos una vez para desbloquear el modo Aventura."
+		else:
+			btn_adventure.tooltip_text = ""
+
 func _process(delta: float) -> void:
 	if current_menu == game_credits and credits_scroll:
 		credits_scroll_pos += AUTO_SCROLL_SPEED * delta
@@ -132,6 +147,8 @@ func connect_hover(btn: Control) -> void:
 	btn.mouse_exited.connect(resize_down.bind(btn))
 
 func resize_up(btn: Control) -> void:
+	if btn is Button and btn.disabled:
+		return
 	btn.scale = Vector2(1.05, 1.05)
 
 func resize_down(btn: Control) -> void:
