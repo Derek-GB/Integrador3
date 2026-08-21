@@ -55,6 +55,32 @@ const JUGAR_DE_NUEVO_TEXT := "🔄  Jugar de nuevo"
 const VOLVER_MENU_TEXT := "🏠  Volver al menú"
 const MENU_SCENE_PATH := "res://scenes/UX/MainMenu.tscn"
 
+# ── INTRO del recorrido (juego principal), pantalla completa ───────────────
+# Se muestra una sola vez, al entrar al mapa por primera vez, antes de
+# poder moverse. Reutiliza EXACTAMENTE la misma escena/script que usan los
+# minijuegos individuales para su pantalla de instrucciones
+# (MinigameIntro.gd/.tscn: video + controles + descripción + tutorial
+# guiado), cargando en el singleton MinigameData los datos del recorrido
+# general en vez de los de un nivel puntual. No confundir con las
+# ventanitas de descripción de cada minijuego individual
+# (_mostrar_ventanita), que siguen apareciendo igual que antes en cada nodo.
+const MAPA_INTRO_SCENE_PATH := "res://minigames/ui_global/MinigameIntro.tscn"
+
+const MAPA_INTRO_TITLE := "La gran aventura"
+const MAPA_INTRO_DESCRIPTION := "Muévete por el mapa y completa cada parada para avanzar."
+const MAPA_INTRO_INSTRUCTIONS := "En cada parada del camino vas a encontrar un minijuego. Complétalo para desbloquear el paso siguiente. Si pierdes un minijuego, pierdes una vida: cuando se acaben, el recorrido empieza de nuevo. ¡Completa los 10 niveles para terminar!"
+
+# TODO: poné acá el .ogv de intro del recorrido si tenés uno (mismo formato
+# que usan los minijuegos, VideoStreamTheora). Si lo dejás vacío, el video
+# simplemente no se muestra (MinigameIntro.gd ya soporta ese caso).
+const MAPA_INTRO_VIDEO_PATH := "res://minigames/minigame_deluxe/minigame_deluxe/assets/DeluxeInstruction.ogv"
+
+# TODO: ajustá estos paths a los íconos reales que tengas para las flechas
+# del teclado (mismo formato que usa cada minijuego en sus "controls").
+const MAPA_INTRO_CONTROLS := [
+	{"icon": "res://minigames/ui_global/assets/Movement.png", "action": "Avanzar por el camino"},
+]
+
 var descripciones_nivel := {
 	1: "Arrastra los objetos útiles para la emergencia a un lugar seguro y evita los que no sirven, antes de que se acabe el tiempo.",
 	2: "Cierra 10 llaves de agua abiertas antes de que se acabe el tiempo. ¡Se vuelven a abrir solas!",
@@ -140,6 +166,16 @@ var resultado_final_menu_boton: Button = null
 
 var resultado_sound_player: AudioStreamPlayer = null
 
+# ── Intro del recorrido (ver consts arriba). mapa_intro_layer es el
+# CanvasLayer que envuelve la instancia (necesario porque MinigameIntro es
+# un Control y, si se agrega directo como hijo del Mapa -que es Node2D con
+# su propia transformación de cámara-, su "full rect" queda anclado al
+# espacio del mundo en vez de al de pantalla, y no llega a tapar todo:
+# se ve el mapa por debajo). Con el CanvasLayer, siempre se dibuja en
+# espacio de pantalla, igual que el resto de la UI del mapa.
+var mapa_intro_layer: CanvasLayer = null
+var mapa_intro_instance: Control = null
+
 @onready var background_sound: AudioStreamPlayer = get_node_or_null("BackgroundSound")
 
 
@@ -194,7 +230,14 @@ func _ready():
 
 	iniciar_minijuego.connect(_on_iniciar_minijuego)
 
-	_procesar_resultado_minijuego()
+	# La intro general del recorrido se muestra una única vez, la primera
+	# vez que el jugador entra al mapa. El flag vive en GameState (autoload)
+	# porque el mapa se reinstancia cada vez que se vuelve de un minijuego,
+	# así que una var local acá no serviría.
+	if not GameState.instrucciones_mapa_vistas:
+		_mostrar_intro_mapa()
+	else:
+		_procesar_resultado_minijuego()
 
 func _desactivar_rotacion_en_todos_los_tramos():
 	var contenedor := get_node_or_null("Background")
@@ -573,6 +616,57 @@ func _on_jugar_de_nuevo_pressed():
 	get_tree().reload_current_scene()
 
 
+# =========================================================
+# INTRO DEL RECORRIDO (juego principal, no cada minijuego individual)
+# Reutiliza tal cual la escena MinigameIntro.tscn / MinigameIntro.gd que
+# usan los minijuegos: video, panel de Controles, panel de Descripción +
+# Instrucciones, tutorial guiado con flecha y overlay, y botón "¡Empezar!"
+# que cubre toda la pantalla. La única diferencia es qué datos le cargamos
+# antes al singleton MinigameData.
+# =========================================================
+
+func _mostrar_intro_mapa():
+	var minigame_data = get_node("/root/MinigameData")
+	minigame_data.title = MAPA_INTRO_TITLE
+	minigame_data.description = MAPA_INTRO_DESCRIPTION
+	minigame_data.instructions = MAPA_INTRO_INSTRUCTIONS
+	minigame_data.video_path = MAPA_INTRO_VIDEO_PATH
+	minigame_data.controls = MAPA_INTRO_CONTROLS
+
+	# CanvasLayer propio, por encima de TODA la demás UI (resultado final
+	# usa 160, vidas usa 120), para que la intro tape absolutamente todo,
+	# incluido el mapa que se ve "por detrás" en espacio de mundo.
+	mapa_intro_layer = CanvasLayer.new()
+	mapa_intro_layer.name = "MapaIntroLayer"
+	mapa_intro_layer.layer = 200
+	add_child(mapa_intro_layer)
+
+	var intro_scene := load(MAPA_INTRO_SCENE_PATH)
+	mapa_intro_instance = intro_scene.instantiate()
+	mapa_intro_layer.add_child(mapa_intro_instance)
+
+	# MinigameIntro.gd emite Events.minigame_confirmed cuando el jugador
+	# aprieta "¡Empezar!" (y ahí mismo se hace queue_free() a sí mismo).
+	# Nos enganchamos UNA sola vez a esa señal para saber cuándo cerrar y
+	# seguir con el flujo normal del mapa. Mientras el Mapa está vivo en el
+	# árbol, la única instancia de MinigameIntro que puede existir es esta
+	# que acabamos de crear (los minijuegos reales viven en su propia
+	# escena, que reemplaza al Mapa), así que es seguro escucharla acá.
+	Events.minigame_confirmed.connect(_on_intro_mapa_confirmada, CONNECT_ONE_SHOT)
+
+
+func _on_intro_mapa_confirmada():
+	# mapa_intro_instance ya se hizo queue_free() a sí mismo dentro de
+	# _on_start() en MinigameIntro.gd; acá solo limpiamos el CanvasLayer
+	# que lo envolvía, que quedaría vacío pero vivo si no lo liberamos.
+	if mapa_intro_layer:
+		mapa_intro_layer.queue_free()
+		mapa_intro_layer = null
+	mapa_intro_instance = null
+	GameState.instrucciones_mapa_vistas = true
+	_procesar_resultado_minijuego()
+
+
 # Decide qué pasa al llegar/estar en un nodo: si el nivel ya fue completado
 # antes, no se muestra el cartel de "Empezar" y el jugador queda libre para
 # seguir moviéndose. Si todavía no se completó, se muestra la ventanita
@@ -678,6 +772,9 @@ func nivel_completado(nivel: int):
 
 func _input(event):
 	if resultado_final_panel and resultado_final_panel.visible:
+		return
+
+	if mapa_intro_instance != null:
 		return
 
 	if esperando_inicio:

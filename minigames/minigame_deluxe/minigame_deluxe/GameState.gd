@@ -16,6 +16,8 @@ var _resultado_pendiente: String = ""
 var tramo_guardado_path: String = ""
 var tramo_guardado_ratio: float = 0.0
 
+var instrucciones_mapa_vistas: bool = false
+
 # NUEVO: niveles que el jugador ya ganó al menos una vez.
 # Como GameState es un autoload (singleton), esto NO se pierde cuando el
 # Mapa se recarga al volver de un minijuego -- por eso vive acá y no en
