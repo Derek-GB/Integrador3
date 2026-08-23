@@ -83,8 +83,8 @@ texture = ExtResource("9_n8w4v")
 [node name="Node2D" type="Node2D" parent="." unique_id=407420418]
 
 [node name="Sprite2D" type="Sprite2D" parent="Node2D" unique_id=2067721587]
-position = Vector2(998, 755.625)
-scale = Vector2(0.37321645, 0.3248458)
+position = Vector2(994, 764)
+scale = Vector2(0.47584292, 0.33024684)
 texture = ExtResource("8_mxhwo")
 
 [node name="Milk" type="Sprite2D" parent="Node2D" unique_id=1100451188]
@@ -130,9 +130,9 @@ offset_bottom = 786.0
 theme_override_font_sizes/font_size = 10
 
 [node name="CurrentDate" type="Label" parent="." unique_id=270506519]
-offset_left = 813.0
+offset_left = 778.0
 offset_top = 215.0
-offset_right = 1348.0
+offset_right = 1313.0
 offset_bottom = 334.0
 
 [node name="Title" type="Label" parent="." unique_id=845844790]
