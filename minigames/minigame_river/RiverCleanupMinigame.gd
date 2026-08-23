@@ -60,7 +60,7 @@ func _start_game():
 		time_limit = 60.0
 
 	if timer_hud != null:
-		timer_hud.iniciar(time_limit, "Tiempo restante", "para limpiar el río")
+		timer_hud.iniciar(time_limit, "Tiempo restante", "para limpiar río")
 
 
 # =========================================================
