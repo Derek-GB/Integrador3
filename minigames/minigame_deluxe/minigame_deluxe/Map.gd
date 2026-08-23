@@ -51,9 +51,28 @@ const RESULT_FINAL_PANEL_SIZE := Vector2(520, 380)
 const RESULT_FINAL_BUTTON_SIZE := Vector2(260, 56)
 const WIN_FINAL_MESSAGE := "¡Felicidades!\n¡Completaste todo el recorrido!"
 const LOSE_FINAL_MESSAGE := "¡Qué mal!\nSe acabaron tus vidas.\nHay que empezar de nuevo."
-const JUGAR_DE_NUEVO_TEXT := "🔄  Jugar de nuevo"
-const VOLVER_MENU_TEXT := "🏠  Volver al menú"
+const JUGAR_DE_NUEVO_TEXT := "Jugar de nuevo"
+const VOLVER_MENU_TEXT := "Volver al menú"
 const MENU_SCENE_PATH := "res://scenes/UX/MainMenu.tscn"
+
+# ── Íconos de los botones (reemplazan los emojis 🔄/🏠 de antes). Las rutas
+# son un placeholder: si el archivo todavía no existe en el proyecto, el
+# botón simplemente queda sin ícono (ver ResourceLoader.exists más abajo),
+# así que es seguro ajustarlas después sin romper nada mientras tanto.
+const ICON_JUGAR_DE_NUEVO_PATH := "res://images/icons/reload.png"
+const ICON_VOLVER_MENU_PATH := "res://images/icons/exit.png"
+
+# Shader aplicado a los íconos de los botones (no al botón entero: ver nota
+# en _agregar_icono_con_shader más abajo). Ruta placeholder, ajustala
+# cuando tengas el .gdshader definitivo en el proyecto.
+const SHADER_ICONO_PATH := "res://data/iconos_blancos.gdshader"
+
+# Paleta azul MÁS OSCURA, usada específicamente en el botón flotante de
+# "Volver al menú" (esquina inferior izquierda) para diferenciarlo del
+# resto de botones, que siguen con COLOR_BOTON (azul original).
+const C_BLUE_OSCURO         := Color("#22344E")
+const C_BLUE_OSCURO_HOVER   := Color("#2D4468")
+const C_BLUE_OSCURO_PRESS   := Color("#152436")
 
 # ── INTRO del recorrido (juego principal), pantalla completa ───────────────
 # Se muestra una sola vez, al entrar al mapa por primera vez, antes de
@@ -164,6 +183,14 @@ var resultado_final_label: Label = null
 var resultado_final_boton: Button = null
 var resultado_final_menu_boton: Button = null
 
+# ── Botón flotante "Volver al menú", fijo en la esquina inferior izquierda,
+# visible todo el tiempo mientras se está en el mapa (independiente del
+# panel de resultado final, que solo aparece al ganar/perder todo el
+# recorrido). Recicla el mismo texto/paleta/estilo que el resto de botones.
+const BOTON_MENU_FLOTANTE_SIZE := Vector2(300, 74)
+const BOTON_MENU_FLOTANTE_MARGEN := 20.0
+var boton_volver_menu_flotante: Button = null
+
 var resultado_sound_player: AudioStreamPlayer = null
 
 # ── Intro del recorrido (ver consts arriba). mapa_intro_layer es el
@@ -224,6 +251,7 @@ func _ready():
 	print("[DEBUG] _ready() del Mapa -> nodo_actual (antes de procesar)=", nodo_actual)
 
 	_crear_ui()
+	_setup_boton_volver_menu_flotante()
 	_setup_lives_ui()
 	_setup_resultado_final_ui()
 	_setup_resultado_sound()
@@ -438,6 +466,66 @@ func _crear_ui():
 	boton_comenzar.pressed.connect(_on_boton_empezar_pressed)
 	vbox.add_child(boton_comenzar)
 
+
+# =========================================================
+# BOTÓN FLOTANTE "VOLVER AL MENÚ" (esquina inferior izquierda)
+# =========================================================
+# Recicla exactamente el mismo estilo (paleta + estados normal/hover/press)
+# que usa resultado_final_menu_boton, pero como botón siempre visible
+# mientras se está en el mapa, anclado a la esquina inferior izquierda de
+# la pantalla, y no solo dentro del panel de resultado final.
+func _setup_boton_volver_menu_flotante():
+	boton_volver_menu_flotante = Button.new()
+	boton_volver_menu_flotante.text = VOLVER_MENU_TEXT
+	boton_volver_menu_flotante.custom_minimum_size = BOTON_MENU_FLOTANTE_SIZE
+	boton_volver_menu_flotante.size = BOTON_MENU_FLOTANTE_SIZE
+	boton_volver_menu_flotante.add_theme_font_size_override("font_size", 28)
+
+	# Ancla en la esquina inferior izquierda de la pantalla, con margen fijo,
+	# para que se quede ahí sin importar la resolución.
+	boton_volver_menu_flotante.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	boton_volver_menu_flotante.position = Vector2(
+		BOTON_MENU_FLOTANTE_MARGEN,
+		-BOTON_MENU_FLOTANTE_SIZE.y - BOTON_MENU_FLOTANTE_MARGEN
+	)
+
+	# Azul más oscuro que el resto de los botones (C_BLUE_OSCURO en vez de
+	# COLOR_BOTON), para diferenciarlo como acción "de salida" del recorrido.
+	var estilo_boton := StyleBoxFlat.new()
+	estilo_boton.bg_color = C_BLUE_OSCURO
+	estilo_boton.border_color = C_WHITE
+	estilo_boton.set_border_width_all(3)
+	estilo_boton.set_corner_radius_all(18)
+	estilo_boton.shadow_color = Color(0, 0, 0, 0.2)
+	estilo_boton.shadow_size = 4
+	estilo_boton.shadow_offset = Vector2(0, 2)
+
+	var estilo_boton_hover := estilo_boton.duplicate()
+	estilo_boton_hover.bg_color = C_BLUE_OSCURO_HOVER
+	estilo_boton_hover.border_color = C_ORANGE_BORDE
+
+	var estilo_boton_press := estilo_boton.duplicate()
+	estilo_boton_press.bg_color = C_BLUE_OSCURO_PRESS
+	estilo_boton_press.shadow_size = 1
+	estilo_boton_press.shadow_offset = Vector2(0, 1)
+
+	boton_volver_menu_flotante.add_theme_stylebox_override("normal", estilo_boton)
+	boton_volver_menu_flotante.add_theme_stylebox_override("hover", estilo_boton_hover)
+	boton_volver_menu_flotante.add_theme_stylebox_override("pressed", estilo_boton_press)
+	boton_volver_menu_flotante.add_theme_color_override("font_color", COLOR_BOTON_TEXTO)
+	boton_volver_menu_flotante.add_theme_color_override("font_hover_color", COLOR_BOTON_TEXTO)
+	boton_volver_menu_flotante.add_theme_color_override("font_pressed_color", COLOR_BOTON_TEXTO)
+
+	boton_volver_menu_flotante.pressed.connect(_on_volver_menu_pressed)
+	ui_capa.add_child(boton_volver_menu_flotante)
+
+	# El ícono va DESPUÉS de add_child y de aplicar los estilos: necesita que
+	# el botón ya tenga sus stylebox_override puestos (para ajustar el
+	# margen del texto) y que ya esté en el árbol para poder agregarle un
+	# hijo con su propio material/shader.
+	_agregar_icono_con_shader(boton_volver_menu_flotante, ICON_VOLVER_MENU_PATH, Vector2(40, 40), 18.0)
+
+
 # =========================================================
 # VIDAS DEL RECORRIDO (todo el mapa, no de un solo minijuego)
 # =========================================================
@@ -504,6 +592,79 @@ func _play_resultado_sound(gano: bool):
 
 	resultado_sound_player.stream = load(path)
 	resultado_sound_player.play()
+
+
+# Carga segura de un ícono de botón: si el .png todavía no existe en el
+# proyecto (por ejemplo, mientras se termina de ajustar la ruta), el botón
+# simplemente se queda sin ícono en vez de romper el arranque del mapa.
+func _cargar_icono(path: String) -> Texture2D:
+	if not ResourceLoader.exists(path):
+		push_warning("No se encontró el ícono en: " + path)
+		return null
+	return load(path)
+
+
+# Agrega el ícono como un TextureRect HIJO del botón, en vez de usar
+# Button.icon. Esto es necesario porque Button dibuja fondo + texto + icon
+# como parte de un mismo CanvasItem: si le pusiéramos un material/shader al
+# Button, afectaría a TODO el botón (fondo y letra incluidos), no solo al
+# ícono. Con un TextureRect aparte, el ShaderMaterial se puede aplicar
+# solamente ahí.
+#
+# mouse_filter = IGNORE para que los clicks lo atraviesen y le sigan
+# llegando al Button de abajo (si no, el ícono "tapa" el botón y deja de
+# poder apretarse).
+#
+# Devuelve el TextureRect creado (o null si no se encontró el ícono), por si
+# se lo quiere seguir ajustando desde afuera.
+func _agregar_icono_con_shader(boton: Button, icon_path: String, icon_size: Vector2, margen_izq: float = 14.0) -> TextureRect:
+	var textura := _cargar_icono(icon_path)
+	if textura == null:
+		return null
+
+	var icono := TextureRect.new()
+	icono.texture = textura
+	# expand_mode por defecto en TextureRect es EXPAND_KEEP_SIZE, que IGNORA
+	# el "size"/"custom_minimum_size" y dibuja la imagen a su resolución
+	# original en píxeles. Con EXPAND_IGNORE_SIZE, en cambio, el TextureRect
+	# sí respeta el rect que le asignamos, y stretch_mode se encarga de
+	# escalar la imagen manteniendo su proporción dentro de ese rect.
+	icono.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icono.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icono.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icono.custom_minimum_size = icon_size
+	icono.size = icon_size
+
+	# Ancla el ícono a la izquierda del botón, centrado verticalmente.
+	icono.set_anchors_preset(Control.PRESET_CENTER_LEFT)
+	icono.position = Vector2(margen_izq, -icon_size.y / 2.0)
+
+	if ResourceLoader.exists(SHADER_ICONO_PATH):
+		var shader_mat := ShaderMaterial.new()
+		shader_mat.shader = load(SHADER_ICONO_PATH)
+		icono.material = shader_mat
+	else:
+		push_warning("No se encontró el shader de ícono en: " + SHADER_ICONO_PATH)
+
+	boton.add_child(icono)
+
+	# Como el ícono ya no lo dibuja el Button, le dejamos un margen a la
+	# izquierda del texto para que no quede tapado por el ícono flotante.
+	# OJO: solo tocamos los estados que el botón YA tiene override propio
+	# (normal/hover/pressed, seteados con add_theme_stylebox_override antes
+	# de llamar a esta función); si tocáramos un estado sin override,
+	# get_theme_stylebox() devolvería el StyleBox del theme por defecto,
+	# COMPARTIDO por todos los botones del proyecto, y lo estaríamos
+	# corrompiendo para todos, no solo para este botón.
+	var espacio_para_icono: int = int(margen_izq * 2 + icon_size.x)
+	for estado in ["normal", "hover", "pressed", "focus"]:
+		if not boton.has_theme_stylebox_override(estado):
+			continue
+		var estilo = boton.get_theme_stylebox(estado)
+		if estilo is StyleBoxFlat:
+			estilo.content_margin_left = espacio_para_icono
+
+	return icono
 
 
 # =========================================================
@@ -575,6 +736,7 @@ func _setup_resultado_final_ui():
 
 	resultado_final_boton.pressed.connect(_on_jugar_de_nuevo_pressed)
 	vbox.add_child(resultado_final_boton)
+	_agregar_icono_con_shader(resultado_final_boton, ICON_JUGAR_DE_NUEVO_PATH, Vector2(24, 24), 12.0)
 
 	resultado_final_menu_boton = Button.new()
 	resultado_final_menu_boton.text = VOLVER_MENU_TEXT
@@ -595,6 +757,7 @@ func _setup_resultado_final_ui():
 
 	resultado_final_menu_boton.pressed.connect(_on_volver_menu_pressed)
 	vbox.add_child(resultado_final_menu_boton)
+	_agregar_icono_con_shader(resultado_final_menu_boton, ICON_VOLVER_MENU_PATH, Vector2(24, 24), 12.0)
 
 
 func _on_volver_menu_pressed():
@@ -854,4 +1017,4 @@ func mover_por_tramo(destino: PathFollow2D, invertido: bool = false, duracion: f
 			sprite_personaje.stop()
 		if nodo_destino != -1:
 			_entrar_a_nodo(nodo_destino)
-	)
+)

@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dph81b7fx0ff6"]
 
-[ext_resource type="Texture2D" uid="uid://ctju280anwgve" path="res://minigames/minigame_deluxe/minigame_deluxe/assets/map_background.png" id="1_0kcq5"]
+[ext_resource type="Texture2D" uid="uid://ckdv1ytqt2qn4" path="res://minigames/minigame_deluxe/minigame_deluxe/assets/map_background.png" id="1_0kcq5"]
 [ext_resource type="Script" uid="uid://dxiil0ijmbydj" path="res://minigames/minigame_deluxe/minigame_deluxe/Map.gd" id="1_qxj6n"]
 [ext_resource type="PackedScene" uid="uid://gsm8hi6v5a4q" path="res://minigames/minigame_deluxe/minigame_deluxe/Character.tscn" id="2_1503n"]
-[ext_resource type="AudioStream" uid="uid://c7603rtcvlkb2" path="res://minigames/minigame_wave/music/SoundBackground.mp3" id="3_bgsound"]
+[ext_resource type="AudioStream" uid="uid://60qjuikp1tfa" path="res://minigames/minigame_wave/music/SoundBackground.mp3" id="3_bgsound"]
 
 [sub_resource type="Curve2D" id="Curve2D_0kcq5"]
 _data = {
@@ -62,7 +62,7 @@ point_count = 3
 [node name="Map" type="Node2D" unique_id=928072519]
 script = ExtResource("1_qxj6n")
 
-[node name="BackgroundSound" type="AudioStreamPlayer" parent="."]
+[node name="BackgroundSound" type="AudioStreamPlayer" parent="." unique_id=1486932242]
 stream = ExtResource("3_bgsound")
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1495856315]
