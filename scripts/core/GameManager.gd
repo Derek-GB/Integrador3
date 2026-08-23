@@ -203,7 +203,7 @@ const MINIGAMES: Dictionary = {
 		60: {
 		"title":          "¡Derechos de la niñez!",
 		"description":    "Aprendiste que aún en medio de un desastre, la niñez tiene derechos y debe ser protegida.",
-		"instructions":   "Participarás en un juego de preguntas y respuestas relacionado con los derechos de la niñez durante situaciones de desastre.\nEn cada ronda aparecerá una pregunta con diferentes opciones y deberás seleccionar la respuesta correcta.\nGanas si completas correctamente la cantidad requerida de preguntas antes de que se acabe el tiempo.\nPierdes si fallas demasiadas respuestas o si no terminas dentro del tiempo establecido.",
+		"instructions":   "Participarás en un juego de preguntas y respuestas relacionado con los derechos de la niñez durante situaciones de desastre.\nEn cada ronda aparecerá una pregunta con diferentes opciones y deberás seleccionar la respuesta correcta.",
 		"video_path":     "res://minigames/minigame_question/assets/Video.ogv",
 		"minigame_scene": "res://minigames/minigame_question/QuestionMinigame.tscn",
 		"controls": [
