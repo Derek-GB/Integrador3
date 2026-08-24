@@ -3,14 +3,14 @@ extends Node2D
 @export var TOTAL_TIME: float = 60.0
 @export var max_lives := 3
 
-@export var rock_scene: PackedScene = preload("res://Minigames/minigame_landslide/FallingRock.tscn")
+@export var rock_scene: PackedScene = preload("res://minigames/minigame_landslide/FallingRock.tscn")
 
-const TIMER_HUD_SCENE = preload("res://Minigames/ui_global/TimerUi.tscn")
-const GAME_RESULT_SCENE = preload("res://Minigames/ui_global/GameResult.tscn")
-const LIVES_UI_SCENE = preload("res://Minigames/ui_global/LivesUi.tscn")
+const TIMER_HUD_SCENE = preload("res://minigames/ui_global/TimerUi.tscn")
+const GAME_RESULT_SCENE = preload("res://minigames/ui_global/GameResult.tscn")
+const LIVES_UI_SCENE = preload("res://minigames/ui_global/LivesUi.tscn")
 
-const MUSIC_DIR := "res://Minigames/minigame_landslide/Music/"
-const FIRE_TRUCK_PATH := "res://Minigames/minigame_landslide/assets/fire_truck.png"
+const MUSIC_DIR := "res://minigames/minigame_landslide/Music/"
+const FIRE_TRUCK_PATH := "res://minigames/minigame_landslide/assets/fire_truck.png"
 
 const GLOBAL_SOUND_VOLUME := -10.0
 

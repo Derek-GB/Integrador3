@@ -318,15 +318,15 @@
 	},
 	{
 	  "id": "P022",
-	  "pregunta": "¿Por qué no se debe vivir cerca de un volcán?",
+	  "pregunta": "¿Qué es la ceniza volcánica?",
 	  "tipo": "MULTIPLE",
 	  "opciones": [
-		{ "valor": 1, "texto": "Porque el ruido del volcán molesta y no deja dormir" },
-		{ "valor": 2, "texto": "Porque durante una erupción, la lava, gases y ceniza son nocivos" },
-		{ "valor": 3, "texto": "Porque los terrenos cerca de volcanes son muy caros" }
+		{ "valor": 1, "texto": "Polvo común producido por la quema de basura e incendios" },
+		{ "valor": 2, "texto": "Finas partículas de roca pulverizada y vidrio expelidas por una erupción volcánica" },
+		{ "valor": 3, "texto": "Arena seca que transporta el viento desde la playa" }
 	  ],
 	  "respuestaCorrecta": 2,
-	  "explicacion": "Los volcanes pueden expulsar lava, piedras, ceniza y gases tóxicos que representan un grave peligro para quienes viven cerca.",
+	  "explicacion": "La ceniza volcánica está formada por finas partículas de roca pulverizada y vidrio que expulsan los volcanes durante una erupción, las cuales pueden ser dañinas para la salud.",
 	  "tema": "VOLCAN",
 	  "imagen": "res://images/cards/blue/card_09.png"
 	},
